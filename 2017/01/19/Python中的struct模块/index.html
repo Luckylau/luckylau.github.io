@@ -84,20 +84,20 @@
 
 
 
-<meta name="description" content="​     接触python的struct模块，是在研究RYU控制器Openflow协议实现时接触到的。RYU控制器解包和封包就是用struct模块实现的。
+<meta name="description" content="​     python的struct模块，是在查看RYU控制器Openflow协议的实现源码接触到的。RYU控制器解包和封包就是用struct模块实现的。
 ​     在C语言中，struct结构体里面可以包含不同数据类型，比如int ,char,bool等。但是一旦涉及到网络通信时，传递的是二进制数据流（binary data）。对于二进制字符串，不必担心，但是对于如int，char等基本数据">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Python中的struct模块">
 <meta property="og:url" content="https://luckylau.github.io/2017/01/19/Python中的struct模块/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
-<meta property="og:description" content="​     接触python的struct模块，是在研究RYU控制器Openflow协议实现时接触到的。RYU控制器解包和封包就是用struct模块实现的。
+<meta property="og:description" content="​     python的struct模块，是在查看RYU控制器Openflow协议的实现源码接触到的。RYU控制器解包和封包就是用struct模块实现的。
 ​     在C语言中，struct结构体里面可以包含不同数据类型，比如int ,char,bool等。但是一旦涉及到网络通信时，传递的是二进制数据流（binary data）。对于二进制字符串，不必担心，但是对于如int，char等基本数据">
 <meta property="og:image" content="https://luckylau.github.io/2017/01/19/Python中的struct模块/1.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/01/19/Python中的struct模块/2.png">
-<meta property="og:updated_time" content="2017-01-19T08:59:22.604Z">
+<meta property="og:updated_time" content="2017-01-19T09:01:56.188Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python中的struct模块">
-<meta name="twitter:description" content="​     接触python的struct模块，是在研究RYU控制器Openflow协议实现时接触到的。RYU控制器解包和封包就是用struct模块实现的。
+<meta name="twitter:description" content="​     python的struct模块，是在查看RYU控制器Openflow协议的实现源码接触到的。RYU控制器解包和封包就是用struct模块实现的。
 ​     在C语言中，struct结构体里面可以包含不同数据类型，比如int ,char,bool等。但是一旦涉及到网络通信时，传递的是二进制数据流（binary data）。对于二进制字符串，不必担心，但是对于如int，char等基本数据">
 <meta name="twitter:image" content="https://luckylau.github.io/2017/01/19/Python中的struct模块/1.png">
 
@@ -401,7 +401,7 @@
       
 
       
-        <p>​     接触python的struct模块，是在研究RYU控制器Openflow协议实现时接触到的。RYU控制器解包和封包就是用struct模块实现的。</p>
+        <p>​     python的struct模块，是在查看RYU控制器Openflow协议的实现源码接触到的。RYU控制器解包和封包就是用struct模块实现的。</p>
 <p>​     在C语言中，struct结构体里面可以包含不同数据类型，比如int ,char,bool等。但是一旦涉及到网络通信时，传递的是二进制数据流（binary data）。对于二进制字符串，不必担心，但是对于如int，char等基本数据类型，需要有一种机制将这些特定的结构体类型打包成二进制流的字符串然后再在网络传输，同时接收端也需要通过某种机制进行解包还原出原始的结构体数据。</p>
 <a id="more"></a>
 <p>​     python中的struct模块就提供了这样的机制，该模块的主要作用就是对python基本类型值与用python字符串格式表示的C struct类型间的转化，如下图:</p>
