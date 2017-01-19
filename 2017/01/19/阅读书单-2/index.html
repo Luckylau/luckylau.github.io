@@ -538,10 +538,12 @@
 
 
           
-  <!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="<%- page.path %>" data-title="<%- page.title %>" data-url="<%- page.permalink %>"></div>
-  <!-- 多说评论框 end -->
-  <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/01/19/阅读书单-2/"
+           data-title="阅读书单(2)" data-url="https://luckylau.github.io/2017/01/19/阅读书单-2/">
+      </div>
+	  <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
 var duoshuoQuery = {short_name:"luckylau"};
 	(function() {
@@ -553,7 +555,8 @@ var duoshuoQuery = {short_name:"luckylau"};
 		 || document.getElementsByTagName('body')[0]).appendChild(ds);
 	})();
 	</script>
-<!-- 多说公共JS代码 end -->
+    
+  </div>
 
 
         </div>
