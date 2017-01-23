@@ -92,7 +92,7 @@
 <meta property="og:site_name" content="Luckylau's Blog">
 <meta property="og:description" content="前言：​       处在年末工作的最后一天，其实也没有心情学习了，要不就总结和整理一下之前看的vxlan网络，大部分的内容还是复制拷贝的，只是按照自己的分明别类梳理梳理。vxlan网络是云计算网络的基础，openstack本身也是一种基础性简单使用，但还是有必要从理论上来学习vxlan网络。
 云计算虚拟化对传统网络带来的挑战​         云计算、虚拟化相关技术的发展，传统的网络无法满足于规">
-<meta property="og:updated_time" content="2017-01-23T06:27:46.317Z">
+<meta property="og:updated_time" content="2017-01-23T06:38:18.237Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="什么是vxlan网络">
 <meta name="twitter:description" content="前言：​       处在年末工作的最后一天，其实也没有心情学习了，要不就总结和整理一下之前看的vxlan网络，大部分的内容还是复制拷贝的，只是按照自己的分明别类梳理梳理。vxlan网络是云计算网络的基础，openstack本身也是一种基础性简单使用，但还是有必要从理论上来学习vxlan网络。
@@ -400,21 +400,15 @@
       
         <h3 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h3><p>​       处在年末工作的最后一天，其实也没有心情学习了，要不就总结和整理一下之前看的vxlan网络，大部分的内容还是复制拷贝的，只是按照自己的分明别类梳理梳理。vxlan网络是云计算网络的基础，openstack本身也是一种基础性简单使用，但还是有必要从理论上来学习vxlan网络。</p>
 <h3 id="云计算虚拟化对传统网络带来的挑战"><a href="#云计算虚拟化对传统网络带来的挑战" class="headerlink" title="云计算虚拟化对传统网络带来的挑战"></a>云计算虚拟化对传统网络带来的挑战</h3><p>​         云计算、虚拟化相关技术的发展，传统的网络无法满足于规模大、灵活性要求高的云数据中心的要求，于是便有了overlay网络的概念。overlay网络中被广泛应用的就是vxlan技术。首先我们了解一下随着云计算的发展，传统网络面临哪些挑战。</p>
-<ol>
-<li><p>虚拟机迁移范围受到网络架构限制</p>
+<p>1.虚拟机迁移范围受到网络架构限制</p>
 <p>​        虚拟机迁移，顾名思义，就是将虚拟机从一个物理机迁移到另一个物理机，但是要求在迁移过程中业务不能中断。要做到这一点，需要保证虚拟机迁移前后，其IP地址、MAC地址等参数维持不变。这就决定了，虚拟机迁移必须发生在一个二层域中。对于传统网络就要求网络本身具备多路径多链路的冗余和可靠性。传统的网络生成树(STPSpaning Tree Protocol)技术不仅部署繁琐荣，且协议复杂，网络规模不宜过大，限制了虚拟化的网络扩展性。基于各厂家私有的的IRF/vPC等设备级的(网络N:1)虚拟化技术，虽然可以简化拓扑简化、具备高可靠性的能力，但是对于网络有强制的拓扑形状限制，在网络的规模和灵活性上有所欠缺，只适合小规模网络构建，且一般适用于数据中心内部网络。而为了大规模网络扩展的TRILL/SPB/FabricPath/VPLS等技术，虽然解决了上述技术的不足，但对网络有特殊要求，即网络中的设备均要软硬件升级而支持此类新技术，带来部署成本的上升。</p>
-</li>
-</ol>
-<ol>
-<li><p>虚拟机规模受网络设备表项规格的限制 </p>
+<p>2.虚拟机规模受网络设备表项规格的限制 </p>
 <p>​        在大二层网络环境下，数据流均需要通过明确的网络寻址以保证准确到达目的地，因此网络设备的二层地址表项大小(即MAC地址表)，成为决定了云计算环境下虚拟机的规模的上限，并且因为表项并非百分之百的有效性，使得可用的虚机数量进一步降低，特别是对于低成本的接入设备而言，因其表项一般规格较小，限制了整个云计算数据中心的虚拟机数量，但如果其地址表项设计为与核心或网关设备在同一档次，则会提升网络建设成本。虽然核心或网关设备的MAC与ARP规格会随着虚拟机增长也面临挑战，但对于此层次设备能力而言，大规格是不可避免的业务支撑要求。减小接入设备规格压力的做法可以是分离网关能力，如采用多个网关来分担虚机的终结和承载，但如此也会带来成本的上升。</p>
-</li>
-</ol>
-<ol>
-<li><p>网络隔离/分离能力限制</p>
+<p>3.网络隔离/分离能力限制</p>
 <p>​         VLAN作为当前主流的网络隔离技术，在标准定义中只有12比特，也就是说可用的VLAN数量只有4000个左右。对于公有云或其它大型虚拟化云计算服务这种动辄上万甚至更多租户的场景而言，VLAN的隔离能力显然已经力不从心。</p>
-</li>
-</ol>
+<h3 id="VLAXN网络的初相识"><a href="#VLAXN网络的初相识" class="headerlink" title="VLAXN网络的初相识"></a>VLAXN网络的初相识</h3><p>1.VXLAN网络模型</p>
+<p>2.VXLAN是如何解决以上挑战</p>
+<p>3.VXLAN报文格式</p>
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><ol>
 <li><a href="http://support.huawei.com/huaweiconnect/enterprise/forum.php?mod=viewthread&amp;tid=334207&amp;extra=page%3D&amp;page=1" target="_blank" rel="external">http://support.huawei.com/huaweiconnect/enterprise/forum.php?mod=viewthread&amp;tid=334207&amp;extra=page%3D&amp;page=1</a></li>
 <li><a href="http://blog.csdn.net/sinat_31828101/article/details/50504656" target="_blank" rel="external">http://blog.csdn.net/sinat_31828101/article/details/50504656</a></li>
@@ -642,7 +636,7 @@ var duoshuoQuery = {short_name:"luckylau"};
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言："><span class="nav-number">1.</span> <span class="nav-text">前言：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#云计算虚拟化对传统网络带来的挑战"><span class="nav-number">2.</span> <span class="nav-text">云计算虚拟化对传统网络带来的挑战</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考："><span class="nav-number">3.</span> <span class="nav-text">参考：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言："><span class="nav-number">1.</span> <span class="nav-text">前言：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#云计算虚拟化对传统网络带来的挑战"><span class="nav-number">2.</span> <span class="nav-text">云计算虚拟化对传统网络带来的挑战</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#VLAXN网络的初相识"><span class="nav-number">3.</span> <span class="nav-text">VLAXN网络的初相识</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考："><span class="nav-number">4.</span> <span class="nav-text">参考：</span></a></li></ol></div>
             
 
           </div>
