@@ -94,7 +94,7 @@ org.apache.commons.beanutils.BeanUt">
 <meta property="og:description" content="首先明确一点是BeanUtils.copyProperties 存在于spring和apache commons-beanutils，PropertyUtils.copyProperties存在于apache commons-PropertyUtils。
 org.springframework.beans.BeanUtils;
 org.apache.commons.beanutils.BeanUt">
-<meta property="og:updated_time" content="2017-02-06T09:27:25.657Z">
+<meta property="og:updated_time" content="2017-02-06T09:30:25.970Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="BeanUtils.copyProperties 与 PropertyUtils.copyProperties">
 <meta name="twitter:description" content="首先明确一点是BeanUtils.copyProperties 存在于spring和apache commons-beanutils，PropertyUtils.copyProperties存在于apache commons-PropertyUtils。
@@ -429,7 +429,7 @@ org.apache.commons.beanutils.BeanUt">
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">PropertyUtils.copyProperties(target, source);</div></pre></td></tr></table></figure>
 <h3 id="4-三者之间的区别："><a href="#4-三者之间的区别：" class="headerlink" title="4.三者之间的区别："></a>4.三者之间的区别：</h3><h5 id="4-1-org-apache-commons-beanutils-BeanUtils-与org-apache-commons-beanutils-PropertyUtils"><a href="#4-1-org-apache-commons-beanutils-BeanUtils-与org-apache-commons-beanutils-PropertyUtils" class="headerlink" title="4.1 org.apache.commons.beanutils.BeanUtils 与org.apache.commons.beanutils.PropertyUtils"></a>4.1 org.apache.commons.beanutils.BeanUtils 与org.apache.commons.beanutils.PropertyUtils</h5><p>​       从大范围讲，两个工具类都是对两个bean之前存在name相同的属性进行处理，无论是源bean或者目标bean多出的属性均不处理。具体到BeanUtils是相同name并且类型之间支持转换的属性可以处理，而PropertyUtils不支持类型转换必须是类型和name一样才处理。</p>
 <p>​        对null的处理：PropertyUtils支持为null的场景；BeanUtils对部分属性不支持null的情况，具体为：date类型不支持，异常 date为org.apache.commons.beanutils.ConversionException: No value；specified for ‘Date’；Ineger、Boolean、Long等不支持， 转为0；string支持，保持null；</p>
-<p>​       源bean有属性：private  Long  dateVal;目标bean有属性：private Date  dateVal;<br>​       使用 PropertyUtils，会保错：Caused by: java.lang.IllegalArgumentException: argument type mismatch<br>​       使用BeanUtils，则相当于new date（dateVal）</p>
+<p>​       源bean有属性：private  Long  dateVal;目标bean有属性：private Date  dateVal;<br>​       使用 PropertyUtils，会报错：Caused by: java.lang.IllegalArgumentException: argument type mismatch<br>​       使用BeanUtils，则相当于new date（dateVal）</p>
 <p>​       BeanUtils的高级功能org.apache.commons.beanutils.Converter接口可以自定义类型之间的转化，PropertyUtils没有</p>
 <h5 id="4-2-org-apache-commons-beanutils-BeanUtils与org-springframework-beans-BeanUtils"><a href="#4-2-org-apache-commons-beanutils-BeanUtils与org-springframework-beans-BeanUtils" class="headerlink" title="4.2 org.apache.commons.beanutils.BeanUtils与org.springframework.beans.BeanUtils"></a>4.2 org.apache.commons.beanutils.BeanUtils与org.springframework.beans.BeanUtils</h5><p>org.springframework.beans.BeanUtils中实现的方式很简单，就是对两个对象中相同名字的属性进行简单get/set，仅检查属性的可访问性。</p>
 <p>而org.springframework.beans.BeanUtils则施加了很多的检验，包括类型的转换，甚至于还会检验对象所属的类的可访问性。</p>
