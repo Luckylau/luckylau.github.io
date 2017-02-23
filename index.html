@@ -284,6 +284,221 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/02/23/Java并发之Executor框架和线程池/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Luckylau">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/logo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Luckylau's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Luckylau's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/02/23/Java并发之Executor框架和线程池/" itemprop="url">
+                  Java并发之Executor框架和线程池
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-23T10:44:32+08:00">
+                2017-02-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/02/23/Java并发之Executor框架和线程池/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/23/Java并发之Executor框架和线程池/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="1-基础简介："><a href="#1-基础简介：" class="headerlink" title="1.基础简介："></a>1.基础简介：</h4><p>​        在Java 5之后，并发编程引入了一堆新的启动、调度和管理线程的API。Executor框架便是Java 5中引入的，其内部使用了线程池机制，它在java.util.cocurrent 包下，通过该框架来控制线程的启动、执行和关闭，可以简化并发编程的操作。</p>
+<p>​        Executor框架包括：线程池，Executor，Executors，ExecutorService，CompletionService，Future，Callable等。 Executor接口中之定义了一个方法execute（Runnable command），该方法接收一个Runable实例，它用来执行一个任务，任务即一个实现了Runnable接口的类。</p>
+<h4 id="2-ExecutorService接口："><a href="#2-ExecutorService接口：" class="headerlink" title="2.ExecutorService接口："></a>2.ExecutorService接口：</h4><p>​        ExecutorService接口继承自Executor接口，它提供了更丰富的实现多线程的方法，比如，ExecutorService提供了关闭自己的方法，以及可为跟踪一个或多个异步任务执行状况而生成 Future 的方法。 可以调用ExecutorService的shutdown（）方法来平滑地关闭 。在调用该方法之后，它会停止接受任何新的任务且等待已经提交的任务执行完成(已经提交的任务会分两类：一类是已经在执行的，另一类是还没有开始执行的)，当所有已经提交的任务执行完毕后将会关闭ExecutorService。因此我们一般用该接口来实现和管理多线程。</p>
+<p>​        ExecutorService的生命周期包括三种状态：运行、关闭、终止。创建后便进入运行状态，当调用了shutdown（）方法时，便进入关闭状态，此时意味着ExecutorService不再接受新的任务，但它还在执行已经提交了的任务，当素有已经提交了的任务执行完后，便到达终止状态。如果不调用shutdown（）方法，ExecutorService会一直处在运行状态，不断接收新的任务，执行新的任务，服务器端一般不需要关闭它，保持一直运行即可。</p>
+<h4 id="3-Executors（线程池管理类）："><a href="#3-Executors（线程池管理类）：" class="headerlink" title="3.Executors（线程池管理类）："></a>3.Executors（线程池管理类）：</h4><p>​          Executors提供了一系列工厂方法用于创先线程池，返回的线程池都实现了ExecutorService接口。</p>
+<p>public static ExecutorService newCachedThreadPool()</p>
+<p>创建一个可缓存的线程池，调用execute将重用以前构造的线程（如果线程可用）。如果现有线程没有可用的，则创建一个新线程并添加到池中。终止并从缓存中移除那些已有 60 秒钟未被使用的线程。</p>
+<p>​         缓存型池子，先查看池中有没有以前建立的线程，如果有，就 reuse.如果没有，就建一个新的线程加入池中，缓存型池子通常用于执行一些生存期很短的异步型任务。因此在一些面向连接的daemon型SERVER中用得不多。但对于生存期短的异步任务，它是Executor的首选。能reuse的线程，必须是timeout IDLE内的池中线程，缺省     timeout是60s,超过这个IDLE时长，线程实例将被终止及移出池。注意，放入CachedThreadPool的线程不必担心其结束，超过TIMEOUT不活动，其会自动被终止。</p>
+<p> public static ExecutorService newFixedThreadPool(int nThreads)</p>
+<p> 创建固定数目线程的线程池</p>
+<p>​        newFixedThreadPool与cacheThreadPool差不多，也是能reuse就用，但不能随时建新的线程。其独特之处:任意时间点，最多只能有固定数目的活动线程存在，此时如果有新的线程要建立，只能放在另外的队列中等待，直到当前的线程中某个线程终止直接被移出池子。和cacheThreadPool不同，FixedThreadPool没有IDLE机制（可能也有，但既然文档没提，肯定非常长，类似依赖上层的TCP或UDP IDLE机制之类的），所以FixedThreadPool多数针对一些很稳定很固定的正规并发线程，多用于服务器。从方法的源代码看，cache池和fixed 池调用的是同一个底层池，只不过参数不同:fixed池线程数固定，并且是0秒IDLE（无IDLE）cache池线程数支持0-Integer.MAX_VALUE(显然完全没考虑主机的资源承受能力），60秒IDLE 。</p>
+<p> public static ExecutorService newSingleThreadExecutor()</p>
+<p>创建一个单线程化的Executor。</p>
+<p>​       单例线程，任意时间池中只能有一个线程，用的是和cache池和fixed池相同的底层池，但线程数目是1-1,0秒IDLE（无IDLE）。</p>
+<p>public static ScheduledExecutorService newScheduledThreadPool(int corePoolSize)</p>
+<p>创建一个支持定时及周期性的任务执行的线程池，多数情况下可用来替代Timer类。</p>
+<p>​       调度型线程池，这个池子里的线程可以按schedule依次delay执行，或周期执行。</p>
+<p>一般来说，CachedTheadPool在程序执行过程中通常会创建与所需数量相同的线程，然后在它回收旧线程时停止创建新线程，因此它是合理的Executor的首选，只有当这种方式会引发问题时（比如需要大量长时间面向连接的线程时），才需要考虑用FixedThreadPool。（该段话摘自《Thinking in Java》第四版）</p>
+<h4 id="4-Executor接口执行任务："><a href="#4-Executor接口执行任务：" class="headerlink" title="4.Executor接口执行任务："></a>4.Executor接口执行任务：</h4><p>Executor执行Runnable任务</p>
+<p>​        通过Executors的以上四个静态工厂方法获得 ExecutorService实例，而后调用该实例的execute（Runnable command）方法即可。一旦Runnable任务传递到execute（）方法，该方法便会自动在一个线程上执行。下面是是Executor执行Runnable任务的示例代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.util.concurrent.ExecutorService;   </div><div class="line"><span class="keyword">import</span> java.util.concurrent.Executors;   </div><div class="line">  </div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestCachedThreadPool</span></span>&#123;   </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;   </div><div class="line">        ExecutorService executorService = Executors.newCachedThreadPool();   </div><div class="line">        <span class="comment">//ExecutorService executorService = Executors.newFixedThreadPool(3);  </span></div><div class="line">        <span class="comment">//ExecutorService executorService = Executors.newSingleThreadExecutor();  </span></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++)&#123;   </div><div class="line">            executorService.execute(<span class="keyword">new</span> TestRunnable(i));   </div><div class="line">             </div><div class="line">        &#125;   </div><div class="line">        executorService.shutdown();   </div><div class="line">    &#125;   </div><div class="line">&#125;   </div><div class="line">  </div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestRunnable</span> <span class="keyword">implements</span> <span class="title">Runnable</span></span>&#123;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">int</span> count ;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">TestRunnable</span><span class="params">(<span class="keyword">int</span> count)</span></span>&#123;</div><div class="line">		<span class="keyword">this</span>.count=count;</div><div class="line">	System.out.println(<span class="string">"Create Thread-"</span>+count);  </div><div class="line">	&#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123; </div><div class="line">    	</div><div class="line">        System.out.println(<span class="string">"线程池中的"</span>+Thread.currentThread().getName() + <span class="string">"被调用来处理Thread-"</span>+count);   </div><div class="line">    &#125;   </div><div class="line">&#125;  </div><div class="line"><span class="comment">//输出：</span></div><div class="line">Create Thread-<span class="number">0</span></div><div class="line">Create Thread-<span class="number">1</span></div><div class="line">Create Thread-<span class="number">2</span></div><div class="line">线程池中的pool-<span class="number">1</span>-thread-<span class="number">1</span>被调用来处理Thread-<span class="number">0</span></div><div class="line">Create Thread-<span class="number">3</span></div><div class="line">线程池中的pool-<span class="number">1</span>-thread-<span class="number">2</span>被调用来处理Thread-<span class="number">1</span></div><div class="line">Create Thread-<span class="number">4</span></div><div class="line">线程池中的pool-<span class="number">1</span>-thread-<span class="number">2</span>被调用来处理Thread-<span class="number">4</span></div><div class="line">线程池中的pool-<span class="number">1</span>-thread-<span class="number">3</span>被调用来处理Thread-<span class="number">2</span></div><div class="line">线程池中的pool-<span class="number">1</span>-thread-<span class="number">4</span>被调用来处理Thread-<span class="number">3</span></div></pre></td></tr></table></figure>
+<p>​       从结果中可以看出，pool-1-thread-2被调用了两次，这是随机的，execute会首先在线程池中选择一个已有空闲线程来执行任务，如果线程池中没有空闲线程，它便会创建一个新的线程来执行任务</p>
+<p>同时也可以配合ThreadFactory接口的使用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">ExecutorService daemonThreadFactory = Executors.newCachedThreadPool(<span class="keyword">new</span> DaemonThreadFactory());</div><div class="line">		ExecutorService maxPriorityThreadFactory = Executors.newCachedThreadPool(<span class="keyword">new</span> MaxPriorityThreadFactory());</div><div class="line">		ExecutorService minPriorityThreadFactory = Executors.newCachedThreadPool(<span class="keyword">new</span> MinPriorityThreadFactory());</div><div class="line"><span class="comment">//设置后台线程属性</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">DaemonThreadFactory</span> <span class="keyword">implements</span> <span class="title">ThreadFactory</span></span>&#123;</div><div class="line"></div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> Thread <span class="title">newThread</span><span class="params">(Runnable arg0)</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		Thread t=<span class="keyword">new</span> Thread(arg0);</div><div class="line">		t.setDaemon(<span class="keyword">true</span>);</div><div class="line">		<span class="keyword">return</span> t;</div><div class="line">	&#125;	</div><div class="line">&#125;</div><div class="line"><span class="comment">//设置最高优先级属性</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MaxPriorityThreadFactory</span> <span class="keyword">implements</span> <span class="title">ThreadFactory</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> Thread <span class="title">newThread</span><span class="params">(Runnable r)</span> </span>&#123;</div><div class="line">		Thread t = <span class="keyword">new</span> Thread(r);</div><div class="line">	    t.setPriority(Thread.MAX_PRIORITY);</div><div class="line">	    <span class="keyword">return</span> t;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"><span class="comment">//设置最低优先级属性</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MinPriorityThreadFactory</span> <span class="keyword">implements</span> <span class="title">ThreadFactory</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> Thread <span class="title">newThread</span><span class="params">(Runnable r)</span> </span>&#123;</div><div class="line">		Thread t = <span class="keyword">new</span> Thread(r);</div><div class="line">	    t.setPriority(Thread.MIN_PRIORITY);</div><div class="line">	    <span class="keyword">return</span> t;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Executor执行Callable任务</p>
+<p>​        在Java 5之后，任务分两类：一类是实现了Runnable接口的类，一类是实现了Callable接口的类。两者都可以被ExecutorService执行，但是Runnable任务没有返回值，而Callable任务有返回值。并且Callable的call()方法只能通过ExecutorService的submit(Callable<t> task) 方法来执行，并且返回一个 <t>Future<t>，是表示任务等待完成的 Future。</t></t></t></p>
+<p>​        Callable接口类似于Runnable，两者都是为那些其实例可能被另一个线程执行的类设计的。但是 Runnable 不会返回结果，并且无法抛出经过检查的异常而Callable又返回结果，而且当获取返回结果时可能会抛出异常。Callable中的call()方法类似Runnable的run()方法，区别同样是有返回值，后者没有。</p>
+<p>​        当将一个Callable的对象传递给ExecutorService的submit方法，则该call方法自动在一个线程上执行，并且会返回执行结果Future对象。同样，将Runnable的对象传递给ExecutorService的submit方法，则该run方法自动在一个线程上执行，并且会返回执行结果Future对象，但是在该Future对象上调用get方法，将返回null。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.util.ArrayList;   </div><div class="line"><span class="keyword">import</span> java.util.List;   </div><div class="line"><span class="keyword">import</span> java.util.concurrent.*;   </div><div class="line">  </div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CallableDemo</span></span>&#123;   </div><div class="line">       <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;   </div><div class="line">        ExecutorService executorService = Executors.newCachedThreadPool();   </div><div class="line">        List&lt;Future&lt;String&gt;&gt; resultList = <span class="keyword">new</span> ArrayList&lt;Future&lt;String&gt;&gt;();   </div><div class="line">  </div><div class="line">        <span class="comment">//创建10个任务并执行   </span></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)&#123;   </div><div class="line">            <span class="comment">//使用ExecutorService执行Callable类型的任务，并将结果保存在future变量中   </span></div><div class="line">            Future&lt;String&gt; future = executorService.submit(<span class="keyword">new</span> TaskWithResult(i));   </div><div class="line">            <span class="comment">//将任务执行结果存储到List中   </span></div><div class="line">            resultList.add(future);   </div><div class="line">        &#125;   </div><div class="line">  </div><div class="line">        <span class="comment">//遍历任务的结果   </span></div><div class="line">        <span class="keyword">for</span> (Future&lt;String&gt; fs : resultList)&#123;   </div><div class="line">                <span class="keyword">try</span>&#123;   </div><div class="line">                    <span class="keyword">while</span>(!fs.isDone());<span class="comment">//Future返回如果没有完成，则一直循环等待，直到Future返回完成  </span></div><div class="line">                    System.out.println(fs.get());     <span class="comment">//打印各个线程（任务）执行的结果   </span></div><div class="line">                &#125;<span class="keyword">catch</span>(InterruptedException e)&#123;   </div><div class="line">                    e.printStackTrace();   </div><div class="line">                &#125;<span class="keyword">catch</span>(ExecutionException e)&#123;   </div><div class="line">                    e.printStackTrace();   </div><div class="line">                &#125;<span class="keyword">finally</span>&#123;   </div><div class="line">                    <span class="comment">//启动一次顺序关闭，执行以前提交的任务，但不接受新任务  </span></div><div class="line">                    executorService.shutdown();   </div><div class="line">                &#125;   </div><div class="line">        &#125;   </div><div class="line">    &#125;   </div><div class="line">&#125;   </div><div class="line">  </div><div class="line">  </div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">TaskWithResult</span> <span class="keyword">implements</span> <span class="title">Callable</span>&lt;<span class="title">String</span>&gt;</span>&#123;   </div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> id;   </div><div class="line">  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">TaskWithResult</span><span class="params">(<span class="keyword">int</span> id)</span></span>&#123;   </div><div class="line">        <span class="keyword">this</span>.id = id;   </div><div class="line">    &#125;   </div><div class="line">  </div><div class="line">    <span class="comment">/**  </span></div><div class="line">     * 任务的具体过程，一旦任务传给ExecutorService的submit方法， </div><div class="line">     * 则该方法自动在一个线程上执行 </div><div class="line">     */   </div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;  </div><div class="line">        System.out.println(<span class="string">"Task id="</span>+id+<span class="string">" 的call()方法被"</span> + Thread.currentThread().getName()+<span class="string">"自动调用！！"</span>);   </div><div class="line">        <span class="comment">//该返回结果将被Future的get方法得到  </span></div><div class="line">        <span class="keyword">return</span> <span class="string">"Task id="</span>+id+<span class="string">" 的call()方法被自动调用，任务返回的结果是："</span> + id + <span class="string">""</span>; </div><div class="line">    &#125;   </div><div class="line">&#125;  </div><div class="line"><span class="comment">//输出：</span></div><div class="line">Task id=<span class="number">0</span> 的call()方法被pool-<span class="number">1</span>-thread-<span class="number">1</span>自动调用！！</div><div class="line">Task id=<span class="number">2</span> 的call()方法被pool-<span class="number">1</span>-thread-<span class="number">3</span>自动调用！！</div><div class="line">Task id=<span class="number">1</span> 的call()方法被pool-<span class="number">1</span>-thread-<span class="number">2</span>自动调用！！</div><div class="line">Task id=<span class="number">3</span> 的call()方法被pool-<span class="number">1</span>-thread-<span class="number">4</span>自动调用！！</div><div class="line">Task id=<span class="number">4</span> 的call()方法被pool-<span class="number">1</span>-thread-<span class="number">5</span>自动调用！！</div><div class="line">Task id=<span class="number">0</span> 的call()方法被自动调用，任务返回的结果是：<span class="number">0</span></div><div class="line">Task id=<span class="number">9</span> 的call()方法被pool-<span class="number">1</span>-thread-<span class="number">1</span>自动调用！！</div><div class="line">Task id=<span class="number">6</span> 的call()方法被pool-<span class="number">1</span>-thread-<span class="number">7</span>自动调用！！</div><div class="line">Task id=<span class="number">5</span> 的call()方法被pool-<span class="number">1</span>-thread-<span class="number">6</span>自动调用！！</div><div class="line">Task id=<span class="number">7</span> 的call()方法被pool-<span class="number">1</span>-thread-<span class="number">8</span>自动调用！！</div><div class="line">Task id=<span class="number">1</span> 的call()方法被自动调用，任务返回的结果是：<span class="number">1</span></div><div class="line">Task id=<span class="number">2</span> 的call()方法被自动调用，任务返回的结果是：<span class="number">2</span></div><div class="line">Task id=<span class="number">8</span> 的call()方法被pool-<span class="number">1</span>-thread-<span class="number">9</span>自动调用！！</div><div class="line">Task id=<span class="number">3</span> 的call()方法被自动调用，任务返回的结果是：<span class="number">3</span></div><div class="line">Task id=<span class="number">4</span> 的call()方法被自动调用，任务返回的结果是：<span class="number">4</span></div><div class="line">Task id=<span class="number">5</span> 的call()方法被自动调用，任务返回的结果是：<span class="number">5</span></div><div class="line">Task id=<span class="number">6</span> 的call()方法被自动调用，任务返回的结果是：<span class="number">6</span></div><div class="line">Task id=<span class="number">7</span> 的call()方法被自动调用，任务返回的结果是：<span class="number">7</span></div><div class="line">Task id=<span class="number">8</span> 的call()方法被自动调用，任务返回的结果是：<span class="number">8</span></div><div class="line">Task id=<span class="number">9</span> 的call()方法被自动调用，任务返回的结果是：<span class="number">9</span></div></pre></td></tr></table></figure>
+<p>​        从结果中可以同样可以看出，pool-1-thread-1被调用2次处理id=0和id=9的任务，submit也是首先选择空闲线程来执行任务，如果没有，才会创建新的线程来执行任务。另外，需要注意：如果Future的返回尚未完成，则get（）方法会阻塞等待，直到Future完成返回，可以通过调用isDone（）方法判断Future是否完成了返回。</p>
+<p>Executor执行inVokeAny任务</p>
+<p>​       方法 invokeAny() 接收一個包含 Callable 对象的集合作为参数。调用该方法不会返回 Future 对象，而是返回集合中某一個 Callable 对象的结果，而且无法保证调用之后返回的结果是哪一個 Callable，只知道它是这些 Callable 中一個执行结束的 Callable 对象。<br>如果一个任务运行完毕或者抛出异常，方法会取消其它的 Callable 的执行。</p>
+<p>Executor执行invokeAll任务</p>
+<p>​        方法 invokeAll() 会调用存在于参数集合中的所有 Callable 对象，并且返回壹個包含 Future 对象的集合，你可以通过这個返回的集合来管理每個 Callable 的执行结果。<br>需要注意的是，任务有可能因为异常而导致运行结束，所以它可能并不是真的成功运行了。但是我们没有办法通过 Future 对象来了解到这個差异。</p>
+<p>自定义线程池ThreadPoolExecutor</p>
+<p>​       自定义线程池，可以用ThreadPoolExecutor类创建，它有多个构造方法来创建线程池，用该类很容易实现自定义的线程池，这里先贴上示例程序：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.util.concurrent.ArrayBlockingQueue;   </div><div class="line"><span class="keyword">import</span> java.util.concurrent.BlockingQueue;   </div><div class="line"><span class="keyword">import</span> java.util.concurrent.ThreadPoolExecutor;   </div><div class="line"><span class="keyword">import</span> java.util.concurrent.TimeUnit;   </div><div class="line">  </div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadPoolTest</span></span>&#123;   </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;   </div><div class="line">        <span class="comment">//创建等待队列   </span></div><div class="line">        BlockingQueue&lt;Runnable&gt; bqueue = <span class="keyword">new</span> ArrayBlockingQueue&lt;Runnable&gt;(<span class="number">20</span>);   </div><div class="line">        <span class="comment">//创建线程池，池中保存的线程数为3，允许的最大线程数为5  </span></div><div class="line">        ThreadPoolExecutor pool = <span class="keyword">new</span> ThreadPoolExecutor(<span class="number">3</span>,<span class="number">5</span>,<span class="number">50</span>,TimeUnit.MILLISECONDS,bqueue);   </div><div class="line">        <span class="comment">//创建七个任务   </span></div><div class="line">        Runnable t1 = <span class="keyword">new</span> MyThread();   </div><div class="line">        Runnable t2 = <span class="keyword">new</span> MyThread();   </div><div class="line">        Runnable t3 = <span class="keyword">new</span> MyThread();   </div><div class="line">        Runnable t4 = <span class="keyword">new</span> MyThread();   </div><div class="line">        Runnable t5 = <span class="keyword">new</span> MyThread();   </div><div class="line">        Runnable t6 = <span class="keyword">new</span> MyThread();   </div><div class="line">        Runnable t7 = <span class="keyword">new</span> MyThread();   </div><div class="line">        <span class="comment">//每个任务会在一个线程上执行  </span></div><div class="line">        pool.execute(t1);   </div><div class="line">        pool.execute(t2);   </div><div class="line">        pool.execute(t3);   </div><div class="line">        pool.execute(t4);   </div><div class="line">        pool.execute(t5);   </div><div class="line">        pool.execute(t6);   </div><div class="line">        pool.execute(t7);   </div><div class="line">        <span class="comment">//关闭线程池   </span></div><div class="line">        pool.shutdown();   </div><div class="line">    &#125;   </div><div class="line">&#125;   </div><div class="line">  </div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyThread</span> <span class="keyword">implements</span> <span class="title">Runnable</span></span>&#123;   </div><div class="line">    <span class="meta">@Override</span>   </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;   </div><div class="line">        System.out.println(Thread.currentThread().getName() + <span class="string">"正在执行。。。"</span>);   </div><div class="line">        <span class="keyword">try</span>&#123;   </div><div class="line">            Thread.sleep(<span class="number">100</span>);   </div><div class="line">        &#125;<span class="keyword">catch</span>(InterruptedException e)&#123;   </div><div class="line">            e.printStackTrace();   </div><div class="line">        &#125;   </div><div class="line">    &#125;   </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>​       从结果中可以看出，七个任务是在线程池的三个线程上执行的。这里简要说明下用到的ThreadPoolExecuror类的构造方法中各个参数的含义。   </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">ThreadPoolExecutor</span> <span class="params">(<span class="keyword">int</span> corePoolSize, <span class="keyword">int</span> maximumPoolSize, <span class="keyword">long</span> keepAliveTime, TimeUnit unit,BlockingQueue&lt;Runnable&gt; workQueue)</span></span></div></pre></td></tr></table></figure>
+<p>corePoolSize：线程池中所保存的核心线程数，包括空闲线程。</p>
+<p>maximumPoolSize：池中允许的最大线程数。</p>
+<p>keepAliveTime：线程池中的空闲线程所能持续的最长时间。</p>
+<p>unit：持续时间的单位。</p>
+<p>workQueue：任务执行前保存任务的队列，仅保存由execute方法提交的Runnable任务。</p>
+<p>根据ThreadPoolExecutor源码前面大段的注释，我们可以看出，当试图通过excute方法讲一个Runnable任务添加到线程池中时，按照如下顺序来处理：</p>
+<p>1、如果线程池中的线程数量少于corePoolSize，即使线程池中有空闲线程，也会创建一个新的线程来执行新添加的任务；</p>
+<p>2、如果线程池中的线程数量大于等于corePoolSize，但缓冲队列workQueue未满，则将新添加的任务放到workQueue中，按照FIFO的原则依次等待执行（线程池中有线程空闲出来后依次将缓冲队列中的任务交付给空闲的线程执行）；</p>
+<p>3、如果线程池中的线程数量大于等于corePoolSize，且缓冲队列workQueue已满，但线程池中的线程数量小于maximumPoolSize，则会创建新的线程来处理被添加的任务；</p>
+<p> 4、如果线程池中的线程数量等于了maximumPoolSize，有4种才处理方式（该构造方法调用了含有5个参数的构造方法，并将最后一个构造方法为RejectedExecutionHandler类型，它在处理线程溢出时有4种方式，这里不再细说，要了解的，自己可以阅读下源码）。</p>
+<p>​       另外，当线程池中的线程数量大于corePoolSize时，如果里面有线程的空闲时间超过了keepAliveTime，就将其移除线程池，这样，可以动态地调整线程池中线程的数量。我们大致来看下Executors的源码，newCachedThreadPool的不带RejectedExecutionHandler参数（即第五个参数，线程数量超过maximumPoolSize时，指定处理方式）的构造方法如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="title">newCachedThreadPool</span><span class="params">()</span> </span>&#123;  </div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ThreadPoolExecutor(<span class="number">0</span>, Integer.MAX_VALUE,  </div><div class="line">                                  <span class="number">60L</span>, TimeUnit.SECONDS,  </div><div class="line">                                  <span class="keyword">new</span> SynchronousQueue&lt;Runnable&gt;());  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>它将corePoolSize设定为0，而将maximumPoolSize设定为了Integer的最大值，线程空闲超过60秒，将会从线程池中移除。由于核心线程数为0，因此每次添加任务，都会先从线程池中找空闲线程，如果没有就会创建一个线程（SynchronousQueue<runnalbe>决定的，后面会说）来执行新的任务，并将该线程加入到线程池中，而最大允许的线程数为Integer的最大值，因此这个线程池理论上可以不断扩大。</runnalbe></p>
+<p>再来看newFixedThreadPool的不带RejectedExecutionHandler参数的构造方法，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="title">newFixedThreadPool</span><span class="params">(<span class="keyword">int</span> nThreads)</span> </span>&#123;  </div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ThreadPoolExecutor(nThreads, nThreads,  </div><div class="line">                                  <span class="number">0L</span>, TimeUnit.MILLISECONDS,  </div><div class="line">                                  <span class="keyword">new</span> LinkedBlockingQueue&lt;Runnable&gt;());  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p> 它将corePoolSize和maximumPoolSize都设定为了nThreads，这样便实现了线程池的大小的固定，不会动态地扩大，另外，keepAliveTime设定为了0，也就是说线程只要空闲下来，就会被移除线程池，敢于LinkedBlockingQueue下面会说。</p>
+<h4 id="5-ExecuteService-服务的关闭"><a href="#5-ExecuteService-服务的关闭" class="headerlink" title="5.ExecuteService 服务的关闭"></a>5.ExecuteService 服务的关闭</h4><p>​        shutdown()方法在终止前允许执行以前提交的任务，而 shutdownNow() 方法阻止等待任务的启动并试图停止当前正在执行的任务。在终止后，执行程序没有任务在执行，也没有任务在等待执行，并且无法提交新任务。应该关闭未使用的 ExecutorService以允许回收其资源。</p>
+<h4 id="6-排队的策略"><a href="#6-排队的策略" class="headerlink" title="6.排队的策略:"></a>6.排队的策略:</h4><pre><code>1、直接提交。缓冲队列采用 SynchronousQueue，它将任务直接交给线程处理而不保持它们。如果不存在可用于立即运行任务的线程（即线程池中的线程都在工作），则试图把任务加入缓冲队列将会失败，因此会构造一个新的线程来处理新添加的任务，并将其加入到线程池中。直接提交通常要求无界 maximumPoolSizes（Integer.MAX_VALUE） 以避免拒绝新提交的任务。newCachedThreadPool采用的便是这种策略。
+
+2、无界队列。使用无界队列（典型的便是采用预定义容量的 LinkedBlockingQueue，理论上是该缓冲队列可以对无限多的任务排队）将导致在所有 corePoolSize 线程都工作的情况下将新任务加入到缓冲队列中。这样，创建的线程就不会超过 corePoolSize，也因此，maximumPoolSize 的值也就无效了。当每个任务完全独立于其他任务，即任务执行互不影响时，适合于使用无界队列。newFixedThreadPool采用的便是这种策略。
+
+3、有界队列。当使用有限的 maximumPoolSizes 时，有界队列（一般缓冲队列使用ArrayBlockingQueue，并制定队列的最大长度）有助于防止资源耗尽，但是可能较难调整和控制，队列大小和最大池大小需要相互折衷，需要设定合理的参数。
+</code></pre><h4 id="7-参考："><a href="#7-参考：" class="headerlink" title="7.参考："></a>7.参考：</h4><p><a href="http://blog.csdn.net/ns_code/article/details/17465497" target="_blank" rel="external">http://blog.csdn.net/ns_code/article/details/17465497</a></p>
+<p><a href="http://blog.csdn.net/linghu_java/article/details/17123057" target="_blank" rel="external">http://blog.csdn.net/linghu_java/article/details/17123057</a></p>
+<p><a href="http://blog.csdn.net/bairrfhoinn/article/details/16848785" target="_blank" rel="external">http://blog.csdn.net/bairrfhoinn/article/details/16848785</a></p>
+<p><a href="http://zhangjunhd.blog.51cto.com/113473/70068/" target="_blank" rel="external">http://zhangjunhd.blog.51cto.com/113473/70068/</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/02/15/HttpClient工具类的封装/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1076,168 +1291,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/01/22/pyinstaller使用技巧/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Luckylau">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/logo.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Luckylau's Blog">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="Luckylau's Blog" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/22/pyinstaller使用技巧/" itemprop="url">
-                  pyinstaller使用技巧
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-22T16:36:56+08:00">
-                2017-01-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Tools/" itemprop="url" rel="index">
-                    <span itemprop="name">Tools</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/01/22/pyinstaller使用技巧/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/22/pyinstaller使用技巧/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>​       不经意间发现了这个工具pyinstaller2.0。它的功能是把python脚本打包成windows的可执行文件，这样就可以方便使用程序了。为了玩一下，于是写了一个图片分类的脚本，按照jpg, gif, png后缀将图片分别存储在各自文件夹中。脚本放在github上了。<a href="https://github.com/Luckylau/Useful-Python-Sample/blob/master/useful-tools/classify_Pic.py">https://github.com/Luckylau/Useful-Python-Sample/blob/master/useful-tools/classify_Pic.py</a></p>
-<p>pythoninstall2.0运行前需要安装pywin32，假如你使用的是python 2.7(64位)，需要在官网</p>
-<p><a href="https://sourceforge.net/projects/pywin32/files/pywin32找到对应的版本">https://sourceforge.net/projects/pywin32/files/pywin32找到对应的版本</a></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/01/22/pyinstaller使用技巧/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1280,7 +1338,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
