@@ -92,7 +92,7 @@
 <meta property="og:site_name" content="Luckylau's Blog">
 <meta property="og:description" content="1.基础简介：​        在Java 5之后，并发编程引入了一堆新的启动、调度和管理线程的API。Executor框架便是Java 5中引入的，其内部使用了线程池机制，它在java.util.cocurrent 包下，通过该框架来控制线程的启动、执行和关闭，可以简化并发编程的操作。
 ​        Executor框架包括：线程池，Executor，Executors，ExecutorSe">
-<meta property="og:updated_time" content="2017-02-23T13:46:00.383Z">
+<meta property="og:updated_time" content="2017-02-23T13:48:05.125Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java并发之Executor框架和线程池">
 <meta name="twitter:description" content="1.基础简介：​        在Java 5之后，并发编程引入了一堆新的启动、调度和管理线程的API。Executor框架便是Java 5中引入的，其内部使用了线程池机制，它在java.util.cocurrent 包下，通过该框架来控制线程的启动、执行和关闭，可以简化并发编程的操作。
@@ -400,6 +400,7 @@
       
         <h4 id="1-基础简介："><a href="#1-基础简介：" class="headerlink" title="1.基础简介："></a>1.基础简介：</h4><p>​        在Java 5之后，并发编程引入了一堆新的启动、调度和管理线程的API。Executor框架便是Java 5中引入的，其内部使用了线程池机制，它在java.util.cocurrent 包下，通过该框架来控制线程的启动、执行和关闭，可以简化并发编程的操作。</p>
 <p>​        Executor框架包括：线程池，Executor，Executors，ExecutorService，CompletionService，Future，Callable等。 Executor接口中之定义了一个方法execute（Runnable command），该方法接收一个Runable实例，它用来执行一个任务，任务即一个实现了Runnable接口的类。</p>
+<a id="more"></a>
 <h4 id="2-ExecutorService接口："><a href="#2-ExecutorService接口：" class="headerlink" title="2.ExecutorService接口："></a>2.ExecutorService接口：</h4><p>​        ExecutorService接口继承自Executor接口，它提供了更丰富的实现多线程的方法，比如，ExecutorService提供了关闭自己的方法，以及可为跟踪一个或多个异步任务执行状况而生成 Future 的方法。 可以调用ExecutorService的shutdown（）方法来平滑地关闭 。在调用该方法之后，它会停止接受任何新的任务且等待已经提交的任务执行完成(已经提交的任务会分两类：一类是已经在执行的，另一类是还没有开始执行的)，当所有已经提交的任务执行完毕后将会关闭ExecutorService。因此我们一般用该接口来实现和管理多线程。</p>
 <p>​        ExecutorService的生命周期包括三种状态：运行、关闭、终止。创建后便进入运行状态，当调用了shutdown（）方法时，便进入关闭状态，此时意味着ExecutorService不再接受新的任务，但它还在执行已经提交了的任务，当素有已经提交了的任务执行完后，便到达终止状态。如果不调用shutdown（）方法，ExecutorService会一直处在运行状态，不断接收新的任务，执行新的任务，服务器端一般不需要关闭它，保持一直运行即可。</p>
 <h4 id="3-Executors（线程池管理类）："><a href="#3-Executors（线程池管理类）：" class="headerlink" title="3.Executors（线程池管理类）："></a>3.Executors（线程池管理类）：</h4><p>​          Executors提供了一系列工厂方法用于创先线程池，返回的线程池都实现了ExecutorService接口。</p>
