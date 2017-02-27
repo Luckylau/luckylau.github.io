@@ -84,16 +84,14 @@
 
 
 
-<meta name="description" content="[TOC]
-前言：​       处在年末工作的最后一天，其实也没有心情学习了，要不就总结和整理一下之前看的vxlan网络，大部分的内容还是复制拷贝的，只是按照自己的分明别类梳理梳理。vxlan网络是云计算网络的基础，openstack本身也是一种基础性简单使用，但还是有必要从理论上来学习vxlan网络。
-云计算虚拟化对传统网络带来的挑战​         云计算、虚拟化相关技术的发展，传统的网络">
+<meta name="description" content="前言：​       处在年末工作的最后一天，其实也没有心情学习了，要不就总结和整理一下之前看的vxlan网络，大部分的内容还是复制拷贝的，只是按照自己的分明别类梳理梳理。vxlan网络是云计算网络的基础，openstack本身也是一种基础性简单使用，但还是有必要从理论上来学习vxlan网络。
+云计算虚拟化对传统网络带来的挑战​         云计算、虚拟化相关技术的发展，传统的网络无法满足于规">
 <meta property="og:type" content="article">
 <meta property="og:title" content="什么是vxlan网络">
 <meta property="og:url" content="https://luckylau.github.io/2017/01/23/什么是vxlan网络/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
-<meta property="og:description" content="[TOC]
-前言：​       处在年末工作的最后一天，其实也没有心情学习了，要不就总结和整理一下之前看的vxlan网络，大部分的内容还是复制拷贝的，只是按照自己的分明别类梳理梳理。vxlan网络是云计算网络的基础，openstack本身也是一种基础性简单使用，但还是有必要从理论上来学习vxlan网络。
-云计算虚拟化对传统网络带来的挑战​         云计算、虚拟化相关技术的发展，传统的网络">
+<meta property="og:description" content="前言：​       处在年末工作的最后一天，其实也没有心情学习了，要不就总结和整理一下之前看的vxlan网络，大部分的内容还是复制拷贝的，只是按照自己的分明别类梳理梳理。vxlan网络是云计算网络的基础，openstack本身也是一种基础性简单使用，但还是有必要从理论上来学习vxlan网络。
+云计算虚拟化对传统网络带来的挑战​         云计算、虚拟化相关技术的发展，传统的网络无法满足于规">
 <meta property="og:image" content="https://luckylau.github.io/2017/01/23/什么是vxlan网络/2.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/01/23/什么是vxlan网络/3.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/01/23/什么是vxlan网络/4.png">
@@ -110,12 +108,11 @@
 <meta property="og:image" content="https://luckylau.github.io/2017/01/23/什么是vxlan网络/15.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/01/23/什么是vxlan网络/16.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/01/23/什么是vxlan网络/17.png">
-<meta property="og:updated_time" content="2017-02-27T09:24:09.684Z">
+<meta property="og:updated_time" content="2017-02-27T09:26:55.512Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="什么是vxlan网络">
-<meta name="twitter:description" content="[TOC]
-前言：​       处在年末工作的最后一天，其实也没有心情学习了，要不就总结和整理一下之前看的vxlan网络，大部分的内容还是复制拷贝的，只是按照自己的分明别类梳理梳理。vxlan网络是云计算网络的基础，openstack本身也是一种基础性简单使用，但还是有必要从理论上来学习vxlan网络。
-云计算虚拟化对传统网络带来的挑战​         云计算、虚拟化相关技术的发展，传统的网络">
+<meta name="twitter:description" content="前言：​       处在年末工作的最后一天，其实也没有心情学习了，要不就总结和整理一下之前看的vxlan网络，大部分的内容还是复制拷贝的，只是按照自己的分明别类梳理梳理。vxlan网络是云计算网络的基础，openstack本身也是一种基础性简单使用，但还是有必要从理论上来学习vxlan网络。
+云计算虚拟化对传统网络带来的挑战​         云计算、虚拟化相关技术的发展，传统的网络无法满足于规">
 <meta name="twitter:image" content="https://luckylau.github.io/2017/01/23/什么是vxlan网络/2.png">
 
 
@@ -418,8 +415,7 @@
       
 
       
-        <p>[TOC]</p>
-<h3 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h3><p>​       处在年末工作的最后一天，其实也没有心情学习了，要不就总结和整理一下之前看的vxlan网络，大部分的内容还是复制拷贝的，只是按照自己的分明别类梳理梳理。vxlan网络是云计算网络的基础，openstack本身也是一种基础性简单使用，但还是有必要从理论上来学习vxlan网络。</p>
+        <h3 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h3><p>​       处在年末工作的最后一天，其实也没有心情学习了，要不就总结和整理一下之前看的vxlan网络，大部分的内容还是复制拷贝的，只是按照自己的分明别类梳理梳理。vxlan网络是云计算网络的基础，openstack本身也是一种基础性简单使用，但还是有必要从理论上来学习vxlan网络。</p>
 <h3 id="云计算虚拟化对传统网络带来的挑战"><a href="#云计算虚拟化对传统网络带来的挑战" class="headerlink" title="云计算虚拟化对传统网络带来的挑战"></a>云计算虚拟化对传统网络带来的挑战</h3><p>​         云计算、虚拟化相关技术的发展，传统的网络无法满足于规模大、灵活性要求高的云数据中心的要求，于是便有了overlay网络的概念。overlay网络中被广泛应用的就是vxlan技术。首先我们了解一下随着云计算的发展，传统网络面临哪些挑战。</p>
 <p>1.虚拟机迁移范围受到网络架构限制</p>
 <p>​        虚拟机迁移，顾名思义，就是将虚拟机从一个物理机迁移到另一个物理机，但是要求在迁移过程中业务不能中断。要做到这一点，需要保证虚拟机迁移前后，其IP地址、MAC地址等参数维持不变。这就决定了，虚拟机迁移必须发生在一个二层域中。对于传统网络就要求网络本身具备多路径多链路的冗余和可靠性。传统的网络生成树(STPSpaning Tree Protocol)技术不仅部署繁琐荣，且协议复杂，网络规模不宜过大，限制了虚拟化的网络扩展性。基于各厂家私有的的IRF/vPC等设备级的(网络N:1)虚拟化技术，虽然可以简化拓扑简化、具备高可靠性的能力，但是对于网络有强制的拓扑形状限制，在网络的规模和灵活性上有所欠缺，只适合小规模网络构建，且一般适用于数据中心内部网络。而为了大规模网络扩展的TRILL/SPB/FabricPath/VPLS等技术，虽然解决了上述技术的不足，但对网络有特殊要求，即网络中的设备均要软硬件升级而支持此类新技术，带来部署成本的上升。</p>
