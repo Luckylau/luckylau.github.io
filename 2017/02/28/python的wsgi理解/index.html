@@ -84,22 +84,27 @@
 
 
 
-<meta name="description" content="参考：
-https://segmentfault.com/a/1190000003069785
-http://blog.csdn.net/laughing2333/article/details/51288660">
+<meta name="description" content="neutron源码学习基础知识储备之WSGI
+​        WSGI的全称是Web Server Gateway Interface，翻译过来就是Web服务器网关接口。具体的来说，WSGI是一个规范，定义了Web服务器如何与Python应用程序进行交互，使得使用Python写的Web应用程序可以和Web服务器对接起来。WSGI一开始是在PEP-0333中定义的，最新版本是在Python的PEP">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Python的wsgi理解">
 <meta property="og:url" content="https://luckylau.github.io/2017/02/28/python的wsgi理解/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
-<meta property="og:description" content="参考：
-https://segmentfault.com/a/1190000003069785
-http://blog.csdn.net/laughing2333/article/details/51288660">
-<meta property="og:updated_time" content="2017-02-28T06:22:26.669Z">
+<meta property="og:description" content="neutron源码学习基础知识储备之WSGI
+​        WSGI的全称是Web Server Gateway Interface，翻译过来就是Web服务器网关接口。具体的来说，WSGI是一个规范，定义了Web服务器如何与Python应用程序进行交互，使得使用Python写的Web应用程序可以和Web服务器对接起来。WSGI一开始是在PEP-0333中定义的，最新版本是在Python的PEP">
+<meta property="og:image" content="https://luckylau.github.io/2017/02/28/python的wsgi理解/1.png">
+<meta property="og:image" content="https://luckylau.github.io/2017/02/28/python的wsgi理解/2.png">
+<meta property="og:image" content="https://luckylau.github.io/2017/02/28/python的wsgi理解/3.png">
+<meta property="og:image" content="https://luckylau.github.io/2017/02/28/python的wsgi理解/4.png">
+<meta property="og:image" content="https://luckylau.github.io/2017/02/28/python的wsgi理解/6.png">
+<meta property="og:image" content="https://luckylau.github.io/2017/02/28/python的wsgi理解/5.png">
+<meta property="og:image" content="https://luckylau.github.io/2017/02/28/python的wsgi理解/7.png">
+<meta property="og:updated_time" content="2017-02-28T11:43:53.630Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python的wsgi理解">
-<meta name="twitter:description" content="参考：
-https://segmentfault.com/a/1190000003069785
-http://blog.csdn.net/laughing2333/article/details/51288660">
+<meta name="twitter:description" content="neutron源码学习基础知识储备之WSGI
+​        WSGI的全称是Web Server Gateway Interface，翻译过来就是Web服务器网关接口。具体的来说，WSGI是一个规范，定义了Web服务器如何与Python应用程序进行交互，使得使用Python写的Web应用程序可以和Web服务器对接起来。WSGI一开始是在PEP-0333中定义的，最新版本是在Python的PEP">
+<meta name="twitter:image" content="https://luckylau.github.io/2017/02/28/python的wsgi理解/1.png">
 
 
 
@@ -401,9 +406,56 @@ http://blog.csdn.net/laughing2333/article/details/51288660">
       
 
       
-        <p>参考：</p>
-<p><a href="https://segmentfault.com/a/1190000003069785" target="_blank" rel="external">https://segmentfault.com/a/1190000003069785</a></p>
+        <p><strong>neutron源码学习基础知识储备之WSGI</strong></p>
+<p>​        WSGI的全称是Web Server Gateway Interface，翻译过来就是Web服务器网关接口。具体的来说，WSGI是一个规范，定义了Web服务器如何与Python应用程序进行交互，使得使用Python写的Web应用程序可以和Web服务器对接起来。WSGI一开始是在PEP-0333中定义的，最新版本是在Python的PEP-3333定义的。</p>
+<h4 id="为什么需要WSGI规范？"><a href="#为什么需要WSGI规范？" class="headerlink" title="为什么需要WSGI规范？"></a>为什么需要WSGI规范？</h4><p>在Web部署的方案上，有一个方案是目前应用最广泛的：</p>
+<p>​       首先，部署一个Web服务器专门用来处理HTTP协议层面相关的事情，比如如何在一个物理机上提供多个不同的Web服务（单IP多域名，单IP多端口等）这种事情。</p>
+<a id="more"></a>
+<p>​        然后，部署一个用各种语言编写（Java, PHP, Python, Ruby等）的应用程序，这个应用程序会从Web服务器上接收客户端的请求，处理完成后，再返回响应给Web服务器，最后由Web服务器返回给客户端。</p>
+<p>​       要采用这种方案，Web服务器和应用程序之间就要知道如何进行交互。为了定义Web服务器和应用程序之间的交互过程，就形成了很多不同的规范。比如改进CGI性能的FasgCGI，Java专用的Servlet规范，还有Python专用的WSGI规范等。提出这些规范的目的就是为了定义统一的标准，提升程序的可移植性。在WSGI规范的最开始的PEP-333中一开始就描述了为什么需要WSGI规范。</p>
+<p>​        WSGI存在的目的有两个：</p>
+<p>让Web服务器知道如何调用Python应用程序，并且把用户的请求告诉应用程序。</p>
+<p>让Python应用程序知道用户的具体请求是什么，以及如何返回结果给Web服务器。</p>
+<h4 id="WSGI中的角色？"><a href="#WSGI中的角色？" class="headerlink" title="WSGI中的角色？"></a>WSGI中的角色？</h4><p>​       在WSGI中定义了两个角色，Web服务器端称为server或者gateway，应用程序端称为application或者framework（因为WSGI的应用程序端的规范一般都是由具体的框架来实现的）。我们下面统一使用server和application这两个术语。</p>
+<p>​      server端会先收到用户的请求，然后会根据规范的要求调用application端，如下图所示：</p>
+<p><img src="/2017/02/28/python的wsgi理解/1.png" alt=""></p>
+<p>调用的结果会被封装成HTTP响应后再发送给客户端。</p>
+<h4 id="WSGI中间件"><a href="#WSGI中间件" class="headerlink" title="WSGI中间件 ?"></a>WSGI中间件 ?</h4><p>​       WSGI Middleware（中间件）也是WSGI规范的一部分。上一章我们已经说明了WSGI的两个角色：server和application。那么middleware是一种运行在server和application中间的应用（一般都是Python应用）。middleware同时具备server和application角色，对于server来说，它是一个application；对于application来说，它是一个server。middleware并不修改server端和application端的规范，只是同时实现了这两个角色的功能而已。</p>
+<p><img src="/2017/02/28/python的wsgi理解/2.png" alt=""></p>
+<p>1.Server收到客户端的HTTP请求后，生成了environ_s，并且已经定义了start_response_s。</p>
+<p>2.Server调用Middleware的application对象，传递的参数是environ_s和start_response_s。</p>
+<p>3.Middleware会根据environ执行业务逻辑，生成environ_m，并且已经定义了start_response_m。</p>
+<p>4.Middleware决定调用Application的application对象，传递参数是environ_m和start_response_m。Application的application对象处理完成后，会调用start_response_m并且返回结果给Middleware，存放在result_m中。</p>
+<p>5.Middleware处理result_m，然后生成result_s，接着调用start_response_s，并返回结果result_s给Server端。Server端获取到result_s后就可以发送结果给客户端了。</p>
+<p>从上面的流程可以看出middleware应用的几个特点：</p>
+<p>Server认为middleware是一个application。</p>
+<p>Application认为middleware是一个server。</p>
+<p>Middleware可以有多层。</p>
+<h4 id="WSGi示例代码？"><a href="#WSGi示例代码？" class="headerlink" title="WSGi示例代码？"></a>WSGi示例代码？</h4><p>​        在给出示例代码前我们需要了解wsgiref，它是官方给出的一个实现了WSGI标准用于演示用的简单Python内置库，实现了一个简单的WSGI Server和WSGI Application（在simple_server模块中），主要分为五个模块：simple_server， util， headers， handlers， validate。 </p>
+<p>注意：simple_server只支持单线程，做测试</p>
+<p>WSGI对于应用程序有以下标准规定：</p>
+<p>应用程序必须是一个可调用的对象，因此，应用程序可以是一个函数，一个类，或者一个重载了<strong>call</strong>的类的实例。</p>
+<p> 应用程序必须接受两个参数并且要按照位置顺序，分别是environ（环境变量），以及start_response函数（负责将响应的status code，headers写进缓冲区但不返回给客户端）。 </p>
+<p>应用程序返回的结果必须是一个可迭代的对象</p>
+<p>由简入繁</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> wsgiref.simple_server <span class="keyword">import</span> make_server</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">simple_app</span><span class="params">(environ,start_response)</span>:</span></div><div class="line">    status=<span class="string">"200 OK"</span></div><div class="line">    response_headers=[(<span class="string">'Content-type'</span>, <span class="string">'text/plain'</span>)]</div><div class="line">    start_response(status,response_headers)</div><div class="line">    <span class="keyword">return</span> [<span class="string">u"This is simple app demo"</span>.encode(<span class="string">'utf-8'</span>)]</div><div class="line">http=make_server(<span class="string">''</span>,<span class="number">8080</span>,simple_app)</div><div class="line"><span class="keyword">print</span> (<span class="string">"Server on port 8080 ,listening ..."</span>)</div><div class="line">http.serve_forever()</div></pre></td></tr></table></figure>
+<p><img src="/2017/02/28/python的wsgi理解/3.png" alt=""></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> wsgiref.simple_server <span class="keyword">import</span> make_server</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">App</span><span class="params">()</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__call__</span><span class="params">(self, environ, start_response)</span>:</span></div><div class="line">        status = <span class="string">"200 OK"</span></div><div class="line">        response_headers = [(<span class="string">'Content-type'</span>, <span class="string">'text/plain'</span>)]</div><div class="line">        start_response(status, response_headers)</div><div class="line">        <span class="keyword">return</span> [<span class="string">u"This is App"</span>.encode(<span class="string">'utf-8'</span>)]</div><div class="line">simple_app = App()</div><div class="line">http = make_server(<span class="string">''</span>, <span class="number">8080</span>, simple_app) <span class="comment">#只要是实现了__call__方法的实例也可以的</span></div><div class="line"><span class="keyword">print</span> (<span class="string">"Server on port 8080 ,listening ..."</span>)</div><div class="line">http.serve_forever()</div></pre></td></tr></table></figure>
+<p><img src="/2017/02/28/python的wsgi理解/4.png" alt="wsgiref"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> wsgiref.simple_server <span class="keyword">import</span> make_server</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">class_app</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, environ, start_response)</span>:</span></div><div class="line">        self.env = environ</div><div class="line">        self.start = start_response</div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__iter__</span><span class="params">(self)</span>:</span></div><div class="line">        status = <span class="string">"200 OK"</span></div><div class="line">        response_headers = [(<span class="string">'Content-type'</span>, <span class="string">'text/plain'</span>)]</div><div class="line">        self.start(status, response_headers)</div><div class="line">        <span class="keyword">yield</span> <span class="string">"Class : My Own Hello World!"</span></div><div class="line">app = class_app</div><div class="line">httpd = make_server(<span class="string">''</span>, <span class="number">8000</span>, app)</div><div class="line"><span class="keyword">print</span> <span class="string">"Serving on port 8000..."</span></div><div class="line">httpd.serve_forever()</div></pre></td></tr></table></figure>
+<p><img src="/2017/02/28/python的wsgi理解/6.png" alt=""></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">from</span> wsgiref.simple_server <span class="keyword">import</span> make_server</div><div class="line">URL_PATTERNS = (</div><div class="line">    (<span class="string">'tags'</span>, <span class="string">'tag_app'</span>),</div><div class="line">    (<span class="string">'about'</span>, <span class="string">'about_app'</span>)</div><div class="line">)</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dispatcher</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_match</span><span class="params">(self, path)</span>:</span></div><div class="line">        path = path.split(<span class="string">"/"</span>)[<span class="number">1</span>]</div><div class="line">        <span class="keyword">for</span> url, app <span class="keyword">in</span> URL_PATTERNS:</div><div class="line">            print(<span class="string">"path:%s url:%s"</span> % (path, url))</div><div class="line">            <span class="keyword">if</span> path == url:</div><div class="line">                <span class="keyword">return</span> app</div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__call__</span><span class="params">(self, environ, start_response)</span>:</span></div><div class="line">        path = environ.get(<span class="string">'PATH_INFO'</span>)</div><div class="line">        app = self._match(path)</div><div class="line">        <span class="keyword">if</span> app:</div><div class="line">            app = globals()[app]</div><div class="line">            <span class="keyword">return</span> app(environ, start_response)</div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            start_response(<span class="string">"404 not found "</span>, [(<span class="string">'Content-type'</span>, <span class="string">'text/plain'</span>)])</div><div class="line">            <span class="keyword">return</span> [<span class="string">"Page dose not exists!"</span>]</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">tag_app</span><span class="params">(environ, start_response)</span>:</span></div><div class="line">    start_response(<span class="string">"200 OK"</span>, [(<span class="string">'Content-type'</span>, <span class="string">'text/html'</span>)])</div><div class="line">    <span class="keyword">return</span> [<span class="string">"This is tag page!"</span>]</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">about_app</span><span class="params">(environ, start_response)</span>:</span></div><div class="line">    start_response(<span class="string">"200 OK"</span>, [(<span class="string">'Content-type'</span>, <span class="string">'text/html'</span>)])</div><div class="line">    <span class="keyword">return</span> [<span class="string">"This is about me page!"</span>]</div><div class="line">app = Dispatcher()</div><div class="line">httpd = make_server(<span class="string">''</span>, <span class="number">8000</span>, app)</div><div class="line"><span class="keyword">print</span> <span class="string">"Serving on port 8000..."</span></div><div class="line">httpd.serve_forever()</div></pre></td></tr></table></figure>
+<p><img src="/2017/02/28/python的wsgi理解/5.png" alt=""></p>
+<h4 id="源码wsgiref解析"><a href="#源码wsgiref解析" class="headerlink" title="源码wsgiref解析?"></a>源码wsgiref解析?</h4><p>wsgiref.simple_server 中make_server函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">make_server</span><span class="params">(</span></span></div><div class="line">    host, port, app, server_class=WSGIServer, handler_class=WSGIRequestHandler</div><div class="line">):</div><div class="line">    <span class="string">"""Create a new WSGI server listening on `host` and `port` for `app`"""</span></div><div class="line">    server = server_class((host, port), handler_class)</div><div class="line">    server.set_app(app)</div><div class="line">    <span class="keyword">return</span> server</div></pre></td></tr></table></figure>
+<p>make_server函数默认使用的服务器类为WSGI Server，调用了构造函数（但是它的构造函数到底藏在哪一层服务器上呢？），相对应的使用WSGIRequestHandler 类作为请求的处理类（这两个类都定义在wsgiref.simple_server模块中），在实例化一个WSGI Server后设置它的application后返回该实例。</p>
+<p>WSGI Server作为一个服务器，自然免不了要调用socket来建立TCP连接，因此这里的WSGI Server是基于Python的内置网络库BaseHTTPServer.py以及SocketServer.py实现的。</p>
+<p> <a href="http://img.blog.csdn.net/20160501170816293" target="_blank" rel="external"></a></p>
+<p><img src="/2017/02/28/python的wsgi理解/7.png" alt=""></p>
+<h4 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h4><p><a href="https://segmentfault.com/a/1190000003069785" target="_blank" rel="external">https://segmentfault.com/a/1190000003069785</a></p>
 <p><a href="http://blog.csdn.net/laughing2333/article/details/51288660" target="_blank" rel="external">http://blog.csdn.net/laughing2333/article/details/51288660</a></p>
+<p><a href="http://blog.csdn.net/sraing/article/details/8455242" target="_blank" rel="external">http://blog.csdn.net/sraing/article/details/8455242</a></p>
+<p><a href="https://www.python.org/dev/peps/pep-3333/" target="_blank" rel="external">https://www.python.org/dev/peps/pep-3333/</a></p>
 
       
     </div>
@@ -535,8 +587,17 @@ var duoshuoQuery = {short_name:"luckylau"};
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/logo.jpg"
@@ -612,6 +673,22 @@ var duoshuoQuery = {short_name:"luckylau"};
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#为什么需要WSGI规范？"><span class="nav-number">1.</span> <span class="nav-text">为什么需要WSGI规范？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WSGI中的角色？"><span class="nav-number">2.</span> <span class="nav-text">WSGI中的角色？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WSGI中间件"><span class="nav-number">3.</span> <span class="nav-text">WSGI中间件 ?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WSGi示例代码？"><span class="nav-number">4.</span> <span class="nav-text">WSGi示例代码？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#源码wsgiref解析"><span class="nav-number">5.</span> <span class="nav-text">源码wsgiref解析?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参考："><span class="nav-number">6.</span> <span class="nav-text">参考：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
     </div>
