@@ -3,6 +3,13 @@
   
     
     <entry>
+      <title><![CDATA[python的pecan框架使用]]></title>
+      <url>%2F2017%2F03%2F01%2Fpython%E7%9A%84pecan%E6%A1%86%E6%9E%B6%E4%BD%BF%E7%94%A8%2F</url>
+      <content type="text"><![CDATA[neutron源码学习基础知识储备之Pecan web框架 什么是Pecan?​ 创造Pecan是为了填补Python web框架世界的一个空缺——一个提供object-dispatch方式路由的超轻量级的框架。Pecan的目标并不是要成为一个“全栈”框架，因此没有支持一些额外的功能，比如session或是数据库 。相反，Pecan专注于HTTP本身。 功能包括： Object-dispatch for easy routingFull support for REST-style controllersExtensible security frameworkExtensible template language supportExtensible JSON supportEasy Python-based configuration 创建简单的Pecan应用？首先在linux新建一个virtualenv环境（本文是在ubantu16.04） 12345678910111213141516171819202122232425262728293031323334353637383940luckylau@luckylau-Ubuntu:~$virtualenv pecan-envluckylau@luckylau-Ubuntu:~$cd pecan-env/luckylau@luckylau-Ubuntu:~/pecan-env$ source bin/activate(pecan-env) luckylau@luckylau-Ubuntu:~/pecan-env$ pip install pecan(pecan-env) luckylau@luckylau-Ubuntu:~/pecan-env$ pecan create test_project(pecan-env) luckylau@luckylau-Ubuntu:~/pecan-env$ tree test_project/test_project/├── config.py├── MANIFEST.in├── public #一些静态文件包括CSS,JS,images,为你的开发服务│ ├── css│ │ └── style.css│ └── images│ └── logo.png├── setup.cfg├── setup.py└── test_project #基于MVC模型生成的结构 ├── app.py #决定应用是如何创造的，这个文件必须包含set_app()并返回WSGI应用对象，一般情况下就用原生的，除非不能满足你定制的应用。 ├── controllers #控制层实现 │ ├── __init__.py │ ├── __init__.pyc │ ├── root.py │ └── root.pyc ├── __init__.py ├── __init__.pyc ├── model #模型实现 │ ├── __init__.py #在这里可以加入与database交互，定义表和ORM等 │ └── __init__.pyc ├── templates #模板实现 │ ├── error.html │ ├── index.html │ └── layout.html └── tests #单元测试 ├── config.py ├── __init__.py ├── test_functional.py ├── test_units.py └── test_units.pyc8 directories, 23 files 参考：https://pecan.readthedocs.io/en/latest/]]></content>
+    </entry>
+
+    
+    <entry>
       <title><![CDATA[阅读书单（4）]]></title>
       <url>%2F2017%2F02%2F28%2F%E9%98%85%E8%AF%BB%E4%B9%A6%E5%8D%95%EF%BC%884%EF%BC%89%2F</url>
       <content type="text"><![CDATA[2017年-至今98.《你一年的8760小时》-艾力 99.《牛棚杂忆》-季羡林 100.《愚人的坚持》-稻盛和夫，山中伸弥 101.《异类》-马尔柯姆-格拉德威尔 102.《人类动物园》-德斯蒙德莫里斯 103.《美学漫话》-宗白华 104.《逃不开的经济周期》-拉斯特维德 105.《明治维新六十年》-樱雪丸 106.《武士道》-新渡户稻造 107.《我所理解的生活》-韩寒 108.《呀，原来如此》-知乎 109《宋朝原来是这样》-醉罢君山]]></content>

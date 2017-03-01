@@ -284,6 +284,163 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/03/01/python的pecan框架使用/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Luckylau">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/logo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Luckylau's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Luckylau's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/03/01/python的pecan框架使用/" itemprop="url">
+                  python的pecan框架使用
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-01T10:27:57+08:00">
+                2017-03-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/03/01/python的pecan框架使用/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/01/python的pecan框架使用/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong>neutron源码学习基础知识储备之Pecan web框架</strong></p>
+<h4 id="什么是Pecan"><a href="#什么是Pecan" class="headerlink" title="什么是Pecan?"></a>什么是Pecan?</h4><p>​       创造Pecan是为了填补Python web框架世界的一个空缺——一个提供object-dispatch方式路由的超轻量级的框架。Pecan的目标并不是要成为一个“全栈”框架，因此没有支持一些额外的功能，比如session或是数据库 。相反，Pecan专注于HTTP本身。</p>
+<p>功能包括：</p>
+<p>Object-dispatch for easy routing<br>Full support for REST-style controllers<br>Extensible security framework<br>Extensible template language support<br>Extensible JSON support<br>Easy Python-based configuration</p>
+<h4 id="创建简单的Pecan应用？"><a href="#创建简单的Pecan应用？" class="headerlink" title="创建简单的Pecan应用？"></a>创建简单的Pecan应用？</h4><p>首先在linux新建一个virtualenv环境（本文是在ubantu16.04）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line">luckylau@luckylau-Ubuntu:~$virtualenv pecan-env</div><div class="line">luckylau@luckylau-Ubuntu:~$cd pecan-env/</div><div class="line">luckylau@luckylau-Ubuntu:~/pecan-env$ source bin/activate</div><div class="line">(pecan-env) luckylau@luckylau-Ubuntu:~/pecan-env$ pip install pecan</div><div class="line">(pecan-env) luckylau@luckylau-Ubuntu:~/pecan-env$ pecan create test_project</div><div class="line">(pecan-env) luckylau@luckylau-Ubuntu:~/pecan-env$ tree test_project/</div><div class="line">test_project/</div><div class="line">├── config.py</div><div class="line">├── MANIFEST.in</div><div class="line">├── public           #一些静态文件包括CSS,JS,images,为你的开发服务</div><div class="line">│   ├── css</div><div class="line">│   │   └── style.css</div><div class="line">│   └── images</div><div class="line">│       └── logo.png</div><div class="line">├── setup.cfg</div><div class="line">├── setup.py</div><div class="line">└── test_project      #基于MVC模型生成的结构</div><div class="line">    ├── app.py        #决定应用是如何创造的，这个文件必须包含set_app()并返回WSGI应用对象，一般情况下就用原生的，除非不能满足你定制的应用。</div><div class="line">    ├── controllers   #控制层实现</div><div class="line">    │   ├── __init__.py</div><div class="line">    │   ├── __init__.pyc</div><div class="line">    │   ├── root.py</div><div class="line">    │   └── root.pyc</div><div class="line">    ├── __init__.py</div><div class="line">    ├── __init__.pyc</div><div class="line">    ├── model          #模型实现</div><div class="line">    │   ├── __init__.py #在这里可以加入与database交互，定义表和ORM等</div><div class="line">    │   └── __init__.pyc</div><div class="line">    ├── templates      #模板实现</div><div class="line">    │   ├── error.html</div><div class="line">    │   ├── index.html</div><div class="line">    │   └── layout.html</div><div class="line">    └── tests          #单元测试</div><div class="line">        ├── config.py </div><div class="line">        ├── __init__.py</div><div class="line">        ├── test_functional.py</div><div class="line">        ├── test_units.py</div><div class="line">        └── test_units.pyc</div><div class="line"></div><div class="line">8 directories, 23 files</div></pre></td></tr></table></figure>
+<h4 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h4><p><a href="https://pecan.readthedocs.io/en/latest/" target="_blank" rel="external">https://pecan.readthedocs.io/en/latest/</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/02/28/阅读书单（4）/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1060,168 +1217,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/02/25/线程同步工具CountDownLatch，CyclicBarrier和Semaphore的用法/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Luckylau">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/logo.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Luckylau's Blog">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="Luckylau's Blog" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/02/25/线程同步工具CountDownLatch，CyclicBarrier和Semaphore的用法/" itemprop="url">
-                  线程同步工具CountDownLatch，CyclicBarrier和Semaphore的用法
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-25T23:12:30+08:00">
-                2017-02-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/02/25/线程同步工具CountDownLatch，CyclicBarrier和Semaphore的用法/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/25/线程同步工具CountDownLatch，CyclicBarrier和Semaphore的用法/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h4 id="CountDownLatch"><a href="#CountDownLatch" class="headerlink" title="CountDownLatch"></a>CountDownLatch</h4><p>​       CountDownLatch是一个同步工具类，它允许一个或多个线程一直等待，直到其他线程的操作执行完后再执行。CountDownLatch的一个非常典型的应用场景是：有一个任务想要往下执行，但必须要等到其他的任务执行完毕后才可以继续往下执行。假如我们这个想要继续往下执行的任务调用一个CountDownLatch对象的await()方法，其他的任务执行完自己的任务后调用同一个CountDownLatch对象上的countDown()方法，这个调用await()方法的任务将一直阻塞等待，直到这个CountDownLatch对象的计数值减到0为止。</p>
-<p>伪代码为：</p>
-<p>​    Main thread start<br>​    Create CountDownLatch for N threads<br>​    Create and start N threads<br>​    Main thread wait on latch<br>​    N threads completes there tasks are returns<br>​    Main thread resume execution</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/02/25/线程同步工具CountDownLatch，CyclicBarrier和Semaphore的用法/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1264,7 +1264,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
