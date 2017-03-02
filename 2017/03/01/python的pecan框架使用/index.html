@@ -85,24 +85,26 @@
 
 
 <meta name="description" content="neutron源码学习基础知识储备之Pecan web框架
-什么是Pecan?​       创造Pecan是为了填补Python web框架世界的一个空缺——一个提供object-dispatch方式路由的超轻量级的框架。Pecan的目标并不是要成为一个“全栈”框架，因此没有支持一些额外的功能，比如session或是数据库 。相反，Pecan专注于HTTP本身。
+什么是Pecan?​       创造Pecan是为了填补Python web框架世界的一个空缺——一个提供object-dispatch（对象分发）方式路由的超轻量级的框架。Pecan的目标并不是要成为一个“全栈”框架，因此没有支持一些额外的功能，比如session或是数据库 。相反，Pecan专注于HTTP本身。
 功能包括：
-Object-dis">
+Obje">
 <meta property="og:type" content="article">
 <meta property="og:title" content="python的pecan框架使用">
 <meta property="og:url" content="https://luckylau.github.io/2017/03/01/python的pecan框架使用/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
 <meta property="og:description" content="neutron源码学习基础知识储备之Pecan web框架
-什么是Pecan?​       创造Pecan是为了填补Python web框架世界的一个空缺——一个提供object-dispatch方式路由的超轻量级的框架。Pecan的目标并不是要成为一个“全栈”框架，因此没有支持一些额外的功能，比如session或是数据库 。相反，Pecan专注于HTTP本身。
+什么是Pecan?​       创造Pecan是为了填补Python web框架世界的一个空缺——一个提供object-dispatch（对象分发）方式路由的超轻量级的框架。Pecan的目标并不是要成为一个“全栈”框架，因此没有支持一些额外的功能，比如session或是数据库 。相反，Pecan专注于HTTP本身。
 功能包括：
-Object-dis">
-<meta property="og:updated_time" content="2017-03-01T03:47:21.288Z">
+Obje">
+<meta property="og:image" content="https://luckylau.github.io/2017/03/01/python的pecan框架使用/10.png">
+<meta property="og:updated_time" content="2017-03-02T03:25:44.059Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python的pecan框架使用">
 <meta name="twitter:description" content="neutron源码学习基础知识储备之Pecan web框架
-什么是Pecan?​       创造Pecan是为了填补Python web框架世界的一个空缺——一个提供object-dispatch方式路由的超轻量级的框架。Pecan的目标并不是要成为一个“全栈”框架，因此没有支持一些额外的功能，比如session或是数据库 。相反，Pecan专注于HTTP本身。
+什么是Pecan?​       创造Pecan是为了填补Python web框架世界的一个空缺——一个提供object-dispatch（对象分发）方式路由的超轻量级的框架。Pecan的目标并不是要成为一个“全栈”框架，因此没有支持一些额外的功能，比如session或是数据库 。相反，Pecan专注于HTTP本身。
 功能包括：
-Object-dis">
+Obje">
+<meta name="twitter:image" content="https://luckylau.github.io/2017/03/01/python的pecan框架使用/10.png">
 
 
 
@@ -405,13 +407,45 @@ Object-dis">
 
       
         <p><strong>neutron源码学习基础知识储备之Pecan web框架</strong></p>
-<h4 id="什么是Pecan"><a href="#什么是Pecan" class="headerlink" title="什么是Pecan?"></a>什么是Pecan?</h4><p>​       创造Pecan是为了填补Python web框架世界的一个空缺——一个提供object-dispatch方式路由的超轻量级的框架。Pecan的目标并不是要成为一个“全栈”框架，因此没有支持一些额外的功能，比如session或是数据库 。相反，Pecan专注于HTTP本身。</p>
+<h4 id="什么是Pecan"><a href="#什么是Pecan" class="headerlink" title="什么是Pecan?"></a>什么是Pecan?</h4><p>​       创造Pecan是为了填补Python web框架世界的一个空缺——一个提供object-dispatch（对象分发）方式路由的超轻量级的框架。Pecan的目标并不是要成为一个“全栈”框架，因此没有支持一些额外的功能，比如session或是数据库 。相反，Pecan专注于HTTP本身。</p>
 <p>功能包括：</p>
 <p>Object-dispatch for easy routing<br>Full support for REST-style controllers<br>Extensible security framework<br>Extensible template language support<br>Extensible JSON support<br>Easy Python-based configuration</p>
 <a id="more"></a>
-<h4 id="创建简单的Pecan应用？"><a href="#创建简单的Pecan应用？" class="headerlink" title="创建简单的Pecan应用？"></a>创建简单的Pecan应用？</h4><p>首先在linux新建一个virtualenv环境（本文是在ubantu16.04）</p>
+<p>所以对于OpenStack来说，Pecan是一个很好的选择，因为OpenStack项目中统一使用sqlalchemy来实现ORM，API的实现也不需要模板功能，安全控制则基于Keystone体系。使用Pecan来开发REST服务，代码量很少，代码结构也清晰。</p>
+<h4 id="创建简单的Pecan应用？"><a href="#创建简单的Pecan应用？" class="headerlink" title="创建简单的Pecan应用？"></a>创建简单的Pecan应用？</h4><p>首先在linux新建一个virtualenv环境（本文是在ubantu16.04），我们首先看一下自动生成的工程目录结构。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line">luckylau@luckylau-Ubuntu:~$virtualenv pecan-env</div><div class="line">luckylau@luckylau-Ubuntu:~$cd pecan-env/</div><div class="line">luckylau@luckylau-Ubuntu:~/pecan-env$ source bin/activate</div><div class="line">(pecan-env) luckylau@luckylau-Ubuntu:~/pecan-env$ pip install pecan</div><div class="line">(pecan-env) luckylau@luckylau-Ubuntu:~/pecan-env$ pecan create test_project</div><div class="line">(pecan-env) luckylau@luckylau-Ubuntu:~/pecan-env$ tree test_project/</div><div class="line">test_project/</div><div class="line">├── config.py</div><div class="line">├── MANIFEST.in</div><div class="line">├── public           #一些静态文件包括CSS,JS,images,为你的开发服务</div><div class="line">│   ├── css</div><div class="line">│   │   └── style.css</div><div class="line">│   └── images</div><div class="line">│       └── logo.png</div><div class="line">├── setup.cfg</div><div class="line">├── setup.py</div><div class="line">└── test_project      #基于MVC模型生成的结构</div><div class="line">    ├── app.py        #决定应用是如何创造的，这个文件必须包含set_app()并返回WSGI应用对象，一般情况下就用原生的，除非不能满足你定制的应用。</div><div class="line">    ├── controllers   #控制层实现</div><div class="line">    │   ├── __init__.py</div><div class="line">    │   ├── __init__.pyc</div><div class="line">    │   ├── root.py</div><div class="line">    │   └── root.pyc</div><div class="line">    ├── __init__.py</div><div class="line">    ├── __init__.pyc</div><div class="line">    ├── model          #模型实现</div><div class="line">    │   ├── __init__.py #在这里可以加入与database交互，定义表和ORM等</div><div class="line">    │   └── __init__.pyc</div><div class="line">    ├── templates      #模板实现</div><div class="line">    │   ├── error.html</div><div class="line">    │   ├── index.html</div><div class="line">    │   └── layout.html</div><div class="line">    └── tests          #单元测试</div><div class="line">        ├── config.py </div><div class="line">        ├── __init__.py</div><div class="line">        ├── test_functional.py</div><div class="line">        ├── test_units.py</div><div class="line">        └── test_units.pyc</div><div class="line"></div><div class="line">8 directories, 23 files</div></pre></td></tr></table></figure>
+<h4 id="实战Demo"><a href="#实战Demo" class="headerlink" title="实战Demo?"></a>实战Demo?</h4><p>通过实际操作中补充pecan相关知识点。项目托管到github:</p>
+<p><a href="https://github.com/Luckylau/python-web-frame" target="_blank" rel="external">https://github.com/Luckylau/python-web-frame</a></p>
+<p>该项目用到pecan和wsme(Web Services Made Easy),首先解释一下WSME吧</p>
+<p>WSME的全称是Web Service Made Easy，是专门用于实现REST服务的typing库，让你不需要直接操作请求和响应，而且刚好和Pecan结合得非常好，所以，OpenStack的很多项目都使用了Pecan + WSME的组合来实现API。</p>
+<p>WSME的理念是：在大部分情况下，Web服务的输入和输出对数据类型的要求都是严格的。所以它就专门解决了这个事情，然后把其他事情都交给其他框架去实现。</p>
+<p>WSME会自动帮你检查HTTP请求和响应中的数据是否符合预先设定好的要求。WSME的主要方式是通过装饰器来控制controller方法的输入和输出。WSME中主要使用两个控制器：<br>  ● @signature: 这个装饰器用来描述一个函数的输入和输出。<br>  ● @wsexpose: 这个装饰器包含@signature的功能，同时会把函数的路由信息暴露给Web框架，效果就像Pecan的expose装饰器。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">luckylau@luckylau-Ubuntu:~/github/python-web-frame$ tree webdemo/</div><div class="line">webdemo/</div><div class="line">├── api</div><div class="line">│   ├── app.py</div><div class="line">│   ├── config.py</div><div class="line">│   ├── controllers</div><div class="line">│   │   ├── __init__.py</div><div class="line">│   │   └── root.py</div><div class="line">│   ├── expose.py</div><div class="line">│   ├── hooks.py</div><div class="line">│   └── __init__.py</div><div class="line">├── cmd</div><div class="line">│   ├── api.py</div><div class="line">│   └── __init__.py</div><div class="line">└── __init__.py</div></pre></td></tr></table></figure>
+<p>首先参考openstack我们人工的建立如上目录。首先我们实现config.py 代码 </p>
+<p><a href="https://pecan.readthedocs.io/en/latest/configuration.html#application-configuration" target="_blank" rel="external">https://pecan.readthedocs.io/en/latest/configuration.html#application-configuration</a></p>
+<p>该链接解释配置的含义。</p>
+<p>config.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">app=&#123;</div><div class="line">  <span class="string">'root'</span>：<span class="string">'webdemo.api.controllers.root.RootController'</span>,</div><div class="line">  <span class="string">'modules'</span>:[<span class="string">'webdemo.api'</span>],</div><div class="line">  <span class="string">'debug'</span>: <span class="keyword">True</span>,  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>modules</p>
+<p>At least one of the listed modules must contain an app.setup_app function which is called to create the WSGI app. In other words, this package should be where your app.py file is located, and this file should contain a setup_app function.</p>
+<p>简单来说，modules是app.py(同时包含setup_pp功能)所在的包，pecan会扫描的。</p>
+<p>root</p>
+<p>The root controller of your application. Remember to provide a string representing a Python path to some callable (e.g.”yourapp.controllers.root.RootController”).</p>
+<p>简单来说，RootController所在路径</p>
+<p>debug<br>Enables the ability to display tracebacks in the browser and interactively debug during development.</p>
+<p>简单来说，是否开启debug模式</p>
+<p>app.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> pecan</div><div class="line"><span class="keyword">from</span> webdemo.api <span class="keyword">import</span> config <span class="keyword">as</span> api_config</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_pecan_config</span><span class="params">()</span>:</span></div><div class="line">    filename=api_config.__file__.replace(<span class="string">'.pyc'</span>,<span class="string">'.py'</span>)</div><div class="line">    <span class="keyword">return</span> pecan.configuration.conf_from_file(filename)</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">setup_app</span><span class="params">()</span>:</span></div><div class="line">    config=get_pecan_config()</div><div class="line">    app_conf=dict(config.app)</div><div class="line">    app=pecan.make_app(app_conf.pop(<span class="string">'root'</span>),</div><div class="line">                       logging=getattr(config,<span class="string">'logging'</span>,&#123;&#125;),</div><div class="line">                       **app_conf)</div><div class="line">    <span class="keyword">return</span> app</div></pre></td></tr></table></figure>
+<p>expose.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#让API返回JSON格式的数据</span></div><div class="line"><span class="keyword">import</span> wsmeext.pecan <span class="keyword">as</span> wsme_pecan</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">expose</span><span class="params">(*args, **kwargs)</span>:</span></div><div class="line">    <span class="keyword">if</span> <span class="string">'rest_content_types'</span> <span class="keyword">not</span> <span class="keyword">in</span> kwargs:</div><div class="line">        kwargs[<span class="string">'rest_content_types'</span>] = (<span class="string">'json'</span>,)</div><div class="line">    <span class="keyword">return</span> wsme_pecan.wsexpose(*args, **kwargs)</div></pre></td></tr></table></figure>
+<p>root.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> pecan <span class="keyword">import</span> rest</div><div class="line"><span class="keyword">from</span> wsme <span class="keyword">import</span> types <span class="keyword">as</span> wtypes</div><div class="line"><span class="keyword">from</span> webdemo.api <span class="keyword">import</span> expose</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">RootController</span><span class="params">(rest.RestController)</span>:</span></div><div class="line"><span class="meta">    @expose.expose(wtypes.text)</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">return</span> <span class="string">"python-web-frame: pecan &amp; wsme "</span></div></pre></td></tr></table></figure>
+<p>api.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> wsgiref <span class="keyword">import</span> simple_server</div><div class="line"><span class="keyword">from</span> webdemo.api <span class="keyword">import</span> app</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></div><div class="line">    application = app.setup_app()</div><div class="line">    httpd = simple_server.make_server(<span class="string">''</span>, <span class="number">8080</span>, application)</div><div class="line">    <span class="keyword">print</span> (<span class="string">"Server on port 8080 ,listening ..."</span>)</div><div class="line">    httpd.serve_forever()</div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    main()</div></pre></td></tr></table></figure>
+<p><img src="/2017/03/01/python的pecan框架使用/10.png" alt=""></p>
 <h4 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h4><p><a href="https://pecan.readthedocs.io/en/latest/" target="_blank" rel="external">https://pecan.readthedocs.io/en/latest/</a></p>
+<p><a href="http://www.infoq.com/cn/articles/OpenStack-demo-API3" target="_blank" rel="external">http://www.infoq.com/cn/articles/OpenStack-demo-API3</a></p>
+<p><a href="https://pythonhosted.org/WSME/" target="_blank" rel="external">https://pythonhosted.org/WSME/</a></p>
 
       
     </div>
@@ -635,7 +669,7 @@ var duoshuoQuery = {short_name:"luckylau"};
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是Pecan"><span class="nav-number">1.</span> <span class="nav-text">什么是Pecan?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建简单的Pecan应用？"><span class="nav-number">2.</span> <span class="nav-text">创建简单的Pecan应用？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参考："><span class="nav-number">3.</span> <span class="nav-text">参考：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是Pecan"><span class="nav-number">1.</span> <span class="nav-text">什么是Pecan?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建简单的Pecan应用？"><span class="nav-number">2.</span> <span class="nav-text">创建简单的Pecan应用？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实战Demo"><span class="nav-number">3.</span> <span class="nav-text">实战Demo?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参考："><span class="nav-number">4.</span> <span class="nav-text">参考：</span></a></li></ol></div>
             
 
           </div>
