@@ -12,7 +12,7 @@
     <entry>
       <title><![CDATA[Python的sqlalchemy库使用]]></title>
       <url>%2F2017%2F03%2F02%2FPython%E7%9A%84sqlalchemy%E5%BA%93%E7%90%86%E8%A7%A3%2F</url>
-      <content type="text"><![CDATA[neutron源码学习基础知识储备之Sqlalchemy库]]></content>
+      <content type="text"><![CDATA[neutron源码学习基础知识储备之Sqlalchemy库 本文主要参考官方文档和一些网上资料，并结合之前python-web-frame项目使用来详细说明Sqlalchemy的使用，版本号为SQLAlchemy 1.1。 参考：http://docs.sqlalchemy.org/en/rel_1_0/orm/tutorial.html http://docs.sqlalchemy.org/en/rel_1_0/core/tutorial.html]]></content>
     </entry>
 
     
