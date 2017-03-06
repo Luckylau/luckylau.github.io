@@ -95,7 +95,7 @@ Sqlalchemy的架构？">
 本文主要参考官方文档和一些网上资料，并结合之前python-web-frame项目使用来详细说明Sqlalchemy的使用，版本号为SQLAlchemy 1.1。 
 Sqlalchemy的架构？">
 <meta property="og:image" content="https://luckylau.github.io/2017/03/02/Python的sqlalchemy库理解/1.png">
-<meta property="og:updated_time" content="2017-03-06T07:46:40.639Z">
+<meta property="og:updated_time" content="2017-03-06T07:52:40.814Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python的sqlalchemy库使用">
 <meta name="twitter:description" content="neutron源码学习基础知识储备之Sqlalchemy库
@@ -469,7 +469,7 @@ Sqlalchemy的架构？">
 <p><strong>Deleting</strong></p>
 <p>db_user与db_Telephone是一对多关系，下面操作解决了删除db_user，会自动删除关联的表数据</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">delete_user</span><span class="params">(self, user_id)</span>:</span></div><div class="line">       logger.info(<span class="string">"user.user_id: %s"</span> % (user_id))</div><div class="line">       <span class="keyword">try</span>:</div><div class="line">           session = get_session()</div><div class="line">           user=session.query(</div><div class="line">               db_models.db_User).filter_by(</div><div class="line">               user_id=user_id).first()</div><div class="line">           session.delete(user)</div><div class="line">           session.flush()</div><div class="line">           session.commit()</div><div class="line">       <span class="keyword">except</span> exc.NoResultFound:</div><div class="line">           logger.error(<span class="string">"delete user occur error ..."</span>)</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">db_User</span><span class="params">(Base)</span>:</span></div><div class="line">   ...</div><div class="line">   telephone = relationship(</div><div class="line">       <span class="string">"db_Telephone"</span>,</div><div class="line">       order_by=<span class="string">"db_Telephone.id"</span>,</div><div class="line">       back_populates=<span class="string">"user"</span> ,</div><div class="line">       cascade=<span class="string">"save-update, merge, delete"</span>)</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">db_Telephone</span><span class="params">(Base)</span>:</span></div><div class="line">   ...</div><div class="line">   user = relationship(<span class="string">"db_User"</span>, back_populates=<span class="string">"telephone"</span>)</div></pre></td></tr></table></figure>
-<h4 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h4><p><a href="http://docs.sqlalchemy.org/en/rel_1_0/orm/tutorial.html" target="_blank" rel="external">http://docs.sqlalchemy.org/en/rel_1_0/orm/tutorial.html</a></p>
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p><a href="http://docs.sqlalchemy.org/en/rel_1_0/orm/tutorial.html" target="_blank" rel="external">http://docs.sqlalchemy.org/en/rel_1_0/orm/tutorial.html</a></p>
 <p><a href="http://docs.sqlalchemy.org/en/rel_1_0/core/tutorial.html" target="_blank" rel="external">http://docs.sqlalchemy.org/en/rel_1_0/core/tutorial.html</a></p>
 <p><a href="http://blog.csdn.net/zd0303/article/details/50261347" target="_blank" rel="external">http://blog.csdn.net/zd0303/article/details/50261347</a></p>
 <p><a href="http://blog.csdn.net/Jmilk/article/details/52445093#one-to-many" target="_blank" rel="external">http://blog.csdn.net/Jmilk/article/details/52445093#one-to-many</a></p>
@@ -627,7 +627,7 @@ var duoshuoQuery = {short_name:"luckylau"};
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-count">22</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -700,7 +700,7 @@ var duoshuoQuery = {short_name:"luckylau"};
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Sqlalchemy的架构？"><span class="nav-number">1.</span> <span class="nav-text">Sqlalchemy的架构？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Object-Relational-Mapper-amp-amp-SQL-Expression-Language"><span class="nav-number">2.</span> <span class="nav-text">Object Relational Mapper && SQL Expression Language ?</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#参考："><span class="nav-number">2.1.</span> <span class="nav-text">参考：</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Sqlalchemy的架构？"><span class="nav-number">1.</span> <span class="nav-text">Sqlalchemy的架构？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Object-Relational-Mapper-amp-amp-SQL-Expression-Language"><span class="nav-number">2.</span> <span class="nav-text">Object Relational Mapper && SQL Expression Language ?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考："><span class="nav-number">3.</span> <span class="nav-text">参考：</span></a></li></ol></div>
             
 
           </div>
