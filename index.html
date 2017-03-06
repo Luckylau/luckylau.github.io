@@ -552,13 +552,16 @@
 
       
         
-          
-            <p><strong>neutron源码学习基础知识储备之Eventlet</strong></p>
+          <p><strong>neutron源码学习基础知识储备之Eventlet</strong></p>
 <p>eventlet在openstack，还有ryu控制器中使用频率很高，有必要总结一下用法。</p>
-<h3 id="什么是协程？"><a href="#什么是协程？" class="headerlink" title="什么是协程？"></a>什么是协程？</h3><h3 id="python-eventlet又是什么"><a href="#python-eventlet又是什么" class="headerlink" title="python-eventlet又是什么?"></a>python-eventlet又是什么?</h3><h3 id="python-eventlet-API"><a href="#python-eventlet-API" class="headerlink" title="python-eventlet API?"></a>python-eventlet API?</h3><h3 id="eventlet中的wsgi？"><a href="#eventlet中的wsgi？" class="headerlink" title="eventlet中的wsgi？"></a>eventlet中的wsgi？</h3><h3 id="python-eventlet-的Demo"><a href="#python-eventlet-的Demo" class="headerlink" title="python-eventlet 的Demo?"></a>python-eventlet 的Demo?</h3><h3 id="参考"><a href="#参考" class="headerlink" title="参考:"></a>参考:</h3><p><a href="http://blog.csdn.net/xiangmin2587/article/details/8182775" target="_blank" rel="external">http://blog.csdn.net/xiangmin2587/article/details/8182775</a></p>
-<p><a href="http://blog.csdn.net/qq910894904/article/details/41699541" target="_blank" rel="external">http://blog.csdn.net/qq910894904/article/details/41699541</a></p>
-
-          
+<h3 id="什么是协程？"><a href="#什么是协程？" class="headerlink" title="什么是协程？"></a>什么是协程？</h3><p>​        说到Coroutine，我们必须提到两个更远的东西。在操作系统（os）级别，有进程（process）和线程（thread）两个（仅从我们常见的讲）实际的“东西”（不说概念是因为这两个家伙的确不仅仅是概念，而是实际存在的，os的代码管理的资源）。这两个东西都是用来模拟“并行”的，写操作系统的程序员通过用一定的策略给不同的进程和线程分配CPU计算资源，来让用户“以为”几个不同的事情在“同时”进行“。在单CPU上，是os代码强制把一个进程或者线程挂起，换成另外一个来计算，所以，实际上是串行的，只是“概念上的并行”。在现在的多核的cpu上，线程可能是“真正并行的”。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/03/06/Python的eventlet使用与理解/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
