@@ -284,6 +284,182 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/03/06/Python-yield-使用浅析/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Luckylau">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/logo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Luckylau's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Luckylau's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/03/06/Python-yield-使用浅析/" itemprop="url">
+                  Python yield 使用浅析
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-06T16:51:17+08:00">
+                2017-03-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/03/06/Python-yield-使用浅析/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/06/Python-yield-使用浅析/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="yield的概念？"><a href="#yield的概念？" class="headerlink" title="yield的概念？"></a>yield的概念？</h3><p>1.简单的斐波那契數列第一版：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">fab</span><span class="params">(max)</span>:</span></div><div class="line">    n, a, b = <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span></div><div class="line">    <span class="keyword">while</span> n &lt; max:</div><div class="line">        <span class="keyword">print</span> b</div><div class="line">        a, b = b, a + b</div><div class="line">        n = n + <span class="number">1</span></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    fab(<span class="number">5</span>)</div></pre></td></tr></table></figure>
+<p>缺点：直接在 fab 函数中用 print 打印数字会导致该函数可复用性较差，因为 fab 函数返回 None，其他函数无法获得该函数生成的数列。</p>
+<p>2.简单的斐波那契數列第二版：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">fab</span><span class="params">(max)</span>:</span></div><div class="line">    n, a, b = <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span></div><div class="line">    L = []</div><div class="line">    <span class="keyword">while</span> n &lt; max:</div><div class="line">        L.append(b)</div><div class="line">        a, b = b, a + b</div><div class="line">        n = n + <span class="number">1</span></div><div class="line">    <span class="keyword">return</span> L</div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    <span class="keyword">for</span> n <span class="keyword">in</span> fab(<span class="number">5</span>):</div><div class="line">        <span class="keyword">print</span> n</div></pre></td></tr></table></figure>
+<p>缺点：该函数在运行中占用的内存会随着参数 max 的增大而增大，如果要控制内存占用，最好不要用 List。</p>
+<p>3.简单的斐波那契數列第三版：</p>
+<p>根据range与xrange的思想设计：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Fab</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,max)</span>:</span></div><div class="line">        self.max=max</div><div class="line">        self.n,self.a,self.b=<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__iter__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">return</span> self</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">next</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">if</span> self.n&lt;self.max:</div><div class="line">            r=self.b</div><div class="line">            self.a, self.b = self.b, self.a + self.b</div><div class="line">            self.n=self.n+<span class="number">1</span></div><div class="line">            <span class="keyword">return</span> r</div><div class="line">        <span class="keyword">raise</span> StopIteration</div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    <span class="keyword">for</span> n <span class="keyword">in</span> Fab(<span class="number">5</span>):</div><div class="line">        <span class="keyword">print</span> n</div></pre></td></tr></table></figure>
+<p>缺点：代码远远没有第一版的 fab 函数来得简洁。</p>
+<p><strong>如果我们想要保持第一版 fab 函数的简洁性，同时又要获得 iterable 的效果，yield 就派上用场了。</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">fab</span><span class="params">(max)</span>:</span></div><div class="line">    n, a, b = <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span></div><div class="line">    <span class="keyword">while</span> n &lt; max:</div><div class="line">        <span class="keyword">yield</span> b</div><div class="line">        a, b = b, a + b</div><div class="line">        n = n + <span class="number">1</span></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    <span class="keyword">for</span> n <span class="keyword">in</span> fab(<span class="number">5</span>):</div><div class="line">        <span class="keyword">print</span> n</div></pre></td></tr></table></figure>
+<p>​       yield 的作用就是把一个函数变成一个 generator，带有 yield 的函数不再是一个普通函数，Python 解释器会将其视为一个 generator，调用 fab(5) 不会执行 fab 函数，而是返回一个 iterable 对象！在 for 循环执行时，每次循环都会执行 fab 函数内部的代码，执行到 yield b 时，fab 函数就返回一个迭代值，下次迭代时，代码从 yield b 的下一条语句继续执行，而函数的本地变量看起来和上次中断执行前是完全一样的，于是函数继续执行，直到再次遇到 yield。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">fab</span><span class="params">(max)</span>:</span></div><div class="line">    n, a, b = <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span></div><div class="line">    <span class="keyword">while</span> n &lt; max:</div><div class="line">        <span class="keyword">yield</span> b</div><div class="line">        a, b = b, a + b</div><div class="line">        n = n + <span class="number">1</span></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    f=fab(<span class="number">5</span>)</div><div class="line">    <span class="keyword">print</span> (f.next())</div><div class="line">    <span class="keyword">print</span> (f.next())</div><div class="line">    <span class="keyword">print</span> (f.next())</div><div class="line">    <span class="keyword">print</span> (f.next())</div><div class="line">    <span class="keyword">print</span> (f.next())</div></pre></td></tr></table></figure>
+<p>一个带有 yield 的函数就是一个 generator，它和普通函数不同，生成一个 generator 看起来像函数调用，但不会执行任何函数代码，直到对其调用 next()（在 for 循环中会自动调用 next()）才开始执行。虽然执行流程仍按函数的流程执行，但每执行到一个 yield 语句就会中断，并返回一个迭代值，下次执行时从 yield 的下一个语句继续执行。看起来就好像一个函数在正常执行的过程中被 yield 中断了数次，每次中断都会通过 yield 返回当前的迭代值。比如在读取文件时候很好使用的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">read_file</span><span class="params">(fpath)</span>:</span> </div><div class="line">    BLOCK_SIZE = <span class="number">1024</span> </div><div class="line">    <span class="keyword">with</span> open(fpath, <span class="string">'rb'</span>) <span class="keyword">as</span> f: </div><div class="line">        <span class="keyword">while</span> <span class="keyword">True</span>: </div><div class="line">            block = f.read(BLOCK_SIZE) </div><div class="line">            <span class="keyword">if</span> block: </div><div class="line">                <span class="keyword">yield</span> block </div><div class="line">            <span class="keyword">else</span>: </div><div class="line">                <span class="keyword">return</span></div></pre></td></tr></table></figure>
+<h3 id="yield的源码分析？"><a href="#yield的源码分析？" class="headerlink" title="yield的源码分析？"></a>yield的源码分析？</h3><p>在解释生成器之前，需要讲解一下Python虚拟机的调用原理。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">typedef struct _frame &#123;</div><div class="line">    PyObject_VAR_HEAD</div><div class="line">    struct _frame *f_back;  /* previous frame, or NULL */</div><div class="line">    PyCodeObject *f_code;   /* code segment */</div><div class="line">    PyObject *f_builtins;   /* builtin symbol table (PyDictObject) */</div><div class="line">    PyObject *f_globals;    /* global symbol table (PyDictObject) */</div><div class="line">    PyObject *f_locals;     /* local symbol table (any mapping) */</div><div class="line">    PyObject **f_valuestack;    /* points after the last local */</div><div class="line">    /* Next free slot in f_valuestack.  Frame creation sets to f_valuestack.</div><div class="line">       Frame evaluation usually NULLs it, but a frame that yields sets it</div><div class="line">       to the current stack top. */</div><div class="line">    PyObject **f_stacktop;</div><div class="line">    PyObject *f_trace;      /* Trace function */</div><div class="line"></div><div class="line">    /* If an exception is raised in this frame, the next there are used to</div><div class="line">     * record the exception info (if any) originally in the thread state.  See</div><div class="line">     * comments before set_exc_info() -- it's not obvious.</div><div class="line">     * Invariant:  if _type is NULL, then so are _value and _traceback.</div><div class="line">     * Desired invariant:  all three are NULL, or all three are non-NULL.  That</div><div class="line">     * one isn't currently true, but "should be".</div><div class="line">     */</div><div class="line">    PyObject *f_exc_type, *f_exc_value, *f_exc_traceback;</div><div class="line"></div><div class="line">    PyThreadState *f_tstate;</div><div class="line">    int f_lasti;        /* Last instruction if called */</div><div class="line">    /* Call PyFrame_GetLineNumber() instead of reading this field</div><div class="line">       directly.  As of 2.3 f_lineno is only valid when tracing is</div><div class="line">       active (i.e. when f_trace is set).  At other times we use</div><div class="line">       PyCode_Addr2Line to calculate the line from the current</div><div class="line">       bytecode index. */</div><div class="line">    int f_lineno;       /* Current line number */</div><div class="line">    int f_iblock;       /* index in f_blockstack */</div><div class="line">    PyTryBlock f_blockstack[CO_MAXBLOCKS]; /* for try and loop blocks */</div><div class="line">    PyObject *f_localsplus[1];  /* locals+stack, dynamically sized */</div><div class="line">&#125; PyFrameObject;</div></pre></td></tr></table></figure>
+<p>生成器的源码在Objects/genobject.c</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">PyObject *</div><div class="line">PyGen_New(PyFrameObject *f)</div><div class="line">&#123;</div><div class="line">    PyGenObject *gen = PyObject_GC_New(PyGenObject, &amp;PyGen_Type); # 创建生成器对象</div><div class="line">    if (gen == NULL) &#123;</div><div class="line">        Py_DECREF(f);</div><div class="line">        return NULL;</div><div class="line">    &#125;</div><div class="line">    gen-&gt;gi_frame = f; # 赋予代码块</div><div class="line">    Py_INCREF(f-&gt;f_code); # 引用计数+1</div><div class="line">    gen-&gt;gi_code = (PyObject *)(f-&gt;f_code);</div><div class="line">    gen-&gt;gi_running = 0; # 0表示为执行，也就是生成器的初始状态</div><div class="line">    gen-&gt;gi_weakreflist = NULL;</div><div class="line">    _PyObject_GC_TRACK(gen); # GC跟踪</div><div class="line">    return (PyObject *)gen;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>send与next</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">static PyObject *</div><div class="line">gen_iternext(PyGenObject *gen)</div><div class="line">&#123;</div><div class="line">    <span class="keyword">return</span> gen_send_ex(gen, NULL, <span class="number">0</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">static PyObject *</div><div class="line">gen_send(PyGenObject *gen, PyObject *arg)</div><div class="line">&#123;</div><div class="line">    <span class="keyword">return</span> gen_send_ex(gen, arg, <span class="number">0</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>从上面的代码中可以看到，send和next都是调用的同一函数gen_send_ex，区别在于是否带有参数。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div></pre></td><td class="code"><pre><div class="line">static PyObject *</div><div class="line">gen_send_ex(PyGenObject *gen, PyObject *arg, int exc)</div><div class="line">&#123;</div><div class="line">    PyThreadState *tstate = PyThreadState_GET();</div><div class="line">    PyFrameObject *f = gen-&gt;gi_frame;</div><div class="line">    PyObject *result;</div><div class="line"></div><div class="line">    if (gen-&gt;gi_running) &#123; # 判断生成器是否已经运行</div><div class="line">        PyErr_SetString(PyExc_ValueError,</div><div class="line">                        "generator already executing");</div><div class="line">        return NULL;</div><div class="line">    &#125;</div><div class="line">    if (f==NULL || f-&gt;f_stacktop == NULL) &#123; # 如果代码块为空或调用栈为空，则抛出StopIteration异常</div><div class="line">        /* Only set exception if called from send() */</div><div class="line">        if (arg &amp;&amp; !exc)</div><div class="line">            PyErr_SetNone(PyExc_StopIteration);</div><div class="line">        return NULL;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    if (f-&gt;f_lasti == -1) &#123; # f_lasti=1 代表首次执行</div><div class="line">        if (arg &amp;&amp; arg != Py_None) &#123; # 首次执行不允许带有参数</div><div class="line">            PyErr_SetString(PyExc_TypeError,</div><div class="line">                            "can't send non-None value to a "</div><div class="line">                            "just-started generator");</div><div class="line">            return NULL;</div><div class="line">        &#125;</div><div class="line">    &#125; else &#123;</div><div class="line">        /* Push arg onto the frame's value stack */</div><div class="line">        result = arg ? arg : Py_None;</div><div class="line">        Py_INCREF(result); # 该参数引用计数+1</div><div class="line">        *(f-&gt;f_stacktop++) = result; # 参数压栈</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /* Generators always return to their most recent caller, not</div><div class="line">     * necessarily their creator. */</div><div class="line">    f-&gt;f_tstate = tstate;</div><div class="line">    Py_XINCREF(tstate-&gt;frame);</div><div class="line">    assert(f-&gt;f_back == NULL);</div><div class="line">    f-&gt;f_back = tstate-&gt;frame;</div><div class="line"></div><div class="line">    gen-&gt;gi_running = 1; # 修改生成器执行状态</div><div class="line">    result = PyEval_EvalFrameEx(f, exc); # 执行字节码</div><div class="line">    gen-&gt;gi_running = 0; # 恢复为未执行状态</div><div class="line"></div><div class="line">    /* Don't keep the reference to f_back any longer than necessary.  It</div><div class="line">     * may keep a chain of frames alive or it could create a reference</div><div class="line">     * cycle. */</div><div class="line">    assert(f-&gt;f_back == tstate-&gt;frame);</div><div class="line">    Py_CLEAR(f-&gt;f_back);</div><div class="line">    /* Clear the borrowed reference to the thread state */</div><div class="line">    f-&gt;f_tstate = NULL;</div><div class="line"></div><div class="line">    /* If the generator just returned (as opposed to yielding), signal</div><div class="line">     * that the generator is exhausted. */</div><div class="line">    if (result == Py_None &amp;&amp; f-&gt;f_stacktop == NULL) &#123;</div><div class="line">        Py_DECREF(result);</div><div class="line">        result = NULL;</div><div class="line">        /* Set exception if not called by gen_iternext() */</div><div class="line">        if (arg)</div><div class="line">            PyErr_SetNone(PyExc_StopIteration);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    if (!result || f-&gt;f_stacktop == NULL) &#123;</div><div class="line">        /* generator can't be rerun, so release the frame */</div><div class="line">        Py_DECREF(f);</div><div class="line">        gen-&gt;gi_frame = NULL;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    return result;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p><a href="http://www.ibm.com/developerworks/cn/opensource/os-cn-python-yield/" target="_blank" rel="external">http://www.ibm.com/developerworks/cn/opensource/os-cn-python-yield/</a></p>
+<p><a href="http://www.cnblogs.com/coder2012/p/4990834.html" target="_blank" rel="external">http://www.cnblogs.com/coder2012/p/4990834.html</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/03/06/Python的eventlet使用与理解/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1061,164 +1237,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/02/28/python的wsgi理解/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Luckylau">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/logo.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Luckylau's Blog">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="Luckylau's Blog" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/02/28/python的wsgi理解/" itemprop="url">
-                  Python的wsgi理解
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-28T11:51:16+08:00">
-                2017-02-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/02/28/python的wsgi理解/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/28/python的wsgi理解/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><strong>neutron源码学习基础知识储备之WSGI</strong></p>
-<p>​        WSGI的全称是Web Server Gateway Interface，翻译过来就是Web服务器网关接口。具体的来说，WSGI是一个规范，定义了Web服务器如何与Python应用程序进行交互，使得使用Python写的Web应用程序可以和Web服务器对接起来。WSGI一开始是在PEP-0333中定义的，最新版本是在Python的PEP-3333定义的。</p>
-<h4 id="为什么需要WSGI规范？"><a href="#为什么需要WSGI规范？" class="headerlink" title="为什么需要WSGI规范？"></a>为什么需要WSGI规范？</h4><p>在Web部署的方案上，有一个方案是目前应用最广泛的：</p>
-<p>​       首先，部署一个Web服务器专门用来处理HTTP协议层面相关的事情，比如如何在一个物理机上提供多个不同的Web服务（单IP多域名，单IP多端口等）这种事情。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/02/28/python的wsgi理解/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1266,7 +1284,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-count">23</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
