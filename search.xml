@@ -5,7 +5,7 @@
     <entry>
       <title><![CDATA[Openstack 负载均衡LoadBalancerv2]]></title>
       <url>%2F2017%2F03%2F07%2FOpenstack%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1LoadBalancerv2%2F</url>
-      <content type="text"><![CDATA[​ 最近研究了一下Openstack负载均衡，yum源和源码级别的安装都尝试成功了。网上有很多文章都是LoadBalancerv1，这个已经被放弃了。所以写一下自己是如何使用LoadBalancerv2。当然在介绍之前还是从负载均衡基础知识开始吧。 负载均衡的概念？负载均衡有哪些重要厂商？负载均衡部署模式？LoadBalancerv2初体验？参考：http://www.cnblogs.com/sammyliu/p/4656176.html]]></content>
+      <content type="text"><![CDATA[​ 最近研究了一下Openstack负载均衡，yum源和源码级别的安装都尝试成功了。网上有很多文章都是LoadBalancerv1，这个已经被放弃了。所以写一下自己是如何使用LoadBalancerv2。当然在介绍之前还是从负载均衡基础知识开始吧。 负载均衡的概念？负载均衡有哪些重要厂商？负载均衡部署模式？LoadBalancerv2初体验？参考：https://docs.openstack.org/mitaka/networking-guide/config-lbaas.html http://www.cnblogs.com/sammyliu/p/4656176.html]]></content>
     </entry>
 
     
