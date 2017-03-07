@@ -94,7 +94,7 @@
 负载均衡的概念和分类？​        负载均衡（Load Balancing）是将来访">
 <meta property="og:image" content="https://luckylau.github.io/2017/03/07/Openstack负载均衡LoadBalancerv2/1.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/03/07/Openstack负载均衡LoadBalancerv2/2.png">
-<meta property="og:updated_time" content="2017-03-07T09:58:40.159Z">
+<meta property="og:updated_time" content="2017-03-07T10:00:27.821Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Openstack 负载均衡 LoadBalancerv2">
 <meta name="twitter:description" content="​       最近研究了一下Openstack负载均衡，yum源和源码级别的安装都尝试成功了。网上有很多文章都是LoadBalancerv1，这个已经被放弃了。所以写一下自己是如何使用LoadBalancerv2。当然在介绍之前还是从负载均衡基础知识开始吧。（Mitaka版本的LoadBalancerv2）
@@ -403,6 +403,7 @@
       
         <p>​       最近研究了一下Openstack负载均衡，yum源和<a href="https://github.com/openstack/neutron-lbaas/tree/stable/mitaka" target="_blank" rel="external">源码</a>级别的安装都尝试成功了。网上有很多文章都是LoadBalancerv1，这个已经被放弃了。所以写一下自己是如何使用LoadBalancerv2。当然在介绍之前还是从负载均衡基础知识开始吧。（Mitaka版本的LoadBalancerv2）</p>
 <h3 id="负载均衡的概念和分类？"><a href="#负载均衡的概念和分类？" class="headerlink" title="负载均衡的概念和分类？"></a>负载均衡的概念和分类？</h3><p>​        负载均衡（Load Balancing）是将来访的网络流量在运行相同应用的多个服务器之间进行分发的一种核心网络服务。它的功能由负载均衡器（load balancer）提供。负载均衡器可以是一个硬件设备，也可以由软件实现。它充当反向代理，在多个服务器之间分发网络或者应用流量。它常用来增加应用的访问容量（并发用户数）和可靠性，它也会通过降低服务器的负载来提高应用的总体性能。</p>
+<a id="more"></a>
 <p>负载均衡器的分类</p>
 <p>负载均衡器一般可以分为两类：第4层负载均衡器和第7层负载均衡器。</p>
 <p>第 4 层负载平衡器：基于网络和传输层协议（IP，TCP，FTP，UDP等）来均衡负载。</p>
