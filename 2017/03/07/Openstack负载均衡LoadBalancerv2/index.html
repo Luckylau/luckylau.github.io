@@ -94,7 +94,10 @@
 负载均衡的概念和分类？​        负载均衡（Load Balancing）是将来访">
 <meta property="og:image" content="https://luckylau.github.io/2017/03/07/Openstack负载均衡LoadBalancerv2/1.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/03/07/Openstack负载均衡LoadBalancerv2/2.png">
-<meta property="og:updated_time" content="2017-03-07T10:00:27.821Z">
+<meta property="og:image" content="https://luckylau.github.io/2017/03/07/Openstack负载均衡LoadBalancerv2/1.jpg">
+<meta property="og:image" content="https://luckylau.github.io/2017/03/07/Openstack负载均衡LoadBalancerv2/2.jpg">
+<meta property="og:image" content="https://luckylau.github.io/2017/03/07/Openstack负载均衡LoadBalancerv2/3.jpg">
+<meta property="og:updated_time" content="2017-03-08T03:37:54.858Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Openstack 负载均衡 LoadBalancerv2">
 <meta name="twitter:description" content="​       最近研究了一下Openstack负载均衡，yum源和源码级别的安装都尝试成功了。网上有很多文章都是LoadBalancerv1，这个已经被放弃了。所以写一下自己是如何使用LoadBalancerv2。当然在介绍之前还是从负载均衡基础知识开始吧。（Mitaka版本的LoadBalancerv2）
@@ -437,8 +440,8 @@
 <p>但是NAT服务器的带宽却成为了瓶颈。幸运的是，LVS提供了另一种负载均衡的方式，那就是直接路由。</p>
 <p><strong>直接路由LVS-DR</strong></p>
 <p>​        不同于NAT机制，直接路由的负载均衡调度器工作在数据链路层上，简单地说，它通过修改数据包的目标mac地址，将数据包转发到实际服务器上，并且重要的是，实际服务器的响应数据包将直接发送给客户端，不经过调度器。适用于视频网站（响应的数据包远远超过请求的数据包）。对于LVS-DR，一旦调度器失效，你可以马上将LVS-DR切换到DNS-RR模式</p>
-<h3 id="常见的开源软件负载均衡器？"><a href="#常见的开源软件负载均衡器？" class="headerlink" title="常见的开源软件负载均衡器？"></a>常见的开源软件负载均衡器？</h3><p>Nginx、LVS及HAProxy是目前最常用的开源软件负载均衡器。</p>
-<p>​          一种是通过硬件来进行进行，常见的硬件有比较昂贵的NetScaler、F5、Radware和Array等商用的负载均衡器，它的优点就是有专业的维护团队来对这些服务进行维护、缺点就是花销太大，所以对于规模较小的网络服务来说暂时还没有需要使用；另外一种就是类似于LVS/HAProxy、Nginx的基于Linux的开源免费的负载均衡软件策略,这些都是通过软件级别来实现，所以费用非常低廉。</p>
+<h3 id="常见的开源软件负载均衡器？"><a href="#常见的开源软件负载均衡器？" class="headerlink" title="常见的开源软件负载均衡器？"></a>常见的开源软件负载均衡器？</h3><p>​         负载均衡器 目前有2种，一种是通过硬件来进行进行，常见的硬件有比较昂贵的NetScaler、F5、Radware和Array等商用的负载均衡器，它的优点就是有专业的维护团队来对这些服务进行维护、缺点就是花销太大，所以对于规模较小的网络服务来说暂时还没有需要使用；另外一种就是类似于LVS/HAProxy、Nginx的基于Linux的开源免费的负载均衡软件策略,这些都是通过软件级别来实现，所以费用非常低廉。</p>
+<p>Nginx、LVS及HAProxy是目前最常用的开源软件负载均衡器。</p>
 <p><strong>LVS</strong></p>
 <p>LVS：使用集群技术和Linux操作系统实现一个高性能、高可用的服务器，它具有很好的可伸缩性（Scalability)、可靠性（Reliability)和可管理性（Manageability)。</p>
 <p>LVS的特点是：</p>
@@ -475,7 +478,22 @@
 <p>rl_param，表示根据请求的URl参数’balance url_param’ requires an URL parameter name；</p>
 <p>hdr(name)，表示根据HTTP请求头来锁定每一次HTTP请求；</p>
 <p>rdp-cookie(name)，表示根据据cookie(name)来锁定并哈希每一次TCP请求。</p>
-<h3 id="负载均衡部署模式？"><a href="#负载均衡部署模式？" class="headerlink" title="负载均衡部署模式？"></a>负载均衡部署模式？</h3><h3 id="LoadBalancerv2初体验？"><a href="#LoadBalancerv2初体验？" class="headerlink" title="LoadBalancerv2初体验？"></a>LoadBalancerv2初体验？</h3><h3 id="LoadBalancerv2如何实现的？"><a href="#LoadBalancerv2如何实现的？" class="headerlink" title="LoadBalancerv2如何实现的？"></a>LoadBalancerv2如何实现的？</h3><h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p><a href="http://networkgeekstuff.com/networking/basic-load-balancer-scenarios-explained/" target="_blank" rel="external">http://networkgeekstuff.com/networking/basic-load-balancer-scenarios-explained/</a></p>
+<h3 id="负载均衡部署模式？"><a href="#负载均衡部署模式？" class="headerlink" title="负载均衡部署模式？"></a>负载均衡部署模式？</h3><p>基本的负载均衡场景有3种：</p>
+<p>Two-Arm (or sometimes called In-Line)（双臂）模式<br>One-Arm（单臂）模式<br>Direct Server Response模式</p>
+<p><strong>Two-Arm (or sometimes called In-Line)（双臂）模式</strong></p>
+<p>双臂模式有 switched mode（“bridge mode” or “transparent mode”） 和routed mode两种，routed mode要优于switched mode，实际生产环境也没有switched mode方式。</p>
+<p><img src="/2017/03/07/Openstack负载均衡LoadBalancerv2/1.jpg" alt=""></p>
+<p>​         对于routed mode模式来说，As you can agree, the Load-Balancer is also a router between the “Front End” and “Back End” networks. As such, he can simply do destination IP NAT in client request coming to the load-balanced virtual IP and forward the packet to one of the servers in server farm. During this proces, the destination physical server is chosen by the load-balancing algorithm.Return traffic is going back via the Load-Balancer and the source IP is again changed to the virtual load-balanced IP in the response to the Client.</p>
+<p><strong>One-Arm（单臂）模式</strong></p>
+<p>​        the Load-Balancer is using only one interface and this interface is on the same L2 network with all the servers.</p>
+<p>​        The traffic that the client initializes will get to the Load-Balancer that has the virtual load-balanced IP. The load-sharing algorithm will pick a physical server to which the Load-Balancer will forward the traffic with destination IP NATed to the physical IP of the server and forward it out the same interface towards the physical server.BUT the Load-balancer also needs to do source IP nat so that the server reply will go back from the server to the Load-Balancer and not directly back to the Client, who is not expecting a reply directly from physical server IP. From the physical servers perspective, all the traffic is coming from Load-Balancer</p>
+<p><img src="/2017/03/07/Openstack负载均衡LoadBalancerv2/2.jpg" alt=""></p>
+<p><strong>Direct Server Response (or sometimes called Direct Server Return)</strong></p>
+<p>​        As we hopefully all know, switches learn about MAC addresses as they see frames coming on ports with source MACs. Also imagine that we have a router that has to know the MAC address of the Load-Balanced IP on the last L3 hop. With the picture below, you can already spot the “trick” this scenario tries to present here once you notice the disabled ARP on physical servers</p>
+<p><img src="/2017/03/07/Openstack负载均衡LoadBalancerv2/3.jpg" alt=""></p>
+<p>​          In this scenario, Load-balancer only sees the incoming part of client-server traffic and all the returning traffic from physical servers is coming directly back to the client IP. The biggest advantages of this solution is that there is no NAT and the Load-Balancer throughput is only used in one way, so less performance impact for the Load-Balancer system. Disabling ARP on a physical server is not a difficult task.</p>
+<p>​          Disadvantages however are that you have to manually configure the Load-Balancer with all the server MAC addresses and might be more difficult to troubleshoot with only one way traffic seen by the Load-Balancer on the whole L2 segment.</p>
+<h3 id="LoadBalancerv2初体验？"><a href="#LoadBalancerv2初体验？" class="headerlink" title="LoadBalancerv2初体验？"></a>LoadBalancerv2初体验？</h3><h3 id="LoadBalancerv2如何实现的？"><a href="#LoadBalancerv2如何实现的？" class="headerlink" title="LoadBalancerv2如何实现的？"></a>LoadBalancerv2如何实现的？</h3><h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p><a href="http://networkgeekstuff.com/networking/basic-load-balancer-scenarios-explained/" target="_blank" rel="external">http://networkgeekstuff.com/networking/basic-load-balancer-scenarios-explained/</a></p>
 <p><a href="https://docs.openstack.org/mitaka/networking-guide/config-lbaas.html" target="_blank" rel="external">https://docs.openstack.org/mitaka/networking-guide/config-lbaas.html</a></p>
 <p><a href="http://www.cnblogs.com/sammyliu/p/4656176.html" target="_blank" rel="external">http://www.cnblogs.com/sammyliu/p/4656176.html</a></p>
 <p><a href="http://blog.csdn.net/u013628152/article/details/51318414" target="_blank" rel="external">http://blog.csdn.net/u013628152/article/details/51318414</a></p>
