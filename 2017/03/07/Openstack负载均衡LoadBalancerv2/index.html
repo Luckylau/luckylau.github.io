@@ -97,7 +97,19 @@
 <meta property="og:image" content="https://luckylau.github.io/2017/03/07/Openstack负载均衡LoadBalancerv2/1.jpg">
 <meta property="og:image" content="https://luckylau.github.io/2017/03/07/Openstack负载均衡LoadBalancerv2/2.jpg">
 <meta property="og:image" content="https://luckylau.github.io/2017/03/07/Openstack负载均衡LoadBalancerv2/3.jpg">
-<meta property="og:updated_time" content="2017-03-08T03:59:11.733Z">
+<meta property="og:image" content="https://luckylau.github.io/2017/03/07/Openstack负载均衡LoadBalancerv2/3.png">
+<meta property="og:image" content="https://luckylau.github.io/2017/03/07/Openstack负载均衡LoadBalancerv2/4.png">
+<meta property="og:image" content="https://luckylau.github.io/2017/03/07/Openstack负载均衡LoadBalancerv2/5.png">
+<meta property="og:image" content="https://luckylau.github.io/2017/03/07/Openstack负载均衡LoadBalancerv2/6.png">
+<meta property="og:image" content="https://luckylau.github.io/2017/03/07/Openstack负载均衡LoadBalancerv2/7.png">
+<meta property="og:image" content="https://luckylau.github.io/2017/03/07/Openstack负载均衡LoadBalancerv2/8.png">
+<meta property="og:image" content="https://luckylau.github.io/2017/03/07/Openstack负载均衡LoadBalancerv2/9.png">
+<meta property="og:image" content="https://luckylau.github.io/2017/03/07/Openstack负载均衡LoadBalancerv2/10.png">
+<meta property="og:image" content="https://luckylau.github.io/2017/03/07/Openstack负载均衡LoadBalancerv2/4.jpg">
+<meta property="og:image" content="https://luckylau.github.io/2017/03/07/Openstack负载均衡LoadBalancerv2/5.jpg">
+<meta property="og:image" content="https://luckylau.github.io/2017/03/07/Openstack负载均衡LoadBalancerv2/6.jpg">
+<meta property="og:image" content="https://luckylau.github.io/2017/03/07/Openstack负载均衡LoadBalancerv2/7.jpg">
+<meta property="og:updated_time" content="2017-03-08T09:26:12.603Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Openstack 负载均衡 LoadBalancerv2">
 <meta name="twitter:description" content="​       最近研究了一下Openstack负载均衡，yum源和源码级别的安装都尝试成功了。网上有很多文章都是LoadBalancerv1，这个已经被放弃了。所以写一下自己是如何使用LoadBalancerv2。当然在介绍之前还是从负载均衡基础知识开始吧。（Mitaka版本的LoadBalancerv2）
@@ -493,7 +505,54 @@
 <p><img src="/2017/03/07/Openstack负载均衡LoadBalancerv2/3.jpg" alt=""></p>
 <p>​          In this scenario, Load-balancer only sees the incoming part of client-server traffic and all the returning traffic from physical servers is coming directly back to the client IP. The biggest advantages of this solution is that there is no NAT and the Load-Balancer throughput is only used in one way, so less performance impact for the Load-Balancer system. Disabling ARP on a physical server is not a difficult task.</p>
 <p>​          Disadvantages however are that you have to manually configure the Load-Balancer with all the server MAC addresses and might be more difficult to troubleshoot with only one way traffic seen by the Load-Balancer on the whole L2 segment.</p>
-<h3 id="LoadBalancerv2初体验？"><a href="#LoadBalancerv2初体验？" class="headerlink" title="LoadBalancerv2初体验？"></a>LoadBalancerv2初体验？</h3><h3 id="LoadBalancerv2如何实现的？"><a href="#LoadBalancerv2如何实现的？" class="headerlink" title="LoadBalancerv2如何实现的？"></a>LoadBalancerv2如何实现的？</h3><h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p><a href="http://networkgeekstuff.com/networking/basic-load-balancer-scenarios-explained/" target="_blank" rel="external">http://networkgeekstuff.com/networking/basic-load-balancer-scenarios-explained/</a></p>
+<h3 id="LoadBalancerv2初体验？"><a href="#LoadBalancerv2初体验？" class="headerlink" title="LoadBalancerv2初体验？"></a>LoadBalancerv2初体验？</h3><p><strong>1.部署</strong></p>
+<p>我们假设LoadBalancerv2服务在网络节点启动，以yum源的方式安装。</p>
+<p>在控制节点(neutron-server)操作如下:</p>
+<p>1.1 yum install openstack-neutron-lbaas</p>
+<p>1.2 cd /etc/neutron/</p>
+<p>1.3编辑neutron.conf文件</p>
+<p>service_plugins =router, neutron_lbaas.services.loadbalancer.plugin.LoadBalancerPluginv2</p>
+<p>1.4 编辑lbaas_agent.ini 文件</p>
+<p>[DEFAULT]</p>
+<p>interface_driver =neutron.agent.linux.interface.OVSInterfaceDriver</p>
+<p>ovs_use_veth = True</p>
+<p>device_driver = neutron_lbaas.drivers.haproxy.namespace_driver.HaproxyNSDriver</p>
+<p>[haproxy]</p>
+<p>user_group =haproxy</p>
+<p>1.5 编辑neutron_lbaas.conf文件</p>
+<p>service_provider =LOADBALANCERV2:Haproxy:neutron_lbaas.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver:default</p>
+<p>然后执行<br>neutron-db-manage –subproject neutron-lbaas upgrade head</p>
+<p>在网络节点操作如下：</p>
+<p>1.1 yum install haproxy<br>1.2 yum install openstack-neutron-lbaas<br>1.3 cd /etc/neutron/<br>1.4 编辑neutron.conf文件<br>service_plugins =router, neutron_lbaas.services.loadbalancer.plugin.LoadBalancerPluginv2<br>1.5 编辑lbaas_agent.ini 文件<br>[DEFAULT]<br>interface_driver =neutron.agent.linux.interface.OVSInterfaceDriver<br>ovs_use_veth = True<br>device_driver = neutron_lbaas.drivers.haproxy.namespace_driver.HaproxyNSDriver<br>[haproxy]<br>user_group =haproxy<br>1.6 编辑neutron_lbaas.conf文件<br>service_provider =LOADBALANCERV2:Haproxy:neutron_lbaas.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver:default<br>1.7启动服务<br>systemctl start neutron-lbaasv2-agent.service</p>
+<p>另外可以安装前端界面</p>
+<p>1.8安装neutron-lbaas-dashboard<br>这个是在openstack_dashboard安装的节点，一般是controller节点<br>1.8.0 git clone <a href="https://git.openstack.org/openstack/neutron-lbaas-dashboard" target="_blank" rel="external">https://git.openstack.org/openstack/neutron-lbaas-dashboard</a><br>1.8.1 cd neutron-lbaas-dashboard<br>1.8.2 python setup.py install<br>1.8.3 cp neutron_lbaas_dashboard/enabled/_1480_project_loadbalancersv2_panel.py /usr/share/openstack-dashboard/openstack_dashboard/local/enabled/<br>1.8.4 systemctl restart httpd.service memcached.service<br>1.8.5 只有lbaas服务正常才会在dashboard显示，如下图</p>
+<p><img src="/2017/03/07/Openstack负载均衡LoadBalancerv2/3.png" alt=""></p>
+<p><strong>2.创建负载均衡</strong></p>
+<p><img src="/2017/03/07/Openstack负载均衡LoadBalancerv2/4.png" alt=""></p>
+<p>Load balancer<br>The load balancer occupies a neutron network port and has an IP address assigned from a subnet.<br>Listener<br>Load balancers can listen for requests on multiple ports. Each one of those ports is specified by a listener.<br>Pool<br>A pool holds a list of members that serve content through the load balancer.<br>Member<br>Members are servers that serve traffic behind a load balancer. Each member is specified by the IP address and port that it uses to serve traffic.<br>Health monitor<br>Members may go offline from time to time and health monitors divert traffic away from members that are not responding properly. Health monitors are associated with pools.<br>由于lbaas dashboard有些问题，所以在后台用命令行创建， dashboard可显示，但不能任何操作</p>
+<p><img src="/2017/03/07/Openstack负载均衡LoadBalancerv2/5.png" alt=""></p>
+<p>[root@controller ~]# source admin-openrc.sh </p>
+<p>[root@controller ~]# neutron subnet-list</p>
+<p><img src="/2017/03/07/Openstack负载均衡LoadBalancerv2/6.png" alt=""></p>
+<p>创建loadbalancer<br>[root@controller ~]# neutron lbaas-loadbalancer-create –name lb1 96f0db98-45fb-48ef-afae-808425fbb2bc<br>添加lbaas-listener<br>[root@controller ~]# neutron lbaas-listener-create –loadbalancer lb1 –protocol HTTP –protocol-port 80 –name listener1<br>创建pool<br>[root@controller ~]# neutron lbaas-pool-create –lb-algorithm ROUND_ROBIN –listener listener1 –protocol HTTP –name pool1<br>添加member<br>[root@controller ~]# neutron lbaas-member-create –subnet 96f0db98-45fb-48ef-afae-808425fbb2bc –address 172.16.1.4 –protocol-port 80 pool1<br>[root@controller ~]# neutron lbaas-member-create –subnet 96f0db98-45fb-48ef-afae-808425fbb2bc –address 172.16.1.5 –protocol-port 80 pool1<br>[root@controller ~]# neutron lbaas-member-create –subnet 96f0db98-45fb-48ef-afae-808425fbb2bc –address 172.16.1.6 –protocol-port 80 pool1<br>添加监控<br>[root@controller ~]# neutron lbaas-healthmonitor-create –delay 3 –type HTTP –max-retries 3 –timeout 3 –pool pool1</p>
+<p>[root@controller ~]# neutron lbaas-loadbalancer-show lb1</p>
+<p><img src="/2017/03/07/Openstack负载均衡LoadBalancerv2/7.png" alt=""></p>
+<p><img src="/2017/03/07/Openstack负载均衡LoadBalancerv2/8.png" alt=""></p>
+<p>3.简单验证：</p>
+<p>我们对member成员进行模拟http服务，即172.16.1.4,172.16.1.5,172.16.1.6分别运行</p>
+<p><img src="/2017/03/07/Openstack负载均衡LoadBalancerv2/9.png" alt=""></p>
+<p>172.16.1.4<br>while true; do echo -e ‘HTTP/1.0 200 OK\r\nContent-Length: 8\r\n\r\nserver1’ | sudo nc -l -p 80 ; done<br>172.16.1.5<br>while true; do echo -e ‘HTTP/1.0 200 OK\r\nContent-Length: 8\r\n\r\nserver2’ | sudo nc -l -p 80 ; done<br>172.16.1.6<br>while true; do echo -e ‘HTTP/1.0 200 OK\r\nContent-Length: 8\r\n\r\nserver3’ | sudo nc -l -p 80 ; done</p>
+<p>然后创建一个客户端访问负载均衡的vip 172.16.1.9 ,多次执行,如下图<br>wget -O - http:// 172.16.1.9 （第一次）<br>wget -O - http:// 172.16.1.9  （第二次）<br>wget -O - http:// 172.16.1.9  （第三次）<br>wget -O - http:// 172.16.1.9（第四次）</p>
+<p><img src="/2017/03/07/Openstack负载均衡LoadBalancerv2/10.png" alt=""></p>
+<p>我们发现第一次是server1响应</p>
+<p><img src="/2017/03/07/Openstack负载均衡LoadBalancerv2/4.jpg" alt=""></p>
+<p>第二次是server2响应</p>
+<p><img src="/2017/03/07/Openstack负载均衡LoadBalancerv2/5.jpg" alt=""></p>
+<p>第三次是server3响应</p>
+<p><img src="/2017/03/07/Openstack负载均衡LoadBalancerv2/6.jpg" alt=""></p>
+<p>第四次是server1响应</p>
+<p><img src="/2017/03/07/Openstack负载均衡LoadBalancerv2/7.jpg" alt=""></p>
+<h3 id="LoadBalancerv2原理分析？"><a href="#LoadBalancerv2原理分析？" class="headerlink" title="LoadBalancerv2原理分析？"></a>LoadBalancerv2原理分析？</h3><h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p><a href="http://networkgeekstuff.com/networking/basic-load-balancer-scenarios-explained/" target="_blank" rel="external">http://networkgeekstuff.com/networking/basic-load-balancer-scenarios-explained/</a></p>
 <p><a href="https://docs.openstack.org/mitaka/networking-guide/config-lbaas.html" target="_blank" rel="external">https://docs.openstack.org/mitaka/networking-guide/config-lbaas.html</a></p>
 <p><a href="http://www.cnblogs.com/sammyliu/p/4656176.html" target="_blank" rel="external">http://www.cnblogs.com/sammyliu/p/4656176.html</a></p>
 <p><a href="http://blog.csdn.net/u013628152/article/details/51318414" target="_blank" rel="external">http://blog.csdn.net/u013628152/article/details/51318414</a></p>
@@ -724,7 +783,7 @@ var duoshuoQuery = {short_name:"luckylau"};
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#负载均衡的概念和分类？"><span class="nav-number">1.</span> <span class="nav-text">负载均衡的概念和分类？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#负载均衡的实现方式？"><span class="nav-number">2.</span> <span class="nav-text">负载均衡的实现方式？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常见的开源软件负载均衡器？"><span class="nav-number">3.</span> <span class="nav-text">常见的开源软件负载均衡器？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#负载均衡部署模式？"><span class="nav-number">4.</span> <span class="nav-text">负载均衡部署模式？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LoadBalancerv2初体验？"><span class="nav-number">5.</span> <span class="nav-text">LoadBalancerv2初体验？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LoadBalancerv2如何实现的？"><span class="nav-number">6.</span> <span class="nav-text">LoadBalancerv2如何实现的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考："><span class="nav-number">7.</span> <span class="nav-text">参考：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#负载均衡的概念和分类？"><span class="nav-number">1.</span> <span class="nav-text">负载均衡的概念和分类？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#负载均衡的实现方式？"><span class="nav-number">2.</span> <span class="nav-text">负载均衡的实现方式？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常见的开源软件负载均衡器？"><span class="nav-number">3.</span> <span class="nav-text">常见的开源软件负载均衡器？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#负载均衡部署模式？"><span class="nav-number">4.</span> <span class="nav-text">负载均衡部署模式？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LoadBalancerv2初体验？"><span class="nav-number">5.</span> <span class="nav-text">LoadBalancerv2初体验？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LoadBalancerv2原理分析？"><span class="nav-number">6.</span> <span class="nav-text">LoadBalancerv2原理分析？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考："><span class="nav-number">7.</span> <span class="nav-text">参考：</span></a></li></ol></div>
             
 
           </div>
