@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="云计算," />
+  <meta name="keywords" content="neutron," />
 
 
 
@@ -84,21 +84,16 @@
 
 
 
-<meta name="description" content="​        Overlay在网络技术领域，指的是一种网络架构上叠加的虚拟化技术模式，其大体框架是对基础网络不进行大规模修改的条件下，实现应用在网络上的承载，并能与其它网络业务分离，并且以基于IP的基础网络技术为主。
-​        随着云计算虚拟化的驱动，基于主机虚拟化的Overlay技术出现，在服务器的Hypervisor内vSwitch上支持了基于IP的二层Overlay技术，通过更靠">
+<meta name="description" content="High Availability Proxy（HAProxy）原理？LoadBalancerv2的实现？LoadBalancerv2的源码解读？">
 <meta property="og:type" content="article">
-<meta property="og:title" content="什么是overlay网络">
-<meta property="og:url" content="https://luckylau.github.io/2017/01/23/什么是overllay网络/index.html">
+<meta property="og:title" content="LoadBalancerv2的原理分析">
+<meta property="og:url" content="https://luckylau.github.io/2017/03/10/LoadBalancerv2的原理分析/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
-<meta property="og:description" content="​        Overlay在网络技术领域，指的是一种网络架构上叠加的虚拟化技术模式，其大体框架是对基础网络不进行大规模修改的条件下，实现应用在网络上的承载，并能与其它网络业务分离，并且以基于IP的基础网络技术为主。
-​        随着云计算虚拟化的驱动，基于主机虚拟化的Overlay技术出现，在服务器的Hypervisor内vSwitch上支持了基于IP的二层Overlay技术，通过更靠">
-<meta property="og:image" content="https://luckylau.github.io/2017/01/23/什么是overllay网络/1.png">
-<meta property="og:updated_time" content="2017-01-23T02:36:26.651Z">
+<meta property="og:description" content="High Availability Proxy（HAProxy）原理？LoadBalancerv2的实现？LoadBalancerv2的源码解读？">
+<meta property="og:updated_time" content="2017-03-10T03:25:56.080Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="什么是overlay网络">
-<meta name="twitter:description" content="​        Overlay在网络技术领域，指的是一种网络架构上叠加的虚拟化技术模式，其大体框架是对基础网络不进行大规模修改的条件下，实现应用在网络上的承载，并能与其它网络业务分离，并且以基于IP的基础网络技术为主。
-​        随着云计算虚拟化的驱动，基于主机虚拟化的Overlay技术出现，在服务器的Hypervisor内vSwitch上支持了基于IP的二层Overlay技术，通过更靠">
-<meta name="twitter:image" content="https://luckylau.github.io/2017/01/23/什么是overllay网络/1.png">
+<meta name="twitter:title" content="LoadBalancerv2的原理分析">
+<meta name="twitter:description" content="High Availability Proxy（HAProxy）原理？LoadBalancerv2的实现？LoadBalancerv2的源码解读？">
 
 
 
@@ -126,13 +121,13 @@
 
 
 
-  <link rel="canonical" href="https://luckylau.github.io/2017/01/23/什么是overllay网络/"/>
+  <link rel="canonical" href="https://luckylau.github.io/2017/03/10/LoadBalancerv2的原理分析/"/>
 
 
 
 
 
-  <title> 什么是overlay网络 | Luckylau's Blog </title>
+  <title> LoadBalancerv2的原理分析 | Luckylau's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -288,7 +283,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/01/23/什么是overllay网络/">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/03/10/LoadBalancerv2的原理分析/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Luckylau">
@@ -312,7 +307,7 @@
             
             
               
-                什么是overlay网络
+                LoadBalancerv2的原理分析
               
             
           </h1>
@@ -327,8 +322,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-23T10:14:14+08:00">
-                2017-01-23
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-10T11:15:48+08:00">
+                2017-03-10
               </time>
             
 
@@ -350,8 +345,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/网络/" itemprop="url" rel="index">
-                    <span itemprop="name">网络</span>
+                  <a href="/categories/neutron/" itemprop="url" rel="index">
+                    <span itemprop="name">neutron</span>
                   </a>
                 </span>
 
@@ -368,8 +363,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/01/23/什么是overllay网络/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/23/什么是overllay网络/" itemprop="commentCount"></span>
+                <a href="/2017/03/10/LoadBalancerv2的原理分析/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/10/LoadBalancerv2的原理分析/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -400,24 +395,7 @@
       
 
       
-        <p>​        Overlay在网络技术领域，指的是一种网络架构上叠加的虚拟化技术模式，其大体框架是对基础网络不进行大规模修改的条件下，实现应用在网络上的承载，并能与其它网络业务分离，并且以基于IP的基础网络技术为主。</p>
-<p>​        随着云计算虚拟化的驱动，基于主机虚拟化的Overlay技术出现，在服务器的Hypervisor内vSwitch上支持了基于IP的二层Overlay技术，通过更靠近应用的边缘来提供网络虚拟化服务，其目的是使虚拟机的部署与业务活动脱离物理网络及其限制，使得云计算的网络形态不断完善。主机的vSwitch支持基于IP的Overlay之后，虚机的二层访问直接构建在Overlay之上，物理网不再感知虚机的诸多特性。</p>
-<a id="more"></a>
-<p>存在三种不同的构建模式:</p>
-<p><img src="/2017/01/23/什么是overllay网络/1.png" alt=""></p>
-<p>Network Overlay 方案:</p>
-<p>​        所有终端均采用物理交换机作为VTEP节点,所有的物理接入交换机支持VXLAN，物理服务器支持SR-IOV功能，使虚拟机通过SR-IOV技术直接与物理交换机相连，虚拟机的流量在接入交换机上进行VXLAN报文的封装和卸载，对于非虚拟化服务器，直接连接支持VXLAN的接入交换机，服务器流量在接入交换机上进行VXLAN报文封装和卸载；当VXLAN网络需要与VLAN网络通信时，采用物理交换机做VXLAN GW，实现VXLAN网络主机与VLAN网络主机的通信；采用高端交换机做VXLAN IP GW，实现VXLAN网络与WAN以及Internet的互连。</p>
-<p>Host Overlay 方案:</p>
-<p>​        所有终端均采用虚拟交换机作为VTEP节点，VTEP、VXLAN GW、VXLAN IP GW均通过安装在服务器上的软件实现，vSwitch实现VTEP功能，完成VXLAN报文的封装解封装；vFW等实现VXLAN GW功能，实现VXLAN网络与VLAN网络、物理服务器的互通；vRouter作为VXLAN IP GW，实现VXLAN网络与Internet和WAN的互联。在本组网中，由于所有VXLAN报文的封装卸载都通过软件实现，会占用部分服务器资源，当访问量大时，vRouter会成为系统瓶颈。</p>
-<p>Hybrid Overlay 方案:</p>
-<p>​        既有物理交换机接入，又有虚拟交换机接入，且软件VTEP和硬件VTEP之间可以基于标准协议互通。上述两种组网方案中，网络Overlay方案与虚拟机相连，需要通过一些特殊的要求或技术实现虚拟机与VTEP的对接，组网不够灵活，但是主机Overlay方案与传统网络互通时，连接也比较复杂，且通过软件实现VXLAN IP GW也会成为整个网络的瓶颈，所以最理想的组网方案应该是一个结合了网络Overlay与主机Overlay两种方案优势的混合Overlay方案。如上图所示它通过vSwitch实现虚拟机的VTEP，通过物理交换机实现物理服务器的VTEP，通过物理交换机实现VXALN GW和VXLAN IP GW；混合式Overlay组网方案对虚拟机和物理服务器都能够很好的兼容，同时通过专业的硬件交换机实现VXLAN IP GW从而承载超大规模的流量转发，是目前应用比较广泛的组网方案。</p>
-<p>PS: OpenStack 采用的是第二种方案</p>
-<p>​          另外IETF在Overlay技术领域有如下三大技术路线正在讨论，为简单起见，只讨论基于IPv4的Overlay相关内容。<br> 1 . VXLAN。 VXLAN是将以太网报文封装在UDP传输层上的一种隧道转发模式，目的UDP端口号为4798；为了使VXLAN充分利用承载网络路由的均衡性，VXLAN通过将原始以太网数据头(MAC、IP、四层端口号等)的HASH值作为UDP的号；采用24比特标识二层网络分段，称为VNI(VXLAN Network Identifier)，类似于VLAN ID作用；未知目的、广播、组播等网络流量均被封装为组播转发，物理网络要求支持任意源组播(ASM)。<br> 2.  GRE/NVGRE（Generic Routing Encapsulation，通用路由协议封装）是一种 IP-over-IP 的隧道。 NVGRE是将以太网报文封装在GRE内的一种隧道转发模式；采用24比特标识二层网络分段，称为VSI(Virtual Subnet Identifier)，类似于VLAN ID作用；为了使NVGRE利用承载网络路由的均衡性，NVGRE在GRE扩展字段flow ID，这就要求物理网络能够识别到GRE隧道的扩展信息，并以flow ID进行流量分担；未知目的、广播、组播等网络流量均被封装为组播转发。<br> 3.STT（Stateless Transport Tunneling）。 STT利用了TCP的数据封装形式，但改造了TCP的传输机制，数据传输不遵循TCP状态机，而是全新定义的无状态机制，将TCP各字段意义重新定义，无需三次握手建立TCP连接，因此称为无状态TCP；以太网数据封装在无状态TCP；采用64比特Context ID标识二层网络分段；为了使STT充分利用承载网络路由的均衡性，通过将原始以太网数据头(MAC、IP、四层端口号等)的HASH值作为无状态TCP的源端口号；未知目的、广播、组播等网络流量均被封装为组播转发。</p>
-<p><strong>参考:</strong></p>
-<ol>
-<li><a href="http://www.h3c.com.cn/About_H3C/Company_Publication/IP_Lh/2013/04/Home/Catalog/201309/796466_30008_0.htm" target="_blank" rel="external">http://www.h3c.com.cn/About_H3C/Company_Publication/IP_Lh/2013/04/Home/Catalog/201309/796466_30008_0.htm</a></li>
-</ol>
-
+        <h3 id="High-Availability-Proxy（HAProxy）原理？"><a href="#High-Availability-Proxy（HAProxy）原理？" class="headerlink" title="High Availability Proxy（HAProxy）原理？"></a>High Availability Proxy（HAProxy）原理？</h3><h3 id="LoadBalancerv2的实现？"><a href="#LoadBalancerv2的实现？" class="headerlink" title="LoadBalancerv2的实现？"></a>LoadBalancerv2的实现？</h3><h3 id="LoadBalancerv2的源码解读？"><a href="#LoadBalancerv2的源码解读？" class="headerlink" title="LoadBalancerv2的源码解读？"></a>LoadBalancerv2的源码解读？</h3>
       
     </div>
 
@@ -445,7 +423,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/云计算/" rel="tag"># 云计算</a>
+            <a href="/tags/neutron/" rel="tag"># neutron</a>
           
         </div>
       
@@ -454,8 +432,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/01/22/pyinstaller使用技巧/" rel="next" title="pyinstaller使用技巧">
-                <i class="fa fa-chevron-left"></i> pyinstaller使用技巧
+              <a href="/2017/03/08/IO的同步与异步，阻塞与非阻塞/" rel="next" title="IO的同步与异步，阻塞与非阻塞">
+                <i class="fa fa-chevron-left"></i> IO的同步与异步，阻塞与非阻塞
               </a>
             
           </div>
@@ -463,10 +441,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/01/23/什么是vxlan网络/" rel="prev" title="什么是vxlan网络">
-                什么是vxlan网络 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -481,10 +455,10 @@
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2017/01/23/什么是overllay网络/"
-     data-title="什么是overlay网络"
+        <div class="ds-share flat" data-thread-key="2017/03/10/LoadBalancerv2的原理分析/"
+     data-title="LoadBalancerv2的原理分析"
      data-content=""
-     data-url="https://luckylau.github.io/2017/01/23/什么是overllay网络/">
+     data-url="https://luckylau.github.io/2017/03/10/LoadBalancerv2的原理分析/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -511,8 +485,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/01/23/什么是overllay网络/"
-           data-title="什么是overlay网络" data-url="https://luckylau.github.io/2017/01/23/什么是overllay网络/">
+      <div class="ds-thread" data-thread-key="2017/03/10/LoadBalancerv2的原理分析/"
+           data-title="LoadBalancerv2的原理分析" data-url="https://luckylau.github.io/2017/03/10/LoadBalancerv2的原理分析/">
       </div>
 	  <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -548,8 +522,17 @@ var duoshuoQuery = {short_name:"luckylau"};
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/logo.jpg"
@@ -625,6 +608,22 @@ var duoshuoQuery = {short_name:"luckylau"};
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#High-Availability-Proxy（HAProxy）原理？"><span class="nav-number">1.</span> <span class="nav-text">High Availability Proxy（HAProxy）原理？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LoadBalancerv2的实现？"><span class="nav-number">2.</span> <span class="nav-text">LoadBalancerv2的实现？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LoadBalancerv2的源码解读？"><span class="nav-number">3.</span> <span class="nav-text">LoadBalancerv2的源码解读？</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
     </div>
