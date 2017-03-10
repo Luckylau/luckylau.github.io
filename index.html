@@ -545,13 +545,15 @@
 
       
         
-          
-            <p>​    OpenStack 是直接采用各种开源可用的负载均衡项目来完成负载均衡的任务，默认使用 HAProxy。LBaaSv2 本质来说，其实也是根据用户提出的负载均衡要求，生成符合的HAProxy配置文件并启动 HAProxy，然后由 HAProxy 进行负载均衡。</p>
-<h3 id="High-Availability-Proxy（HAProxy）原理？"><a href="#High-Availability-Proxy（HAProxy）原理？" class="headerlink" title="High Availability Proxy（HAProxy）原理？"></a>High Availability Proxy（HAProxy）原理？</h3><h3 id="LoadBalancerv2的使用场景？"><a href="#LoadBalancerv2的使用场景？" class="headerlink" title="LoadBalancerv2的使用场景？"></a>LoadBalancerv2的使用场景？</h3><p>在前<a href="https://luckylau.github.io/2017/03/07/Openstack%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1LoadBalancerv2/#more">一篇</a>Openstack 负载均衡 LoadBalancerv2我们做了简单的实验，member,pool ,vip都是在同一个子网中，下面主要考虑vip,member不在同一个子网的情况。</p>
-<p>场景一：member,pool ,vip都是同一个子网</p>
-<p>场景二：：member,pool ,vip分布在不同子网</p>
-<h3 id="LoadBalancerv2的流程分析？"><a href="#LoadBalancerv2的流程分析？" class="headerlink" title="LoadBalancerv2的流程分析？"></a>LoadBalancerv2的流程分析？</h3><h3 id="LoadBalancerv2的源码解读？"><a href="#LoadBalancerv2的源码解读？" class="headerlink" title="LoadBalancerv2的源码解读？"></a>LoadBalancerv2的源码解读？</h3>
-          
+          <p>​    OpenStack 是直接采用各种开源可用的负载均衡项目来完成负载均衡的任务，默认使用 HAProxy。LBaaSv2 本质来说，其实也是根据用户提出的负载均衡要求，生成符合的HAProxy配置文件并启动 HAProxy，然后由 HAProxy 进行负载均衡。</p>
+<h3 id="High-Availability-Proxy（HAProxy）？"><a href="#High-Availability-Proxy（HAProxy）？" class="headerlink" title="High Availability Proxy（HAProxy）？"></a>High Availability Proxy（HAProxy）？</h3><p>​    HAProxy 是个著名的开源的软件 TCP（四层）/HTTP（七层） 负载均衡器和代理（proxy）软件，可以运行在 Linux，Solaris 和 FreeBSD 等系统上。目前，它已经被许多大公司采用，包括GitHub, Imgur, Instagram, and Twitter 等。它类似 Nginx 的，采用了单进程和事件驱动模型；它使用的内存量低而且稳定，能够处理大量并发请求。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/03/10/LoadBalancerv2的原理分析/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
