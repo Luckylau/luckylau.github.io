@@ -84,16 +84,19 @@
 
 
 
-<meta name="description" content="High Availability Proxy（HAProxy）原理？LoadBalancerv2的实现？LoadBalancerv2的源码解读？">
+<meta name="description" content="​    OpenStack 是直接采用各种开源可用的负载均衡项目来完成负载均衡的任务，默认使用 HAProxy。LBaaSv2 本质来说，其实也是根据用户提出的负载均衡要求，生成符合的HAProxy配置文件并启动 HAProxy，然后由 HAProxy 进行负载均衡。
+High Availability Proxy（HAProxy）原理？LoadBalancerv2的使用场景？在前一篇Opens">
 <meta property="og:type" content="article">
 <meta property="og:title" content="LoadBalancerv2的原理分析">
 <meta property="og:url" content="https://luckylau.github.io/2017/03/10/LoadBalancerv2的原理分析/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
-<meta property="og:description" content="High Availability Proxy（HAProxy）原理？LoadBalancerv2的实现？LoadBalancerv2的源码解读？">
-<meta property="og:updated_time" content="2017-03-10T03:25:56.080Z">
+<meta property="og:description" content="​    OpenStack 是直接采用各种开源可用的负载均衡项目来完成负载均衡的任务，默认使用 HAProxy。LBaaSv2 本质来说，其实也是根据用户提出的负载均衡要求，生成符合的HAProxy配置文件并启动 HAProxy，然后由 HAProxy 进行负载均衡。
+High Availability Proxy（HAProxy）原理？LoadBalancerv2的使用场景？在前一篇Opens">
+<meta property="og:updated_time" content="2017-03-10T07:55:21.171Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LoadBalancerv2的原理分析">
-<meta name="twitter:description" content="High Availability Proxy（HAProxy）原理？LoadBalancerv2的实现？LoadBalancerv2的源码解读？">
+<meta name="twitter:description" content="​    OpenStack 是直接采用各种开源可用的负载均衡项目来完成负载均衡的任务，默认使用 HAProxy。LBaaSv2 本质来说，其实也是根据用户提出的负载均衡要求，生成符合的HAProxy配置文件并启动 HAProxy，然后由 HAProxy 进行负载均衡。
+High Availability Proxy（HAProxy）原理？LoadBalancerv2的使用场景？在前一篇Opens">
 
 
 
@@ -395,7 +398,11 @@
       
 
       
-        <h3 id="High-Availability-Proxy（HAProxy）原理？"><a href="#High-Availability-Proxy（HAProxy）原理？" class="headerlink" title="High Availability Proxy（HAProxy）原理？"></a>High Availability Proxy（HAProxy）原理？</h3><h3 id="LoadBalancerv2的实现？"><a href="#LoadBalancerv2的实现？" class="headerlink" title="LoadBalancerv2的实现？"></a>LoadBalancerv2的实现？</h3><h3 id="LoadBalancerv2的源码解读？"><a href="#LoadBalancerv2的源码解读？" class="headerlink" title="LoadBalancerv2的源码解读？"></a>LoadBalancerv2的源码解读？</h3>
+        <p>​    OpenStack 是直接采用各种开源可用的负载均衡项目来完成负载均衡的任务，默认使用 HAProxy。LBaaSv2 本质来说，其实也是根据用户提出的负载均衡要求，生成符合的HAProxy配置文件并启动 HAProxy，然后由 HAProxy 进行负载均衡。</p>
+<h3 id="High-Availability-Proxy（HAProxy）原理？"><a href="#High-Availability-Proxy（HAProxy）原理？" class="headerlink" title="High Availability Proxy（HAProxy）原理？"></a>High Availability Proxy（HAProxy）原理？</h3><h3 id="LoadBalancerv2的使用场景？"><a href="#LoadBalancerv2的使用场景？" class="headerlink" title="LoadBalancerv2的使用场景？"></a>LoadBalancerv2的使用场景？</h3><p>在前<a href="https://luckylau.github.io/2017/03/07/Openstack%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1LoadBalancerv2/#more">一篇</a>Openstack 负载均衡 LoadBalancerv2我们做了简单的实验，member,pool ,vip都是在同一个子网中，下面主要考虑vip,member不在同一个子网的情况。</p>
+<p>场景一：member,pool ,vip都是同一个子网</p>
+<p>场景二：：member,pool ,vip分布在不同子网</p>
+<h3 id="LoadBalancerv2的流程分析？"><a href="#LoadBalancerv2的流程分析？" class="headerlink" title="LoadBalancerv2的流程分析？"></a>LoadBalancerv2的流程分析？</h3><h3 id="LoadBalancerv2的源码解读？"><a href="#LoadBalancerv2的源码解读？" class="headerlink" title="LoadBalancerv2的源码解读？"></a>LoadBalancerv2的源码解读？</h3>
       
     </div>
 
@@ -441,6 +448,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/10/Haproxy-keepalived负载均衡配置与测试/" rel="prev" title="Haproxy+keepalived负载均衡配置与测试">
+                Haproxy+keepalived负载均衡配置与测试 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -545,7 +556,7 @@ var duoshuoQuery = {short_name:"luckylau"};
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-count">27</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -618,7 +629,7 @@ var duoshuoQuery = {short_name:"luckylau"};
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#High-Availability-Proxy（HAProxy）原理？"><span class="nav-number">1.</span> <span class="nav-text">High Availability Proxy（HAProxy）原理？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LoadBalancerv2的实现？"><span class="nav-number">2.</span> <span class="nav-text">LoadBalancerv2的实现？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LoadBalancerv2的源码解读？"><span class="nav-number">3.</span> <span class="nav-text">LoadBalancerv2的源码解读？</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#High-Availability-Proxy（HAProxy）原理？"><span class="nav-number">1.</span> <span class="nav-text">High Availability Proxy（HAProxy）原理？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LoadBalancerv2的使用场景？"><span class="nav-number">2.</span> <span class="nav-text">LoadBalancerv2的使用场景？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LoadBalancerv2的流程分析？"><span class="nav-number">3.</span> <span class="nav-text">LoadBalancerv2的流程分析？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LoadBalancerv2的源码解读？"><span class="nav-number">4.</span> <span class="nav-text">LoadBalancerv2的源码解读？</span></a></li></ol></div>
             
 
           </div>

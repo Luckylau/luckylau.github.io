@@ -3,9 +3,16 @@
   
     
     <entry>
+      <title><![CDATA[Haproxy+keepalived负载均衡配置与测试]]></title>
+      <url>%2F2017%2F03%2F10%2FHaproxy-keepalived%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E9%85%8D%E7%BD%AE%E4%B8%8E%E6%B5%8B%E8%AF%95%2F</url>
+      <content type="text"><![CDATA[什么是Haproxy？什么是keepalived？Haproxy+keepalived负载均衡试验？参考：]]></content>
+    </entry>
+
+    
+    <entry>
       <title><![CDATA[LoadBalancerv2的原理分析]]></title>
       <url>%2F2017%2F03%2F10%2FLoadBalancerv2%E7%9A%84%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%2F</url>
-      <content type="text"><![CDATA[High Availability Proxy（HAProxy）原理？LoadBalancerv2的实现？LoadBalancerv2的源码解读？]]></content>
+      <content type="text"><![CDATA[​ OpenStack 是直接采用各种开源可用的负载均衡项目来完成负载均衡的任务，默认使用 HAProxy。LBaaSv2 本质来说，其实也是根据用户提出的负载均衡要求，生成符合的HAProxy配置文件并启动 HAProxy，然后由 HAProxy 进行负载均衡。 High Availability Proxy（HAProxy）原理？LoadBalancerv2的使用场景？在前一篇Openstack 负载均衡 LoadBalancerv2我们做了简单的实验，member,pool ,vip都是在同一个子网中，下面主要考虑vip,member不在同一个子网的情况。 场景一：member,pool ,vip都是同一个子网 场景二：：member,pool ,vip分布在不同子网 LoadBalancerv2的流程分析？LoadBalancerv2的源码解读？]]></content>
     </entry>
 
     
