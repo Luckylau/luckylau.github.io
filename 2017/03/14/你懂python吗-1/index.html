@@ -84,16 +84,19 @@
 
 
 
-<meta name="description" content="=============">
+<meta name="description" content="Python的函数参数传递示例一：
+12345678910111213141516171819202122232425def test(c):    print &quot;test before&quot;    print id(c)    c=2    print &quot;test after&quot;    print id(c)    return cif __name__ == &apos;__main__&apos;:    a=1">
 <meta property="og:type" content="article">
 <meta property="og:title" content="你懂python吗(1)">
 <meta property="og:url" content="https://luckylau.github.io/2017/03/14/你懂python吗-1/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
-<meta property="og:description" content="=============">
-<meta property="og:updated_time" content="2017-03-14T03:47:00.820Z">
+<meta property="og:description" content="Python的函数参数传递示例一：
+12345678910111213141516171819202122232425def test(c):    print &quot;test before&quot;    print id(c)    c=2    print &quot;test after&quot;    print id(c)    return cif __name__ == &apos;__main__&apos;:    a=1">
+<meta property="og:updated_time" content="2017-03-14T07:45:58.512Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="你懂python吗(1)">
-<meta name="twitter:description" content="=============">
+<meta name="twitter:description" content="Python的函数参数传递示例一：
+12345678910111213141516171819202122232425def test(c):    print &quot;test before&quot;    print id(c)    c=2    print &quot;test after&quot;    print id(c)    return cif __name__ == &apos;__main__&apos;:    a=1">
 
 
 
@@ -395,7 +398,24 @@
       
 
       
-        <p>=============</p>
+        <h2 id="Python的函数参数传递"><a href="#Python的函数参数传递" class="headerlink" title="Python的函数参数传递"></a>Python的函数参数传递</h2><p>示例一：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">(c)</span>:</span></div><div class="line">    <span class="keyword">print</span> <span class="string">"test before"</span></div><div class="line">    <span class="keyword">print</span> id(c)</div><div class="line">    c=<span class="number">2</span></div><div class="line">    <span class="keyword">print</span> <span class="string">"test after"</span></div><div class="line">    <span class="keyword">print</span> id(c)</div><div class="line">    <span class="keyword">return</span> c</div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    a=<span class="number">1</span></div><div class="line">    <span class="keyword">print</span> <span class="string">"main before"</span></div><div class="line">    <span class="keyword">print</span> id(a)</div><div class="line">    test(a)</div><div class="line">    <span class="keyword">print</span> <span class="string">"main after"</span></div><div class="line">    <span class="keyword">print</span> id(a)</div><div class="line">    <span class="keyword">print</span> a</div><div class="line"><span class="comment"># output</span></div><div class="line">main before</div><div class="line"><span class="number">12460376</span></div><div class="line">test before</div><div class="line"><span class="number">12460376</span></div><div class="line">test after</div><div class="line"><span class="number">12460352</span></div><div class="line">main after</div><div class="line"><span class="number">12460376</span></div><div class="line"><span class="number">1</span></div></pre></td></tr></table></figure>
+<p>示例二：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">(c)</span>:</span></div><div class="line">    <span class="keyword">print</span> <span class="string">"test before"</span></div><div class="line">    <span class="keyword">print</span> id(c)</div><div class="line">    c.append(<span class="number">1</span>)</div><div class="line">    <span class="keyword">print</span> <span class="string">"test after"</span></div><div class="line">    <span class="keyword">print</span> id(c)</div><div class="line">    <span class="keyword">return</span> c</div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    a=[]</div><div class="line">    <span class="keyword">print</span> <span class="string">"main before"</span></div><div class="line">    <span class="keyword">print</span> id(a)</div><div class="line">    test(a)</div><div class="line">    <span class="keyword">print</span> <span class="string">"main after"</span></div><div class="line">    <span class="keyword">print</span> id(a)</div><div class="line">    <span class="keyword">print</span> a</div><div class="line"> <span class="comment">#output</span></div><div class="line"> main before</div><div class="line"><span class="number">139625132046312</span></div><div class="line">test before</div><div class="line"><span class="number">139625132046312</span></div><div class="line">test after</div><div class="line"><span class="number">139625132046312</span></div><div class="line">main after</div><div class="line"><span class="number">139625132046312</span></div><div class="line">[<span class="number">1</span>]</div></pre></td></tr></table></figure>
+<p>示例三：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">(c)</span>:</span></div><div class="line">    <span class="keyword">print</span> <span class="string">"test before"</span></div><div class="line">    <span class="keyword">print</span> id(c)</div><div class="line">    c=[<span class="number">2</span>,<span class="number">3</span>]</div><div class="line">    <span class="keyword">print</span> <span class="string">"test after"</span></div><div class="line">    <span class="keyword">print</span> id(c)</div><div class="line">    <span class="keyword">return</span> c</div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    a=[<span class="number">1</span>]</div><div class="line">    <span class="keyword">print</span> <span class="string">"main before"</span></div><div class="line">    <span class="keyword">print</span> id(a)</div><div class="line">    test(a)</div><div class="line">    <span class="keyword">print</span> <span class="string">"main after"</span></div><div class="line">    <span class="keyword">print</span> id(a)</div><div class="line">    <span class="keyword">print</span> a</div><div class="line"><span class="comment"># output</span></div><div class="line">main before</div><div class="line"><span class="number">139900695660520</span></div><div class="line">test before</div><div class="line"><span class="number">139900695660520</span></div><div class="line">test after</div><div class="line"><span class="number">139900695661672</span></div><div class="line">main after</div><div class="line"><span class="number">139900695660520</span></div><div class="line">[<span class="number">1</span>]</div></pre></td></tr></table></figure>
+<p>总结：</p>
+<p>​    对象有两种,“可更改”（mutable）与“不可更改”（immutable）对象。在python中，strings, tuples, 和numbers是不可更改的对象，而list,dict等则是可以修改的对象。对于不可更改对象而言一定是“值传递”引用，如示例一；对于可更改对象也可以“值传递”，如示例三；对于示例二，传入的是可变对象，并且函数对其进行操作，属于“引用传递”。</p>
+<p>函数参数的定义有四种形式：</p>
+<p>F(arg1,arg2,…) </p>
+<p>F(arg2=,arg3=…)</p>
+<p>F(*arg1) </p>
+<p>F(**arg1)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">(x,y=<span class="number">5</span>,*a,**b)</span>:</span></div><div class="line">    <span class="keyword">print</span> x,y,a,b</div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    test(<span class="number">1</span>)</div><div class="line">    test(<span class="number">1</span>, <span class="number">2</span>)</div><div class="line">    test(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</div><div class="line">    test(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>)</div><div class="line">    test(<span class="number">1</span>, <span class="number">2</span>, (<span class="number">3</span>, <span class="number">4</span>),<span class="number">5</span>)</div><div class="line">    test(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>,a=<span class="number">2</span>)</div><div class="line">    test(x=<span class="number">1</span>)</div><div class="line">    test(x=<span class="number">1</span>,y=<span class="number">2</span>)</div><div class="line">    test(x=<span class="number">1</span>,y=<span class="number">2</span>,a=<span class="number">3</span>)</div><div class="line">    test(x=<span class="number">1</span>,y=<span class="number">2</span>,a=<span class="number">3</span>,b=<span class="number">4</span>)</div><div class="line">    test(x=<span class="number">1</span>, y=<span class="number">2</span>, a=<span class="number">3</span>, b=<span class="number">4</span>,c=<span class="number">5</span>)</div><div class="line">    test(<span class="number">1</span>, <span class="number">2</span>, z=<span class="number">1</span>)</div><div class="line">    test(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, a=<span class="number">1</span>)</div><div class="line">    test(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, a=<span class="number">1</span>)</div><div class="line">    test(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, a=<span class="number">1</span>, b=<span class="number">2</span>, c=<span class="number">3</span>)</div><div class="line">    <span class="comment">#output</span></div><div class="line">    <span class="number">1</span> <span class="number">5</span> () &#123;&#125;</div><div class="line">	<span class="number">1</span> <span class="number">2</span> () &#123;&#125;</div><div class="line">	<span class="number">1</span> <span class="number">2</span> (<span class="number">3</span>,) &#123;&#125;</div><div class="line">	<span class="number">1</span> <span class="number">2</span> (<span class="number">3</span>, <span class="number">4</span>) &#123;&#125;</div><div class="line">	<span class="number">1</span> <span class="number">2</span> ((<span class="number">3</span>, <span class="number">4</span>), <span class="number">5</span>) &#123;&#125;</div><div class="line">	<span class="number">1</span> <span class="number">2</span> (<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>) &#123;<span class="string">'a'</span>: <span class="number">2</span>&#125;</div><div class="line">	<span class="number">1</span> <span class="number">5</span> () &#123;&#125;</div><div class="line">	<span class="number">1</span> <span class="number">2</span> () &#123;&#125;</div><div class="line">	<span class="number">1</span> <span class="number">2</span> () &#123;<span class="string">'a'</span>: <span class="number">3</span>&#125;</div><div class="line">	<span class="number">1</span> <span class="number">2</span> () &#123;<span class="string">'a'</span>: <span class="number">3</span>, <span class="string">'b'</span>: <span class="number">4</span>&#125;</div><div class="line">	<span class="number">1</span> <span class="number">2</span> () &#123;<span class="string">'a'</span>: <span class="number">3</span>, <span class="string">'c'</span>: <span class="number">5</span>, <span class="string">'b'</span>: <span class="number">4</span>&#125;</div><div class="line">	<span class="number">1</span> <span class="number">2</span> () &#123;<span class="string">'z'</span>: <span class="number">1</span>&#125;</div><div class="line">	<span class="number">1</span> <span class="number">2</span> (<span class="number">3</span>,) &#123;<span class="string">'a'</span>: <span class="number">1</span>&#125;</div><div class="line">	<span class="number">1</span> <span class="number">2</span> (<span class="number">3</span>, <span class="number">4</span>) &#123;<span class="string">'a'</span>: <span class="number">1</span>&#125;</div><div class="line">	<span class="number">1</span> <span class="number">2</span> (<span class="number">3</span>, <span class="number">4</span>) &#123;<span class="string">'a'</span>: <span class="number">1</span>, <span class="string">'c'</span>: <span class="number">3</span>, <span class="string">'b'</span>: <span class="number">2</span>&#125;</div></pre></td></tr></table></figure>
+<p>首先按顺序把“arg”这种形式的实参给对应的形参；</p>
+<p>第二，把“arg=”这种形式的实参赋值给形参；</p>
+<p>第三，把多出来的“arg”这种形式的实参组成一个tuple给带一个星号的形参；</p>
+<p>第四，把多出来的“key=value”这种形式的实参转为一个dictionary给带两个星号的形参。</p>
 
       
     </div>
@@ -527,8 +547,17 @@ var duoshuoQuery = {short_name:"luckylau"};
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/logo.jpg"
@@ -604,6 +633,22 @@ var duoshuoQuery = {short_name:"luckylau"};
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Python的函数参数传递"><span class="nav-number">1.</span> <span class="nav-text">Python的函数参数传递</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
     </div>
