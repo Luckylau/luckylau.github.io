@@ -395,9 +395,16 @@
 
       
         
-          
-            <h2 id="staticmethod和-classmethod的区别"><a href="#staticmethod和-classmethod的区别" class="headerlink" title="@staticmethod和@classmethod的区别"></a>@staticmethod和@classmethod的区别</h2>
-          
+          <h2 id="staticmethod和-classmethod的区别"><a href="#staticmethod和-classmethod的区别" class="headerlink" title="@staticmethod和@classmethod的区别"></a>@staticmethod和@classmethod的区别</h2><h4 id="什么是python的修饰符Decorators？"><a href="#什么是python的修饰符Decorators？" class="headerlink" title="什么是python的修饰符Decorators？"></a>什么是python的修饰符Decorators？</h4><p>​    装饰器模式可以在不影响其他对象的情况下，以动态、透明的方式给单个对象添加职责，也能够处理那些可以撤销的职责。经常用于日志记录、性能测试等场合。</p>
+<p>​    想象一下这个很常见的场景，你写了一个方法：     </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">A</span><span class="params">(n)</span>:</span></div><div class="line">    <span class="keyword">if</span> n &gt; <span class="number">2</span>:</div><div class="line">        <span class="keyword">print</span> n</div><div class="line">        <span class="keyword">print</span> <span class="string">"aaaaaa"</span></div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        <span class="keyword">print</span> A.__name__</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">B</span><span class="params">(n)</span>:</span></div><div class="line">    <span class="keyword">if</span> n &gt;<span class="number">2</span>:</div><div class="line">        <span class="keyword">print</span> n </div><div class="line">        <span class="keyword">print</span> <span class="string">"bbbbbb"</span></div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        <span class="keyword">print</span> B.__name__</div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    A(<span class="number">3</span>)</div><div class="line">    B(<span class="number">3</span>)</div><div class="line"><span class="comment">#ouptput</span></div><div class="line"><span class="number">3</span></div><div class="line">aaaaaa</div><div class="line"><span class="number">3</span></div><div class="line">bbbbbb</div></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/03/16/你懂python吗-3/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
