@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="网络基础," />
+  <meta name="keywords" content="python基础," />
 
 
 
@@ -84,27 +84,22 @@
 
 
 
-<meta name="description" content="本文主要是基于学习《CCNA学习指南》总结网络必备的知识。
-本篇章涉及以下内容：
-OSI模型">
+<meta name="description" content="*args和 **kwargs用args和*kwargs只是为了方便并没有强制使用它们。
+当你不确定你的函数里将要传递多少参数时你可以用*args.例如,它可以传递任意数量的参数:
+123456789def print_everything(*args):    for count, thing in enumerate(args):        print &apos;&amp;#123;0&amp;#125;. &amp;#">
 <meta property="og:type" content="article">
-<meta property="og:title" content="你懂网络吗(1)">
-<meta property="og:url" content="https://luckylau.github.io/2017/03/17/你懂网络吗-1/index.html">
+<meta property="og:title" content="你懂python吗(6)">
+<meta property="og:url" content="https://luckylau.github.io/2017/03/20/你懂python吗-6/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
-<meta property="og:description" content="本文主要是基于学习《CCNA学习指南》总结网络必备的知识。
-本篇章涉及以下内容：
-OSI模型">
-<meta property="og:image" content="https://luckylau.github.io/2017/03/17/你懂网络吗-1/1.png">
-<meta property="og:image" content="https://luckylau.github.io/2017/03/17/你懂网络吗-1/2.png">
-<meta property="og:image" content="https://luckylau.github.io/2017/03/17/你懂网络吗-1/3.png">
-<meta property="og:image" content="https://luckylau.github.io/2017/03/17/你懂网络吗-1/4.png">
-<meta property="og:updated_time" content="2017-03-20T07:20:31.902Z">
+<meta property="og:description" content="*args和 **kwargs用args和*kwargs只是为了方便并没有强制使用它们。
+当你不确定你的函数里将要传递多少参数时你可以用*args.例如,它可以传递任意数量的参数:
+123456789def print_everything(*args):    for count, thing in enumerate(args):        print &apos;&amp;#123;0&amp;#125;. &amp;#">
+<meta property="og:updated_time" content="2017-03-20T09:54:40.657Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="你懂网络吗(1)">
-<meta name="twitter:description" content="本文主要是基于学习《CCNA学习指南》总结网络必备的知识。
-本篇章涉及以下内容：
-OSI模型">
-<meta name="twitter:image" content="https://luckylau.github.io/2017/03/17/你懂网络吗-1/1.png">
+<meta name="twitter:title" content="你懂python吗(6)">
+<meta name="twitter:description" content="*args和 **kwargs用args和*kwargs只是为了方便并没有强制使用它们。
+当你不确定你的函数里将要传递多少参数时你可以用*args.例如,它可以传递任意数量的参数:
+123456789def print_everything(*args):    for count, thing in enumerate(args):        print &apos;&amp;#123;0&amp;#125;. &amp;#">
 
 
 
@@ -132,13 +127,13 @@ OSI模型">
 
 
 
-  <link rel="canonical" href="https://luckylau.github.io/2017/03/17/你懂网络吗-1/"/>
+  <link rel="canonical" href="https://luckylau.github.io/2017/03/20/你懂python吗-6/"/>
 
 
 
 
 
-  <title> 你懂网络吗(1) | Luckylau's Blog </title>
+  <title> 你懂python吗(6) | Luckylau's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -294,7 +289,7 @@ OSI模型">
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/03/17/你懂网络吗-1/">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/03/20/你懂python吗-6/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Luckylau">
@@ -318,7 +313,7 @@ OSI模型">
             
             
               
-                你懂网络吗(1)
+                你懂python吗(6)
               
             
           </h1>
@@ -333,8 +328,8 @@ OSI模型">
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-17T16:45:24+08:00">
-                2017-03-17
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-20T17:39:47+08:00">
+                2017-03-20
               </time>
             
 
@@ -356,8 +351,8 @@ OSI模型">
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/网络/" itemprop="url" rel="index">
-                    <span itemprop="name">网络</span>
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
                   </a>
                 </span>
 
@@ -374,8 +369,8 @@ OSI模型">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/03/17/你懂网络吗-1/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/17/你懂网络吗-1/" itemprop="commentCount"></span>
+                <a href="/2017/03/20/你懂python吗-6/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/20/你懂python吗-6/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -406,38 +401,17 @@ OSI模型">
       
 
       
-        <p>本文主要是基于学习《CCNA学习指南》总结网络必备的知识。</p>
-<p>本篇章涉及以下内容：</p>
-<p>OSI模型</p>
+        <h2 id="args和-kwargs"><a href="#args和-kwargs" class="headerlink" title="*args和 **kwargs"></a><code>*args</code>和 <code>**kwargs</code></h2><p>用<em>args和*</em>kwargs只是为了方便并没有强制使用它们。</p>
+<p>当你不确定你的函数里将要传递多少参数时你可以用*args.例如,它可以传递任意数量的参数:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_everything</span><span class="params">(*args)</span>:</span></div><div class="line">    <span class="keyword">for</span> count, thing <span class="keyword">in</span> enumerate(args):</div><div class="line">        <span class="keyword">print</span> <span class="string">'&#123;0&#125;. &#123;1&#125;'</span>.format(count, thing)</div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">	print_everything(<span class="string">'apple'</span>, <span class="string">'banana'</span>, <span class="string">'cabbage'</span>)</div><div class="line"><span class="comment">#output</span></div><div class="line"><span class="number">0.</span> apple</div><div class="line"><span class="number">1.</span> banana</div><div class="line"><span class="number">2.</span> cabbage</div></pre></td></tr></table></figure>
 <a id="more"></a>
-<h3 id="OSI模型："><a href="#OSI模型：" class="headerlink" title="OSI模型："></a>OSI模型：</h3><p>​    OSI 模型包含 7 层，它们分为两组:上 3 层指定了终端中的应用程序如何彼此通信以及如何与用户交流;下 4 层指定了如何进行端到端的数据传输。 请记住，这3 层都对联网和网络地址一无所知，那是下 4 层的职责 。 </p>
-<p><img src="/2017/03/17/你懂网络吗-1/1.png" alt=""></p>
-<p><img src="/2017/03/17/你懂网络吗-1/2.png" alt=""></p>
-<p>ISO的功能如下：</p>
-<p>​    应用层是实际应用程序之间的接口。这意味着诸如 MicrosoftWord 等应用程序并不位于应用层中，而是与应用层协议交互。</p>
-<p>​    表示层向应用层提供数据，并负责数据转换和代码格式化。 </p>
-<p>​    会话层负责在表示层实体之间建立、管理和终止会话，还X才设备或节点之间的对话进行控制。 为此提供了 3 种不同的模式:单工、半双工和全双工。</p>
-<p>​        传输层将数据进行分段并重组为数据流。位于传输层的服务将来自上层应用的数据进行分段和重<br>组，并将它们合并到同一个数据流中。它们提供了端到端的数据传输服务，并可在互联网络上的发送<br>主机和目标主机之间建立逻辑连接。另外，对上层应用程序进行多路复用、建立会话以及拆除虚电路，并提供透明的数据传输，从而对高层隐藏随网络而异的信息。</p>
-<p>​    网络层(第 3 层)管理设备编址、跟踪设备在网络中的位置并确定最佳的数据传输路径，这意味<br>着网络层必须在位于不同网络中的设备之间传输数据流。</p>
-<p>​    数据链路层将报文封装成数据帧，并添加定制的报头，其中包含目标硬件地址和源硬件地址 。路由器运行在网络层，根本不关心主机位于什么地方，而只关心网络(包括远程网络)位于什么地方以及前往这些网络(包括远程网络)的最佳路径。路由器只关心网络，这是好事!对本地网络中每台设备进行唯一标识的工作由数据链路层负责。数据链路层使用硬件地址，让主机能够给本地网络中的其他主机发送分组以及穿越路由器发送分组。每当在路由器之间传输分组时，分组都将被使用数据链路层控制信息封装成帧，但接收路由器会将这些信息剥离，只保留完整的原始分组。在每一跳都将重复这种将分组封装成帧的过程，直到分组最终到达正确的接收主机。在整个传输过程中，分组本身从未被修改过，而只是被必要的控制信息封装，以便能够通过不同的介质进行传输，明白这一点至关重要。</p>
-<p> IEEE 以太网数据链路层包含两个子层，如下：介质访问控制 (MAC) 子层 (802.3)和逻辑链路控制 (LLC) 子层 (802.2) 。介质访问控制 (MAC) 子层 (802.3)，它采用”先到先服务”的访问方式，带宽由大家共享，因此称为竟用介质访问( contention media access )。 逻辑链路控制 (LLC) 子层 (802.2)负责识别网络层协议并对其进行封装。  </p>
-<p>​    物理层有两项功能:发送和接收比特。比特的取值只能为 0 或 1一一使用数字值的摩尔斯码。物理层直接与各种通信介质交流。 </p>
-<p><img src="/2017/03/17/你懂网络吗-1/3.png" alt=""></p>
-<p><strong>总结: 应用层、表示层和会话层属于上层，负责用户界面和应用程序之间的通信。传输层提供分段、排序和虚电路。网络层提供逻辑网络编址以及在互联网络中路由的功能。数据链路层提供了将数据封装成帧并将其放到网络介质上的功能。物理层负责将收到的 0 和 1 编码成数字信号，以便在网段中传输。</strong> </p>
-<h3 id="问与答："><a href="#问与答：" class="headerlink" title="问与答："></a>问与答：</h3><p>1.对数据流进行分段发生在 OSI模型的哪一层?   </p>
-<p><strong>传输层 解释：传输层从上层接收大型数据，将其分割成较小的片段，这些片段称为数据段。</strong> </p>
-<p>2.下面哪 4 项描述了路由器的主要功能?<br>A. 分组交换 B. 冲突防范 C. 分组过滤<br>D. 增大广播域 E. 互联网络通信 F. 广播转发<br>G. 路径选择</p>
-<p><strong>A 、 C 、 E 、 G。路由器提供分组交换、分组过滤、互联网络通信以及路径选择功能。虽然路由器确</strong><br><strong>实分割或终止冲突域，但这不是路由器的主要功能，因此选项 B 不正确。</strong></p>
-<p>3.路由器运行在第？层; LAN 交换机运行在第？层;以太网集线器运行在第？层;字处理程序<br>运行在第？层。<br>A. 3 , 3 ， 1 、 7 B.3 、 2 、 1 、无<br>C.3 、 2 、 1 、 7 D.2 、 3 、 1 、 7<br>E.3 , 3, 2 、无</p>
-<p><strong>路由器运行在第 3 层， LAN 交换机运行在第 2 层，以太网集线器运行在第 1 层。字处理程序与</strong><br><strong>应用层接口通信，但并非运行在第 7 层，因此答案为”无”。</strong></p>
-<p>4.下面哪 3 种有关全双工以太网运行方式的说法是正确的?<br>A.在全双工模式下不会发生冲突<br>B. 每个全双工节点都必须有一个专用的交换机端口<br>C. 以太网集线器端口被预先配置为全双工模式<br>D. 在全双工环境中，在传输数据前，主机的网卡必须检查网络介质是否可用<br>E 主机的网卡和交换机端口必须能够以全双工模式运行 </p>
-<p><strong>A 、 B 、 E。全双工意味着可使用两对导线同时发送和接收数据。每个节点都必须有专用的交换机</strong><br><strong>端口，这意味着不会发送冲突。主机的网卡和交换机端口都必须支持全双工模式，并设置为这种模式。</strong></p>
-<p>5.</p>
-<p>(1) 哪一层选择通信伙伴并判断其可用性、判断建立连接所需资掘的可用性、协调参与通信的应<br>用程序，并就控制数据完整性和错误恢复的流程达成一致?<br>(2) 哪一层负责将来自数据链路层的数据分组转换为电信号?<br>(3) 哪一层实现路由选择，在终端系统之间建立连接并选择路径?<br>(4) 哪一层定义了如何对数据进行格式化、表示、编码和转换，以便在网络中使用?<br>(5) 哪一层负责在应用程序之间建立、管理和终止会话?<br>(6) 哪一层确保通过物理链路可靠地传输数据，且主要与物理地址、线路管理、网络拓扑、错误<br>通知、按顺序传输帧以及流量控制有关?<br>(7) 哪一层用于让终端节点能够通过网络进行可靠的通信，提供建立、维护、拆除虚电路的机制，<br>提供传输错误检测和恢复的机制，并提供流量控制机制?<br>(8) 哪一层提供逻辑地址，供路由器用来决定传输路径?<br>(9) 哪一层指定了电平、线路速度和电缆针脚，并在设备之间传输比特?<br>(10) 哪一层将比特合并成字节，再将字节封装成帧，使用 MAC 地址，并提供错误检测功能?<br>(11) 哪一层负责在网络中将来自不同应用程序的数据分开。<br>(12) 哪一层的数据表示为帧?<br>(13) 哪一层的数据表示为数据段?<br>(14) 哪一层的数据表示为分组?<br>(15) 哪一层的数据表示为比特?<br>(16) 按封装顺序排列下列各项:<br>分组帧比特数据段<br>(17) 哪一层对数据进行分段和重组?<br>(1 8) 哪一层实际传输数据，并处理错误通知、网络拓扑和流量控制?<br>(19) 哪一层管理设备编址、跟踪设备在网络中的位置并决定传输数据的最佳路径?<br>(20) MAC 地址长多少位?以什么方式表示?</p>
-<p><strong>(1) 应用层负责寻找服务器提供的网络资源，并提供流量控制和错误控制功能(如果应用程序开发人员</strong><br><strong>选择这样做)</strong><br><strong>(2) 物理层接收来自数据链路层的帧，将 0 和 1 编码成数字信号，以便在网络介质上传输</strong><br><strong>(3) 网络层提供了在互联网络中进行路由选择的功能，还提供了逻辑地址</strong><br><strong>(4) 表示层确保数据为应用层能够理解的格式</strong><br><strong>(5) 会话层在应用程序之间建立、维护并终止会话</strong> </p>
-<p><strong>(6) 数据链路层的 PDU 称为帧，该层还提供物理编址以及将分组放到网络介质上的其他选项</strong><br><strong>(7) 传输层使用虚电路在主机之间建立可靠的连接</strong><br><strong>(8)网络层提供了逻辑地址(这通常是 IP 地址)和路由选择功能</strong><br><strong>(9) 物理层负责在设备之间建立电气和机械连接</strong><br><strong>(10) 数据链路层负责将数据分组封装成帧</strong><br><strong>(11) 会话层在不同主机的应用程序之间建立会话</strong><br><strong>(12) 数据链路层将从网络层收到的分组封装成帧</strong><br><strong>(13) 传输层将用户数据分段</strong><br><strong>(14) 网络层将来自传输层的数据段封装成分组</strong><br><strong>(15) 物理层负责以数字信号的形式传输 l 和 o (比特)</strong><br><strong>(16) 数据段、分组、帧、比特</strong><br><strong>(17) 传输层</strong><br><strong>(18) 数据链路层</strong><br><strong>(19) 网络层</strong><br><strong>(20) 长 48 位 (6B) 表示为一个十六进制数</strong> </p>
-<p>6</p>
-<p><img src="/2017/03/17/你懂网络吗-1/4.png" alt=""></p>
+<p>相似的,<code>**kwargs</code>允许你使用没有事先定义的参数名:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">table_things</span><span class="params">(**kwargs)</span>:</span></div><div class="line">    <span class="keyword">for</span> name, value <span class="keyword">in</span> kwargs.items():</div><div class="line">        <span class="keyword">print</span> <span class="string">'&#123;0&#125; = &#123;1&#125;'</span>.format(name, value)</div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    table_things(apple=<span class="string">'fruit'</span>, cabbage=<span class="string">'vegetable'</span>)</div><div class="line"><span class="comment">#output</span></div><div class="line">cabbage = vegetable</div><div class="line">apple = fruit</div></pre></td></tr></table></figure>
+<p>你也可以混着用.命名参数首先获得参数值然后所有的其他参数都传递给<code>*args</code>和<code>**kwargs</code>.命名参数在列表的最前端.<code>*args</code>和<code>**kwargs</code>可以同时在函数的定义中,但是<code>*args</code>必须在<code>**kwargs</code>前面.</p>
+<p>当调用函数时你也可以用<code>*</code>和<code>**</code>语法.例如:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_three_things</span><span class="params">(a, b, c)</span>:</span></div><div class="line">  <span class="keyword">print</span> <span class="string">'a = &#123;0&#125;, b = &#123;1&#125;, c = &#123;2&#125;'</span>.format(a,b,c)</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    mylist = [<span class="string">'aardvark'</span>, <span class="string">'baboon'</span>, <span class="string">'cat'</span>]</div><div class="line">    print_three_things(*mylist)</div><div class="line"><span class="comment">#output</span></div><div class="line">a = aardvark, b = baboon, c = cat</div></pre></td></tr></table></figure>
+<p>就像你看到的一样,它可以传递列表(或者元组)的每一项并把它们解包.注意必须与它们在函数里的参数相吻合.当然,你也可以在函数定义或者函数调用时用<code>*</code></p>
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p><a href="http://stackoverflow.com/questions/3394835/args-and-kwargs" target="_blank" rel="external">http://stackoverflow.com/questions/3394835/args-and-kwargs</a></p>
 
       
     </div>
@@ -466,7 +440,7 @@ OSI模型">
       
         <div class="post-tags">
           
-            <a href="/tags/网络基础/" rel="tag"># 网络基础</a>
+            <a href="/tags/python基础/" rel="tag"># python基础</a>
           
         </div>
       
@@ -475,8 +449,8 @@ OSI模型">
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/17/你懂python吗-5/" rel="next" title="你懂python吗(5)">
-                <i class="fa fa-chevron-left"></i> 你懂python吗(5)
+              <a href="/2017/03/17/你懂网络吗-1/" rel="next" title="你懂网络吗(1)">
+                <i class="fa fa-chevron-left"></i> 你懂网络吗(1)
               </a>
             
           </div>
@@ -484,10 +458,6 @@ OSI模型">
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/03/20/你懂python吗-6/" rel="prev" title="你懂python吗(6)">
-                你懂python吗(6) <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -502,10 +472,10 @@ OSI模型">
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2017/03/17/你懂网络吗-1/"
-     data-title="你懂网络吗(1)"
+        <div class="ds-share flat" data-thread-key="2017/03/20/你懂python吗-6/"
+     data-title="你懂python吗(6)"
      data-content=""
-     data-url="https://luckylau.github.io/2017/03/17/你懂网络吗-1/">
+     data-url="https://luckylau.github.io/2017/03/20/你懂python吗-6/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -532,8 +502,8 @@ OSI模型">
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/03/17/你懂网络吗-1/"
-           data-title="你懂网络吗(1)" data-url="https://luckylau.github.io/2017/03/17/你懂网络吗-1/">
+      <div class="ds-thread" data-thread-key="2017/03/20/你懂python吗-6/"
+           data-title="你懂python吗(6)" data-url="https://luckylau.github.io/2017/03/20/你懂python吗-6/">
       </div>
 	  <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
     <script type="text/javascript">
@@ -665,7 +635,7 @@ var duoshuoQuery = {short_name:"luckylau"};
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#OSI模型："><span class="nav-number">1.</span> <span class="nav-text">OSI模型：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问与答："><span class="nav-number">2.</span> <span class="nav-text">问与答：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#args和-kwargs"><span class="nav-number">1.</span> <span class="nav-text">*args和 **kwargs</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#参考："><span class="nav-number">1.1.</span> <span class="nav-text">参考：</span></a></li></ol></li></ol></div>
             
 
           </div>
