@@ -385,9 +385,20 @@
 
       
         
-          
-            <h2 id="init-与-new-的区别"><a href="#init-与-new-的区别" class="headerlink" title="__init__与__new__的区别"></a><code>__init__</code>与<code>__new__</code>的区别</h2>
-          
+          <h2 id="init-与-new-的区别"><a href="#init-与-new-的区别" class="headerlink" title="__init__与__new__的区别"></a><code>__init__</code>与<code>__new__</code>的区别</h2><p><code>__init__</code>与<code>__new__</code>的主要区别如下：</p>
+<ol>
+<li><code>__new__</code>是一个静态方法,而<code>__init__</code>是一个实例方法.</li>
+<li><code>__new__</code>方法会返回一个创建的实例,而<code>__init__</code>什么都不返回.</li>
+<li>只有在<code>__new__</code>返回一个cls的实例时后面的<code>__init__</code>才能被调用.</li>
+<li>当创建一个新实例时调用<code>__new__</code>,初始化一个实例时用<code>__init__</code></li>
+</ol>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/03/24/你懂python吗-8/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
