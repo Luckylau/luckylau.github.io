@@ -98,7 +98,7 @@ neutron-rpc-server：neutron\cmd\eventlet\server:main_rpc_eventlet两部分
 neutron-server：neutron\cmd\eventlet\server:main
 neutron-rpc-server：neutron\cmd\eventlet\server:main_rpc_eventlet两部分
 本文主要描述rpc服务的创建和初始化过程，包括RP">
-<meta property="og:updated_time" content="2017-03-27T07:29:30.571Z">
+<meta property="og:updated_time" content="2017-03-27T09:25:13.573Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="neutron源码解读（3）">
 <meta name="twitter:description" content="本文是基于Mitaka版本（20170227最新的代码）学习。
@@ -402,6 +402,7 @@ neutron-rpc-server：neutron\cmd\eventlet\server:main_rpc_eventlet两部分
 <p>neutron-server：neutron\cmd\eventlet\server:main</p>
 <p>neutron-rpc-server：neutron\cmd\eventlet\server:main_rpc_eventlet两部分</p>
 <p><strong>本文主要描述rpc服务的创建和初始化过程，包括RPC-server的创建，RPC-client的创建。</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">eventlet_wsgi_server</span><span class="params">()</span>:</span></div><div class="line">    neutron_api = service.serve_wsgi(service.NeutronApiService)</div><div class="line">    start_api_and_rpc_workers(neutron_api)</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">start_api_and_rpc_workers</span><span class="params">(neutron_api)</span>:</span></div><div class="line">    pool = eventlet.GreenPool()</div><div class="line"></div><div class="line">    api_thread = pool.spawn(neutron_api.wait)</div><div class="line"></div><div class="line">    <span class="keyword">try</span>:</div><div class="line">        neutron_rpc = service.serve_rpc()</div><div class="line">    <span class="keyword">except</span> NotImplementedError:</div><div class="line">        LOG.info(_LI(<span class="string">"RPC was already started in parent process by "</span></div><div class="line">                     <span class="string">"plugin."</span>))</div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        rpc_thread = pool.spawn(neutron_rpc.wait)</div><div class="line"></div><div class="line">        plugin_workers = service.start_plugin_workers()</div><div class="line">        <span class="keyword">for</span> worker <span class="keyword">in</span> plugin_workers:</div><div class="line">            pool.spawn(worker.wait)</div><div class="line"></div><div class="line">        <span class="comment"># api and rpc should die together.  When one dies, kill the other.</span></div><div class="line">        rpc_thread.link(<span class="keyword">lambda</span> gt: api_thread.kill())</div><div class="line">        api_thread.link(<span class="keyword">lambda</span> gt: rpc_thread.kill())</div><div class="line"></div><div class="line">    pool.waitall()</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -448,6 +449,10 @@ neutron-rpc-server：neutron\cmd\eventlet\server:main_rpc_eventlet两部分
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/27/python的stevedore模块/" rel="prev" title="python的stevedore模块">
+                python的stevedore模块 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -508,7 +513,7 @@ neutron-rpc-server：neutron\cmd\eventlet\server:main_rpc_eventlet两部分
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-count">41</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
