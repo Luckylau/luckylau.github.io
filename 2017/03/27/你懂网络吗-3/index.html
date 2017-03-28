@@ -104,7 +104,11 @@ DoD 模型​    DoD 模型的进程/应用层包含大量的协议，以集成�
 <meta property="og:image" content="https://luckylau.github.io/2017/03/27/你懂网络吗-3/2.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/03/27/你懂网络吗-3/3.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/03/27/你懂网络吗-3/4.png">
-<meta property="og:updated_time" content="2017-03-28T03:44:11.559Z">
+<meta property="og:image" content="https://luckylau.github.io/2017/03/27/你懂网络吗-3/5.png">
+<meta property="og:image" content="https://luckylau.github.io/2017/03/27/你懂网络吗-3/6.png">
+<meta property="og:image" content="https://luckylau.github.io/2017/03/27/你懂网络吗-3/7.png">
+<meta property="og:image" content="https://luckylau.github.io/2017/03/27/你懂网络吗-3/8.png">
+<meta property="og:updated_time" content="2017-03-28T06:28:28.054Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="你懂网络吗(3)">
 <meta name="twitter:description" content="本文主要是基于学习《CCNA学习指南》总结网络必备的知识。
@@ -465,7 +469,41 @@ DoD 模型​    DoD 模型的进程/应用层包含大量的协议，以集成�
 <p>服务器以单播方式发回一条 DHCP 确认消息，完成交互。</p>
 <p><strong>APIPA （Automatic Private IP Addressing ，自动私有 IP编址 ）</strong></p>
 <p>​    客户端可在 DHCP 服务器不可用时自动给自己配置 IP 地址和子网掩码(主机用来通信的基本 IP 信息 )。APIPA 使用的Ip 地址范围为169.254.0.1-169.254.255.254 ，客户端还会给自己配置默认的 B 类子网掩码一255.255.0.0 。 </p>
-<h4 id="主机到主机层协议"><a href="#主机到主机层协议" class="headerlink" title="主机到主机层协议"></a>主机到主机层协议</h4>
+<h4 id="主机到主机层协议"><a href="#主机到主机层协议" class="headerlink" title="主机到主机层协议"></a>主机到主机层协议</h4><p><strong>TCP</strong> （Transmission Control Protocol，传输控制协议 ）</p>
+<p>​    接收来自应用程序的大型数据块，并将其划分成数据段。它给每个数据段编号，让接收主机的 TCP 技能够按应用程序希望的顺序排列数据段。发送数据段后，发送主机的 TCP 等待来自接收端 TCP 的确认，并重传未得到确认的数据段。</p>
+<p>TCP 数据段的格式 </p>
+<p><img src="/2017/03/27/你懂网络吗-3/5.png" alt=""></p>
+<p>TCP 报头长 20B (在包含选项时为 24B)，你必须理解 TCP 数据段中的每个字段。</p>
+<p>源端口             发送主机的应用程序的端口号 </p>
+<p>目标端口     目标主机的应用程序的端口号</p>
+<p>序列号            一个编号， TCP 用来将数据按正确的顺序重新排列(称为排序)、 重传丢失或受损的数据。 </p>
+<p>确认号            TCP 期待接下来收到的数据段。 </p>
+<p>报头长度      TCP 报头的长度，以 32 位字为单位。它指出了数据的开始位置， TCP 报头的长度为 32 位的整数倍，即使包含选项时亦如此。</p>
+<p>保留        总是设置为零。  </p>
+<p>编码位/标志    用于建立和终止会话的控制功能。 </p>
+<p>窗口大小     发送方愿意接受的窗口大 。</p>
+<p>校验和 CRC (Cyclic Redundancy Check ，循环冗余校验)      由于 TCP 不信任低层，因此检查所有数据。 CRC 检查报头和数据字段。 </p>
+<p>紧急                仅当设置了编码位中的紧急指针字段时，该字段才有效。如果设置了紧急指针，该字段表示非紧急数据的开头位置相对于当前序列号的偏移量，单位为字节。 </p>
+<p>选项 长度为 0 或 32 位的整数倍             也就是说，没有选项时，长度为 0。然而，如果包含选项时导致该字段的长度不是 32 位的整数倍，必须填充零，以确保该字段的长度为 32 位的整数倍。 </p>
+<p>数据        传递给传输层的 TCP 协议的信息，包括上层报头。</p>
+<p><strong>UDP</strong>  </p>
+<p>​    在有些情况下，开发人员选择 UDP 而不是 TCP 是绝对明智的，例如当进程/应用层已确保了可靠性时。 NFS (Network File System，网络文件系统)处理了自己的可靠性问题，这使得使用 TCP 既不现实也多余。但归根结底，使用 UDP 还是 TCP 取决于应用程序开发人员，而不是想更快地传输数据的用户。</p>
+<p>​    UDP 不对数据段排序，也不关心数据段到达目的地的顺序。</p>
+<p>​    UDP 不建立虚电路，也不在发送信息前与接收方联系。 </p>
+<p>UDP 数据段的格式 :</p>
+<p><img src="/2017/03/27/你懂网络吗-3/6.png" alt=""></p>
+<p> 源端口号    发送主机的应用程序的端口号。</p>
+<p>目标端口号     目标主机上被请求的应用程序的端口号。  </p>
+<p>长度         UDP 报头和 UDP 数据的总长度。 </p>
+<p>校验和         UDP 报头和 UDP 数据的校验和。</p>
+<p>数据        上层数据。  </p>
+<p>对比总结：</p>
+<p><img src="/2017/03/27/你懂网络吗-3/7.png" alt=""></p>
+<p><strong>端口</strong></p>
+<p>源主机从范围 1024-65535 中选择一个源端口 ，目的主机的端口一般是知名端口。</p>
+<p>数据链路层和网络层协议分别使用硬件地址和逻辑地址标识发送主机，但 TCP 和上层协议不这样做，<br>它们使用端口号。 </p>
+<p><img src="/2017/03/27/你懂网络吗-3/8.png" alt=""></p>
+<h4 id="因特网层协议"><a href="#因特网层协议" class="headerlink" title="因特网层协议"></a>因特网层协议</h4>
       
     </div>
 
@@ -653,7 +691,7 @@ DoD 模型​    DoD 模型的进程/应用层包含大量的协议，以集成�
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#DoD-模型"><span class="nav-number">1.</span> <span class="nav-text">DoD 模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DoD模型中的协议"><span class="nav-number">2.</span> <span class="nav-text">DoD模型中的协议</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#进程-应用层协议"><span class="nav-number">2.1.</span> <span class="nav-text">进程/应用层协议</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#主机到主机层协议"><span class="nav-number">2.2.</span> <span class="nav-text">主机到主机层协议</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#DoD-模型"><span class="nav-number">1.</span> <span class="nav-text">DoD 模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DoD模型中的协议"><span class="nav-number">2.</span> <span class="nav-text">DoD模型中的协议</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#进程-应用层协议"><span class="nav-number">2.1.</span> <span class="nav-text">进程/应用层协议</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#主机到主机层协议"><span class="nav-number">2.2.</span> <span class="nav-text">主机到主机层协议</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#因特网层协议"><span class="nav-number">2.3.</span> <span class="nav-text">因特网层协议</span></a></li></ol></li></ol></div>
             
 
           </div>
