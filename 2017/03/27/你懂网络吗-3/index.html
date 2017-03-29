@@ -110,7 +110,10 @@ DoD 模型​    DoD 模型的进程/应用层包含大量的协议，以集成�
 <meta property="og:image" content="https://luckylau.github.io/2017/03/27/你懂网络吗-3/8.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/03/27/你懂网络吗-3/9.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/03/27/你懂网络吗-3/10.png">
-<meta property="og:updated_time" content="2017-03-28T08:31:01.272Z">
+<meta property="og:image" content="https://luckylau.github.io/2017/03/27/你懂网络吗-3/12.png">
+<meta property="og:image" content="https://luckylau.github.io/2017/03/27/你懂网络吗-3/13.png">
+<meta property="og:image" content="https://luckylau.github.io/2017/03/27/你懂网络吗-3/14.png">
+<meta property="og:updated_time" content="2017-03-29T03:17:16.008Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="你懂网络吗(3)">
 <meta name="twitter:description" content="本文主要是基于学习《CCNA学习指南》总结网络必备的知识。
@@ -558,6 +561,35 @@ DoD 模型​    DoD 模型的进程/应用层包含大量的协议，以集成�
 <p>在网络中，我们不能给主机配置多个默认网关。请想一想，如果默认网关(路由器)发生故障，结果将如何呢?主机不能自动将数据发送给另一台路由器，而你必须重新配置主机。但代理 ARP 可帮助主机前往远程子网，而无需配置路由选择甚至默认网关。</p>
 <p>使用代理 ARP 的优点之一是，我们可在网络中的一台路由器上启用它，而不影响网络中其他路由器的路由选择表。然而，使用代理 ARP 也存在一个严重的缺陆:使用代理 ARP 将增加网段中的流量，而为处理所有的 IP 地址到 MAC 地址的映射，主机的 ARP 表比通常情况下大。</p>
 <p>代理 ARP 并非一种独立的协议，而是路由器代表其他设备(通常是 PC) 运行的一种服务，路由器禁止这些设备查询远程设备，虽然在这些设备看来，它们与远程设备位于同一个子网中。<br>这让路由器能够在响应 ARP查询时提供自己的 MAC地址，从而将远程 IP地址解析为有效的 MAC地址。</p>
+<h3 id="IP-编址"><a href="#IP-编址" class="headerlink" title="IP 编址"></a>IP 编址</h3><p>IP 地址是分配给 IP 网络中每台机器的数字标识符，它指出了设备在网络中的具体位置。</p>
+<p><strong>基本术语</strong></p>
+<p>比特    一个比特相当于一位，其取值为 1 或 0 。</p>
+<p>字节 1 B 为 7 或 8 位，这取决于是否使用奇偶校验。 我们都假定是8位。</p>
+<p>八位组 (Octet)     由 8 位组成，是普通的 8 位二进制数 ，术语字节和八位组可互换使用。 </p>
+<p>网络地址     在路由选择中，使用它将分组发送到远程网络 。</p>
+<p>广播地址     应用程序和主机用于将信息发送给网络中所有节点的地址。</p>
+<p><img src="/2017/03/27/你懂网络吗-3/12.png" alt=""></p>
+<p><img src="/2017/03/27/你懂网络吗-3/13.png" alt=""></p>
+<p><strong>A 类地址</strong> </p>
+<p>在 A 类地址中，第一个字节为网络地址，余下的 3B 为节点地址，A 类网络地址的第一个字节的第一位必须为 0 ，A 类地址第一个字节的取值为 0-127（2的7次方）</p>
+<p>A 类地址的网路地址数目126个</p>
+<p>A 类地址用3B表示节点地址，主机数目为2的24次方-2（全为0和全为1）=16 777 214 个 </p>
+<p><strong>B类地址</strong> </p>
+<p>在 B 类地址中，前 2B 为网络地址，余下的 2B 为节点地址 ，B 类网络地址的第一个字节的第一位必须为 1 ，且第二位必须为 0， B 类网络地址第一个字节的取值为 128 -191  </p>
+<p>B类地址的网路地址要以二进制10开头，因此有2的14次方=16 384 </p>
+<p>B类地址用 2B 表示节点地址 ，主机数目为2的16次方-2（全为0和全为1）=65534 个</p>
+<p><strong>C 类地址</strong> </p>
+<p>C 类地址的前 3 个字节为网络部分，余下的一个字节表示节点地址，C 类网络地址的第一个字节的前两位必须为 1 ，而第三位必须为 0 ， C 类网络地址第一个字节的取值为 192-223  </p>
+<p>C类地址的网路地址要以二进制110开头，因此有2的21次方-2（全为0和全为1）=2097 152 个  </p>
+<p>C 类网络用1B 用作节点地址，主机数目为 2的8次方 - 2 (全为 1 和全为 0 )，即 254 个节点地址</p>
+<p><strong>私有IP地址</strong></p>
+<p><img src="/2017/03/27/你懂网络吗-3/14.png" alt=""></p>
+<p><strong>D 类和 E 类网络地址范围</strong> </p>
+<p>第一个字节为 224-255 的地址被保留用于 D 类和 E 类网络。 D 类 (224 - 239 )用作组播地址，而 E 类( 240 - 255 )用于科学用途。</p>
+<h4 id="IPv4-地址类型"><a href="#IPv4-地址类型" class="headerlink" title="IPv4 地址类型"></a>IPv4 地址类型</h4><p>第 2 层广播地址    表示 LAN 中的所有节点  ，即FF:FF:FF:FF:FF:FF 。</p>
+<p>广播（第 3 层）    地址表示网络中的所有节点   其目标地址的主机位都为 1  。</p>
+<p>单播地址            这是特定接口的地址，用于将分组发送给单个目标主机 。</p>
+<p>组播地址         用于将分组传输到不同网络中的众多设备，常用一对多来形容 。组播确实支持点到多点通信，这类似于广播，但工作原理不同。组播的关键点在于，它让多个接收方能够接收消息，却不会将消息传递给广播域中的所有主机。然而，这并非默认行为，而是在配置正确的情况下，使用组播达到的。组播地址的范围为 244.0.0.0 - 239.255.255.255 </p>
 
       
     </div>
@@ -746,7 +778,7 @@ DoD 模型​    DoD 模型的进程/应用层包含大量的协议，以集成�
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#DoD-模型"><span class="nav-number">1.</span> <span class="nav-text">DoD 模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DoD模型中的协议"><span class="nav-number">2.</span> <span class="nav-text">DoD模型中的协议</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#进程-应用层协议"><span class="nav-number">2.1.</span> <span class="nav-text">进程/应用层协议</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#主机到主机层协议"><span class="nav-number">2.2.</span> <span class="nav-text">主机到主机层协议</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#因特网层协议"><span class="nav-number">2.3.</span> <span class="nav-text">因特网层协议</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#DoD-模型"><span class="nav-number">1.</span> <span class="nav-text">DoD 模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DoD模型中的协议"><span class="nav-number">2.</span> <span class="nav-text">DoD模型中的协议</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#进程-应用层协议"><span class="nav-number">2.1.</span> <span class="nav-text">进程/应用层协议</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#主机到主机层协议"><span class="nav-number">2.2.</span> <span class="nav-text">主机到主机层协议</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#因特网层协议"><span class="nav-number">2.3.</span> <span class="nav-text">因特网层协议</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IP-编址"><span class="nav-number">3.</span> <span class="nav-text">IP 编址</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#IPv4-地址类型"><span class="nav-number">3.1.</span> <span class="nav-text">IPv4 地址类型</span></a></li></ol></li></ol></div>
             
 
           </div>
