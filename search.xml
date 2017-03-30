@@ -5,7 +5,7 @@
     <entry>
       <title><![CDATA[你懂python吗(11)]]></title>
       <url>%2F2017%2F03%2F30%2F%E4%BD%A0%E6%87%82python%E5%90%97-11%2F</url>
-      <content type="text"><![CDATA[lambda函数]]></content>
+      <content type="text"><![CDATA[lambda函数lambda的使用大量简化了代码，使代码简练清晰; lambda函数也叫匿名函数，即，函数没有具体的名称,而用def创建的方法是有名称的; 1234567891011121314def add_action(x): return x+100if __name__ == '__main__': list=[1,2,3,4] print map(add_action,list)#output[101, 102, 103, 104]#等价于if __name__ == '__main__': print map(lambda x : x+100,[1,2,3,4])#output[101, 102, 103, 104] lambda高效操作列表filter(bool_func,seq)：此函数的功能相当于过滤器。调用一个布尔函数bool_func来迭代遍历每个seq中的元素；返回一个使bool_seq返回值为true的元素的序列。 12345678910filter(lambda x : x%2 == 0,[1,2,3,4,5])#output[2,4]#filter的实现如下：def filter(bool_func,seq): filtered_seq = [] for eachItem in seq: if bool_func(eachItem): filtered_seq.append(eachItem) return filtered_seq map(func,seq1[,seq2…])：将函数func作用于给定序列的每个元素，并用一个列表来提供返回值；如果func为None，func表现为身份函数，返回一个含有每个序列中元素集合的n个元组的列表。 123456789map(lambda x : x+100,[1,2,3,4])#output[101,102,103,104]#map的实现如下：def map(func,seq): mapped_seq = [] for eachItem in seq: mapped_seq.append(func(eachItem)) return mapped_seq reduce(func,seq[,init])：func为二元函数，将func作用于seq序列的元素，每次携带一对（先前的结果以及下一个序列的元素），连续的将现有的结果和下一个值作用在获得的随后的结果上，最后减少我们的序列为一个单一的返回值：如果初始值init给定，第一个比较会是init和第一个序列元素而不是序列的头两个元素。 1234567891011121314reduce(lambda x,y : x + y,[1,2,3,4],initial=10) reduce(lambda x,y : x + y,[1,2,3,4],10) #等价#output20#reduce的实现如下：def reduce(bin_func,seq,initial=None): lseq = list(seq) if initial is None: res = lseq.pop(0) else: res = initial for eachItem in lseq: res = bin_func(res,eachItem) return res 参考：http://blog.csdn.net/prince2270/article/details/4681299]]></content>
     </entry>
 
     

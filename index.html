@@ -385,9 +385,16 @@
 
       
         
-          
-            <h2 id="lambda函数"><a href="#lambda函数" class="headerlink" title="lambda函数"></a>lambda函数</h2>
-          
+          <h2 id="lambda函数"><a href="#lambda函数" class="headerlink" title="lambda函数"></a>lambda函数</h2><p>lambda的使用大量简化了代码，使代码简练清晰;</p>
+<p>lambda函数也叫匿名函数，即，函数没有具体的名称,而用def创建的方法是有名称的;</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">add_action</span><span class="params">(x)</span>:</span></div><div class="line">    <span class="keyword">return</span> x+<span class="number">100</span></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    list=[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]</div><div class="line">    <span class="keyword">print</span> map(add_action,list)</div><div class="line"><span class="comment">#output</span></div><div class="line">[<span class="number">101</span>, <span class="number">102</span>, <span class="number">103</span>, <span class="number">104</span>]</div><div class="line"></div><div class="line"><span class="comment">#等价于</span></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    <span class="keyword">print</span> map(<span class="keyword">lambda</span> x : x+<span class="number">100</span>,[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>])</div><div class="line"><span class="comment">#output</span></div><div class="line">[<span class="number">101</span>, <span class="number">102</span>, <span class="number">103</span>, <span class="number">104</span>]</div></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/03/30/你懂python吗-11/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
