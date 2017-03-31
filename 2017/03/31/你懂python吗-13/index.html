@@ -1,0 +1,920 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="python基础," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/logo.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Python垃圾回收机制​    Python GC主要使用引用计数（reference counting）来跟踪和回收垃圾。在引用计数的基础上，通过“标记-清除”（mark and sweep）解决容器对象可能产生的循环引用问题，通过“分代回收”（generation collection）以空间换时间的方法提高垃圾回收效率。简单来说就是以引用计数为主，标记-清除和分代收集两种机制为辅
+引用计数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="你懂python吗(13)">
+<meta property="og:url" content="https://luckylau.github.io/2017/03/31/你懂python吗-13/index.html">
+<meta property="og:site_name" content="Luckylau's Blog">
+<meta property="og:description" content="Python垃圾回收机制​    Python GC主要使用引用计数（reference counting）来跟踪和回收垃圾。在引用计数的基础上，通过“标记-清除”（mark and sweep）解决容器对象可能产生的循环引用问题，通过“分代回收”（generation collection）以空间换时间的方法提高垃圾回收效率。简单来说就是以引用计数为主，标记-清除和分代收集两种机制为辅
+引用计数">
+<meta property="og:updated_time" content="2017-03-31T09:18:00.523Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="你懂python吗(13)">
+<meta name="twitter:description" content="Python垃圾回收机制​    Python GC主要使用引用计数（reference counting）来跟踪和回收垃圾。在引用计数的基础上，通过“标记-清除”（mark and sweep）解决容器对象可能产生的循环引用问题，通过“分代回收”（generation collection）以空间换时间的方法提高垃圾回收效率。简单来说就是以引用计数为主，标记-清除和分代收集两种机制为辅
+引用计数">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://luckylau.github.io/2017/03/31/你懂python吗-13/"/>
+
+
+
+
+
+  <title> 你懂python吗(13) | Luckylau's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Luckylau's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">Keep Moving, Keep Learning</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/03/31/你懂python吗-13/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Luckylau">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/logo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Luckylau's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Luckylau's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                你懂python吗(13)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-31T13:50:12+08:00">
+                2017-03-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Python垃圾回收机制"><a href="#Python垃圾回收机制" class="headerlink" title="Python垃圾回收机制"></a>Python垃圾回收机制</h2><p>​    Python GC主要使用引用计数（reference counting）来跟踪和回收垃圾。在引用计数的基础上，通过“标记-清除”（mark and sweep）解决容器对象可能产生的循环引用问题，通过“分代回收”（generation collection）以空间换时间的方法提高垃圾回收效率。简单来说就是以引用计数为主，标记-清除和分代收集两种机制为辅</p>
+<h3 id="引用计数机制"><a href="#引用计数机制" class="headerlink" title="引用计数机制"></a>引用计数机制</h3><h4 id="引用计数是啥？"><a href="#引用计数是啥？" class="headerlink" title="引用计数是啥？"></a>引用计数是啥？</h4><p>python里每一个东西都是对象，它们的核心就是一个结构体：<code>PyObject</code></p>
+<a id="more"></a>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> struct_object &#123;</div><div class="line"> <span class="keyword">int</span> ob_refcnt;</div><div class="line"> struct_typeobject *ob_type;</div><div class="line">&#125; PyObject;</div></pre></td></tr></table></figure>
+<p><code>PyObject</code>是每个对象必有的内容，其中<code>ob_refcnt</code>就是做为引用计数。当一个对象有新的引用时，它的<code>ob_refcnt</code>就会增加，当引用它的对象被删除，它的<code>ob_refcnt</code>就会减少</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">define</span> Py_INCREF(op)   ((op)-&gt;ob_refcnt++) <span class="comment">//增加计数</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> Py_DECREF(op) \ <span class="comment">//减少计数</span></span></div><div class="line">    <span class="keyword">if</span> (--(op)-&gt;ob_refcnt != <span class="number">0</span>) \</div><div class="line">        ; \</div><div class="line">    <span class="keyword">else</span> \</div><div class="line">        __Py_Dealloc((PyObject *)(op))</div></pre></td></tr></table></figure>
+<p>当引用计数为0时，该对象生命就结束了。</p>
+<p>导致引用计数+1的情况</p>
+<p>​    对象被创建，例如a=23<br>​    对象被引用，例如b=a<br>​    对象被作为参数，传入到一个函数中，例如func(a)<br>​    对象作为一个元素，存储在容器中，例如list1=[a,a]</p>
+<p>导致引用计数-1的情况</p>
+<p>​    对象的别名被显式销毁，例如del a</p>
+<p>​    对象的别名被赋予新的对象，例如a=24</p>
+<p>​    一个对象离开它的作用域，例如f函数执行完毕时，func函数中的局部变量</p>
+<p>​    对象所在的容器被销毁，或从容器中删除对象</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> sys</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(c)</span>:</span></div><div class="line">    <span class="keyword">print</span> <span class="string">'in func function'</span>, sys.getrefcount(c) - <span class="number">1</span></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    <span class="keyword">print</span> <span class="string">'init'</span>, sys.getrefcount(<span class="number">11</span>) - <span class="number">1</span>  <span class="comment"># 11初始化的引用值</span></div><div class="line">    a = <span class="number">11</span>                                 <span class="comment"># 11被a引用</span></div><div class="line">    <span class="keyword">print</span> <span class="string">'after a=11'</span>, sys.getrefcount(<span class="number">11</span>) - <span class="number">1</span>  </div><div class="line">    b = a</div><div class="line">    <span class="keyword">print</span> <span class="string">'after b=a'</span>, sys.getrefcount(<span class="number">11</span>) - <span class="number">1</span>  <span class="comment">#a被b引用</span></div><div class="line">    func(<span class="number">11</span>)</div><div class="line">    <span class="keyword">print</span> <span class="string">'after func(a)'</span>, sys.getrefcount(<span class="number">11</span>) - <span class="number">1</span></div><div class="line">    list1 = [a, <span class="number">12</span>, <span class="number">14</span>]</div><div class="line">    <span class="keyword">print</span> <span class="string">'after list1=[a,12,14]'</span>, sys.getrefcount(<span class="number">11</span>) - <span class="number">1</span></div><div class="line">    a=<span class="number">12</span></div><div class="line">    <span class="keyword">print</span> <span class="string">'after a=12'</span>, sys.getrefcount(<span class="number">11</span>) - <span class="number">1</span></div><div class="line">    <span class="keyword">del</span> a</div><div class="line">    <span class="keyword">print</span> <span class="string">'after del a'</span>, sys.getrefcount(<span class="number">11</span>) - <span class="number">1</span></div><div class="line">    <span class="keyword">del</span> b</div><div class="line">    <span class="keyword">print</span> <span class="string">'after del b'</span>, sys.getrefcount(<span class="number">11</span>) - <span class="number">1</span></div><div class="line">    list1.pop(<span class="number">0</span>)</div><div class="line">    <span class="keyword">print</span> <span class="string">'after pop list1'</span>,sys.getrefcount(<span class="number">11</span>)<span class="number">-1</span></div><div class="line">    <span class="keyword">del</span> list1</div><div class="line">    <span class="keyword">print</span> <span class="string">'after del list1'</span>, sys.getrefcount(<span class="number">11</span>) - <span class="number">1</span></div><div class="line"><span class="comment">#output</span></div><div class="line">init <span class="number">30</span></div><div class="line">after a=<span class="number">11</span> <span class="number">31</span></div><div class="line">after b=a <span class="number">32</span></div><div class="line"><span class="keyword">in</span> func function <span class="number">34</span></div><div class="line">after func(a) <span class="number">32</span></div><div class="line">after list1=[a,<span class="number">12</span>,<span class="number">14</span>] <span class="number">33</span></div><div class="line">after a=<span class="number">12</span> <span class="number">32</span></div><div class="line">after <span class="keyword">del</span> a <span class="number">32</span></div><div class="line">after <span class="keyword">del</span> b <span class="number">31</span></div><div class="line">after pop list1 <span class="number">30</span></div><div class="line">after <span class="keyword">del</span> list1 <span class="number">30</span></div></pre></td></tr></table></figure>
+<p>引用计数机制的优点：</p>
+<p>1、简单</p>
+<p>2、实时性：一旦没有引用，内存就直接释放了。不用像其他机制等到特定时机。实时性还带来一个好处：处理回收内存的时间分摊到了平时。</p>
+<p>引用计数机制的缺点： </p>
+<p>1、维护引用计数消耗资源 </p>
+<p>2、循环引用 </p>
+<h4 id="循环引用如何内存泄漏？"><a href="#循环引用如何内存泄漏？" class="headerlink" title="循环引用如何内存泄漏？"></a>循环引用如何内存泄漏？</h4><p><strong>有</strong> <strong>del</strong>() 函数的对象间的<strong>循环引用</strong>是导致内存泄漏的主凶。但没有<strong>del</strong>()函数的对象间的循环引用是可以被垃圾回收器回收掉的。</p>
+<p>首先我们要看一下没有内存泄漏的例子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> gc</div><div class="line"><span class="keyword">import</span> sys</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">cycleLeak</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">        self._text = <span class="string">'#'</span> * <span class="number">10</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__del__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">pass</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">make_cycle_ref</span><span class="params">()</span>:</span></div><div class="line">    _cycleLeak = cycleLeak()</div><div class="line">    <span class="keyword">print</span> <span class="string">'_cycleLeak ref count0: %d'</span> % (sys.getrefcount(_cycleLeak))</div><div class="line">    <span class="keyword">del</span> _cycleLeak</div><div class="line">    <span class="keyword">try</span>:</div><div class="line">        <span class="keyword">print</span> <span class="string">'_cycleLeak ref count1: %d'</span> % (sys.getrefcount(_cycleLeak))</div><div class="line">    <span class="keyword">except</span> UnboundLocalError:</div><div class="line">        <span class="keyword">print</span> <span class="string">'_cycleLeak is invalid !'</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_gcLeak</span><span class="params">()</span>:</span></div><div class="line">    gc.enable()</div><div class="line">    <span class="comment"># gc.set_debug(gc.DEBUG_LEAK)</span></div><div class="line">    gc.set_debug(gc.DEBUG_COLLECTABLE | gc.DEBUG_UNCOLLECTABLE |</div><div class="line">                 gc.DEBUG_INSTANCES | gc.DEBUG_OBJECTS)</div><div class="line">    <span class="keyword">print</span> <span class="string">'begin gcleak test ....'</span></div><div class="line">    make_cycle_ref()</div><div class="line">    <span class="keyword">print</span> <span class="string">'gc begin collecting ....'</span></div><div class="line">    _unreachable = gc.collect()</div><div class="line">    <span class="keyword">print</span> <span class="string">'unreachable object num : %d '</span> % (_unreachable)</div><div class="line">    <span class="string">'''</span></div><div class="line">    gc.garbage是一个list对象，列表项是垃圾收集器发现的不可达（即垃圾对象）、但又不能释放(不可回收)的对	 象，通常gc.garbage中的对象是引用对象还中的对象。因Python不知用什么顺序来调用对象的__del__函数，导     致对象始终存活在gc.garbage中，造成内存泄露</div><div class="line">    '''</div><div class="line">    <span class="keyword">print</span> <span class="string">'garbage object num : %d'</span> % (len(gc.garbage))</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    test_gcLeak()</div><div class="line"><span class="comment">#output</span></div><div class="line">begin gcleak test ....</div><div class="line">_cycleLeak ref count0: <span class="number">2</span>  <span class="comment">#对象_gcleak的引用计数为2</span></div><div class="line">_cycleLeak <span class="keyword">is</span> invalid !   <span class="comment">#因为执行了del函数，_gcleak变为了不可达的对象</span></div><div class="line">gc begin collecting ....  <span class="comment">#开始垃圾回收</span></div><div class="line">unreachable object num : <span class="number">0</span>  <span class="comment">#本次垃圾回收发现的不可达的对象个数为0</span></div><div class="line">garbage object num : <span class="number">0</span>      <span class="comment">#整个解释器中垃圾对象的个数为0</span></div></pre></td></tr></table></figure>
+<p>我们通过自我引用引起内存泄露，在上述程序中将 <code>make_cycle_ref()</code>添加如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">make_cycle_ref</span><span class="params">()</span>:</span></div><div class="line">    _cycleLeak = cycleLeak()</div><div class="line">    _cycleLeak._self=_cycleLeak   <span class="comment">#自我引用</span></div><div class="line">    <span class="keyword">print</span> <span class="string">'_cycleLeak ref count0: %d'</span> % (sys.getrefcount(_cycleLeak))</div><div class="line">    <span class="keyword">del</span> _cycleLeak</div><div class="line">    <span class="keyword">try</span>:</div><div class="line">        <span class="keyword">print</span> <span class="string">'_cycleLeak ref count1: %d'</span> % (sys.getrefcount(_cycleLeak))</div><div class="line">    <span class="keyword">except</span> UnboundLocalError:</div><div class="line">        <span class="keyword">print</span> <span class="string">'_cycleLeak is invalid !'</span></div><div class="line"><span class="comment">#output</span></div><div class="line">begin gcleak test ....</div><div class="line">_cycleLeak ref count0: <span class="number">3</span></div><div class="line">_cycleLeak <span class="keyword">is</span> invalid !</div><div class="line">gc begin collecting ....</div><div class="line">gc: uncollectable &lt;cycleLeak <span class="number">0x7f4f50779350</span>&gt;</div><div class="line">gc: uncollectable &lt;dict <span class="number">0x7f4f5077a6e0</span>&gt;</div><div class="line">unreachable object num : <span class="number">2</span> <span class="comment">#本次回收不可达的对象个数为2</span></div><div class="line">garbage object num : <span class="number">1</span>     <span class="comment">#整个解释器中垃圾个数为1</span></div></pre></td></tr></table></figure>
+<p>我们互相引用导致内存泄漏,代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> gc</div><div class="line"><span class="keyword">import</span> sys</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">cycleLeakA</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">        self._text = <span class="string">'#'</span> * <span class="number">10</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__del__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">pass</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">cycleLeakB</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">        self._text = <span class="string">'#'</span> * <span class="number">10</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__del__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">pass</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">make_cycle_ref</span><span class="params">()</span>:</span></div><div class="line">    _cycleLeakA = cycleLeakA()</div><div class="line">    _cycleLeakB = cycleLeakB()</div><div class="line">    _cycleLeakA._ref=_cycleLeakB</div><div class="line">    _cycleLeakB._ref = _cycleLeakA</div><div class="line">    <span class="keyword">print</span> <span class="string">'_cycleLeak ref count0: _cycleLeakA %d ,_cycleLeakB %d'</span> % (sys.getrefcount(_cycleLeakA),sys.getrefcount(_cycleLeakB))</div><div class="line">    <span class="keyword">del</span> _cycleLeakA</div><div class="line">    <span class="keyword">del</span> _cycleLeakB</div><div class="line">    <span class="keyword">try</span>:</div><div class="line">        <span class="keyword">print</span> <span class="string">'_cycleLeak ref count1: _cycleLeakA %d ,_cycleLeakB %d'</span> % (sys.getrefcount(_cycleLeakA),sys.getrefcount(_cycleLeakB))</div><div class="line">    <span class="keyword">except</span> UnboundLocalError:</div><div class="line">        <span class="keyword">print</span> <span class="string">'_cycleLeak is invalid !'</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_gcLeak</span><span class="params">()</span>:</span></div><div class="line">    gc.enable()</div><div class="line">    gc.set_debug(gc.DEBUG_COLLECTABLE | gc.DEBUG_UNCOLLECTABLE |</div><div class="line">                 gc.DEBUG_INSTANCES | gc.DEBUG_OBJECTS ) </div><div class="line">    <span class="keyword">print</span> <span class="string">'begin gcleak test ....'</span></div><div class="line">    make_cycle_ref()</div><div class="line">    <span class="keyword">print</span> <span class="string">'gc begin collecting ....'</span></div><div class="line">    _unreachable = gc.collect()</div><div class="line">    <span class="keyword">print</span> <span class="string">'unreachable object num : %d '</span> % (_unreachable)</div><div class="line">    <span class="keyword">print</span> <span class="string">'garbage object num : %d'</span> % (len(gc.garbage))</div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    test_gcLeak()</div><div class="line"><span class="comment">#output</span></div><div class="line">begin gcleak test ....</div><div class="line">_cycleLeak ref count0: _cycleLeakA <span class="number">3</span> ,_cycleLeakB <span class="number">3</span></div><div class="line">_cycleLeak <span class="keyword">is</span> invalid !</div><div class="line">gc begin collecting ....</div><div class="line">unreachable object num : <span class="number">4</span> </div><div class="line">garbage object num : <span class="number">2</span></div><div class="line">gc: uncollectable &lt;cycleLeakA <span class="number">0x7f59f3a04710</span>&gt;</div><div class="line">gc: uncollectable &lt;cycleLeakB <span class="number">0x7f59f3a04750</span>&gt;</div><div class="line">gc: uncollectable &lt;dict <span class="number">0x7f59f3a05a28</span>&gt;</div><div class="line">gc: uncollectable &lt;dict <span class="number">0x7f59f3a056e0</span>&gt;</div></pre></td></tr></table></figure>
+<p>注意：如果我们将class cycleLeak(object)的<code>__del__</code>属性删除，garbage object num将会是0</p>
+<h3 id="标记-清除？"><a href="#标记-清除？" class="headerlink" title="标记-清除？"></a>标记-清除？</h3><h3 id="分代收集？"><a href="#分代收集？" class="headerlink" title="分代收集？"></a>分代收集？</h3><p>​    </p>
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p><a href="http://www.cnblogs.com/hackerl/p/5901553.html" target="_blank" rel="external">http://www.cnblogs.com/hackerl/p/5901553.html</a></p>
+<p><a href="http://www.jianshu.com/p/1e375fb40506" target="_blank" rel="external">http://www.jianshu.com/p/1e375fb40506</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+<div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/1.jpg" alt="Luckylau wechat" style="width: 200px; max-width: 100%;"/>
+    <div>如果对您有价值,看官可以打赏的！</div>
+</div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python基础/" rel="tag"># python基础</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/31/你懂python吗-12/" rel="next" title="你懂python吗(12)">
+                <i class="fa fa-chevron-left"></i> 你懂python吗(12)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/logo.jpg"
+               alt="Luckylau" />
+          <p class="site-author-name" itemprop="name">Luckylau</p>
+          <p class="site-description motion-element" itemprop="description">人生识字忧患始</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Luckylau" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://weibo.com/2606534415/profile?topnav=1&wvr=6&is_all=1" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Python垃圾回收机制"><span class="nav-number">1.</span> <span class="nav-text">Python垃圾回收机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#引用计数机制"><span class="nav-number">1.1.</span> <span class="nav-text">引用计数机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#引用计数是啥？"><span class="nav-number">1.1.1.</span> <span class="nav-text">引用计数是啥？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#循环引用如何内存泄漏？"><span class="nav-number">1.1.2.</span> <span class="nav-text">循环引用如何内存泄漏？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标记-清除？"><span class="nav-number">1.2.</span> <span class="nav-text">标记-清除？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分代收集？"><span class="nav-number">1.3.</span> <span class="nav-text">分代收集？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考："><span class="nav-number">1.4.</span> <span class="nav-text">参考：</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Luckylau</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid="></script>
+      <!-- UY END -->
+  
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
