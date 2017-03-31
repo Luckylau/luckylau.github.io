@@ -93,7 +93,7 @@
 <meta property="og:description" content="Python垃圾回收机制​    Python GC主要使用引用计数（reference counting）来跟踪和回收垃圾。在引用计数的基础上，通过“标记-清除”（mark and sweep）解决容器对象可能产生的循环引用问题，通过“分代回收”（generation collection）以空间换时间的方法提高垃圾回收效率。简单来说就是以引用计数为主，标记-清除和分代收集两种机制为辅
 引用计数">
 <meta property="og:image" content="https://luckylau.github.io/2017/03/31/你懂python吗-13/1.png">
-<meta property="og:updated_time" content="2017-03-31T10:20:27.293Z">
+<meta property="og:updated_time" content="2017-03-31T13:07:15.015Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="你懂python吗(13)">
 <meta name="twitter:description" content="Python垃圾回收机制​    Python GC主要使用引用计数（reference counting）来跟踪和回收垃圾。在引用计数的基础上，通过“标记-清除”（mark and sweep）解决容器对象可能产生的循环引用问题，通过“分代回收”（generation collection）以空间换时间的方法提高垃圾回收效率。简单来说就是以引用计数为主，标记-清除和分代收集两种机制为辅
@@ -442,6 +442,8 @@
 <h3 id="标记-清除？"><a href="#标记-清除？" class="headerlink" title="标记-清除？"></a>标记-清除？</h3><p>标记-清除机制，顾名思义，首先标记对象（垃圾检测），然后清除垃圾（垃圾回收）。</p>
 <p>首先初始所有对象标记为白色，并确定根节点对象（这些对象是不会被删除），标记它们为黑色（表示对象有效）。将有效对象引用的对象标记为灰色（表示对象可达，但它们所引用的对象还没检查），检查完灰色对象引用的对象后，将灰色标记为黑色。重复直到不存在灰色节点为止。最后白色结点都是需要清除的对象。</p>
 <p><img src="/2017/03/31/你懂python吗-13/1.png" alt=""></p>
+<p>这里所采用的高级机制作为引用计数的辅助机制，用于解决产生的循环引用问题。而循环引用只会出现在“内部存在可以对其他对象引用的对象”，比如：list，class等。为了要将这些回收对象组织起来，需要建立一个链表。自然，每个被收集的对象内就需要多提供一些信息，下面代码是回收对象里必然出现的。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* GC information is stored BEFORE the object structure. */</span></div><div class="line"><span class="keyword">typedef</span> <span class="keyword">union</span> _gc_head &#123;</div><div class="line">    <span class="keyword">struct</span> &#123;</div><div class="line">        <span class="keyword">union</span> _gc_head *gc_next;</div><div class="line">        <span class="keyword">union</span> _gc_head *gc_prev;</div><div class="line">        Py_ssize_t gc_refs;</div><div class="line">    &#125; gc;</div><div class="line">    <span class="keyword">long</span> <span class="keyword">double</span> dummy;  <span class="comment">/* force worst-case alignment */</span></div><div class="line">&#125; PyGC_Head;</div></pre></td></tr></table></figure>
 <h3 id="分代收集？"><a href="#分代收集？" class="headerlink" title="分代收集？"></a>分代收集？</h3><p>​    </p>
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p><a href="http://www.cnblogs.com/hackerl/p/5901553.html" target="_blank" rel="external">http://www.cnblogs.com/hackerl/p/5901553.html</a></p>
 <p><a href="http://www.jianshu.com/p/1e375fb40506" target="_blank" rel="external">http://www.jianshu.com/p/1e375fb40506</a></p>
@@ -566,7 +568,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">46</span>
+                <span class="site-state-item-count">47</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
