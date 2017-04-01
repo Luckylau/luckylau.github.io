@@ -96,7 +96,7 @@
 <meta property="og:image" content="https://luckylau.github.io/2017/03/31/你懂python吗-13/2.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/03/31/你懂python吗-13/3.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/03/31/你懂python吗-13/4.png">
-<meta property="og:updated_time" content="2017-04-01T02:19:39.255Z">
+<meta property="og:updated_time" content="2017-04-01T02:27:21.721Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="你懂python吗(13)">
 <meta name="twitter:description" content="Python垃圾回收机制​    Python GC主要使用引用计数（reference counting）来跟踪和回收垃圾。在引用计数的基础上，通过“标记-清除”（mark and sweep）解决容器对象可能产生的循环引用问题，通过“分代回收”（generation collection）以空间换时间的方法提高垃圾回收效率。简单来说就是以引用计数为主，标记-清除和分代收集两种机制为辅
@@ -442,7 +442,7 @@
 </ul>
 <p><strong>使用方法：</strong></p>
 <p>必须要import gc模块，并且is_enable()=True才会启动自动垃圾回收。<br>这个机制的主要作用就是发现并处理不可达的垃圾对象。<br>垃圾回收=垃圾检查+垃圾回收<br>在Python中，采用分代收集的方法。把对象分为三代，一开始，对象在创建的时候，放在一代中，如果在一次一代的垃圾检查中，改对象存活下来，就会被放到二代中，同理在一次二代的垃圾检查中，该对象存活下来，就会被放到三代中。</p>
-<h3 id="标记-清除？"><a href="#标记-清除？" class="headerlink" title="标记-清除？"></a>标记-清除？</h3><p>标记-清除机制，顾名思义，首先标记对象（垃圾检测），然后清除垃圾（垃圾回收）。</p>
+<h3 id="标记-清除？"><a href="#标记-清除？" class="headerlink" title="标记-清除？"></a>标记-清除？</h3><p>标记-清除机制，顾名思义，首先标记对象（垃圾检测），然后清除垃圾（垃圾回收）。基本思路是先按需分配，等到没有空闲内存的时候从寄存器和程序栈上的引用出发，遍历以对象为节点、以引用为边构成的图，把所有可以访问到的对象打上标记，然后清扫一遍内存空间，把所有没标记的对象释放。</p>
 <p>首先初始所有对象标记为白色，并确定根节点对象（这些对象是不会被删除），标记它们为黑色（表示对象有效）。将有效对象引用的对象标记为灰色（表示对象可达，但它们所引用的对象还没检查），检查完灰色对象引用的对象后，将灰色标记为黑色。重复直到不存在灰色节点为止。最后白色结点都是需要清除的对象。</p>
 <p><img src="/2017/03/31/你懂python吗-13/1.png" alt=""></p>
 <p>这里所采用的高级机制作为引用计数的辅助机制，用于解决产生的循环引用问题。而循环引用只会出现在“内部存在可以对其他对象引用的对象”，比如：list，class等。为了要将这些回收对象组织起来，需要建立一个链表。自然，每个被收集的对象内就需要多提供一些信息，下面代码是回收对象里必然出现的。</p>
@@ -450,7 +450,9 @@
 <p>一个对象的实际结构如图所示：</p>
 <p><img src="/2017/03/31/你懂python吗-13/2.png" alt=""></p>
 <p>通过PyGC_Head的指针将每个回收对象连接起来，形成了一个链表，也就是在1里提到的初始化的所有对象。</p>
-<h3 id="分代收集？"><a href="#分代收集？" class="headerlink" title="分代收集？"></a>分代收集？</h3><p>分代技术是一种典型的以空间换时间的技术，这也正是java里的关键技术。这种思想简单点说就是：对象存在时间越长，越可能不是垃圾，应该越少去收集。</p>
+<h3 id="分代收集？"><a href="#分代收集？" class="headerlink" title="分代收集？"></a>分代收集？</h3><p>分代技术是一种典型的以空间换时间的技术，这也正是java里的关键技术。这种思想简单点说就是：对象存在时间越长，越可能不是垃圾，应该越少去收集。分代回收的整体思想是：将系统中的所有内存块根据其存活时间划分为不同的集合，每个集合就成为一个“代”，垃圾收集频率随着“代”的存活时间的增大而减小，存活时间通常利用经过几次垃圾回收来度量。</p>
+<p>Python默认定义了三代对象集合，索引数越大，对象存活时间越长。</p>
+<p>举例： 当某些内存块M经过了3次垃圾收集的清洗之后还存活时，我们就将内存块M划到一个集合A中去，而新分配的内存都划分到集合B中去。当垃圾收集开始工作时，大多数情况都只对集合B进行垃圾回收，而对集合A进行垃圾回收要隔相当长一段时间后才进行，这就使得垃圾收集机制需要处理的内存少了，效率自然就提高了。在这个过程中，集合B中的某些内存块由于存活时间长而会被转移到集合A中，当然，集合A中实际上也存在一些垃圾，这些垃圾的回收会因为这种分代的机制而被延迟。</p>
 <p>这样的思想，可以减少标记-清除机制所带来的额外操作。分代就是将回收对象分成数个代，每个代就是一个链表（集合），代进行标记-清除的时间与代内对象存活时间成正比例关系。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*** Global GC state ***/</span> </div><div class="line"><span class="keyword">struct</span> gc_generation &#123;</div><div class="line">      PyGC_Head head;</div><div class="line">      <span class="keyword">int</span> threshold; <span class="comment">/* collection threshold */</span></div><div class="line">      <span class="keyword">int</span> count; <span class="comment">/* count of allocations or collections of younger</span></div><div class="line">                    generations */</div><div class="line">  &#125;;<span class="comment">//每个代的结构 </span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> NUM_GENERATIONS 3<span class="comment">//代的个数</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> GEN_HEAD(n) (&amp;generations[n].head)</span></div><div class="line"> </div><div class="line"><span class="comment">/* linked lists of container objects */</span></div><div class="line"><span class="keyword">static</span> <span class="keyword">struct</span> gc_generation generations[NUM_GENERATIONS] = &#123;</div><div class="line">     <span class="comment">/* PyGC_Head,                               threshold,      count */</span></div><div class="line">     &#123;&#123;&#123;GEN_HEAD(<span class="number">0</span>), GEN_HEAD(<span class="number">0</span>), <span class="number">0</span>&#125;&#125;,           <span class="number">700</span>,            <span class="number">0</span>&#125;,</div><div class="line">     &#123;&#123;&#123;GEN_HEAD(<span class="number">1</span>), GEN_HEAD(<span class="number">1</span>), <span class="number">0</span>&#125;&#125;,           <span class="number">10</span>,             <span class="number">0</span>&#125;,</div><div class="line">     &#123;&#123;&#123;GEN_HEAD(<span class="number">2</span>), GEN_HEAD(<span class="number">2</span>), <span class="number">0</span>&#125;&#125;,           <span class="number">10</span>,             <span class="number">0</span>&#125;,</div><div class="line"> &#125;;</div><div class="line"> </div><div class="line">PyGC_Head *_PyGC_generation0 = GEN_HEAD(<span class="number">0</span>);</div></pre></td></tr></table></figure>
 <p>从上面代码可以看出python里一共有三代，每个代的threshold值表示该代最多容纳对象的个数。默认情况下，当0代超过700,或1，2代超过10，垃圾回收机制将触发。0代触发将清理所有三代，1代触发会清理1,2代，2代触发后只会清理自己。</p>
