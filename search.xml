@@ -3,6 +3,20 @@
   
     
     <entry>
+      <title><![CDATA[什么是openstack?]]></title>
+      <url>%2F2017%2F04%2F05%2F%E4%BB%80%E4%B9%88%E6%98%AFopenstack%2F</url>
+      <content type="text"><![CDATA[​ OpenStack是一个旨在为公共及私有云的建设与管理提供软件的开源项目。它不是一个软件，而是由几个主要的组件组合起来完成一些具体的工作。可以搭建公有云，私有云，企业云。​ OpenStack基本上是一个软件项目，有近55万行代码。分解成核心项目、孵化项目，以及支持项目和相关项目。​ OpenStack是一个框架，一个可以建立公有云和私有云的基础架构。它并不是一个现成的产品，要想开展基础架构方面的工作，企业需要顾问和开发人员。很多时候还需要第三方的集成工具。KVM(Kernel-based Virtual Machine)是一个开源的系统虚拟化模块，它需要硬件支持，如Intel VT技术或者AMD V技术，是基于硬件的完全虚拟化，完全内置于Linux。 ​ OpenStack几乎支持所有的虚拟化管理程序，不论是开源的(Xen与KVM)还是厂商的(Hyper-V与VMware)。但在以前，OpenStack是基于KVM开发的，KVM常常成为默认的虚拟机管理程序。两者都使用相同的开放源理念与开发方法。 OpenStack组件 Compute (Nova) 计算服务 Identity Service (Keystone) 认证服务 Image Service (Glance) 镜像服务 Networking (Neutron/Quantum) 网络服务 Dashboard (Horizon) 仪表板 Object Storage (Swift) 对象存储 Block Storage (Cinder) 块存储 Orchestration (Heat) 编排 Telemetry (Ceilometer) 监控 Database Service (Trove) 数据库服务 Data Processing (Sahara) 数据处理]]></content>
+    </entry>
+
+    
+    <entry>
+      <title><![CDATA[Neutron二层网络服务实现原理]]></title>
+      <url>%2F2017%2F04%2F05%2FNeutron%E4%BA%8C%E5%B1%82%E7%BD%91%E7%BB%9C%E6%9C%8D%E5%8A%A1%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%2F</url>
+      <content type="text"><![CDATA[pass]]></content>
+    </entry>
+
+    
+    <entry>
       <title><![CDATA[阅读书单(4)]]></title>
       <url>%2F2017%2F03%2F31%2F%E9%98%85%E8%AF%BB%E4%B9%A6%E5%8D%95-4%2F</url>
       <content type="text"><![CDATA[2017年-至今98.《你一年的8760小时》-艾力 99.《牛棚杂忆》-季羡林 100.《愚人的坚持》-稻盛和夫，山中伸弥 101.《异类》-马尔柯姆-格拉德威尔 102.《人类动物园》-德斯蒙德莫里斯 103.《美学漫话》-宗白华 104.《逃不开的经济周期》-拉斯特维德 105.《明治维新六十年》-樱雪丸 106.《武士道》-新渡户稻造 107.《我所理解的生活》-韩寒 108.《呀，原来如此》-知乎 109《宋朝原来是这样》-醉罢君山 110《我看到的世界和你们不一样》-眭澔平 111《沸腾十五年》-林军 112《吾国吾民》-林语堂 113《亲密行为》-德斯蒙德莫里斯 114《人人都爱经济学》-王福重]]></content>
