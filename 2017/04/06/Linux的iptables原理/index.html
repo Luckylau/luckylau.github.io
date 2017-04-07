@@ -97,7 +97,8 @@
 <meta property="og:image" content="https://luckylau.github.io/2017/04/06/Linux的iptables原理/5.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/04/06/Linux的iptables原理/6.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/04/06/Linux的iptables原理/7.png">
-<meta property="og:updated_time" content="2017-04-06T07:03:31.629Z">
+<meta property="og:image" content="https://luckylau.github.io/2017/04/06/Linux的iptables原理/8.png">
+<meta property="og:updated_time" content="2017-04-06T08:16:48.992Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux的iptables原理">
 <meta name="twitter:description" content="​    在Linux系统中，对于防火墙的实现一般分为包过滤防火墙，TCP-Wrapper即程序管控，代理服务器等几种方式。其中，iptables作为一种基于包过滤方式的防火墙工具，在实际中应用非常广泛，是非常重要的一个安全工具。真正实现防火墙功能的是 netfilter，它是一个 linux 内核模块，做实际的包过滤。实际上，除了 iptables 以外，还有很多类似的用户空间工具。">
@@ -474,7 +475,15 @@
 <p><img src="/2017/04/06/Linux的iptables原理/7.png" alt=""></p>
 <p>​    假设我的内部主机 192.168.1.210 启动了 WWW 服务，这个服务的 port 开启在 port 80 ， 那么 Internet 上面的主机 (61.xx.xx.xx) 要如何连接到我的内部服务器呢？当然啦， 还是得要透过 Linux NAT 服务器嘛！所以这部 Internet 上面的机器必须要连接到我们的 NAT 的 public IP 才行。外部主机想要连接到目的端的 WWW 服务，则必须要连接到我们的 NAT 服务器上头；我们的 NAT 服务器已经设定好要分析出 port 80 的封包，所以当 NAT 服务器接到这个封包后， 会将目标 IP 由 public IP 改成 192.168.1.210 ，且将该封包相关信息记录下来，等待内部服务器的响应；上述的封包在经过路由后，来到 private 接口处，然后透过内部的 LAN 传送到 192.168.1.210 上头！</p>
 <p>​    192.186.1.210 会响应数据给 61.xx.xx.xx ，这个回应当然会传送到 192.168.1.2 上头去；经过路由判断后，来到 NAT Postrouting 的链，然后透过刚刚的记录，将来源 IP 由 192.168.1.210 改为 public IP 后，就可以传送出去了！</p>
-<h3 id="iptables常用命令"><a href="#iptables常用命令" class="headerlink" title="iptables常用命令"></a>iptables常用命令</h3><p>iptables <code>[-t tables][-L] [-nv]</code></p>
+<h3 id="iptables常用命令"><a href="#iptables常用命令" class="headerlink" title="iptables常用命令"></a>iptables常用命令</h3><p><img src="/2017/04/06/Linux的iptables原理/8.png" alt=""></p>
+<p>注释：</p>
+<ol>
+<li>如果想查看特别的表时使用<code>-t</code>指定,如果查看单独的链需要在操作后面指定.</li>
+<li>如果是查看规则定义,使用<code>-S</code>. <code>-S</code>比<code>-L</code>查看规则时更加清晰.</li>
+<li>如果查看匹配状况使用<code>-nvL</code>.配合watch使用.</li>
+<li><code>--line-number</code>用于查看规则号.</li>
+</ol>
+<p>iptables <code>[-t tables][-L] [-nv]</code></p>
 <p>选项与参数：</p>
 <p>-t ：后面接 table ，例如 nat 或 filter ，若省略此项目，则使用默认的 filter</p>
 <p>-L ：列出目前的 table 的规则</p>
@@ -483,8 +492,11 @@
 <p>iptables-save [-t table] （列出完整的防火墙规则）</p>
 <p>选项与参数：</p>
 <p>-t ：可以仅针对某些表格来输出，例如仅针对 nat 或 filter 等等</p>
+<p>​    这个命令主要是把内存态的规则保存到文件,然后下次启动的时候用iptables-restore来载入规则. 但是这个命令常常用来查看防火墙规则.比iptables用得都多, 主要是输出结果的格式比较紧凑直观.而且能方便的能看到所有表的规则.</p>
 <p>iptables <code>[-t tables][-FXZ]</code></p>
 <p>选项与参数：<br>-F ：清除所有的已订定的规则；<br>-X ：杀掉所有使用者 “自定义” 的 chain (应该说的是 tables ）啰；<br>-Z ：将所有的 chain 的计数与流量统计都归零</p>
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p><a href="http://fishcried.com/2016-02-19/iptables/" target="_blank" rel="external">http://fishcried.com/2016-02-19/iptables/</a></p>
+<p><a href="http://cn.linux.vbird.org/linux_server/0250simple_firewall_3.php" target="_blank" rel="external">http://cn.linux.vbird.org/linux_server/0250simple_firewall_3.php</a></p>
 
       
     </div>
@@ -531,6 +543,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/06/Neutron三层网络服务实现原理/" rel="prev" title="Neutron三层网络服务实现原理">
+                Neutron三层网络服务实现原理 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -600,7 +616,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-count">52</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -673,7 +689,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#iptables的“链”与“表”"><span class="nav-number">1.</span> <span class="nav-text">iptables的“链”与“表”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#iptables实现SNAT与DNAT"><span class="nav-number">2.</span> <span class="nav-text">iptables实现SNAT与DNAT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#iptables常用命令"><span class="nav-number">3.</span> <span class="nav-text">iptables常用命令</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#iptables的“链”与“表”"><span class="nav-number">1.</span> <span class="nav-text">iptables的“链”与“表”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#iptables实现SNAT与DNAT"><span class="nav-number">2.</span> <span class="nav-text">iptables实现SNAT与DNAT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#iptables常用命令"><span class="nav-number">3.</span> <span class="nav-text">iptables常用命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考："><span class="nav-number">4.</span> <span class="nav-text">参考：</span></a></li></ol></div>
             
 
           </div>

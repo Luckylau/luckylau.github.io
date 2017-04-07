@@ -1,0 +1,984 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="neutron," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/logo.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="​    Neutron 对虚拟三层网络的实现是通过其 L3 Agent （neutron-l3-agent）。该 Agent 利用 Linux IP 栈、route 和 iptables 来实现内网内不同网络内的虚机之间的网络流量，以及虚机和外网之间网络流量的路由和转发。为了在同一个Linux 系统上支持可能的 IP 地址空间重叠，它使用了 Linux network namespace 来提供">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Neutron三层网络服务实现原理">
+<meta property="og:url" content="https://luckylau.github.io/2017/04/06/Neutron三层网络服务实现原理/index.html">
+<meta property="og:site_name" content="Luckylau's Blog">
+<meta property="og:description" content="​    Neutron 对虚拟三层网络的实现是通过其 L3 Agent （neutron-l3-agent）。该 Agent 利用 Linux IP 栈、route 和 iptables 来实现内网内不同网络内的虚机之间的网络流量，以及虚机和外网之间网络流量的路由和转发。为了在同一个Linux 系统上支持可能的 IP 地址空间重叠，它使用了 Linux network namespace 来提供">
+<meta property="og:image" content="https://luckylau.github.io/2017/04/06/Neutron三层网络服务实现原理/1.png">
+<meta property="og:image" content="https://luckylau.github.io/2017/04/06/Neutron三层网络服务实现原理/2.png">
+<meta property="og:image" content="https://luckylau.github.io/2017/04/06/Neutron三层网络服务实现原理/3.png">
+<meta property="og:image" content="https://luckylau.github.io/2017/04/06/Neutron三层网络服务实现原理/4.png">
+<meta property="og:image" content="https://luckylau.github.io/2017/04/06/Neutron三层网络服务实现原理/5.png">
+<meta property="og:image" content="https://luckylau.github.io/2017/04/06/Neutron三层网络服务实现原理/6.png">
+<meta property="og:updated_time" content="2017-04-07T10:03:53.130Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Neutron三层网络服务实现原理">
+<meta name="twitter:description" content="​    Neutron 对虚拟三层网络的实现是通过其 L3 Agent （neutron-l3-agent）。该 Agent 利用 Linux IP 栈、route 和 iptables 来实现内网内不同网络内的虚机之间的网络流量，以及虚机和外网之间网络流量的路由和转发。为了在同一个Linux 系统上支持可能的 IP 地址空间重叠，它使用了 Linux network namespace 来提供">
+<meta name="twitter:image" content="https://luckylau.github.io/2017/04/06/Neutron三层网络服务实现原理/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://luckylau.github.io/2017/04/06/Neutron三层网络服务实现原理/"/>
+
+
+
+
+
+  <title> Neutron三层网络服务实现原理 | Luckylau's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Luckylau's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">Keep Moving, Keep Learning</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/04/06/Neutron三层网络服务实现原理/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Luckylau">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/logo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Luckylau's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Luckylau's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Neutron三层网络服务实现原理
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-06T15:17:34+08:00">
+                2017-04-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/neutron/" itemprop="url" rel="index">
+                    <span itemprop="name">neutron</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>​    Neutron 对虚拟三层网络的实现是通过其 L3 Agent （neutron-l3-agent）。该 Agent 利用 Linux IP 栈、route 和 iptables 来实现内网内不同网络内的虚机之间的网络流量，以及虚机和外网之间网络流量的路由和转发。为了在同一个Linux 系统上支持可能的 IP 地址空间重叠，它使用了 Linux network namespace 来提供隔离的转发上下文。</p>
+<h3 id="NameSpace技术"><a href="#NameSpace技术" class="headerlink" title="NameSpace技术"></a>NameSpace技术</h3><p>​    在二层网络上，VLAN 可以将一个物理交换机分割成几个独立的虚拟交换机。类似地，在三层网络上，Linux network namespace（netns） 可以将一个物理三层网络分割成几个独立的虚拟三层网络。</p>
+<a id="more"></a>
+<p>​     Network namespace （netns）从 Linux 2.6.24 版本开始添加，直到 2.6.29 添加完成。每个 netns  拥有独立的 （virtual）network devices, IP addresses, IP routing tables, /proc/net directory, ports 等等。新创建的 netns 默认只包含 loopback device。除了这个设备，每个 network device，不管是物理的还是虚拟的网卡还是网桥等，都只能存在于一个 netns。而且，连接物理硬件的物理设备只能存在于 root netns。其它普通的网络设备可以被创建和添加到某个 netns。</p>
+<p>添加 network namespace</p>
+<p>​    ip netnas add <code>&lt;network namespace name&gt;</code></p>
+<p>​    Example:</p>
+<p>​    ip netns add nstest</p>
+<p>列表所有 netns</p>
+<p>​    ip netns list</p>
+<p>删除某 netns</p>
+<p>​    ip netns delete <code>&lt;network namespace name&gt;</code></p>
+<p>在 network namespace 中运行命令</p>
+<p>​    ip netns exec <code>&lt;network namespace name&gt; &lt;command&gt;</code></p>
+<p>​    Example using the namespace from above:</p>
+<p>​    ip netns exec nstest ip addr</p>
+<p>添加 virtual interfaces 到 network namespace</p>
+<p>​    ip link add veth-a type veth peer name veth-b #创建一对虚拟网卡veth-a 和 veth-b，两者由一根虚拟网线连接</p>
+<p>将 veth-b 添加到 network namespace</p>
+<p>​    ip link set veth-b netns nstest</p>
+<p>设置 vi 的 IP 地址</p>
+<p>​    ip netns exec nstest ip addr add 10.0.0.2/24 dev veth-b</p>
+<p>​    ip netns exec nstest ip link set dev veth-b up</p>
+<p>设置默认namespace的vi地址</p>
+<p>​    ip addr add 10.0.0.1/24 dev veth-a<br>​    ip link set dev veth-a up</p>
+<p>ping</p>
+<p>​    ip netns exec nstest ping 10.0.0.1</p>
+<p>​    PING 10.0.0.1 (10.0.0.1) 56(84) bytes of data.</p>
+<p>​    bytes from 10.0.0.1: icmp_seq=1 ttl=64 time=0.054 ms</p>
+<p>查看路由表和 iptbales</p>
+<p>​    ip netns exec nstest route</p>
+<p>​    ip netns exec nstest iptables -L</p>
+<h3 id="Iptables"><a href="#Iptables" class="headerlink" title="Iptables"></a>Iptables</h3><p>​    Neutron 主要用到 filter 表和 nat 表，其中， filter 用来实现安全组（Security Group）和 防火墙（FWaas）；nat 主要用来实现 router。</p>
+<p><img src="/2017/04/06/Neutron三层网络服务实现原理/1.png" alt=""></p>
+<p>​    iptables其实是个client，供用户去管理防火墙.相关的请求最后会发送相关内核模块，如ip_tables。ip_tables内核模块主要用于组织iptables使用的表,链,规则.netfilter是一套技术框架，ip_tables依托于netfilter来注册各种hooks实现对数据包的具体控制。一些厂商的防火墙，入侵检测，入侵防御系统什么的基本依托于Netfilter来实现(从事过相关开发)。</p>
+<p><img src="/2017/04/06/Neutron三层网络服务实现原理/2.png" alt=""></p>
+<p><strong>NEW,ESTABLISHED,RELATED,INVALID状态</strong></p>
+<p>NEW: conntrack模块看到的某个连接第一个包，它即将被匹配了。比如，我们看到一个SYN包，是我们所留意的连接的第一个包，就要匹配它。第一个包也可能不是SYN包，但它仍会被认为是NEW状态。<br>ESTABLISHED: 已经注意到两个方向上的数据传输，而且会继续匹配这个连接的包。处于ESTABLISHED状态的连接是非常容易理解的。只要发送并接到应答，连接就是ESTABLISHED的了。一个连接要从NEW变为ESTABLISHED，只需要接到应答包即可，不管这个包是发往防火墙的，还是要由防火墙转发的。ICMP的错误和重定向等信息包也被看作是ESTABLISHED，只要它们是我们所发出的信息的应答。<br>RELATED 当一个连接和某个已处于ESTABLISHED状态的连接有关系时，就被认为是RELATED的了。换句话说，一个连接要想是RELATED的，首先要有一个ESTABLISHED的连接。这个ESTABLISHED连接再产生一个主连接之外的连接，这个新的连接就是RELATED的了，比如ftp的父子链接。<br>INVALID 非以上状态的包。</p>
+<p>我们看一下某个路由器里的iptables-save 输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div></pre></td><td class="code"><pre><div class="line"># Generated by iptables-save v1.6.0 on Thu Apr  6 04:19:36 2017</div><div class="line">*nat</div><div class="line">:PREROUTING ACCEPT [4:160]</div><div class="line">:INPUT ACCEPT [1:40]</div><div class="line">:OUTPUT ACCEPT [2:80]</div><div class="line">:POSTROUTING ACCEPT [2:80]</div><div class="line">:neutron-l3-agent-OUTPUT - [0:0]</div><div class="line">:neutron-l3-agent-POSTROUTING - [0:0]</div><div class="line">:neutron-l3-agent-PREROUTING - [0:0]</div><div class="line">:neutron-l3-agent-float-snat - [0:0]</div><div class="line">:neutron-l3-agent-snat - [0:0]</div><div class="line">:neutron-postrouting-bottom - [0:0]</div><div class="line">-A PREROUTING -j neutron-l3-agent-PREROUTING</div><div class="line">-A OUTPUT -j neutron-l3-agent-OUTPUT</div><div class="line">-A POSTROUTING -j neutron-l3-agent-POSTROUTING</div><div class="line">-A POSTROUTING -j neutron-postrouting-bottom</div><div class="line">-A neutron-l3-agent-PREROUTING -d 169.254.169.254/32 -i qr-+ -p tcp -m tcp --dport 80 -j REDIRECT --to-ports 9697</div><div class="line">-A neutron-l3-agent-snat -j neutron-l3-agent-float-snat</div><div class="line">-A neutron-postrouting-bottom -m comment --comment &quot;Perform source NAT on outgoing traffic.&quot; -j neutron-l3-agent-snat</div><div class="line">COMMIT</div><div class="line"># Completed on Thu Apr  6 04:19:36 2017</div><div class="line"># Generated by iptables-save v1.6.0 on Thu Apr  6 04:19:36 2017</div><div class="line">*filter</div><div class="line">:INPUT ACCEPT [262970:10518800]</div><div class="line">:FORWARD ACCEPT [0:0]</div><div class="line">:OUTPUT ACCEPT [262969:10518760]</div><div class="line">:neutron-filter-top - [0:0]</div><div class="line">:neutron-l3-agent-FORWARD - [0:0]</div><div class="line">:neutron-l3-agent-INPUT - [0:0]</div><div class="line">:neutron-l3-agent-OUTPUT - [0:0]</div><div class="line">:neutron-l3-agent-local - [0:0]</div><div class="line">:neutron-l3-agent-scope - [0:0]</div><div class="line">-A INPUT -j neutron-l3-agent-INPUT</div><div class="line">-A FORWARD -j neutron-filter-top</div><div class="line">-A FORWARD -j neutron-l3-agent-FORWARD</div><div class="line">-A OUTPUT -j neutron-filter-top</div><div class="line">-A OUTPUT -j neutron-l3-agent-OUTPUT</div><div class="line">-A neutron-filter-top -j neutron-l3-agent-local</div><div class="line">-A neutron-l3-agent-FORWARD -j neutron-l3-agent-scope</div><div class="line">-A neutron-l3-agent-INPUT -m mark --mark 0x1/0xffff -j ACCEPT</div><div class="line">-A neutron-l3-agent-INPUT -p tcp -m tcp --dport 9697 -j DROP</div><div class="line">COMMIT</div><div class="line"># Completed on Thu Apr  6 04:19:36 2017</div><div class="line"># Generated by iptables-save v1.6.0 on Thu Apr  6 04:19:36 2017</div><div class="line">*raw</div><div class="line">:PREROUTING ACCEPT [262973:10518920]</div><div class="line">:OUTPUT ACCEPT [262969:10518760]</div><div class="line">:neutron-l3-agent-OUTPUT - [0:0]</div><div class="line">:neutron-l3-agent-PREROUTING - [0:0]</div><div class="line">-A PREROUTING -j neutron-l3-agent-PREROUTING</div><div class="line">-A OUTPUT -j neutron-l3-agent-OUTPUT</div><div class="line">COMMIT</div><div class="line"># Completed on Thu Apr  6 04:19:36 2017</div><div class="line"># Generated by iptables-save v1.6.0 on Thu Apr  6 04:19:36 2017</div><div class="line">*mangle</div><div class="line">:PREROUTING ACCEPT [262973:10518920]</div><div class="line">:INPUT ACCEPT [262970:10518800]</div><div class="line">:FORWARD ACCEPT [0:0]</div><div class="line">:OUTPUT ACCEPT [262969:10518760]</div><div class="line">:POSTROUTING ACCEPT [262969:10518760]</div><div class="line">:neutron-l3-agent-FORWARD - [0:0]</div><div class="line">:neutron-l3-agent-INPUT - [0:0]</div><div class="line">:neutron-l3-agent-OUTPUT - [0:0]</div><div class="line">:neutron-l3-agent-POSTROUTING - [0:0]</div><div class="line">:neutron-l3-agent-PREROUTING - [0:0]</div><div class="line">:neutron-l3-agent-float-snat - [0:0]</div><div class="line">:neutron-l3-agent-floatingip - [0:0]</div><div class="line">:neutron-l3-agent-mark - [0:0]</div><div class="line">:neutron-l3-agent-scope - [0:0]</div><div class="line">-A PREROUTING -j neutron-l3-agent-PREROUTING</div><div class="line">-A INPUT -j neutron-l3-agent-INPUT</div><div class="line">-A FORWARD -j neutron-l3-agent-FORWARD</div><div class="line">-A OUTPUT -j neutron-l3-agent-OUTPUT</div><div class="line">-A POSTROUTING -j neutron-l3-agent-POSTROUTING</div><div class="line">-A neutron-l3-agent-PREROUTING -j neutron-l3-agent-mark</div><div class="line">-A neutron-l3-agent-PREROUTING -j neutron-l3-agent-scope</div><div class="line">-A neutron-l3-agent-PREROUTING -m connmark ! --mark 0x0/0xffff0000 -j CONNMARK --restore-mark --nfmask 0xffff0000 --ctmask 0xffff0000</div><div class="line">-A neutron-l3-agent-PREROUTING -j neutron-l3-agent-floatingip</div><div class="line">-A neutron-l3-agent-PREROUTING -d 169.254.169.254/32 -i qr-+ -p tcp -m tcp --dport 80 -j MARK --set-xmark 0x1/0xffff</div><div class="line">-A neutron-l3-agent-float-snat -m connmark --mark 0x0/0xffff0000 -j CONNMARK --save-mark --nfmask 0xffff0000 --ctmask 0xffff0000</div><div class="line">COMMIT</div></pre></td></tr></table></figure>
+<p>输出是分段的,每个段落一个表,*开头后面跟着表名。<br>:开头的行是对链匹配次数的总结,后面跟着统计信息,[数据包:字节数]。<br>后面跟着的是具体规则。<br>最后跟着COMMIT表示一个表的结束。</p>
+<h3 id="Linux-IP-栈"><a href="#Linux-IP-栈" class="headerlink" title="Linux IP 栈"></a>Linux IP 栈</h3><h4 id="Secondary-IP"><a href="#Secondary-IP" class="headerlink" title="Secondary IP"></a>Secondary IP</h4><p>我们看一个路由器的ip信息,qg-8119a20a-21接口绑定了浮动ip。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">ip netns exec qrouter-2cb693be-7abc-46f1-80cd-a17d0fc8d696  ip addr</div><div class="line">20: qg-8119a20a-21: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UNKNOWN group default qlen 1</div><div class="line">    link/ether fa:16:3e:73:88:35 brd ff:ff:ff:ff:ff:ff</div><div class="line">    inet 180.180.18.5/24 brd 180.180.18.255 scope global qg-8119a20a-21</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">    inet 180.180.18.6/32 brd 180.180.18.6 scope global qg-8119a20a-21</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">    inet6 fe80::f816:3eff:fe73:8835/64 scope link </div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">#解释</div><div class="line">&lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt;：端口的各种状态</div><div class="line">BROADCAST： device can send traffic to all hosts on the link （能够发广播）</div><div class="line">MULTICAST： device can perform and receive multicast packets （能够发多播）</div><div class="line">UP： device is functioning （enabled 状态，可通过 ip * up/down 设置。）</div><div class="line">LOWER_UP：the state of the Ethernet link（表示线已接上）</div><div class="line">inet/brd/scope：IP 地址及子网掩码，广播地址，作用域</div><div class="line">scope：global：valid everywhere</div></pre></td></tr></table></figure>
+<p>​    这个interface有两个静态 IP 地址。第一个是主要的（primary）IP，第二个是辅助的（ secondary） 的 IP。当一个网卡配置了静态IP后，你可以添加secondary  IP 给它。这样它就拥有了多个 IP 地址了。Secondary IP 不可以通过 DHCP 分配。它所有的IP 地址都关联到它唯一的一个 MAC 地址上。那为什么需要 secondary IP 地址呢？ 路由器有个 Secondary IP 的概念，这个特性可以创建逻辑子网，也就是说在一个物理网口上连接两个子网，比如这个网口接到一台交换机上，如果这个网口没有配置Secondary IP的话，那么这台交换机只能连接一个网段的主机，比如 192.168.1.1/24，但是，如果它配置了Secondary IP，那么就可以连接两个网段的主机，比如 192.168.1.1/24 和 10.0.0.1/24。</p>
+<h4 id="Gratuitous-ARP"><a href="#Gratuitous-ARP" class="headerlink" title="Gratuitous ARP"></a>Gratuitous ARP</h4><pre><code>众所周知，ARP的基本功能就是在以太网环境中，通过目标设备的IP地址，查询目标设备的MAC地址，以保证通信的顺利进行。但由于ARP的广播、动态学习等特性注定了它不是一种安全的协议，所以在实际应用中，会由于各种各样的原因使ARP学习失败，从而影响网络的互通性，并进而影响用户的业务稳定运行。整个ARP的体系里基本上就是由ARP Request和Response组成的,Request就是告知对方“我要什么”，而Response是回答“我是什么”。但有些时候也会例外，他们虽然从形式上还是Request和Response的，但它们通常不会不是一问一答的，而是只有其中的一部分，所以通常被称为免费ARP或无为ARP（Gratuitous ARP）。
+</code></pre><p>​    Gratuitous ARP在主机启动的时候，请求自己的IP地址对应的MAC地址。</p>
+<p>它常用于三个用途：</p>
+<p>​    Change of L2 address：通告自己改变了 MAC 地址。以 ARP Response 的形式发送广播，它通常只是为了把自己的ARP信息通告/更新给局域网全体，这种Response不需要别人请求，是自己主动发送的通告。当一个网络设备的 MAC 地址发生改变时，发送该设备的 Gratuitous ARP，通知所在广播域内的已经包含该 IP 地址在其 ARP 表中的机器去更新它的 ARP 条目。</p>
+<p>​    Duplicate address detection：重复 MAC 地址检测。以 ARP Request的形式发送广播，请求自己的MAC地址，目的是探测局域网中是否有跟自己IP地址相同的主机，也就是常说的IP冲突。发送主机并不需要一定收到此请求的回答。如果收到一个回答，表示网络中存在与自身IP相同的主机。如果没有收到应答，则表示本机所使用的IP与网络中其它主机并不冲突。</p>
+<p><img src="/2017/04/06/Neutron三层网络服务实现原理/3.png" alt=""></p>
+<p>Virtual IP：用于一组服务器做 failover 时通知周围的机器新生效的 IP 地址的 MAC.</p>
+<p><img src="/2017/04/06/Neutron三层网络服务实现原理/4.png" alt=""></p>
+<h3 id="Route-（Linux-路由表）"><a href="#Route-（Linux-路由表）" class="headerlink" title="Route （Linux 路由表）"></a>Route （Linux 路由表）</h3><p>​    route命令用来显示并设置Linux内核中的网络路由表，route命令设置的路由主要是静态路由。要实现两个不同的子网之间的通信，需要一台连接两个网络的路由器，或者同时位于两个网络的网关来实现。</p>
+<p>route add -net 10.0.0.0 netmask 255.0.0.0 dev eth0     #增加一条经过 eth0 到达 10.0.0.0 的路由<br>route add -net 10.0.0.0  netmask 255.0.0.0 reject     #增加一条屏蔽的路由，目的地址为10.X.X.X将被拒绝。<br>route del -net 10.0.0.0 netmask 255.0.0.0<br>route del -net 10.0.0.0 netmask 255.0.0 reject<br>route del default gw 10.0.36.254<br>route add default gw 10.0.36.254</p>
+<h3 id="基于VRRP的路由高可用"><a href="#基于VRRP的路由高可用" class="headerlink" title="基于VRRP的路由高可用"></a>基于VRRP的路由高可用</h3><h4 id="什么是VRRP？"><a href="#什么是VRRP？" class="headerlink" title="什么是VRRP？"></a>什么是VRRP？</h4><p>​    Virtual Redundent Routing Protocol 虚拟冗余路由协议，是一种可以解决这种问题的容错协议。VRRP协议的目的就是为了解决路由单点故障问题，VRRP通过竞选(election)协议来动态的将路由任务交给LAN中虚拟路由器中的某台VRRP路由器。它的原理如下：</p>
+<p><img src="/2017/04/06/Neutron三层网络服务实现原理/5.png" alt=""></p>
+<p>在这之前我们先了解一下相关术语：</p>
+<p><strong>虚拟路由器：</strong>由一个 Master 路由器和多个 Backup 路由器组成。主机将虚拟路由器当作默认网关。<br><strong>VRID：</strong>虚拟路由器的标识，有相同 VRID 的一组路由器构成一个虚拟路由器。通常用（0-255）标识<br><strong>Master路由器：</strong>虚拟路由器中承担报文转发任务的路由器。<br><strong>Backup路由器：</strong> Master路由器出现故障时能够代替 Master路由器工作的路由器。<br><strong>虚拟 IP：</strong>地址虚拟路由器的 IP 地址，一个虚拟路由器可以拥有一个或多个IP 地址。<br><strong>IP 地址拥有者：</strong>接口IP地址与虚拟IP地址相同的路由器被称为 IP 地址拥有者。<br><strong>虚拟 MAC 地址：</strong>一个虚拟路由器拥有一个虚拟 MAC 地址。虚拟 MAC 地址的格式为 00-00-5E-00-01-{VRID}。通常情况下虚拟路由器回应 ARP 请求使用的是虚拟 MAC 地址，只有虚拟路由器做特殊配置的时候才回应接口的真实 MAC 地址。<br><strong>priority优先级：</strong>VRRP 根据优先级来确定虚拟路由器中每台路由器的地位。用0-255来表示，数字越小优先级越低。VRRP优先级的取值范围为0到255（数值越大表明优先级越高），可配置的范围是1到254，优先级0为系统保留给路由器放弃Master位置时候使用，255则是系统保留给IP地址拥有者使用。当路由器为IP地址拥有者时，其优先级始终为255。因此，当虚拟路由器内存在IP地址拥有者时，只要其工作正常，则为Master路由器。<br><strong>抢占方式：</strong>默认，如果 Backup 路由器工作在抢占方式下，当它收到 VRRP 报文后会将自己的优先级与通告报文中的优先级进行比较。如果自己的优先级比当前的 Master 路由器的优先级高就会主动抢占成为 Master 路由器否则将保持 Backup 状态。<br><strong>非抢占方式：</strong>如果 Backup 路由器工作在非抢占方式下则只要 Master 路由器没有出现故障Backup 路由器即使随后被配置了更高的优先级也不会成为Master 路由器。</p>
+<p><strong>VRRP协议报文：</strong>封装在IP报文中，发送到分配给 VRRP 的 IP 组播地址。在IP报文头中，源地址为发送报文接口的主 IP 地址（不是虚拟IP地址），目的地址是224.0.0.18，TTL是255，协议号是112。目前，VRRP协议包括两个版本：VRRPv2和VRRPv3，VRRPv2仅适用于IPv4网路，VRRPv3适用于IPv4和IPv6两种网络。</p>
+<p><strong>VRRP 节点三种状态：</strong>初始状态（Initialize）、活动状态（Master）、备份状态（Backup）。其中，只有处于Master状态的设备才可以转发那些发送到虚拟IP地址的报文。</p>
+<p>然后我们结合上图来描述一下VRRP的机制。</p>
+<p>​    Device A 和 B 组成一个 VRRP 组，它的虚拟 IP（VIP） 为 10.0.0.3/24。其中，通过选举机制，A 是 Master Router，B 是 Backup Router。一个 VRRP 组内可以由多个设备，但是只有一个是 Master 设备。注意    Device A 和 B 可以由自己的 IP 地址，VIP 可以和其中的某 IP 相同，也可以不同。</p>
+<p>​    当前，Router A 作为 Master router 向局域网内的机器提供路由服务，Router B 作为 Backup router。它的任务是周期性地接受 A 发出的心跳。在规定的时间段内，如果都没有收到 A 发出的心跳，则启动一个选举过程，重新选出 Master。</p>
+<p>​    局域网内的机器将虚拟路由器当作默认网关，<strong>它们仅仅知道这个虚拟路由器的IP 地址 10.0.0.3，而并不知道具体的 Master 路由器的 IP 地址以及 Backup 路由器的IP 地址。</strong>它们将自己的缺省路由下一跳地址设置为10.0.0.3。于是，网络内的主机就通过这个虚拟的路由器来与其它网络进行通信。如果 Master 路由器坏掉，Backup 路由器将会通过选举策略选出一个新的 Master 路由器，继续向网络内的主机提供路由服务。从而实现网络内的主机不间断地与外部网络进行通信。</p>
+<p>它的优势：</p>
+<p>​    操作简单：它不需要改变组网情况，也不需要在主机上做任何配置，只需要在相关路由器上配置极少的几条命令，就能实现下一跳网关的备份，并且不会给主机带来任何负担。和其他方法比较起来，VRRP更加能够满足用户的需求。<br>​    简化网络管理：在具有多播或广播能力的局域网（如以太网）中，借助 VRRP 能在某台设备出现故障时仍然提供高可靠的缺省链路，有效避免单一链路发生故障后网络中断的问题，而无需修改动态路由协议、路由发现协议等配置信息，也无需修改主机的默认网关配置。<br>​    适应性强：VRRP报文封装在IP报文中，支持各种上层协议。<br>​    网络开销小：VRRP只定义了一种报文——VRRP通告报文，并且只有处于Master状态的路由器可以发送VRRP报文。</p>
+<h4 id="什么是keepalived-？"><a href="#什么是keepalived-？" class="headerlink" title="什么是keepalived ？"></a>什么是keepalived ？</h4><p>​    Keepalived 是 VRRP 的一个非常好的开源实现，它是一个基于 VRRP 协议来实现的 WEB 服务高可用方案，可以利用其来避免单点故障。在neutron的路由高可用中，需要安装keepalived 即可。</p>
+<p>Keepalived组件如下：<br>​    keepalived是模块化设计，不同模块负责不同的功能：<br>​    core：keepalived的核心；负责主进程的启动和维护全局配置文件的加载解析等<br>​    check：负责healthchecker(健康检查)包括了各种健康检查方式以及对应的配置文件的解析<br>​    vrrp VRRPD：子进程用来实现VRRP协议<br>​    libipfwc iptables(ipchains)库配置LVS<br>​    libipvs*：配置LVS</p>
+<p>keepalived进程如下：</p>
+<p>​    Keepalived 使用三个进程，其中 Watchdog 是控制进程，VRRP Stack and Checkers 是它的两个子进程。</p>
+<p>​    Watchdog 通过心跳机制来确保子进程处于运行状态。</p>
+<p>​    Checkers：负责真实服务器的健康检测，用于负载均衡。</p>
+<p>​    VRRP Stack：实现 VRRP 协议，提供 HA。</p>
+<h4 id="neutron如何实现？"><a href="#neutron如何实现？" class="headerlink" title="neutron如何实现？"></a>neutron如何实现？</h4><p>Neutron L3 HA 的提出就是为了保证 OpenStack 环境三层网络的高可用性。</p>
+<p><img src="/2017/04/06/Neutron三层网络服务实现原理/6.png" alt=""></p>
+<p>​    QR 和 QG 分别连接内网和外网，这是 router 本来就有的端口；HA 端口是 HA router 才特有的。一个非 HA router，只会存在于一个 Neutron L3 agent 所在的 Network node 中。而一个 HA router 会在多个 Neutron L3 agent 所在的 Network node 里创建 instance，这包括创建相应的 namespace 和端口。每个 HA router instance 里面的 QR 和 QG 都有相同的设备名和 MAC 地址(Media Access Control Address)。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line">#Master的信息</div><div class="line">root@netagent10038219:~# ip netns exec qrouter-23d7334d-a55f-4b4b-9dfa-4d1ee4b3080b ip addr</div><div class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1</div><div class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</div><div class="line">    inet 127.0.0.1/8 scope host lo</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">    inet6 ::1/128 scope host </div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">28: ha-65bc01fe-af: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 8950 qdisc noqueue state UNKNOWN group default qlen 1</div><div class="line">    link/ether fa:16:3e:1f:d2:bd brd ff:ff:ff:ff:ff:ff</div><div class="line">    inet 169.254.192.1/18 brd 169.254.255.255 scope global ha-65bc01fe-af</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">    inet 169.254.0.1/24 scope global ha-65bc01fe-af</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">    inet6 fe80::f816:3eff:fe1f:d2bd/64 scope link </div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">30: qr-fe09d52e-c6: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 8950 qdisc noqueue state UNKNOWN group default qlen 1</div><div class="line">    link/ether fa:16:3e:58:13:ad brd ff:ff:ff:ff:ff:ff</div><div class="line">    inet 1.1.1.1/24 scope global qr-fe09d52e-c6</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">    inet6 fe80::f816:3eff:fe58:13ad/64 scope link nodad </div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">32: qg-21bed7aa-c6: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UNKNOWN group default qlen 1</div><div class="line">    link/ether fa:16:3e:a9:28:e7 brd ff:ff:ff:ff:ff:ff</div><div class="line">    inet 10.99.1.101/32 scope global qg-21bed7aa-c6</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">    inet 10.99.1.102/32 scope global qg-21bed7aa-c6</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">    inet 10.99.1.103/24 scope global qg-21bed7aa-c6</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">    inet6 fe80::f816:3eff:fea9:28e7/64 scope link nodad </div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">#Slave信息</div><div class="line">root@netagent10038220:~# ip netns exec qrouter-23d7334d-a55f-4b4b-9dfa-4d1ee4b3080b ip addr</div><div class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1</div><div class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</div><div class="line">    inet 127.0.0.1/8 scope host lo</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">    inet6 ::1/128 scope host </div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">26: ha-557abd6c-48: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 8950 qdisc noqueue state UNKNOWN group default qlen 1</div><div class="line">    link/ether fa:16:3e:3f:75:8d brd ff:ff:ff:ff:ff:ff</div><div class="line">    inet 169.254.192.2/18 brd 169.254.255.255 scope global ha-557abd6c-48</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">    inet6 fe80::f816:3eff:fe3f:758d/64 scope link </div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">29: qr-fe09d52e-c6: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 8950 qdisc noqueue state UNKNOWN group default qlen 1</div><div class="line">    link/ether fa:16:3e:58:13:ad brd ff:ff:ff:ff:ff:ff</div><div class="line">32: qg-21bed7aa-c6: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UNKNOWN group default qlen 1</div><div class="line">    link/ether fa:16:3e:a9:28:e7 brd ff:ff:ff:ff:ff:ff</div></pre></td></tr></table></figure>
+<p>Slave 和 Master router instance 的区别在于 Master router instance 的网络端口上是有 IP 地址的。这些 IP 实际上是 VIP，它们只会存在于 Master router instance 上。每个 router instance 上都有一个 HA 端口，这些端口都有不同的 IP。这些端口是用来进行 VRRP 广播通信的。每个 router instance 里面都运行着一个 keepalived 进程。Keepalived 是一个实现了 VRRP 的软件工具，Neutron 利用 keepalived 实现的 L3 HA的。</p>
+<p>对于Master 我们查看一下它发的VRRP广播</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">root@netagent10038219:~# ip netns exec qrouter-23d7334d-a55f-4b4b-9dfa-4d1ee4b3080b tcpdump -i ha-65bc01fe-af</div><div class="line">tcpdump: verbose output suppressed, use -v or -vv for full protocol decode</div><div class="line">listening on ha-65bc01fe-af, link-type EN10MB (Ethernet), capture size 262144 bytes</div><div class="line">05:01:11.336576 IP 169.254.192.1 &gt; 224.0.0.18: VRRPv2, Advertisement, vrid 1, prio 50, authtype none, intvl 2s, length 20</div><div class="line">05:01:13.337818 IP 169.254.192.1 &gt; 224.0.0.18: VRRPv2, Advertisement, vrid 1, prio 50, authtype none, intvl 2s, length 20</div><div class="line">05:01:15.339083 IP 169.254.192.1 &gt; 224.0.0.18: VRRPv2, Advertisement, vrid 1, prio 50, authtype none, intvl 2s, length 20</div></pre></td></tr></table></figure>
+<p>HA 端口向广播地址 224.0.0.18 发送信息。这是由 VRRP 协议规定的。如果 Master router instance 出现故障，不能发出广播信息，导致 Slave router instance 未在一定的时间内收到广播信息。剩下的 Slave router instance 会选取出一个来作为新的 Master router instance。这个 instance 会获取 VIP，从而为 OpenStack 提供三层网络。虽然提供服务的 router instance 变了，但是 IP 没有改变，所以从使用者的角度来看，网络服务没有发生改变。</p>
+<p>vrid 是 HA router 对应的 id，每个 tenant 下面，不同的 router 对应不同的 vrid。需要注意的是，由于 VRRP 协议的限制，vrid 是一个 8 bit 数据。<strong>因此每个 tenant 下面，最多只能创建 255 个 HA router。</strong>prio 是 instance 的优先级，这个目前是不可配置的，每个 instance 的优先级一样。authtype 是 instance 之间通信的认证方式，默认是不需要认证。intvl 是广播之间的间隔时间，默认是 2 秒，这个可以配置。</p>
+<p>每个 HA router 一旦被创建，Neutron L3 agent 会为每个 router instance 创建一个 keepalived 进程，在这之前会先生成一个 keepalived 的配置文件供 keepalived 的进程使用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div></pre></td><td class="code"><pre><div class="line">root@netagent10038219:~# ps -aux | grep &apos;23d7334d-a55f-4b4b-9dfa-4d1ee4b3080b&apos;</div><div class="line">root      4310  0.0  0.8 155892 73080 ?        S    Mar17   0:05 /usr/bin/python /usr/local/bin/neutron-keepalived-state-change --router_id=23d7334d-a55f-4b4b-9dfa-4d1ee4b3080b --namespace=qrouter-23d7334d-a55f-4b4b-9dfa-4d1ee4b3080b --conf_dir=/var/lib/neutron/ha_confs/23d7334d-a55f-4b4b-9dfa-4d1ee4b3080b --monitor_interface=ha-65bc01fe-af --monitor_cidr=169.254.0.1/24 --pid_file=/var/lib/neutron/external/pids/23d7334d-a55f-4b4b-9dfa-4d1ee4b3080b.monitor.pid --state_path=/var/lib/neutron --user=0 --group=0</div><div class="line">root      4810  0.0  0.0  54252   564 ?        Ss   Mar17   0:59 keepalived -P -f /var/lib/neutron/ha_confs/23d7334d-a55f-4b4b-9dfa-4d1ee4b3080b/keepalived.conf -p /var/lib/neutron/ha_confs/23d7334d-a55f-4b4b-9dfa-4d1ee4b3080b.pid -r /var/lib/neutron/ha_confs/23d7334d-a55f-4b4b-9dfa-4d1ee4b3080b.pid-vrrp</div><div class="line">root      4811  0.0  0.0  56496  3856 ?        S    Mar17   2:31 keepalived -P -f /var/lib/neutron/ha_confs/23d7334d-a55f-4b4b-9dfa-4d1ee4b3080b/keepalived.conf -p /var/lib/neutron/ha_confs/23d7334d-a55f-4b4b-9dfa-4d1ee4b3080b.pid -r /var/lib/neutron/ha_confs/23d7334d-a55f-4b4b-9dfa-4d1ee4b3080b.pid-vrrp</div><div class="line">root      6330  0.0  0.8 140156 71188 ?        S    Mar28   0:02 /usr/bin/python /usr/local/bin/neutron-ns-metadata-proxy --pid_file=/var/lib/neutron/external/pids/23d7334d-a55f-4b4b-9dfa-4d1ee4b3080b.pid --metadata_proxy_socket=/var/lib/neutron/metadata_proxy --router_id=23d7334d-a55f-4b4b-9dfa-4d1ee4b3080b --state_path=/var/lib/neutron --metadata_port=9697 --metadata_proxy_user=0 --metadata_proxy_group=0 --log-file=neutron-ns-metadata-proxy-23d7334d-a55f-4b4b-9dfa-4d1ee4b3080b.log --log-dir=/var/log/neutron</div><div class="line">root     28706  0.0  0.0  13080  2544 pts/1    S+   05:47   0:00 grep --color=auto 23d7334d-a55f-4b4b-9dfa-4d1ee4b3080b</div><div class="line">root@netagent10038219:/var/lib/neutron/ha_confs/23d7334d-a55f-4b4b-9dfa-4d1ee4b3080b# ls</div><div class="line">keepalived.conf  neutron-keepalived-state-change.log  state</div><div class="line">vrrp_instance VR_1 &#123;</div><div class="line">    state BACKUP</div><div class="line">    interface ha-65bc01fe-af</div><div class="line">    virtual_router_id 1</div><div class="line">    priority 50</div><div class="line">    garp_master_delay 60</div><div class="line">    nopreempt</div><div class="line">    advert_int 2</div><div class="line">    track_interface &#123;</div><div class="line">        ha-65bc01fe-af</div><div class="line">    &#125;</div><div class="line">    virtual_ipaddress &#123;</div><div class="line">        169.254.0.1/24 dev ha-65bc01fe-af</div><div class="line">    &#125;</div><div class="line">    virtual_ipaddress_excluded &#123;</div><div class="line">        1.1.1.1/24 dev qr-fe09d52e-c6</div><div class="line">        10.99.1.101/32 dev qg-21bed7aa-c6</div><div class="line">        10.99.1.102/32 dev qg-21bed7aa-c6</div><div class="line">        10.99.1.103/24 dev qg-21bed7aa-c6</div><div class="line">        fe80::f816:3eff:fe58:13ad/64 dev qr-fe09d52e-c6 scope link</div><div class="line">        fe80::f816:3eff:fea9:28e7/64 dev qg-21bed7aa-c6 scope link</div><div class="line">    &#125;</div><div class="line">    virtual_routes &#123;</div><div class="line">        0.0.0.0/0 via 10.99.1.1 dev qg-21bed7aa-c6</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">========================================================================================</div><div class="line">root@netagent10038220:~# ps -aux | grep &apos;23d7334d-a55f-4b4b-9dfa-4d1ee4b3080b&apos;</div><div class="line">root      4330  0.0  0.8 155896 72840 ?        S    Mar17   0:04 /usr/bin/python /usr/local/bin/neutron-keepalived-state-change --router_id=23d7334d-a55f-4b4b-9dfa-4d1ee4b3080b --namespace=qrouter-23d7334d-a55f-4b4b-9dfa-4d1ee4b3080b --conf_dir=/var/lib/neutron/ha_confs/23d7334d-a55f-4b4b-9dfa-4d1ee4b3080b --monitor_interface=ha-557abd6c-48 --monitor_cidr=169.254.0.1/24 --pid_file=/var/lib/neutron/external/pids/23d7334d-a55f-4b4b-9dfa-4d1ee4b3080b.monitor.pid --state_path=/var/lib/neutron --user=0 --group=0</div><div class="line">root      4882  0.0  0.0  54252   568 ?        Ss   Mar17   0:59 keepalived -P -f /var/lib/neutron/ha_confs/23d7334d-a55f-4b4b-9dfa-4d1ee4b3080b/keepalived.conf -p /var/lib/neutron/ha_confs/23d7334d-a55f-4b4b-9dfa-4d1ee4b3080b.pid -r /var/lib/neutron/ha_confs/23d7334d-a55f-4b4b-9dfa-4d1ee4b3080b.pid-vrrp</div><div class="line">root      4883  0.0  0.0  56540  4304 ?        S    Mar17   1:46 keepalived -P -f /var/lib/neutron/ha_confs/23d7334d-a55f-4b4b-9dfa-4d1ee4b3080b/keepalived.conf -p /var/lib/neutron/ha_confs/23d7334d-a55f-4b4b-9dfa-4d1ee4b3080b.pid -r /var/lib/neutron/ha_confs/23d7334d-a55f-4b4b-9dfa-4d1ee4b3080b.pid-vrrp</div><div class="line">root     25801  0.0  0.0  13080  2548 pts/0    S+   05:48   0:00 grep --color=auto 23d7334d-a55f-4b4b-9dfa-4d1ee4b3080b</div><div class="line"></div><div class="line">root@netagent10038220:/var/lib/neutron/ha_confs/23d7334d-a55f-4b4b-9dfa-4d1ee4b3080b# ls</div><div class="line">keepalived.conf  neutron-keepalived-state-change.log  state</div><div class="line">vrrp_instance VR_1 &#123;</div><div class="line">    state BACKUP</div><div class="line">    interface ha-557abd6c-48</div><div class="line">    virtual_router_id 1</div><div class="line">    priority 50</div><div class="line">    garp_master_delay 60</div><div class="line">    nopreempt</div><div class="line">    advert_int 2</div><div class="line">    track_interface &#123;</div><div class="line">        ha-557abd6c-48</div><div class="line">    &#125;</div><div class="line">    virtual_ipaddress &#123;</div><div class="line">        169.254.0.1/24 dev ha-557abd6c-48</div><div class="line">    &#125;</div><div class="line">    virtual_ipaddress_excluded &#123;</div><div class="line">        1.1.1.1/24 dev qr-fe09d52e-c6</div><div class="line">        10.99.1.101/32 dev qg-21bed7aa-c6</div><div class="line">        10.99.1.102/32 dev qg-21bed7aa-c6</div><div class="line">        10.99.1.103/24 dev qg-21bed7aa-c6</div><div class="line">        fe80::f816:3eff:fe58:13ad/64 dev qr-fe09d52e-c6 scope link</div><div class="line">        fe80::f816:3eff:fea9:28e7/64 dev qg-21bed7aa-c6 scope link</div><div class="line">    &#125;</div><div class="line">    virtual_routes &#123;</div><div class="line">        0.0.0.0/0 via 10.99.1.1 dev qg-21bed7aa-c6</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>​    总的来说，要使用 HA router，首先必须有多个 Neutron L3 agent 在不同的 Network node 上运行。一旦创建了一个 HA router，Neutron 会通过多个 L3 agent 创建相应的 namespace 和端口，这样就有了这个 HA router 的多个 instance。同时，L3 agent 还会创建 keepalived 进程，每个 keepalived 进程都有 router 的全部信息。这样，每个 Network node 上都有 HA router 的一个 instance 和管理这个 router instance 的 keepalived 进程。<br>​    当一切就绪之后，这些 router instance 会进行一次选举，胜出的作为 Master instance，剩下的作为 Slave instance。由于所有的 router instance 的优先级都是一样的，选举的结果是随机的。也就是说，如果创建多个 HA router，这些 router 的 Master instance 可能分布在多个 Network node 上。<br>​    选举结束后，Master router instance 负责提供 L3 网络服务，并同时向其他的 Slave router instance 发广播报告自身的状况。一旦由于各种原因，广播中断，Slave router instance 会重新选举出新的 Master router instance，继续提供 L3 网络服务，并同时发送广播报告自身的状况。</p>
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p><a href="http://man.linuxde.net/route" target="_blank" rel="external">http://man.linuxde.net/route</a></p>
+<p><a href="http://fishcried.com/2016-02-19/iptables/" target="_blank" rel="external">http://fishcried.com/2016-02-19/iptables/</a></p>
+<p><a href="http://www.cnblogs.com/sammyliu/p/4636091.html" target="_blank" rel="external">http://www.cnblogs.com/sammyliu/p/4636091.html</a></p>
+<p><a href="http://www.embeddedlinux.org.cn/linux_net/0596002556/understandlni-CHP-28-SECT-3.html" target="_blank" rel="external">http://www.embeddedlinux.org.cn/linux_net/0596002556/understandlni-CHP-28-SECT-3.html</a></p>
+<p><a href="https://www.ibm.com/developerworks/cn/cloud/library/1506_xiaohh_openstackl3/" target="_blank" rel="external">https://www.ibm.com/developerworks/cn/cloud/library/1506_xiaohh_openstackl3/</a></p>
+<h3 id="参考：-1"><a href="#参考：-1" class="headerlink" title="参考："></a>参考：</h3><p><a href="http://www.cnblogs.com/sammyliu/p/4636091.html" target="_blank" rel="external">http://www.cnblogs.com/sammyliu/p/4636091.html</a></p>
+<p><a href="http://fishcried.com/2016-02-19/iptables/" target="_blank" rel="external">http://fishcried.com/2016-02-19/iptables/</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+<div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/1.jpg" alt="Luckylau wechat" style="width: 200px; max-width: 100%;"/>
+    <div>如果对您有价值,看官可以打赏的！</div>
+</div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/neutron/" rel="tag"># neutron</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/06/Linux的iptables原理/" rel="next" title="Linux的iptables原理">
+                <i class="fa fa-chevron-left"></i> Linux的iptables原理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/logo.jpg"
+               alt="Luckylau" />
+          <p class="site-author-name" itemprop="name">Luckylau</p>
+          <p class="site-description motion-element" itemprop="description">人生识字忧患始</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">52</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Luckylau" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://weibo.com/2606534415/profile?topnav=1&wvr=6&is_all=1" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#NameSpace技术"><span class="nav-number">1.</span> <span class="nav-text">NameSpace技术</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Iptables"><span class="nav-number">2.</span> <span class="nav-text">Iptables</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux-IP-栈"><span class="nav-number">3.</span> <span class="nav-text">Linux IP 栈</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Secondary-IP"><span class="nav-number">3.1.</span> <span class="nav-text">Secondary IP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Gratuitous-ARP"><span class="nav-number">3.2.</span> <span class="nav-text">Gratuitous ARP</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Route-（Linux-路由表）"><span class="nav-number">4.</span> <span class="nav-text">Route （Linux 路由表）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于VRRP的路由高可用"><span class="nav-number">5.</span> <span class="nav-text">基于VRRP的路由高可用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是VRRP？"><span class="nav-number">5.1.</span> <span class="nav-text">什么是VRRP？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是keepalived-？"><span class="nav-number">5.2.</span> <span class="nav-text">什么是keepalived ？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#neutron如何实现？"><span class="nav-number">5.3.</span> <span class="nav-text">neutron如何实现？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考："><span class="nav-number">6.</span> <span class="nav-text">参考：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考：-1"><span class="nav-number">7.</span> <span class="nav-text">参考：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Luckylau</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid="></script>
+      <!-- UY END -->
+  
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
