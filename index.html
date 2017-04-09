@@ -385,10 +385,16 @@
 
       
         
-          
-            <p>pass</p>
-
-          
+          <p>​    Security group通过Linux IPtables来实现，为此，在Compute节点上引入了qbr*这样的Linux传统bridge（iptables规则目前无法加载到直接挂在到ovs的tap设备上）。</p>
+<h3 id="安全组的INPUT、OUTPUT、FORWARD"><a href="#安全组的INPUT、OUTPUT、FORWARD" class="headerlink" title="安全组的INPUT、OUTPUT、FORWARD"></a>安全组的INPUT、OUTPUT、FORWARD</h3><p><img src="/2017/04/09/Neutron的安全组原理/1.png" alt=""></p>
+<p>​    其中id的前10位数字被用作虚机对外连接的qbr（同时也是tap口）的id。i或o加上前9位数字被用作安全组chain的id。所有的规则默认都在Compute节点上的filter表（默认表）中实现，分别来查看filter表的INPUT、OUTPUT、FORWARD三条链上的规则。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/04/09/Neutron的安全组原理/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
