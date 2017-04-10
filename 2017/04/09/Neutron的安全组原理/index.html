@@ -110,7 +110,7 @@
 <meta property="og:image" content="https://luckylau.github.io/2017/04/09/Neutron的安全组原理/14.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/04/09/Neutron的安全组原理/15.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/04/09/Neutron的安全组原理/16.png">
-<meta property="og:updated_time" content="2017-04-09T10:54:29.429Z">
+<meta property="og:updated_time" content="2017-04-10T09:37:34.683Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Neutron的安全组原理">
 <meta name="twitter:description" content="​    Security group通过Linux IPtables来实现，为此，在Compute节点上引入了qbr*这样的Linux传统bridge（iptables规则目前无法加载到直接挂在到ovs的tap设备上）。
@@ -445,7 +445,7 @@
 <p>iptables –line-numbers -vnL neutron-openvswi-i46364368-5</p>
 <p><img src="/2017/04/09/Neutron的安全组原理/12.png" alt=""></p>
 <p>iptables –line-numbers -vnL neutron-openvswi-o46364368-5</p>
-<p>neutron-openvswi-o9LETTERID将跳转到 neutron-openvswi-s46364368-5，允许DHCP Request和匹配VM的源IP和源MAC的流量通过。</p>
+<p><strong>neutron-openvswi-o9LETTERID将跳转到 neutron-openvswi-s46364368-5，允许DHCP Request和匹配VM的源IP和源MAC的流量通过,同时允许安全组中配置的策略（允许ssh、ping等）通过。</strong></p>
 <p><img src="/2017/04/09/Neutron的安全组原理/13.png" alt=""></p>
 <p>iptables –line-numbers -vnL neutron-openvswi-s46364368-5</p>
 <p><img src="/2017/04/09/Neutron的安全组原理/14.png" alt=""></p>
@@ -501,6 +501,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/10/neutron的防火墙原理/" rel="prev" title="neutron的防火墙原理">
+                neutron的防火墙原理 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -570,7 +574,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">53</span>
+                <span class="site-state-item-count">54</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
