@@ -113,7 +113,7 @@ DoD 模型​    DoD 模型的进程/应用层包含大量的协议，以集成�
 <meta property="og:image" content="https://luckylau.github.io/2017/03/27/你懂网络吗-3/12.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/03/27/你懂网络吗-3/13.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/03/27/你懂网络吗-3/14.png">
-<meta property="og:updated_time" content="2017-03-29T03:17:16.008Z">
+<meta property="og:updated_time" content="2017-04-12T02:16:31.474Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="你懂网络吗(3)">
 <meta name="twitter:description" content="本文主要是基于学习《CCNA学习指南》总结网络必备的知识。
@@ -474,6 +474,7 @@ DoD 模型​    DoD 模型的进程/应用层包含大量的协议，以集成�
 <p>服务器以单播方式发回一条 DHCP 确认消息，完成交互。</p>
 <p><strong>APIPA （Automatic Private IP Addressing ，自动私有 IP编址 ）</strong></p>
 <p>​    客户端可在 DHCP 服务器不可用时自动给自己配置 IP 地址和子网掩码(主机用来通信的基本 IP 信息 )。APIPA 使用的Ip 地址范围为169.254.0.1-169.254.255.254 ，客户端还会给自己配置默认的 B 类子网掩码一255.255.0.0 。 </p>
+<p><strong>DHCP , SNMP 和 TFTP 使用 UDP ，而 SMTP ， FTP 和 HTTP 使用 TCP</strong> .</p>
 <h4 id="主机到主机层协议"><a href="#主机到主机层协议" class="headerlink" title="主机到主机层协议"></a>主机到主机层协议</h4><p><strong>TCP</strong> （Transmission Control Protocol，传输控制协议 ）</p>
 <p>​    接收来自应用程序的大型数据块，并将其划分成数据段。它给每个数据段编号，让接收主机的 TCP 技能够按应用程序希望的顺序排列数据段。发送数据段后，发送主机的 TCP 等待来自接收端 TCP 的确认，并重传未得到确认的数据段。</p>
 <p>TCP 数据段的格式 </p>
@@ -709,7 +710,7 @@ DoD 模型​    DoD 模型的进程/应用层包含大量的协议，以集成�
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">54</span>
+                <span class="site-state-item-count">55</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
