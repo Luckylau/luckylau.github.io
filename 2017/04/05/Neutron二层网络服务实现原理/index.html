@@ -103,7 +103,10 @@
 <meta property="og:image" content="https://luckylau.github.io/2017/04/05/Neutron二层网络服务实现原理/9.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/04/05/Neutron二层网络服务实现原理/10.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/04/05/Neutron二层网络服务实现原理/11.png">
-<meta property="og:updated_time" content="2017-04-05T07:09:27.165Z">
+<meta property="og:image" content="https://luckylau.github.io/2017/04/05/Neutron二层网络服务实现原理/1.jpg">
+<meta property="og:image" content="https://luckylau.github.io/2017/04/05/Neutron二层网络服务实现原理/2.jpg">
+<meta property="og:image" content="https://luckylau.github.io/2017/04/05/Neutron二层网络服务实现原理/3.jpg">
+<meta property="og:updated_time" content="2017-04-13T08:49:30.733Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Neutron二层网络服务实现原理">
 <meta name="twitter:description" content="网络​    网络（network）是一个隔离的二层网段，类似于物理网络世界中的虚拟 LAN (VLAN)。更具体来讲，它是为创建它的租户而保留的一个广播域，或者被显式配置为共享网段。端口和子网始终被分配给某个特定的网络。根据网络的类型，Neutron network 可以分为：
@@ -450,7 +453,15 @@
 <p>load:0-&gt;NXM_OF_VLAN_TCI[]，将 vlan 号改为 0；</p>
 <p>load:NXM_NX_TUN_ID[]-&gt;NXM_NX_TUN_ID[]，将 tunnel 号修改为当前的 tunnel 号；</p>
 <p>output:NXM_OF_IN_PORT[]，从当前入口发出。</p>
+<h3 id="L2-Population"><a href="#L2-Population" class="headerlink" title="L2 Population"></a>L2 Population</h3><p>​    L2 Population 是用来提高 VXLAN 网络 Scalability 的，减少广播风暴。</p>
+<p><img src="/2017/04/05/Neutron二层网络服务实现原理/1.jpg" alt=""></p>
+<p>​    这是一个包含 5 个节点的 VXLAN 网络，每个节点上运行了若干 VM。现在假设 Host 1 上的 VM A 想与 Host 4 上的 VM G 通信，VM A 要做的第一步是获知 VM G 的 MAC 地址。 于是 VM A 需要在整个 VXLAN 网络中广播 APR 报文：“VM G 的 MAC 地址是多少？” 如果没有L2poluation,情况会如下：</p>
+<p><img src="/2017/04/05/Neutron二层网络服务实现原理/2.jpg" alt=""></p>
+<p>​    L2 Population 的作用是在 VTEP 上提供 Porxy ARP 功能，使得 VTEP 能够预先获知 VXLAN 网络中，包括VM IP – MAC 对应关系和 VM – VTEP 的对应关系。当 Host 1 上的 VM A 想与 Host 4 上的 VM G 通信时，Host 1 上的 VTEP 直接响应 VM A 的 APR 请求即可，告诉VM G的MAC地址。关键点在于VTEP如何知道VM-MAC-VTEP的信息？</p>
+<p>​    我们知道 Neutron 知道每一个 port 的状态和信息；port 保存了 IP，MAC 相关数据， instance 启动时，其 port 状态变化过程为：down -&gt; build -&gt; active。每当 port 状态发生变化时，Neutron 都会通过 RPC 消息通知各节点上的 Neutron agent，使得 VTEP 能够更新 VM 和 port 的相关信息 。VTEP 可以根据这些信息判断出其他 Host 上都有哪些 VM，以及它们的 MAC 地址，这样就能直接与之通信，从而避免了不必要的隧道连接和广播。</p>
+<p><img src="/2017/04/05/Neutron二层网络服务实现原理/3.jpg" alt=""></p>
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p><a href="http://www.cnblogs.com/sammyliu/p/4622563.html" target="_blank" rel="external">http://www.cnblogs.com/sammyliu/p/4622563.html</a></p>
+<p><a href="http://blog.csdn.net/cloudman6/article/details/53167522" target="_blank" rel="external">http://blog.csdn.net/cloudman6/article/details/53167522</a></p>
 
       
     </div>
@@ -643,7 +654,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#网络"><span class="nav-number">1.</span> <span class="nav-text">网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux相关技术"><span class="nav-number">2.</span> <span class="nav-text">Linux相关技术</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GRE网络-Vlan网络-Vxlan网络"><span class="nav-number">3.</span> <span class="nav-text">GRE网络, Vlan网络, Vxlan网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考："><span class="nav-number">4.</span> <span class="nav-text">参考：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#网络"><span class="nav-number">1.</span> <span class="nav-text">网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux相关技术"><span class="nav-number">2.</span> <span class="nav-text">Linux相关技术</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GRE网络-Vlan网络-Vxlan网络"><span class="nav-number">3.</span> <span class="nav-text">GRE网络, Vlan网络, Vxlan网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#L2-Population"><span class="nav-number">4.</span> <span class="nav-text">L2 Population</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考："><span class="nav-number">5.</span> <span class="nav-text">参考：</span></a></li></ol></div>
             
 
           </div>
