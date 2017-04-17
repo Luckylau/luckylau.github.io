@@ -102,7 +102,7 @@ IP路由
 要实">
 <meta property="og:image" content="https://luckylau.github.io/2017/04/17/你懂网络吗-5/1.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/04/17/你懂网络吗-5/2.png">
-<meta property="og:updated_time" content="2017-04-17T07:07:15.040Z">
+<meta property="og:updated_time" content="2017-04-17T07:10:41.268Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="你懂网络吗(5)">
 <meta name="twitter:description" content="本文主要是基于学习《CCNA学习指南》总结网络必备的知识。
@@ -437,13 +437,13 @@ IP路由
 <p>​    这里的 36 个简单步骤可以帮助我们理解整个IP路由选择过程。这里的关键性问题是，即使对于大型的网络，路由选择的实现过程也是如此。只是在非常大的互联网络中，分组在到达目标主机之前需要经过更多的路由转发。<br>需要重点记忆的是，<strong>当 Host A 向 Host B 发送分组时，所采用的目标硬件地址是默认网关的以太网接口地址。之所以会这样，是因为数据帧只在本地网络中有效，它不可以被直接发送到远程网络中</strong>。因此，发往远程网络的分组必须通过默认网关进行转发。</p>
 <p>测试认知：<br><img src="/2017/04/17/你懂网络吗-5/2.png" alt=""></p>
 <p>在主机 4 发出的数据帧中，目的地址字段中应该放置哪个地址?</p>
-<p>主机 4 将使用的目标地址是 Lab B 路由器的 FaO/O 接口的 MAC 地址。</p>
+<p>主机 4 将使用的目标地址是 Lab B 路由器的 Fa0/0 接口的 MAC 地址。</p>
 <p>当分组到达主机 1 时，在分组报头中的 OSI 第 3 层协议的源地址可能是什么?</p>
 <p>在第 3 层，源 IP地址就是主机 4 的地址，并且分组中的目标地址就是主机1 的IP地址。</p>
 <p>主机 4 正在向连接到 Lab A 路由器上的电子邮件服务器传输文件。由主机 4 发出的数据中所携带的第 2 层目的方地址应该是什么?</p>
-<p>主机 4 发出的数据中携带的第 2 层目的方地址将是 Lab B 路由器 FaO/O接口的 MAC 地址。</p>
+<p>主机 4 发出的数据中携带的第 2 层目的方地址将是 Lab B 路由器 Fa0/0接口的 MAC 地址。</p>
 <p>当数据帧被电子邮件服务器接收时，它所携带的源 MAC 地址将会是什么?</p>
-<p>电子邮件服务器接收的数据帧携带的源 MAC 地址将是 Lab A 路由器的 FaO/O接口地址。</p>
+<p>电子邮件服务器接收的数据帧携带的源 MAC 地址将是 Lab A 路由器的 Fa0/0接口地址。</p>
 
       
     </div>
