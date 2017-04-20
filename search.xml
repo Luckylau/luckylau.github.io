@@ -5,7 +5,7 @@
     <entry>
       <title><![CDATA[GNS3的安装部署]]></title>
       <url>%2F2017%2F04%2F19%2FGNS3%E7%9A%84%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2%2F</url>
-      <content type="text"><![CDATA[GNS3下载首先我提供了自己的GNS3的下载地址如下： 链接：http://pan.baidu.com/s/1jIl0UH4 密码：7s5e GNS3的安装配置然后我们安装GNS3 VM，双击GNS3-1.4.6-all-in-one，运行到如下图全选。 GNS3 的使用基于Local server的GNS使用 我们选择local server 然后基于此导入ISO image即可。 基于GNS3 VM的使用首先我们部署GNS3.VM虚拟机，解压VMware.Workstation1.4.6.zip，并将虚拟机导入vmware中。导入后启动虚拟机。 待续 。。。。。。]]></content>
+      <content type="text"><![CDATA[GNS3下载首先我提供了自己的GNS3的下载地址如下： 链接：http://pan.baidu.com/s/1jIl0UH4 密码：7s5e GNS3的安装配置然后我们安装GNS3 ，双击GNS3-1.4.6-all-in-one，运行到如下图全选。 GNS3 的使用基于Local server的GNS使用首次进入会有向导，我们选择如下，然后下一步下一步，基于Local server导入ISO image，中间过程出现一些提示框，都选择是。 基于GNS3 VM的使用首先我们部署GNS3.VM虚拟机，解压VMware.Workstation1.4.6.zip，并将虚拟机导入vmware中。导入后启动虚拟机。 待续 。。。。。。]]></content>
     </entry>
 
     
