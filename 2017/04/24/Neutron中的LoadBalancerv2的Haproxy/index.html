@@ -84,19 +84,19 @@
 
 
 
-<meta name="description" content="pass
-参考：http://www.ilanni.com/?p=9987">
+<meta name="description" content="Haproxy的介绍​    Haproxy提供高可用性、负载均衡以及基于TCP(第四层)和HTTP（第七层）应用的代理，支持虚拟主机，它是免费、快速并且可靠的一种解决方案。
+​    haproxy特别适用于那些负载特别大的web站点，这些站点通常又需要会话保持或七层处理。haproxy运行在时下的硬件上，完全可以支持数以万计的并发连接，并且它的运行模式使得它可以很简单安全的整合进您当前的架构中">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Neutron中的LoadBalancerv2的Haproxy">
 <meta property="og:url" content="https://luckylau.github.io/2017/04/24/Neutron中的LoadBalancerv2的Haproxy/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
-<meta property="og:description" content="pass
-参考：http://www.ilanni.com/?p=9987">
-<meta property="og:updated_time" content="2017-04-24T07:50:40.564Z">
+<meta property="og:description" content="Haproxy的介绍​    Haproxy提供高可用性、负载均衡以及基于TCP(第四层)和HTTP（第七层）应用的代理，支持虚拟主机，它是免费、快速并且可靠的一种解决方案。
+​    haproxy特别适用于那些负载特别大的web站点，这些站点通常又需要会话保持或七层处理。haproxy运行在时下的硬件上，完全可以支持数以万计的并发连接，并且它的运行模式使得它可以很简单安全的整合进您当前的架构中">
+<meta property="og:updated_time" content="2017-04-24T15:07:00.694Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Neutron中的LoadBalancerv2的Haproxy">
-<meta name="twitter:description" content="pass
-参考：http://www.ilanni.com/?p=9987">
+<meta name="twitter:description" content="Haproxy的介绍​    Haproxy提供高可用性、负载均衡以及基于TCP(第四层)和HTTP（第七层）应用的代理，支持虚拟主机，它是免费、快速并且可靠的一种解决方案。
+​    haproxy特别适用于那些负载特别大的web站点，这些站点通常又需要会话保持或七层处理。haproxy运行在时下的硬件上，完全可以支持数以万计的并发连接，并且它的运行模式使得它可以很简单安全的整合进您当前的架构中">
 
 
 
@@ -388,8 +388,336 @@
       
 
       
-        <p>pass</p>
-<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p><a href="http://www.ilanni.com/?p=9987" target="_blank" rel="external">http://www.ilanni.com/?p=9987</a></p>
+        <h3 id="Haproxy的介绍"><a href="#Haproxy的介绍" class="headerlink" title="Haproxy的介绍"></a>Haproxy的介绍</h3><p>​    Haproxy提供高可用性、负载均衡以及基于TCP(第四层)和HTTP（第七层）应用的代理，支持虚拟主机，它是免费、快速并且可靠的一种解决方案。</p>
+<p>​    haproxy特别适用于那些负载特别大的web站点，这些站点通常又需要会话保持或七层处理。haproxy运行在时下的硬件上，完全可以支持数以万计的并发连接，并且它的运行模式使得它可以很简单安全的整合进您当前的架构中，同时可以保护你的web服务器不被暴露到网络上。</p>
+<p>​    haproxy实现了一种事件驱动、单一进程模型，此模型支持非常大的并发连接数。多进程或多线程模型受内存限制、系统调度器限制以及无处不在的锁限制，很少能处理数千并发连接。事件驱动模型因为在有更好的资源和时间管理的用户端(User-Space)实现所有这些任务，所以没有这些问题。此模型的弊端是，在多核系统上，这些程序通常扩展性较差。这就是为什么他们必须进行优化以使每个CPU时间片(Cycle)做更多的工作。</p>
+<a id="more"></a>
+<p>haproxy的优点</p>
+<p>（1）免费开源，稳定性也是非常好。单haproxy也跑得不错，稳定性可以与硬件级的F5相媲美。</p>
+<p>（2）根据官方文档，haproxy可以跑满10Gbps，这个数值作为软件级负载均衡器是相当惊人的。</p>
+<p>（3）haproxy支持连接拒绝:因为维护一个连接的打开的开销是很低的，有时我们很需要限制攻击蠕虫（attack bots），也就是说限制它们的连接打开从而限制它们的危害。这个已经为一个陷于小型DDoS攻击的网站开发了而且已经拯救了很多站点，这个优点也是其它负载均衡器没有的。</p>
+<p>（4）haproxy支持全透明代理（已具备硬件防火墙的典型特点）:可以用客户端IP地址或者任何其他地址来连接后端服务器。这个特性仅在Linux 2.4/2.6内核打了tcp proxy补丁后才可以使用。这个特性也使得为某特殊服务器处理部分流量同时又不修改服务器的地址成为可能。</p>
+<p>（5）haproxy现多于线上的Mysql集群环境，我们常用于它作为MySQL（读）负载均衡。</p>
+<p>（6）自带强大的监控服务器状态的页面，实际环境中我们结合Nagios进行邮件或短信报警。</p>
+<p>（7）HAProxy支持虚拟主机，许多朋友说它不支持虚拟主机是错误的，通过测试我们知道，HAProxy是支持虚拟主机的。</p>
+<h3 id="Haproxy的安装"><a href="#Haproxy的安装" class="headerlink" title="Haproxy的安装"></a>Haproxy的安装</h3><p>以在ubantu-16.04操作系统为例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">apt-get -y install haproxy</div></pre></td></tr></table></figure>
+<p>常用命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ps -ef |grep haproxy</div><div class="line">haproxy -v</div><div class="line">cat /etc/haproxy/haproxy.cfg</div></pre></td></tr></table></figure>
+<h3 id="Haproxy的配置"><a href="#Haproxy的配置" class="headerlink" title="Haproxy的配置"></a>Haproxy的配置</h3><h4 id="启动监控界面"><a href="#启动监控界面" class="headerlink" title="启动监控界面"></a>启动监控界面</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">listen stats</div><div class="line">mode http</div><div class="line">bind 0.0.0.0:1080</div><div class="line">stats enable</div><div class="line">stats hide-version</div><div class="line">stats uri /stats</div><div class="line">stats realm Haproxy\ Statistics</div><div class="line">stats auth admin:admin123</div><div class="line">stats admin if TRUE #启用管理功能</div></pre></td></tr></table></figure>
+<h4 id="关键词解析"><a href="#关键词解析" class="headerlink" title="关键词解析"></a>关键词解析</h4><p><strong>balance</strong></p>
+<p>balance用于定义负载均衡的算法，可用于defaults、listen和backend中。</p>
+<p>balance使用方法如下：</p>
+<p>balance <code>&lt;algorithm&gt;</code> <code>[ &lt;arguments&gt; ]</code></p>
+<p>balance url_param <param> [check_post <code>[&lt;max_wait&gt;]</code>]</p>
+<p><algorithm>用于在负载均衡场景中挑选一个server，其仅应用于持久信息不可用的条件下或需要将一个连接重新派发至另一个服务器时。</algorithm></p>
+<p>balance支持的算法有：</p>
+<p>roundrobin：基于权重进行轮询，在服务器的处理时间保持均匀分布时，这是最平衡、最公平的算法。此算法是动态的，这表示其权重可以在运行时进行调整。不过在设计上，每个后端服务器仅能最多接受4128个连接。</p>
+<p>source：将请求的源地址进行hash运算，并由后端服务器的权重总数相除后派发至某匹配的服务器。这可以使得同一个客户端IP的请求始终被派发至某特定的服务器；不过，当服务器权重总数发生变化时，如某服务器宕机或添加了新的服务器，许多客户端的请求可能会被派发至与此前请求不同的服务器；常用于负载均衡无cookie功能的基于TCP的协议；其默认为静态，不过也可以使用hash-type修改此特性。</p>
+<p>static-rr：基于权重进行轮询，与roundrobin类似，但是为静态方法，在运行时调整其服务器权重不会生效；不过，其在后端服务器连接数上没有限制。</p>
+<p>leastconn：新的连接请求被派发至具有最少连接数目的后端服务器；在有着较长时间会话的场景中推荐使用此算法，如LDAP、SQL等，其并不太适用于较短会话的应用层协议，如HTTP；此算法是动态的，可以在运行时调整其权重。</p>
+<p>uri：对URI的左半部分(“问题”标记之前的部分)或整个URI进行hash运算，并由服务器的总权重相除后派发至某匹配的服务器；这可以使得对同一个URI的请求总是被派发至某特定的服务器，除非服务器的权重总数发生了变化；此算法常用于代理缓存或反病毒代理以提高缓存的命中率；需要注意的是，此算法仅应用于HTTP后端服务器场景；其默认为静态算法，不过也可以使用hash-type修改此特性。</p>
+<p>url_param：通过<argument>为URL指定的参数在每个HTTP GET请求中将会被检索；如果找到了指定的参数且其通过等于号“=”被赋予了一个值，那么此值将被执行hash运算并被服务器的总权重相除后派发至某匹配的服务器；此算法可以通过追踪请求中的用户标识进而确保同一个用户ID的请求将被送往同一个特定的服务器，除非服务器的总权重发生了变化；如果某请求中没有出现指定的参数或其没有有效值，则使用轮叫算法对相应请求进行调度；此算法默认为静态的，不过其也可以使用hash-type修改此特性。</argument></p>
+<p>hdr(<name>)：对于每个HTTP请求，通过<name>指定的HTTP首部将会被检索；如果相应的首部没有出现或其没有有效值，则使用轮叫算法对相应请求进行调度；其有一个可选选项“use_domain_only”，可在指定检索类似Host类的首部时仅计算域名部分以降低hash算法的运算量；此算法默认为静态的，不过其也可以使用hash-type修改此特性；</name></name></p>
+<p><strong>bind</strong></p>
+<p>bind仅能用于frontend和listen区段，用于定义一个或几个监听的套接词。</p>
+<p>bind使用方法如下：</p>
+<p>bind [<address>]:<port_range> [, …]</port_range></address></p>
+<p>bind [<address>]:<port_range> [, …] interface <interface></interface></port_range></address></p>
+<p><address>：可选选项，其可以为主机名、IPv4地址、IPv6地址或<code>*</code>。省略此选项、将其指定为<code>*</code>或0.0.0.0时，将监听当前系统的所有IPv4地址。</address></p>
+<p><port_range>：可以是一个特定的TCP端口，也可是一个端口范围(如 5005-5010)，代理服务器将通过指定的端口来接收客户端请求。</port_range></p>
+<p>需要注意的是，每组监听的套接词<address:port>在同一个实例上只能使用一次，而且小于1024的端口需要有特定权限的用户才能使用，这可能需要通过uid参数来定义。</address:port></p>
+<p><interface>：指定物理接口的名称，仅能在Linux系统上使用。其不能使用接口别名，而仅能使用物理接口名称，而且只有管理有权限指定绑定的物理接口。</interface></p>
+<p><strong>mode</strong></p>
+<p>mode用于设定实例的运行模式或协议。当实现内容交换时，前端和后端必须工作于同一种模式(一般说来都是HTTP模式)，否则将无法启动实例。</p>
+<p>mode可被用与listen、defaults、frontend、backend区段。</p>
+<p>mode使用方法如下：</p>
+<p>mode { tcp|http|health }</p>
+<p>tcp：实例运行于纯TCP模式（即4层），在客户端和服务器端之间将建立一个全双工的连接，且不会对7层报文做任何类型的检查；此为默认模式，通常用于SSL、SSH、SMTP等应用。</p>
+<p>http：实例运行于HTTP模式（即7层），客户端请求在转发至后端服务器之前将被深度分析，所有不与RFC格式兼容的请求都会被拒绝。</p>
+<p>health：实例工作于health模式，其对入站请求仅响应“OK”信息并关闭连接，且不会记录任何日志信息；此模式将用于响应外部组件的健康状态检查请求；目前此模式已经废弃，因为tcp或http模式中的monitor关键词可完成类似功能；</p>
+<p><strong>hash-type</strong></p>
+<p>hash-type定义用于将hash码映射至后端服务器的方法；其不能用于frontend区段；可用方法有map-based和consistent，在大多数场景下推荐使用默认的map-based方法。</p>
+<p>hash-type使用方法如下：</p>
+<p>hash-type <method></method></p>
+<p>map-based：hash表是一个包含了所有在线服务器的静态数组。其hash值将会非常平滑，会将权重考虑在列，但其为静态方法，对在线服务器的权重进行调整将不会生效，这意味着其不支持慢速启动。此外，挑选服务器是根据其在数组中的位置进行的，因此，当一台服务器宕机或添加了一台新的服务器时，大多数连接将会被重新派发至一个与此前不同的服务器上，对于缓存服务器的工作场景来说，此方法不甚适用。</p>
+<p>consistent：hash表是一个由各服务器填充而成的树状结构；基于hash键在hash树中查找相应的服务器时，最近的服务器将被选中。此方法是动态的，支持在运行时修改服务器权重，因此兼容慢速启动的特性。添加一个新的服务器时，仅会对一小部分请求产生影响，因此，尤其适用于后端服务器为cache的场景。不过，此算法不甚平滑，派发至各服务器的请求未必能达到理想的均衡效果，因此，可能需要不时的调整服务器的权重以获得更好的均衡性。</p>
+<p><strong>log</strong></p>
+<p>log为每个实例启用事件和流量日志，因此可用于所有区段。每个实例最多可以指定两个log参数，不过，如果使用了“log global”且”global”段已经定了两个log参数时，多余了log参数将被忽略。</p>
+<p>log global</p>
+<p>log <address> <facility> [<level> [<minlevel>]]</minlevel></level></facility></address></p>
+<p>global：当前实例的日志系统参数同”global”段中的定义时，将使用此格式；每个实例仅能定义一次“log global”语句，且其没有任何额外参数。</p>
+<p><address>：定义日志发往的位置，其格式之一可以为<ipv4_address:port>，其中的port为UDP协议端口，默认为514；格式之二为Unix套接词文件路径，但需要留心chroot应用及用户的读写权限。</ipv4_address:port></address></p>
+<p><facility>：可以为syslog系统的标准facility之一。</facility></p>
+<p><level>：定义日志级别，即输出信息过滤器，默认为所有信息；指定级别时，所有等于或高于此级别的日志信息将会被发送。</level></p>
+<p><strong>maxconn</strong></p>
+<p>maxconn设定一个前端的最大并发连接数，因此，其不能用于backend区段。</p>
+<p>maxconn使用方法如下：</p>
+<p>maxconn <conns></conns></p>
+<p>对于大型站点来说，可以尽可能提高此值以便让haproxy管理连接队列，从而避免无法应答用户请求。当然，此最大值不能超出“global”段中的定义。此外，需要留心的是，haproxy会为每个连接维持两个缓冲，每个缓冲的大小为8KB，再加上其它的数据，每个连接将大约占用17KB的RAM空间。这意味着经过适当优化后，有着1GB的可用RAM空间时将能维护40000-50000并发连接。</p>
+<p>如果为<conns>指定了一个过大值，极端场景下，其最终占据的空间可能会超出当前主机的可用内存，这可能会带来意想不到的结果；因此，将其设定了一个可接受值方为明智决定。其默认为2000。</conns></p>
+<p><strong>default_backend</strong></p>
+<p>default_backend定义在没有匹配的use_backend规则时为实例指定使用的默认后端服务器，因此，其不可应用于backend区段。在frontend和backend之间进行内容交换时，通常使用use-backend定义其匹配规则；而没有被规则匹配到的请求将由此参数指定的后端服务器接收。</p>
+<p>default_backend使用方法如下：</p>
+<p>default_backend <backend></backend></p>
+<p><backend>：指定使用的后端的名称。</backend></p>
+<p><strong>server</strong></p>
+<p>server为后端声明一个server，因此，不能用于defaults和frontend区段。</p>
+<p>server使用方法如下：</p>
+<p>server <code>&lt;name&gt; &lt;address&gt;[:port][param *]</code></p>
+<p><code>&lt;name&gt;：</code>为此服务器指定的内部名称，其将出现在日志及警告信息中；如果设定了http-send-server-name，它还将被添加至发往此服务器的请求首部中。</p>
+<p><code>&lt;address&gt;：</code>为此服务器的的IPv4地址，支持使用可解析的主机名，同时也支持域名，只不过在启动时需要解析主机名至相应的IPv4地址。</p>
+<p><code>[:port]：</code>指定将连接请求所发往的此服务器时的目标端口，其为可选项；未设定时，将使用客户端请求时的同一相端口。</p>
+<p><code>[param*]：</code>为此服务器设定的一系参数；其可用的参数非常多，具体请参考官方文档中的说明，下面仅说明几个常用的参数；</p>
+<p>服务器或默认服务器参数：</p>
+<p>backup：设定为备用服务器，仅在负载均衡场景中的其它server均不可用于启用此server。</p>
+<p>check：启动对此server执行健康状态检查，其可以借助于额外的其它参数完成更精细的设定，如：</p>
+<p>inter <delay>：设定健康状态检查的时间间隔，单位为毫秒，默认为2000；也可以使用fastinter和downinter来根据服务器端状态优化此时间延迟；</delay></p>
+<p>rise <count>：设定健康状态检查中，某离线的server从离线状态转换至正常状态需要成功检查的次数；</count></p>
+<p>fall <count>：确认server从正常状态转换为不可用状态需要检查的次数；</count></p>
+<p>cookie <value>：为指定server设定cookie值，此处指定的值将在请求入站时被检查，第一次为此值挑选的server将在后续的请求中被选中，其目的在于实现持久连接的功能；</value></p>
+<p>maxconn <maxconn>：指定此服务器接受的最大并发连接数；如果发往此服务器的连接数目高于此处指定的值，其将被放置于请求队列，以等待其它连接被释放；</maxconn></p>
+<p>maxqueue <maxqueue>：设定请求队列的最大长度；</maxqueue></p>
+<p>observe <mode>：通过观察服务器的通信状况来判定其健康状态，默认为禁用，其支持的类型有“layer4”和“layer7”，“layer7”仅能用于http代理场景；</mode></p>
+<p>redir <prefix>：启用重定向功能，将发往此服务器的GET和HEAD请求均以302状态码响应；需要注意的是，在prefix后面不能使用/，且不能使用相对地址，以免造成循环；例如：</prefix></p>
+<p>server srv1 192.168.5.174:80 redir <a href="http://www.baidu.com" target="_blank" rel="external">http://www.baidu.com</a> check</p>
+<p>weight <weight>：权重，默认为1，最大值为256，0表示不参与负载均衡。</weight></p>
+<p><strong>stats enable</strong></p>
+<p>stats enable启用基于程序编译时默认设置的统计报告，stats enable不能用于frontend区段。只要没有另外的其它设定，它们就会使用如下的配置：</p>
+<p>stats uri : /stats</p>
+<p>stats realm : “HAProxy Statistics”</p>
+<p>stats auth : no authentication</p>
+<p>stats scope : no restriction</p>
+<p>尽管stats enable一条就能够启用统计报告，但还是建议设定其它所有的参数，以免其依赖于默认设定而带来非期望的后果。</p>
+<p><strong>stats hide-version</strong></p>
+<p>stats hide-version隐藏统计报告中haproxy版本号，不能用于frontend区段。默认情况下，统计页面会显示一些有用信息，包括haproxy的版本号。然而，向所有人公开haproxy的精确版本号是非常有风险的，因为它能帮助恶意用户快速定位版本的缺陷和漏洞。</p>
+<p><strong>stats realm</strong></p>
+<p>stats realm启用统计报告并高精认证领域，不能用于“frontend”区段。</p>
+<p>stats realm <realm></realm></p>
+<p>haproxy在读取realm时会将其视作一个单词，因此，中间的任何空白词符都必须使用反斜线进行转义。此参数仅在与“stats auth”配置使用时有意义。</p>
+<p><realm>：实现HTTP基本认证时显示在浏览器中的领域名称，用于提示用户输入一个用户名和密码。</realm></p>
+<p><strong>stats scope</strong></p>
+<p>stats scope启用统计报告并限定报告的区段，不能用于frontend区段。</p>
+<p>当指定此语句时，统计报告将仅显示其列举出区段的报告信息，所有其它区段的信息将被隐藏。如果需要显示多个区段的统计报告，此语句可以定义多次。需要注意的是，区段名称检测仅仅是以词符串比较的方式进行，它不会真检测指定的区段是否真正存在。</p>
+<p>stats scope { <name> | “.” }</name></p>
+<p><name>：可以是一个listen、frontend或backend区段的名称，而“.”则表示stats scope语句所定义的当前区段。</name></p>
+<p><strong>stats auth</strong></p>
+<p>stats auth启用带认证的统计报告功能并授权一个用户帐号，其不能用于frontend区段。</p>
+<p>stats auth <user>:<passwd></passwd></user></p>
+<p><user>：授权进行访问的用户名；</user></p>
+<p><passwd>：此用户的访问密码，明文格式；</passwd></p>
+<p>此语句将基于默认设定启用统计报告功能，并仅允许其定义的用户访问，其也可以定义多次以授权多个用户帐号。可以结合“stats realm”参数在提示用户认证时给出一个领域说明信息。在使用非法用户访问统计功能时，其将会响应一个“401 Forbidden”页面。其认证方式为HTTP Basic认证，密码传输会以明文方式进行，因此，配置文件中也使用明文方式存储以说明其非保密信息故此不能相同于其它关键性帐号的密码。</p>
+<p><strong>stats admin</strong></p>
+<p>stats admin在指定的条件满足时启用统计报告页面的管理级别功能，它允许通过web接口启用或禁用服务器，不过，基于安全的角度考虑，统计报告页面应该尽可能为只读的。此外，如果启用了HAProxy的多进程模式，启用此管理级别将有可能导致异常行为。</p>
+<p>stats admin { if | unless } <cond></cond></p>
+<p>目前来说，POST请求方法被限制于仅能使用缓冲区减去保留部分之外的空间，因此，服务器列表不能过长，否则，此请求将无法正常工作。因此，建议一次仅调整少数几个服务器。下面是两个案例，第一个限制了仅能在本机打开报告页面时启用管理级别功能，第二个定义了仅允许通过认证的用户使用管理级别功能。</p>
+<p>backend stats_localhost</p>
+<p>stats enable</p>
+<p>stats admin if LOCALHOST</p>
+<p>backend stats_auth</p>
+<p>stats enable</p>
+<p>stats auth admin:password</p>
+<p>stats admin if TRUE</p>
+<p><strong>option httplog</strong></p>
+<p>option httplog启用记录HTTP请求、会话状态和计时器的功能。</p>
+<p>option httplog [ clf ]</p>
+<p>clf：使用CLF格式来代替HAProxy默认的HTTP格式，通常在使用仅支持CLF格式的特定日志分析器时才需要使用此格式。</p>
+<p>默认情况下，日志输入格式非常简陋，因为其仅包括源地址、目标地址和实例名称，而“option httplog”参数将会使得日志格式变得丰富许多，其通常包括但不限于HTTP请求、连接计时器、会话状态、连接数、捕获的首部及cookie、“frontend”、“backend”及服务器名称，当然也包括源地址和端口号等。</p>
+<p><strong>option logasap</strong></p>
+<p>option logasap</p>
+<p>启用提前将HTTP请求记入日志，不能用于backend区段。</p>
+<p>默认情况下，HTTP请求是在请求结束时进行记录以便能将其整体传输时长和词节数记入日志，由此，传较大的对象时，其记入日志的时长可能会略有延迟。option logasap参数能够在服务器发送complete首部时即时记录日志，只不过，此时将不记录整体传输时长和词节数。此情形下，捕获Content-Length响应首部来记录传输的词节数是一个较好选择。</p>
+<p><strong>option forwardfor</strong></p>
+<p>option forwardfor允许在发往服务器的请求首部中插入“X-Forwarded-For”首部。即启用获取客户端真实IP功能。</p>
+<p>option forwardfor [ except <network> ][ header ] [ if-none ]</network></p>
+<p><network>：可选参数，当指定时，源地址为匹配至此网络中的请求都禁用此功能。</network></p>
+<p><name>：可选参数，可使用一个自定义的首部，如“X-Client”来替代“X-Forwarded-For”。有些独特的web服务器的确需要用于一个独特的首部。</name></p>
+<p>if-none：仅在此首部不存在时才将其添加至请求报文问道中。</p>
+<p>haproxy工作于反向代理模式，其发往服务器的请求中的客户端IP均为haproxy主机的地址而非真正客户端的地址，这会使得服务器端的日志信息记录不了真正的请求来源，“X-Forwarded-For”首部则可用于解决此问题。haproxy可以向每个发往服务器的请求上添加此首部，并以客户端IP为其value。</p>
+<p>需要注意的是，haproxy工作于隧道模式，其仅检查每一个连接的第一个请求，因此，仅第一个请求报文被附加此首部。如果想为每一个请求都附加此首部，请确保同时使用了“option httpclose”、“option forceclose”和“option http-server-close”几个option。</p>
+<p><strong>errorfile</strong></p>
+<p>errorfile在用户请求不存在的页面时，返回一个页面文件给客户端而非由haproxy生成的错误代码；可用于所有段中。</p>
+<p>errorfile <code> <file></file></code></p>
+<p><code>：指定对HTTP的哪些状态码返回指定的页面；这里可用的状态码有200、400、403、408、500、502、503和504。</code></p>
+<p><file>：指定用于响应的页面文件。</file></p>
+<p>例如：</p>
+<p>errorfile 400 /etc/haproxy/errorpages/400badreq.http</p>
+<p>errorfile 403 /etc/haproxy/errorpages/403forbid.http</p>
+<p>errorfile 503 /etc/haproxy/errorpages/503sorry.http</p>
+<p><strong>rrorloc和errorloc302</strong></p>
+<p>errorloc <code> <url></url></code></p>
+<p>errorloc302 <code> <url></url></code></p>
+<p>请求错误时，返回一个HTTP重定向至某URL的信息；可用于所有配置段中。</p>
+<p><code>：指定对HTTP的哪些状态码返回指定的页面；这里可用的状态码有200、400、403、408、500、502、503和504；</code></p>
+<p><url>：Location首部中指定的页面位置的具体路径，可以是在当前服务器上的页面的相对路径，也可以使用绝对路径；需要注意的是，如果URI自身错误时产生某特定状态码信息的话，有可能会导致循环定向；</url></p>
+<p>需要留意的是，这两个关键词都会返回302状态吗，这将使得客户端使用同样的HTTP方法获取指定的URL，对于非GET法的场景(如POST)来说会产生问题，因为返回客户的URL是不允许使用GET以外的其它方法的。如果的确有这种问题，可以使用errorloc303来返回303状态码给客户端。</p>
+<p><strong>errorloc303</strong></p>
+<p>errorloc303 <code> <url></url></code></p>
+<p>请求错误时，返回一个HTTP重定向至某URL的信息给客户端，可用于所有配置段中。</p>
+<p><code>：指定对HTTP的哪些状态码返回指定的页面；这里可用的状态码有400、403、408、500、502、503和504；</code></p>
+<p><url>：Location首部中指定的页面位置的具体路径，可以是在当前服务器上的页面的相对路径，也可以使用绝对路径；需要注意的是，如果URI自身错误时产生某特定状态码信息的话，有可能会导致循环定向；</url></p>
+<p>例如：</p>
+<p>backend webserver</p>
+<p>server 172.16.100.6 172.16.100.6:80 check maxconn 3000 cookie srv01</p>
+<p>server 172.16.100.7 172.16.100.7:80 check maxconn 3000 cookie srv02</p>
+<p>errorloc 403 /etc/haproxy/errorpages/sorry.htm</p>
+<p>errorloc 503 /etc/haproxy/errorpages/sorry.htm</p>
+<h4 id="配置文件解析"><a href="#配置文件解析" class="headerlink" title="配置文件解析"></a>配置文件解析</h4><p>haproxy的配置文件主要包含以下几个部分：</p>
+<p>global全局配置、defaults默认配置、监控页面配置、frontend配置、backend配置。</p>
+<p>global：全局配置参数，进程级的，用来控制Haproxy启动前的一些进程及系统设置。</p>
+<p>defaults：配置一些默认的参数，可以被frontend，backend，listen段继承使用。</p>
+<p>frontend：用来匹配接收客户所请求的域名，uri等，并针对不同的匹配，做不同的请求处理。</p>
+<p>backend：定义后端服务器集群，以及对后端服务器的一些权重、队列、连接数等选项的设置。</p>
+<p>listen：我将其理解为frontend和backend的组合体。</p>
+<h5 id="global全局配置"><a href="#global全局配置" class="headerlink" title="global全局配置"></a>global全局配置</h5><p>全局配置的标志参数为global，全局配置主要用于设定义全局参数，属于进程级的配置，通常和操作系统配置有关。</p>
+<p>进程管理及安全相关的参数:</p>
+<p><strong>chroot <jail dir="">：</jail></strong>修改haproxy的工作目录至指定的目录并在放弃权限之前执行chroot()操作，可以提升haproxy的安全级别，不过需要注意的是要确保指定的目录为空目录且任何用户均不能有写权限。</p>
+<p>使用方法为：</p>
+<p>chroot /var/lib/haproxy</p>
+<p><strong>daemon：</strong>让haproxy以守护进程的方式工作于后台，其等同于“-D”选项的功能。当然，也可以在命令行中以“-db”选项将其禁用。</p>
+<p><strong>uid：</strong>以指定的uid身份运行haproxy进程。</p>
+<p><strong>user：</strong>同uid参数，但使用的是用户名。</p>
+<p><strong>gid <number>：</number></strong>以指定的gid运行haproxy，建议使用专用于运行haproxy的gid，以免因权限问题带来风险。</p>
+<p><strong>group <group name="">：</group></strong>同gid参数，不过指定的组名。</p>
+<p><strong>log <address> <facility> [max level [min level]]：</facility></address></strong>定义全局的syslog服务器，最多可以定义两个。</p>
+<p><strong>log-send-hostname [<string>]：</string></strong>在syslog信息的首部添加当前主机名，可以为“string”指定的名称，也可以缺省使用当前主机名。</p>
+<p><strong>nbproc <number>：</number></strong>指定启动的haproxy进程个数，只能用于守护进程模式的haproxy。默认只启动一个进程，鉴于调试困难等多方面的原因，一般只在单进程仅能打开少数文件描述符的场景中才使用多进程模式。</p>
+<p><strong>pidfile：</strong>将haproxy的进程写入pid文件。</p>
+<p><strong>ulimit-n：</strong>设定每进程所能够打开的最大文件描述符数目，默认情况下其会自动进行计算，因此不推荐修改此选项。</p>
+<p><strong>stats socket <path></path>：</strong>定义统计信息保存位置。</p>
+<p>性能调整相关的参数：</p>
+<p>maxconn <number>：设定每个haproxy进程所接受的最大并发连接数，其等同于命令行选项“-n”；“ulimit -n”自动计算的结果正是参照此参数设定的。</number></p>
+<p>maxpipes <number>：haproxy使用pipe完成基于内核的tcp报文重组，此选项则用于设定每进程所允许使用的最大pipe个数。每个pipe会打开两个文件描述符，因此，“ulimit -n”自动计算时会根据需要调大此值；默认为maxconn/4，其通常会显得过大。</number></p>
+<p>noepoll：在Linux系统上禁用epoll机制。</p>
+<p>nokqueue：在BSE系统上禁用kqueue机制。</p>
+<p>nopoll：禁用poll机制。</p>
+<p>nosepoll：在Linux禁用启发式epoll机制。</p>
+<p>nosplice：禁止在Linux套接字上使用内核tcp重组，这会导致更多的recv/send系统调用；不过，在Linux 2.6.25-28系列的内核上，tcp重组功能有bug存在。</p>
+<p>spread-checks <0..50, in="" percent="">：在haproxy后端有着众多服务器的场景中，在精确的时间间隔后统一对众服务器进行健康状况检查可能会带来意外问题；此选项用于将其检查的时间间隔长度上增加或减小一定的随机时长。</0..50,></p>
+<p>tune.bufsize <number>：设定buffer的大小，同样的内存条件下，较小的值可以让haproxy有能力接受更多的并发连接，较大的值可以让某些应用程序使用较大的cookie信息；默认为16384，其可以在编译时修改，不过强烈建议使用默认值。</number></p>
+<p>tune.chksize <number>：设定检查缓冲区的大小，单位为字节；更大的值有助于在较大的页面中完成基于字符串或模式的文本查找，但也会占用更多的系统资源；不建议修改。</number></p>
+<p>tune.maxaccept <number>：设定haproxy进程内核调度运行时一次性可以接受的连接的个数，较大的值可以带来较大的吞吐率，默认在单进程模式下为100，多进程模式下为8，设定为-1可以禁止此限制；一般不建议修改。</number></p>
+<p>tune.maxpollevents <number>：设定一次系统调用可以处理的事件最大数，默认值取决于OS。其值小于200时可节约带宽，但会略微增大网络延迟，而大于200时会降低延迟，但会稍稍增加网络带宽的占用量。</number></p>
+<p>tune.maxrewrite <number>：设定为首部重写或追加而预留的缓冲空间，建议使用1024左右的大小。在需要使用更大的空间时，haproxy会自动增加其值。</number></p>
+<p>tune.rcvbuf.client <number>：定义在客户端内核套接字接收缓冲区的大小，单位为字节，建议不要调整此值。</number></p>
+<p>tune.rcvbuf.server <number>：设定内核套接字中服务端或客户端接收缓冲的大小，单位为字节；强烈推荐使用默认值。</number></p>
+<p>tune.sndbuf.client：定义在客户端内核套接字发送缓冲区的大小，单位为字节，建议不要调整此值。</p>
+<p>tune.sndbuf.server：定义在服务端内核套接字发送缓冲区的大小，单位为字节，建议不要调整此值。</p>
+<p>上边的这些指令大多也是作为了解即可，在实际中并不常会调整这些参数。</p>
+<p>debug相关的参数：</p>
+<p>debug：在调度haproxy时可以启用此参数，但在生产环境不应该启用。</p>
+<p>quiet：haproxy启动后不会显示任何相关信息，这与在命令行启动haproxy时加上参数“-q”相同。</p>
+<h5 id="defaults默认配置"><a href="#defaults默认配置" class="headerlink" title="defaults默认配置"></a>defaults默认配置</h5><p>defaults段用于为所有其它配置段提供默认参数，这配置默认配置参数可由下一个defaults所重新设定。</p>
+<p>下面提供一个defaults模版配置，如下：</p>
+<p>defaults</p>
+<p>mode  http</p>
+<p>设置haproxy的运行模式，有三种｛http|tcp|health｝。注意：如果haproxy中还要使用4层的应用（mode tcp）的话，不建议在此定义haproxy的运行模式。</p>
+<p>log   global</p>
+<p>设置日志继承全局配置段的设置。</p>
+<p>option httplog</p>
+<p>表示开始打开记录http请求的日志功能。</p>
+<p>option dontlognull</p>
+<p>如果产生了一个空连接，那这个空连接的日志将不会记录。</p>
+<p>option http-server-close</p>
+<p>打开http协议中服务器端关闭功能，使得支持长连接，使得会话可以被重用，使得每一个日志记录都会被记录。</p>
+<p>option forwardfor except 127.0.0.0/8</p>
+<p>如果上游服务器上的应用程序想记录客户端的真实IP地址，haproxy会把客户端的IP信息发送给上游服务器，在HTTP请求中添加”X-Forwarded-For”字段,但当是haproxy自身的健康检测机制去访问上游服务器时是不应该把这样的访问日志记录到日志中的，所以用except来排除127.0.0.0，即haproxy身。</p>
+<p>option redispatch</p>
+<p>当与上游服务器的会话失败(服务器故障或其他原因)时，把会话重新分发到其他健康的服务器上,当原来故障的服务器恢复时，会话又被定向到已恢复的服务器上。还可以用”retries”关键字来设定在判定会话失败时的尝试连接的次数。</p>
+<p>retries 3</p>
+<p>向上游服务器尝试连接的最大次数，超过此值就认为后端服务器不可用。</p>
+<p>option abortonclose</p>
+<p>当haproxy负载很高时，自动结束掉当前队列处理比较久的链接。</p>
+<p>timeout http-request 10s</p>
+<p>客户端发送http请求的超时时间。</p>
+<p>timeout queue 1m</p>
+<p>当上游服务器在高负载响应haproxy时，会把haproxy发送来的请求放进一个队列中，timeout queue定义放入这个队列的超时时间。</p>
+<p>timeout connect 5s</p>
+<p>haproxy与后端服务器连接超时时间，如果在同一个局域网可设置较小的时间。</p>
+<p>timeout client 1m</p>
+<p>定义客户端与haproxy连接后，数据传输完毕，不再有数据传输，即非活动连接的超时时间。</p>
+<p>timeout server 1m</p>
+<p>定义haproxy与上游服务器非活动连接的超时时间。</p>
+<p>timeout http-keep-alive 10s</p>
+<p>设置新的http请求连接建立的最大超时时间，时间较短时可以尽快释放出资源，节约资源。</p>
+<p>timeout check 10s</p>
+<p>健康检测的时间的最大超时时间。</p>
+<p>maxconn 3000</p>
+<p>最大并发连接数。</p>
+<p>contimeout 5000</p>
+<p>设置成功连接到一台服务器的最长等待时间，默认单位是毫秒，新版本的haproxy使用timeout connect替代，该参数向后兼容。</p>
+<p>clitimeout 3000</p>
+<p>设置连接客户端发送数据时的成功连接最长等待时间，默认单位是毫秒，新版本haproxy使用timeout client替代。该参数向后兼容。</p>
+<p>srvtimeout 3000</p>
+<p>设置服务器端回应客户度数据发送的最长等待时间，默认单位是毫秒，新版本haproxy使用timeout server替代。该参数向后兼容。</p>
+<h5 id="监控页面配置"><a href="#监控页面配置" class="headerlink" title="监控页面配置"></a>监控页面配置</h5><p>listen admin_status</p>
+<p>frontend和backend的组合体,监控组的名称，按需自定义名称。</p>
+<p>bind 0.0.0.0:1080</p>
+<p>配置监听端口。</p>
+<p>mode http</p>
+<p>配置监控运行的模式，在这为http模式。</p>
+<p>log 127.0.0.1 local3 err</p>
+<p>配置错误日志记录。</p>
+<p>stats refresh 5s</p>
+<p>配置每隔5秒自动刷新监控页面。</p>
+<p>stats uri /stats</p>
+<p>配置监控页面的url。</p>
+<p>stats realm Haproxy\ Statistics</p>
+<p>配置监控页面的提示信息。</p>
+<p>stats auth admin:admin</p>
+<p>配置监控页面的用户和密码admin,可以设置多个用户名。如下：</p>
+<p>stats auth admin1:admin1</p>
+<p>配置监控页面的用户和密码admin1。</p>
+<p>stats hide-version</p>
+<p>配置隐藏统计页面上的HAproxy版本信息。</p>
+<p>stats admin if TRUE</p>
+<p>配置手工启用/禁用,后端服务器(haproxy-1.4.9以后版本)。</p>
+<h5 id="frontend配置"><a href="#frontend配置" class="headerlink" title="frontend配置"></a>frontend配置</h5><p>frontend web_demo</p>
+<p>定义一个名为 web_demo的frontend。</p>
+<p>bind 0.0.0.0:80</p>
+<p>定义haproxy前端部分监听的端口。</p>
+<p>mode http</p>
+<p>定义为http模式。</p>
+<p>log global</p>
+<p>继承global中log的定义。</p>
+<p>option forwardfor</p>
+<p>使后端server获取到客户端的真实IP。</p>
+<p>acl php_web path_end .php</p>
+<p>定义一个名叫php_web的acl，当请求的url末尾是以.php结尾的，将会被匹配到。</p>
+<p>use_backend php_server if php_web</p>
+<p>如果满足策略php_web时，就将请求交予backend php_server处理。</p>
+<p>default_backend backend_default</p>
+<p>如果以上策略都不满足时，就将请求交予default_backend处理。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line">acl使用如下：</div><div class="line">acl 自定义acl名称 acl方法 -i [匹配的路径或者方法]</div><div class="line">hdr_reg(host),hdr_dom(host),hdr_beg(host),url_sub,url_dir,path_beg,path_end</div><div class="line">-i 表示不区分大小写,后边跟上匹配的路径或文件或正则表达式</div><div class="line">与ACL一起使用的参数还有use_backend,usebackend后面需要跟上一个backend实例名,表示在满足ACL规则后去请求哪个backend实例,与use_backend对应的还有default_backend参数,表示在没有满足ACL条件的时候默认使用哪个backend后端</div><div class="line">例如：</div><div class="line">acl static_down nbsrv(static_server) lt 1</div><div class="line">定义一个名叫static_down的acl，当backend static_sever中存活机器数小于1时会被匹配到。</div><div class="line">#acl php_web url_reg /*.php</div><div class="line">acl php_web path_end .php</div><div class="line">定义一个名叫php_web的acl，当请求的url末尾是以.php结尾的，将会被匹配到，上面两种写法任选其一。</div><div class="line">#acl static_web url_reg /*.(css|jpg|png|jpeg|js|gif)$</div><div class="line">acl static_web path_end .gif .png .jpg .css .js .jpeg</div><div class="line">定义一个名叫static_web的acl，当请求的url末尾是以.css、.jpg、.png、.jpeg、.js、.gif结尾的，将会被匹配到，上面两种写法任选其一。</div><div class="line">acl is_ilanni hdr_beg(host) -i ilanni.test.com</div><div class="line">定义一个名叫is_ilanni的acl，当请求的是以ilanni.test.com开头的主机的话，将会被匹配到。其中-i表示忽略大小写。</div><div class="line">acl is_dg hdr_beg(host) dg.test.com</div><div class="line">定义一个名叫is_dg的acl，当请求的是以dg.test.com开头的主机的话，将会被匹配到。</div><div class="line">acl is_171 hdr_beg(host) 192.168.5.171</div><div class="line">定义一个名叫is_171的acl，当请求的是以192.168.5.171开头的主机的话，将会被匹配到。</div><div class="line">acl is_ip src 192.168.5.140</div><div class="line">定义一个名叫is_ip的acl，当客户端的IP是192.168.5.140的话，将会被匹配到。</div><div class="line">use_backend php_server if static_down</div><div class="line">如果满足策略static_down时，就将请求交予backend php_server处理。</div><div class="line">use_backend php_server if php_web</div><div class="line">如果满足策略php_web时，就将请求交予backend php_server处理。</div><div class="line">use_backend static_server if static_web</div><div class="line">如果满足策略static_web时，就将请求交予backend static_server处理。</div><div class="line">use_backend acl if is_171 is_ip</div><div class="line">如果同时满足is_171和is_ip这两条策略时，就将请求交予backend acl处理。</div><div class="line">use_backend mui_acl if is_171 is_ip is_port</div><div class="line">如果同时满足is_171、is_ip和is_port这三条策略时，就将请求交予backend mui_acl处理。</div><div class="line">use_backend dgserver if is_dg</div><div class="line">如果满足策略is_dg时，就将请求交予backend dgserver处理。</div><div class="line">use_backend ilanni if is_ilanni</div><div class="line">如果满足策略is_ilanni时，就将请求交予backend ilanni处理。</div><div class="line">use_backend 171server if is_171</div><div class="line">如果满足策略is_171时，就将请求交予backend 171server处理。</div><div class="line">default_backend backend_default</div><div class="line">如果以上策略都不满足时，就将请求交予default_backend处理。</div></pre></td></tr></table></figure>
+<h5 id="backend配置"><a href="#backend配置" class="headerlink" title="backend配置"></a>backend配置</h5><p>backend dgserver</p>
+<p>定义dgserver服务器组</p>
+<p>balance source</p>
+<p>定义负载均衡方式，roundrobin平均方式</p>
+<p>mode http</p>
+<p>option httpchk GET /index.html</p>
+<p>心跳检测的文件</p>
+<p>server web1 192.168.5.171:8080 maxconn 1024 weight 3 check inter 2000 rise 2 fall 3</p>
+<p>服务器定义，maxconn 1024 表示该服务器的最大连接数，check inter 2000是检测心跳频率，rise 2是2次正确认为服务器可用，fall 3是3次失败认为服务器不可用，weight代表权重</p>
+<h3 id="Haproxy的使用示例"><a href="#Haproxy的使用示例" class="headerlink" title="Haproxy的使用示例"></a>Haproxy的使用示例</h3><h4 id="haproxy-的ssl-配置（处理https）"><a href="#haproxy-的ssl-配置（处理https）" class="headerlink" title="haproxy 的ssl 配置（处理https）"></a>haproxy 的ssl 配置（处理https）</h4><h5 id="方式一：haproxy-本身提供ssl-证书，后面的web-服务器走正常的http"><a href="#方式一：haproxy-本身提供ssl-证书，后面的web-服务器走正常的http" class="headerlink" title="方式一：haproxy 本身提供ssl 证书，后面的web 服务器走正常的http"></a>方式一：haproxy 本身提供ssl 证书，后面的web 服务器走正常的http</h5><p>配置示例如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">frontend https_frontend</div><div class="line">  bind *:443 ssl crt /etc/ssl/certs/servername.pem ####关键#####</div><div class="line">  mode http</div><div class="line">  option httpclose</div><div class="line">  option forwardfor</div><div class="line">  reqadd X-Forwarded-Proto:\ https</div><div class="line">  default_backend web_server</div><div class="line"></div><div class="line">backend web_server</div><div class="line">  mode http</div><div class="line">  balance roundrobin</div><div class="line">  cookie SERVERID insert indirect nocache</div><div class="line">  server s1 192.168.250.47:80 check cookie s1</div><div class="line">  server s2 192.168.250.49:80 check cookie s2</div><div class="line"> 注意：这里的pem 文件是下面两个文件合并而成：</div><div class="line">  cat servername.crt servername.key |tee servername.pem</div></pre></td></tr></table></figure>
+<p>附录：简单地演示生成自签名证书的方式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">$ sudo mkdir /etc/ssl/xip.io</div><div class="line">$ sudo openssl genrsa -out /etc/ssl/xip.io/xip.io.key 1024</div><div class="line">$ sudo openssl req -new -key /etc/ssl/xip.io/xip.io.key -out /etc/ssl/xip.io/xip.io.csr</div><div class="line">&gt; Country Name (2 letter code) [AU]:US</div><div class="line">&gt; State or Province Name (full name) [Some-State]:Connecticut</div><div class="line">&gt; Locality Name (eg, city) []:New Haven</div><div class="line">&gt; Organization Name (eg, company) [Internet Widgits Pty Ltd]:SFH</div><div class="line">&gt; Organizational Unit Name (eg, section) []:</div><div class="line">&gt; Common Name (e.g. server FQDN or YOUR name) []:*.xip.io</div><div class="line">&gt; Email Address []:</div><div class="line">&gt; Please enter the following &apos;extra&apos; attributes to be sent with your certificate request</div><div class="line">&gt; A challenge password []:</div><div class="line">&gt; An optional company name []:</div><div class="line">$ sudo openssl x509 -req -days 365 -in /etc/ssl/xip.io/xip.io.csr -signkey /etc/ssl/xip.io/xip.io.key -out /etc/ssl/xip.io/xip.io.crt</div><div class="line">$ sudo cat /etc/ssl/xip.io/xip.io.crt /etc/ssl/xip.io/xip.io.key | sudo tee /etc/ssl/xip.io/xip.io.pem</div></pre></td></tr></table></figure>
+<p>当购买真正的证书 时，你不一定会获取拼接后的文件。你可以要自己拼接它们。然而，很多机构也会提供一份拼接好的文件给你。如果你没有获取到拼接后的文件，则它可能不是一个 pem 文件，而是 bundle、cert、cert、key文件或一些相同概念但名称类似的文件。</p>
+<h5 id="方式二：haproxy-本身只提供代理，后面的web服务器https"><a href="#方式二：haproxy-本身只提供代理，后面的web服务器https" class="headerlink" title="方式二：haproxy 本身只提供代理，后面的web服务器https"></a>方式二：haproxy 本身只提供代理，后面的web服务器https</h5><p>又称SSL穿透，不需要重新编译支持ssl，简单方便。需要后面的web服务器配置好ssl 即可。</p>
+<p>配置示例如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">frontend https_frontend</div><div class="line">  bind *:443</div><div class="line">  mode tcp</div><div class="line">  default_backend web_server</div><div class="line">backend web_server</div><div class="line">  mode tcp</div><div class="line">  balance roundrobin</div><div class="line">  stick-table type ip size 200k expire 30m</div><div class="line">  stick on src</div><div class="line">  server s1 192.168.250.47:443</div><div class="line">  server s2 192.168.250.49:443</div><div class="line">#注意，这种模式下mode 必须是tcp 模式</div></pre></td></tr></table></figure>
+<h4 id="haproxy的tcp应用"><a href="#haproxy的tcp应用" class="headerlink" title="haproxy的tcp应用"></a>haproxy的tcp应用</h4><h5 id="haproxy代理ssh"><a href="#haproxy代理ssh" class="headerlink" title="haproxy代理ssh"></a>haproxy代理ssh</h5><p>为了安全起见，要求所有业务服务器都关闭公网的连接，只开放haproxy所在的服务器，并且其他业务服务器的ssh连接通过haproxy来实现。</p>
+<p>实际业务，访问192.168.5.171的8098端口就是访问192.168.5.174的ssh端口。</p>
+<h5 id="haproxy代理mysql"><a href="#haproxy代理mysql" class="headerlink" title="haproxy代理mysql"></a>haproxy代理mysql</h5><p>为了安全起见，要求mysql数据库的连接只能通过内网IP，但是因为使用的是云数据库，所以如果公司内部要连接数据库的话要通过haproxy来实现。实际业务，访问192.168.5.171的8099端口就是访问192.168.7.7的3306端口。</p>
+<p>以上两个需求的配置如下：</p>
+<p>因为是haproxy的7层和4层混合使用，所以在defaults中，我们不定义haproxy的运行模式。</p>
+<p>注意：有关http模式的相关配置参数不要出现在default中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">.....</div><div class="line">listen 8099</div><div class="line">bind 0.0.0.0:8099</div><div class="line">mode tcp</div><div class="line">server 174_22 192.168.5.174:22 maxconn 1024 weight 5 check inter 2000 rise 2 fall 3</div><div class="line">listen 8098</div><div class="line">bind 0.0.0.0:8098</div><div class="line">mode tcp</div><div class="line">server 77_3306 192.168.7.7:3306 maxconn 1024 weight 5 check inter 2000 rise 2 fall 3</div></pre></td></tr></table></figure>
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p><a href="http://www.ilanni.com/?s=haproxy" target="_blank" rel="external">http://www.ilanni.com/?s=haproxy</a></p>
+<p><a href="http://cbonte.github.io/haproxy-dconv/1.6/intro.html#3" target="_blank" rel="external">http://cbonte.github.io/haproxy-dconv/1.6/intro.html#3</a></p>
+<p><a href="https://www.oschina.net/translate/haproxy-ssl-termation-pass-through?lang=chs&amp;page=2#" target="_blank" rel="external">https://www.oschina.net/translate/haproxy-ssl-termation-pass-through?lang=chs&amp;page=2#</a></p>
+<p> <a href="http://virtuallyhyper.com/2013/05/configure-haproxy-to-load-balance-sites-with-ssl/" target="_blank" rel="external">http://virtuallyhyper.com/2013/05/configure-haproxy-to-load-balance-sites-with-ssl/</a> </p>
+<p> <a href="http://www.rackspace.com/knowledge_center/article/setting-up-haproxy" target="_blank" rel="external">http://www.rackspace.com/knowledge_center/article/setting-up-haproxy</a></p>
 
       
     </div>
@@ -578,7 +906,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#参考："><span class="nav-number">1.</span> <span class="nav-text">参考：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Haproxy的介绍"><span class="nav-number">1.</span> <span class="nav-text">Haproxy的介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Haproxy的安装"><span class="nav-number">2.</span> <span class="nav-text">Haproxy的安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Haproxy的配置"><span class="nav-number">3.</span> <span class="nav-text">Haproxy的配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#启动监控界面"><span class="nav-number">3.1.</span> <span class="nav-text">启动监控界面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关键词解析"><span class="nav-number">3.2.</span> <span class="nav-text">关键词解析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置文件解析"><span class="nav-number">3.3.</span> <span class="nav-text">配置文件解析</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#global全局配置"><span class="nav-number">3.3.1.</span> <span class="nav-text">global全局配置</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#defaults默认配置"><span class="nav-number">3.3.2.</span> <span class="nav-text">defaults默认配置</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#监控页面配置"><span class="nav-number">3.3.3.</span> <span class="nav-text">监控页面配置</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#frontend配置"><span class="nav-number">3.3.4.</span> <span class="nav-text">frontend配置</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#backend配置"><span class="nav-number">3.3.5.</span> <span class="nav-text">backend配置</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Haproxy的使用示例"><span class="nav-number">4.</span> <span class="nav-text">Haproxy的使用示例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#haproxy-的ssl-配置（处理https）"><span class="nav-number">4.1.</span> <span class="nav-text">haproxy 的ssl 配置（处理https）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#方式一：haproxy-本身提供ssl-证书，后面的web-服务器走正常的http"><span class="nav-number">4.1.1.</span> <span class="nav-text">方式一：haproxy 本身提供ssl 证书，后面的web 服务器走正常的http</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#方式二：haproxy-本身只提供代理，后面的web服务器https"><span class="nav-number">4.1.2.</span> <span class="nav-text">方式二：haproxy 本身只提供代理，后面的web服务器https</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#haproxy的tcp应用"><span class="nav-number">4.2.</span> <span class="nav-text">haproxy的tcp应用</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#haproxy代理ssh"><span class="nav-number">4.2.1.</span> <span class="nav-text">haproxy代理ssh</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#haproxy代理mysql"><span class="nav-number">4.2.2.</span> <span class="nav-text">haproxy代理mysql</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考："><span class="nav-number">5.</span> <span class="nav-text">参考：</span></a></li></ol></div>
             
 
           </div>
