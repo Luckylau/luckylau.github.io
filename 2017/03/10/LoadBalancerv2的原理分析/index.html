@@ -85,21 +85,63 @@
 
 
 <meta name="description" content="​    OpenStack 是直接采用各种开源可用的负载均衡项目来完成负载均衡的任务，默认使用 HAProxy。LBaaSv2 本质来说，其实也是根据用户提出的负载均衡要求，生成符合的HAProxy配置文件并启动 HAProxy，然后由 HAProxy 进行负载均衡。
-High Availability Proxy（HAProxy）？​    HAProxy 是个著名的开源的软件 TCP（四层）">
+
+
+
+更新时间
+更新内容
+
+
+
+
+2017-03-10
+初始版本
+
+
+2017-04-24
+添加HAProxy详细说明链接">
 <meta property="og:type" content="article">
 <meta property="og:title" content="LoadBalancerv2的原理分析">
 <meta property="og:url" content="https://luckylau.github.io/2017/03/10/LoadBalancerv2的原理分析/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
 <meta property="og:description" content="​    OpenStack 是直接采用各种开源可用的负载均衡项目来完成负载均衡的任务，默认使用 HAProxy。LBaaSv2 本质来说，其实也是根据用户提出的负载均衡要求，生成符合的HAProxy配置文件并启动 HAProxy，然后由 HAProxy 进行负载均衡。
-High Availability Proxy（HAProxy）？​    HAProxy 是个著名的开源的软件 TCP（四层）">
+
+
+
+更新时间
+更新内容
+
+
+
+
+2017-03-10
+初始版本
+
+
+2017-04-24
+添加HAProxy详细说明链接">
 <meta property="og:image" content="https://luckylau.github.io/2017/03/10/LoadBalancerv2的原理分析/4.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/03/10/LoadBalancerv2的原理分析/1.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/03/10/LoadBalancerv2的原理分析/2.png">
-<meta property="og:updated_time" content="2017-03-14T03:06:15.257Z">
+<meta property="og:updated_time" content="2017-04-24T06:41:56.069Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LoadBalancerv2的原理分析">
 <meta name="twitter:description" content="​    OpenStack 是直接采用各种开源可用的负载均衡项目来完成负载均衡的任务，默认使用 HAProxy。LBaaSv2 本质来说，其实也是根据用户提出的负载均衡要求，生成符合的HAProxy配置文件并启动 HAProxy，然后由 HAProxy 进行负载均衡。
-High Availability Proxy（HAProxy）？​    HAProxy 是个著名的开源的软件 TCP（四层）">
+
+
+
+更新时间
+更新内容
+
+
+
+
+2017-03-10
+初始版本
+
+
+2017-04-24
+添加HAProxy详细说明链接">
 <meta name="twitter:image" content="https://luckylau.github.io/2017/03/10/LoadBalancerv2的原理分析/4.png">
 
 
@@ -393,9 +435,27 @@ High Availability Proxy（HAProxy）？​    HAProxy 是个著名的开源的�
 
       
         <p>​    OpenStack 是直接采用各种开源可用的负载均衡项目来完成负载均衡的任务，默认使用 HAProxy。LBaaSv2 本质来说，其实也是根据用户提出的负载均衡要求，生成符合的HAProxy配置文件并启动 HAProxy，然后由 HAProxy 进行负载均衡。</p>
+<table>
+<thead>
+<tr>
+<th>更新时间</th>
+<th>更新内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2017-03-10</td>
+<td>初始版本</td>
+</tr>
+<tr>
+<td>2017-04-24</td>
+<td>添加HAProxy详细说明链接</td>
+</tr>
+</tbody>
+</table>
 <h3 id="High-Availability-Proxy（HAProxy）？"><a href="#High-Availability-Proxy（HAProxy）？" class="headerlink" title="High Availability Proxy（HAProxy）？"></a>High Availability Proxy（HAProxy）？</h3><p>​    HAProxy 是个著名的开源的软件 TCP（四层）/HTTP（七层） 负载均衡器和代理（proxy）软件，可以运行在 Linux，Solaris 和 FreeBSD 等系统上。目前，它已经被许多大公司采用，包括GitHub, Imgur, Instagram, and Twitter 等。它类似 Nginx 的，采用了单进程和事件驱动模型；它使用的内存量低而且稳定，能够处理大量并发请求。</p>
 <a id="more"></a>
-<p>在这里我简单罗列HAProxy配置。</p>
+<p>在这里我简单罗列HAProxy配置。详细内容查看：</p>
 <p> haproxy 配置中分成五部分内容，分别如下：<br>​    global：参数是进程级的，通常是和操作系统相关。这些参数一般只设置一次，如果配置无误，就不需要再次进行修改。<br>​    defaults：配置默认参数，这些参数可以被用到frontend，backend，Listen组件。<br>​    frontend：接收请求的前端虚拟节点，Frontend可以更加规则直接指定具体使用后端的backend。<br>​    backend：后端服务集群的配置，是真实服务器，一个Backend对应一个或者多个实体服务器。<br>​    Listen Fronted和backend的组合体。</p>
 <p>neutron的LoadBalancerv2配置文件在 /etc/haproxy/haproxy.cfg中</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">###########全局配置#########  </div><div class="line">global</div><div class="line">        log /dev/log    local0 #[日志输出配置，所有日志都记录在本机，通过local0输出] </div><div class="line">        log /dev/log    local1 notice #定义haproxy 日志级别[error warringinfo debug] </div><div class="line">        chroot /var/lib/haproxy </div><div class="line">        stats socket /run/haproxy/admin.sock mode 660 level admin</div><div class="line">        stats timeout 30s</div><div class="line">        user haproxy</div><div class="line">        group haproxy  #可以由配置项 user_group 指定，默认为 nogroup</div><div class="line">        daemon  #以后台形式运行harpoxy</div><div class="line"></div><div class="line">        # Default SSL material locations</div><div class="line">        ca-base /etc/ssl/certs</div><div class="line">        crt-base /etc/ssl/private</div><div class="line"></div><div class="line">        # Default ciphers to use on SSL-enabled listening sockets.</div><div class="line">        # For more information, see ciphers(1SSL). This list is from:</div><div class="line">        #  https://hynek.me/articles/hardening-your-web-servers-ssl-ciphers/</div><div class="line">        ssl-default-bind-ciphers ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS</div><div class="line">        ssl-default-bind-options no-sslv3</div><div class="line"> </div><div class="line">########默认配置############  </div><div class="line">defaults</div><div class="line">        log     global</div><div class="line">        mode    http</div><div class="line">        option  httplog</div><div class="line">        option  dontlognull</div><div class="line">        timeout connect 5000</div><div class="line">        timeout client  50000</div><div class="line">        timeout server  50000</div><div class="line">        errorfile 400 /etc/haproxy/errors/400.http</div><div class="line">        errorfile 403 /etc/haproxy/errors/403.http</div><div class="line">        errorfile 408 /etc/haproxy/errors/408.http</div><div class="line">        errorfile 500 /etc/haproxy/errors/500.http</div><div class="line">        errorfile 502 /etc/haproxy/errors/502.http</div><div class="line">        errorfile 503 /etc/haproxy/errors/503.http</div><div class="line">        errorfile 504 /etc/haproxy/errors/504.http</div></pre></td></tr></table></figure>
@@ -587,7 +647,7 @@ High Availability Proxy（HAProxy）？​    HAProxy 是个著名的开源的�
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">59</span>
+                <span class="site-state-item-count">60</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
