@@ -3,6 +3,13 @@
   
     
     <entry>
+      <title><![CDATA[SDN和NFV的区别？]]></title>
+      <url>%2F2017%2F05%2F02%2FSDN%E5%92%8CNFV%E7%9A%84%E5%8C%BA%E5%88%AB%2F</url>
+      <content type="text"><![CDATA[SDN诞生于高校，成熟于数据中心SDN初始于园区网络，一群研究者在进行科研时发现，每次进行新的协议部署尝试时，都需要改变网络设备的软件，这让他们灰常郁闷，于是乎，他们开始考虑让这些网络硬件设备可编程化，并且可以被集中的一个盒子所管理和控制，就这样，诞生了当今SDN的基本定义和元素: 分离控制和转发的功能 控制集中化 使用广泛定义的(软件)接口使得网络可以执行程序化行为 另一个SDN成功的环境就是云数据中心，这些数据中心的规模不断的扩展，如何控制虚拟机的爆炸式增长，如何用更好的方式连接和控制这些虚拟机，成为数据中心明确需求。而SDN的思想，恰恰提供了一个希望：数据中心如何可以更可控。 NFV由服务供应商创建和SDN始于研究者和数据中心不同，NFV则是由运营商的联盟提出，解决以下问题： 网络运营商的网络是通过大型的不断增长的专属硬件设备来部署。一项新网络服务的推出，不仅能耗在增加，资本投入存在挑战，又缺少必要的技巧来设计，整合和操作日趋复杂的硬件设备。 SDN vs NFV ​ 网络功能虚拟化和软件定义网络(SDN)有很强的互补性，但是并不相互依赖(反之亦然)，网络功能虚拟化可以不依赖于SDN部署，尽管两个概念和解决方案可以融合，并且潜在形成更大的价值。依赖于应用在大量数据中心内的现有技术，网络功能虚拟化的目标可以基于非SDN的机制而实现。但是，如果可以逐渐接近SDN所提出的将控制平面和数据平面的思路，那么就能进一步使现有的部署性能增强且简化互操作性，减轻运营和维护流程的负担。网络功能虚拟化为SDN软件的运行提供基础架构的支持，未来，网络功能虚拟化可以和SDN的目标紧密联系在一起——使用商业性服务器和交换机。 SDN和NFV—协同工作下图展示了当今路由器服务部署典型案例，在每个客户站点使用均使用一台路由器(提供服务)。 下图展示了使用虚拟路由器的功能，NFV就可以在这个场景中展现作用，所有的用户站点左侧都是一个网络接口设备(NID)–—-虚拟路由器，提供网络的分界点，并且测量性能。 下图是SDN被引入进来，将控制平面和转发平面分割，数据包将会根据更优化的数据平面被转发，路由功能被提取到控制平面作为控制策略的一部分。所以sdn与nfv结合，会使得一个昂贵的专业设备被通用硬件和高级软件替代；软件控制平面被转移到了更优化的位置，从专用设备硬件中剥离，放置在数据中心或者POP位置，可能以服务器或者虚拟机的形式存在；数据平面的控制被从专有设备上提取出来，并且标准化，使得网络和应用的革新无需网络设备硬件升级。 总结： 分类 SDN NFV Reason for Being Separation of control and data, centralization of control and programmability of network Relocation of network functions from dedicated appliances to generic servers Target Location Campus, data center / cloud Service provider network Target Devices Commodity servers and switches Commodity servers and switches Initial Applications Cloud orchestration and networking Routers, firewalls, gateways, CDN, WAN accelerators, SLA assurance New Protocols OpenFlow None yet Formalization Open Networking Forum (ONF) ETSI NFV Working Group 参考：http://network.51cto.com/art/201306/398240.htm https://www.sdxcentral.com/articles/contributed/nfv-and-sdn-whats-the-difference/2013/03/]]></content>
+    </entry>
+
+    
+    <entry>
       <title><![CDATA[阅读书单(4)]]></title>
       <url>%2F2017%2F04%2F30%2F%E9%98%85%E8%AF%BB%E4%B9%A6%E5%8D%95-4%2F</url>
       <content type="text"><![CDATA[2017年-至今98.《你一年的8760小时》-艾力 99.《牛棚杂忆》-季羡林 100.《愚人的坚持》-稻盛和夫，山中伸弥 101.《异类》-马尔柯姆-格拉德威尔 102.《人类动物园》-德斯蒙德莫里斯 103.《美学漫话》-宗白华 104.《逃不开的经济周期》-拉斯特维德 105.《明治维新六十年》-樱雪丸 106.《武士道》-新渡户稻造 107.《我所理解的生活》-韩寒 108.《呀，原来如此》-知乎 109《宋朝原来是这样》-醉罢君山 110《我看到的世界和你们不一样》-眭澔平 111《沸腾十五年》-林军 112《吾国吾民》-林语堂 113《亲密行为》-德斯蒙德莫里斯 114《人人都爱经济学》-王福重 115《人类简史：从动物到上帝》-尤瓦尔赫拉利 116《看见》-柴静 117《当我们谈论爱情时我们在谈论什么》-雷蒙德卡佛 118《把时间当作朋友-运用心智，获得解放》-李笑来 119《设计诗》-朱赢椿]]></content>

@@ -1,0 +1,961 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="云计算," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/logo.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="SDN诞生于高校，成熟于数据中心SDN初始于园区网络，一群研究者在进行科研时发现，每次进行新的协议部署尝试时，都需要改变网络设备的软件，这让他们灰常郁闷，于是乎，他们开始考虑让这些网络硬件设备可编程化，并且可以被集中的一个盒子所管理和控制，就这样，诞生了当今SDN的基本定义和元素:
+分离控制和转发的功能
+控制集中化
+使用广泛定义的(软件)接口使得网络可以执行程序化行为
+另一个SDN成功的环境就是云">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SDN和NFV的区别？">
+<meta property="og:url" content="https://luckylau.github.io/2017/05/02/SDN和NFV的区别/index.html">
+<meta property="og:site_name" content="Luckylau's Blog">
+<meta property="og:description" content="SDN诞生于高校，成熟于数据中心SDN初始于园区网络，一群研究者在进行科研时发现，每次进行新的协议部署尝试时，都需要改变网络设备的软件，这让他们灰常郁闷，于是乎，他们开始考虑让这些网络硬件设备可编程化，并且可以被集中的一个盒子所管理和控制，就这样，诞生了当今SDN的基本定义和元素:
+分离控制和转发的功能
+控制集中化
+使用广泛定义的(软件)接口使得网络可以执行程序化行为
+另一个SDN成功的环境就是云">
+<meta property="og:image" content="https://luckylau.github.io/2017/05/02/SDN和NFV的区别/1.jpg">
+<meta property="og:image" content="https://luckylau.github.io/2017/05/02/SDN和NFV的区别/2.png">
+<meta property="og:image" content="https://luckylau.github.io/2017/05/02/SDN和NFV的区别/3.jpg">
+<meta property="og:image" content="https://luckylau.github.io/2017/05/02/SDN和NFV的区别/4.jpg">
+<meta property="og:updated_time" content="2017-05-02T06:52:47.267Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SDN和NFV的区别？">
+<meta name="twitter:description" content="SDN诞生于高校，成熟于数据中心SDN初始于园区网络，一群研究者在进行科研时发现，每次进行新的协议部署尝试时，都需要改变网络设备的软件，这让他们灰常郁闷，于是乎，他们开始考虑让这些网络硬件设备可编程化，并且可以被集中的一个盒子所管理和控制，就这样，诞生了当今SDN的基本定义和元素:
+分离控制和转发的功能
+控制集中化
+使用广泛定义的(软件)接口使得网络可以执行程序化行为
+另一个SDN成功的环境就是云">
+<meta name="twitter:image" content="https://luckylau.github.io/2017/05/02/SDN和NFV的区别/1.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://luckylau.github.io/2017/05/02/SDN和NFV的区别/"/>
+
+
+
+
+
+  <title> SDN和NFV的区别？ | Luckylau's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Luckylau's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">Keep Moving, Keep Learning</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/05/02/SDN和NFV的区别/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Luckylau">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/logo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Luckylau's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Luckylau's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                SDN和NFV的区别？
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-02T10:30:50+08:00">
+                2017-05-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/网络/" itemprop="url" rel="index">
+                    <span itemprop="name">网络</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="SDN诞生于高校，成熟于数据中心"><a href="#SDN诞生于高校，成熟于数据中心" class="headerlink" title="SDN诞生于高校，成熟于数据中心"></a>SDN诞生于高校，成熟于数据中心</h3><p>SDN初始于园区网络，一群研究者在进行科研时发现，每次进行新的协议部署尝试时，都需要改变网络设备的软件，这让他们灰常郁闷，于是乎，他们开始考虑让这些网络硬件设备可编程化，并且可以被集中的一个盒子所管理和控制，就这样，诞生了当今SDN的基本定义和元素:</p>
+<p>分离控制和转发的功能</p>
+<p>控制集中化</p>
+<p>使用广泛定义的(软件)接口使得网络可以执行程序化行为</p>
+<p>另一个SDN成功的环境就是云数据中心，这些数据中心的规模不断的扩展，如何控制虚拟机的爆炸式增长，如何用更好的方式连接和控制这些虚拟机，成为数据中心明确需求。而SDN的思想，恰恰提供了一个希望：数据中心如何可以更可控。</p>
+<a id="more"></a>
+<h3 id="NFV由服务供应商创建"><a href="#NFV由服务供应商创建" class="headerlink" title="NFV由服务供应商创建"></a>NFV由服务供应商创建</h3><p>和SDN始于研究者和数据中心不同，NFV则是由运营商的联盟提出，解决以下问题：</p>
+<p>网络运营商的网络是通过大型的不断增长的专属硬件设备来部署。一项新网络服务的推出，不仅能耗在增加，资本投入存在挑战，又缺少必要的技巧来设计，整合和操作日趋复杂的硬件设备。</p>
+<h3 id="SDN-vs-NFV"><a href="#SDN-vs-NFV" class="headerlink" title="SDN vs NFV"></a>SDN vs NFV</h3><p><img src="/2017/05/02/SDN和NFV的区别/1.jpg" alt=""></p>
+<p>​    网络功能虚拟化和软件定义网络(SDN)有很强的互补性，但是并不相互依赖(反之亦然)，网络功能虚拟化可以不依赖于SDN部署，尽管两个概念和解决方案可以融合，并且潜在形成更大的价值。依赖于应用在大量数据中心内的现有技术，网络功能虚拟化的目标可以基于非SDN的机制而实现。但是，如果可以逐渐接近SDN所提出的将控制平面和数据平面的思路，那么就能进一步使现有的部署性能增强且简化互操作性，减轻运营和维护流程的负担。网络功能虚拟化为SDN软件的运行提供基础架构的支持，未来，网络功能虚拟化可以和SDN的目标紧密联系在一起——使用商业性服务器和交换机。</p>
+<h3 id="SDN和NFV—协同工作"><a href="#SDN和NFV—协同工作" class="headerlink" title="SDN和NFV—协同工作"></a>SDN和NFV—协同工作</h3><p>下图展示了当今路由器服务部署典型案例，在每个客户站点使用均使用一台路由器(提供服务)。</p>
+<p><img src="/2017/05/02/SDN和NFV的区别/2.png" alt=""></p>
+<p>下图展示了使用虚拟路由器的功能，NFV就可以在这个场景中展现作用，所有的用户站点左侧都是一个网络接口设备(NID)–—-虚拟路由器，提供网络的分界点，并且测量性能。</p>
+<p><img src="/2017/05/02/SDN和NFV的区别/3.jpg" alt=""></p>
+<p>下图是SDN被引入进来，将控制平面和转发平面分割，数据包将会根据更优化的数据平面被转发，路由功能被提取到控制平面作为控制策略的一部分。所以sdn与nfv结合，会使得一个昂贵的专业设备被通用硬件和高级软件替代；软件控制平面被转移到了更优化的位置，从专用设备硬件中剥离，放置在数据中心或者POP位置，可能以服务器或者虚拟机的形式存在；数据平面的控制被从专有设备上提取出来，并且标准化，使得网络和应用的革新无需网络设备硬件升级。</p>
+<p><img src="/2017/05/02/SDN和NFV的区别/4.jpg" alt=""></p>
+<h3 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h3><table>
+<thead>
+<tr>
+<th><strong>分类</strong></th>
+<th><strong>SDN</strong></th>
+<th><strong>NFV</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Reason for Being</td>
+<td>Separation of control and data, centralization of control and programmability of network</td>
+<td>Relocation of network functions from dedicated appliances to generic servers</td>
+</tr>
+<tr>
+<td>Target Location</td>
+<td>Campus, data center / cloud</td>
+<td>Service provider network</td>
+</tr>
+<tr>
+<td>Target Devices</td>
+<td>Commodity servers and switches</td>
+<td>Commodity servers and switches</td>
+</tr>
+<tr>
+<td>Initial Applications</td>
+<td>Cloud orchestration and networking</td>
+<td>Routers, firewalls, gateways, CDN, WAN accelerators, SLA assurance</td>
+</tr>
+<tr>
+<td>New Protocols</td>
+<td>OpenFlow</td>
+<td>None yet</td>
+</tr>
+<tr>
+<td>Formalization</td>
+<td>Open Networking Forum (ONF)</td>
+<td>ETSI NFV Working Group</td>
+</tr>
+</tbody>
+</table>
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p><a href="http://network.51cto.com/art/201306/398240.htm" target="_blank" rel="external">http://network.51cto.com/art/201306/398240.htm</a></p>
+<p><a href="https://www.sdxcentral.com/articles/contributed/nfv-and-sdn-whats-the-difference/2013/03/" target="_blank" rel="external">https://www.sdxcentral.com/articles/contributed/nfv-and-sdn-whats-the-difference/2013/03/</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+<div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/1.jpg" alt="Luckylau wechat" style="width: 200px; max-width: 100%;"/>
+    <div>如果对您有价值,看官可以打赏的！</div>
+</div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/云计算/" rel="tag"># 云计算</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/30/阅读书单-4/" rel="next" title="阅读书单(4)">
+                <i class="fa fa-chevron-left"></i> 阅读书单(4)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/logo.jpg"
+               alt="Luckylau" />
+          <p class="site-author-name" itemprop="name">Luckylau</p>
+          <p class="site-description motion-element" itemprop="description">人生识字忧患始</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">64</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Luckylau" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://weibo.com/2606534415/profile?topnav=1&wvr=6&is_all=1" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#SDN诞生于高校，成熟于数据中心"><span class="nav-number">1.</span> <span class="nav-text">SDN诞生于高校，成熟于数据中心</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NFV由服务供应商创建"><span class="nav-number">2.</span> <span class="nav-text">NFV由服务供应商创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SDN-vs-NFV"><span class="nav-number">3.</span> <span class="nav-text">SDN vs NFV</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SDN和NFV—协同工作"><span class="nav-number">4.</span> <span class="nav-text">SDN和NFV—协同工作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结："><span class="nav-number">5.</span> <span class="nav-text">总结：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考："><span class="nav-number">6.</span> <span class="nav-text">参考：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Luckylau</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid="></script>
+      <!-- UY END -->
+  
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
