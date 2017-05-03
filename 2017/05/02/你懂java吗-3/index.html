@@ -1,0 +1,1048 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="java基础," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/logo.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="我们主要讲解一下exception的处理。
+异常的示例 try…catch…finally恐怕是大家再熟悉不过了，但是看下面这个例子，不同的处理输出就不一样。
+示例代码：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="你懂java吗(3)">
+<meta property="og:url" content="https://luckylau.github.io/2017/05/02/你懂java吗-3/index.html">
+<meta property="og:site_name" content="Luckylau's Blog">
+<meta property="og:description" content="我们主要讲解一下exception的处理。
+异常的示例 try…catch…finally恐怕是大家再熟悉不过了，但是看下面这个例子，不同的处理输出就不一样。
+示例代码：">
+<meta property="og:image" content="https://luckylau.github.io/2017/05/02/你懂java吗-3/1.jpg">
+<meta property="og:updated_time" content="2017-05-03T07:01:26.046Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="你懂java吗(3)">
+<meta name="twitter:description" content="我们主要讲解一下exception的处理。
+异常的示例 try…catch…finally恐怕是大家再熟悉不过了，但是看下面这个例子，不同的处理输出就不一样。
+示例代码：">
+<meta name="twitter:image" content="https://luckylau.github.io/2017/05/02/你懂java吗-3/1.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://luckylau.github.io/2017/05/02/你懂java吗-3/"/>
+
+
+
+
+
+  <title> 你懂java吗(3) | Luckylau's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Luckylau's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">Keep Moving, Keep Learning</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/05/02/你懂java吗-3/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Luckylau">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/logo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Luckylau's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Luckylau's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                你懂java吗(3)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-02T17:09:57+08:00">
+                2017-05-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>我们主要讲解一下exception的处理。</p>
+<h3 id="异常的示例"><a href="#异常的示例" class="headerlink" title="异常的示例"></a>异常的示例</h3><p> try…catch…finally恐怕是大家再熟悉不过了，但是看下面这个例子，不同的处理输出就不一样。</p>
+<p>示例代码：</p>
+<a id="more"></a>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestException</span> </span>&#123;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">TestException</span><span class="params">()</span> </span>&#123;</div><div class="line">		</div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">testEx</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;  </div><div class="line">        <span class="keyword">boolean</span> ret = <span class="keyword">true</span>;  </div><div class="line">        <span class="keyword">try</span> &#123;  </div><div class="line">            ret = testEx1();  </div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;  </div><div class="line">            System.out.println(<span class="string">"testEx, catch exception"</span>);  </div><div class="line">            ret = <span class="keyword">false</span>;  </div><div class="line">            <span class="keyword">throw</span> e;  </div><div class="line">        &#125; <span class="keyword">finally</span> &#123;  </div><div class="line">            System.out.println(<span class="string">"testEx, finally; return value="</span> + ret);  </div><div class="line">            <span class="keyword">return</span> ret;  </div><div class="line">        &#125;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">testEx1</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;  </div><div class="line">        <span class="keyword">boolean</span> ret = <span class="keyword">true</span>;  </div><div class="line">        <span class="keyword">try</span> &#123;  </div><div class="line">            ret = testEx2();  </div><div class="line">            <span class="keyword">if</span> (!ret) &#123;  </div><div class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;  </div><div class="line">            &#125;  </div><div class="line">            System.out.println(<span class="string">"testEx1, at the end of try"</span>);  </div><div class="line">            <span class="keyword">return</span> ret;  </div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;  </div><div class="line">            System.out.println(<span class="string">"testEx1, catch exception"</span>);  </div><div class="line">            ret = <span class="keyword">false</span>;  </div><div class="line">            <span class="keyword">throw</span> e;  </div><div class="line">        &#125; <span class="keyword">finally</span> &#123;  </div><div class="line">            System.out.println(<span class="string">"testEx1, finally; return value="</span> + ret);  </div><div class="line">            <span class="comment">//return ret;  </span></div><div class="line">        &#125;  </div><div class="line">    &#125;  </div><div class="line">  </div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">testEx2</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;  </div><div class="line">        <span class="keyword">boolean</span> ret = <span class="keyword">true</span>;  </div><div class="line">        <span class="keyword">try</span> &#123;  </div><div class="line">            <span class="keyword">int</span> b = <span class="number">12</span>;  </div><div class="line">            <span class="keyword">int</span> c;  </div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">2</span>; i &gt;= -<span class="number">2</span>; i--) &#123;  </div><div class="line">                c = b / i;  </div><div class="line">                System.out.println(<span class="string">"i="</span> + i);  </div><div class="line">            &#125;  </div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;  </div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;  </div><div class="line">            System.out.println(<span class="string">"testEx2, catch exception"</span> + e.getMessage());  </div><div class="line">            ret = <span class="keyword">false</span>;  </div><div class="line">            <span class="keyword">throw</span> e;  </div><div class="line">        &#125; <span class="keyword">finally</span> &#123;  </div><div class="line">            System.out.println(<span class="string">"testEx2, finally; return value="</span> + ret);  </div><div class="line">            <span class="comment">//return ret;  </span></div><div class="line">        &#125;  </div><div class="line">    &#125;  </div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		TestException testException = <span class="keyword">new</span> TestException();  </div><div class="line">        <span class="keyword">try</span> &#123;  </div><div class="line">            testException.testEx();  </div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;  </div><div class="line">            e.printStackTrace();  </div><div class="line">        &#125;  </div><div class="line">    &#125; </div><div class="line"></div><div class="line">&#125;</div><div class="line"><span class="comment">//output</span></div><div class="line">i=<span class="number">2</span></div><div class="line">i=<span class="number">1</span></div><div class="line">testEx2, <span class="keyword">catch</span> exception/ by zero</div><div class="line">testEx2, <span class="keyword">finally</span>; <span class="keyword">return</span> value=<span class="keyword">false</span></div><div class="line">testEx1, <span class="keyword">catch</span> exception</div><div class="line">testEx1, <span class="keyword">finally</span>; <span class="keyword">return</span> value=<span class="keyword">false</span></div><div class="line">testEx, <span class="keyword">catch</span> exception</div><div class="line">testEx, <span class="keyword">finally</span>; <span class="keyword">return</span> value=<span class="keyword">false</span></div><div class="line"><span class="comment">//假设不注销return的话</span></div><div class="line"><span class="comment">//output</span></div><div class="line">i=<span class="number">2</span></div><div class="line">i=<span class="number">1</span></div><div class="line">testEx2, <span class="keyword">catch</span> exception/ by zero</div><div class="line">testEx2, <span class="keyword">finally</span>; <span class="keyword">return</span> value=<span class="keyword">false</span></div><div class="line">testEx1, <span class="keyword">finally</span>; <span class="keyword">return</span> value=<span class="keyword">false</span></div><div class="line">testEx, <span class="keyword">finally</span>; <span class="keyword">return</span> value=<span class="keyword">false</span></div></pre></td></tr></table></figure>
+<h3 id="异常的分类"><a href="#异常的分类" class="headerlink" title="异常的分类"></a>异常的分类</h3><p>​    异常指不期而至的各种状况，如：文件找不到、网络连接失败、除0操作、非法参数等。异常是一个事件，它发生在程序运行期间，干扰了正常的指令流程。</p>
+<p>​    Java语言在设计的当初就考虑到这些问题，提出异常处理的框架的方案，所有的异常都可以用一个异常类来表示，不同类型的异常对应不同的子类异常（目前我们所说的异常包括错误概念），定义异常处理的规范，在JDK1.4版本以后增加了异常链机制，从而便于跟踪异常。</p>
+<p><img src="/2017/05/02/你懂java吗-3/1.jpg" alt=""></p>
+<h4 id="按类别分类"><a href="#按类别分类" class="headerlink" title="按类别分类"></a>按类别分类</h4><p> <strong>Throwable：</strong> 有两个重要的子类：Exception（异常）和 Error（错误），二者都是 Java 异常处理的重要子类，各自都包含大量子类。</p>
+<p> <strong>Error（错误）：</strong>是程序无法处理的错误，表示运行应用程序中较严重问题。大多数错误与代码编写者执行的操作无关，而表示代码运行时 JVM（Java 虚拟机）出现的问题。例如，Java虚拟机运行错误（Virtual MachineError），当 JVM 不再有继续执行操作所需的内存资源时，将出现 OutOfMemoryError。这些异常发生时，Java虚拟机（JVM）一般会选择线程终止。AWTError不是很常用了，主要与Swing有关。</p>
+<p> <strong>Exception（异常</strong>）：是程序本身可以处理的异常。 Exception 类有一个重要的子类 RuntimeException。RuntimeException 类及其子类表示“JVM 常用操作”引发的错误。</p>
+<h4 id="按可查分类"><a href="#按可查分类" class="headerlink" title="按可查分类"></a>按可查分类</h4><p>Java的异常(包括Exception和Error)分为可查的异常（checked exceptions）和不可查的异常（unchecked exceptions）。Java的异常(包括Exception和Error)分为可查的异常（checked exceptions）和不可查的异常（unchecked exceptions）。</p>
+<p><strong>可查异常</strong>（编译器要求必须处置的异常）：正确的程序在运行中，很容易出现的、情理可容的异常状况。可查异常虽然是异常状况，但在一定程度上它的发生是可以预计的，而且一旦发生这种异常状况，就必须采取某种方式进行处理。<strong>除了RuntimeException及其子类以外，其他的Exception类及其子类都属于可查异常，包括 IOException（IO错误）及其子类EOFExcption(文件已结束异常)、FileNotFound（文件未找到异常）。</strong>这种异常的特点是Java编译器会检查它，也就是说，当程序中可能出现这类异常，要么用try-catch语句捕获它，要么用throws子句声明抛出它，否则编译不会通过。</p>
+<p> <strong>不可查异常</strong>(编译器不要求强制处置的异常):包括运行时异常（RuntimeException与其子类）和错误（Error）。</p>
+<h4 id="按运行分类"><a href="#按运行分类" class="headerlink" title="按运行分类"></a>按运行分类</h4><p>Exception 这种异常分两大类运行时异常和非运行时异常(编译异常)。程序中应当尽可能去处理这些异常。</p>
+<p><strong>运行时异常</strong>：都是RuntimeException类及其子类异常，如NullPointerException(空指针异常)、IndexOutOfBoundsException(下标越界异常)等，这些异常是不检查异常，程序中可以选择捕获处理，也可以不处理。这些异常一般是由程序逻辑错误引起的，程序应该从逻辑角度尽可能避免这类异常的发生。运行时异常的特点是Java编译器不会检查它，也就是说，当程序中可能出现这类异常，即使没有用try-catch语句捕获它，也没有用throws子句声明抛出它，也会编译通过。</p>
+<p><strong>非运行时异常</strong> （编译异常）：是RuntimeException以外的异常，类型上都属于Exception类及其子类。从程序语法角度讲是必须进行处理的异常，如果不处理，程序就不能编译通过。如IOException、SQLException等以及用户自定义的Exception异常，一般情况下不自定义检查异常。</p>
+<h4 id="常见异常集"><a href="#常见异常集" class="headerlink" title="常见异常集"></a>常见异常集</h4><p>算术异常类：ArithmeticExecption</p>
+<p>空指针异常类：NullPointerException</p>
+<p>类型强制转换异常：ClassCastException</p>
+<p>数组负下标异常：NegativeArrayException</p>
+<p>数组下标越界异常：ArrayIndexOutOfBoundsException</p>
+<p>违背安全原则异常：SecturityException</p>
+<p>文件已结束异常：EOFException</p>
+<p>文件未找到异常：FileNotFoundException</p>
+<p>字符串转换为数字异常：NumberFormatException</p>
+<p>操作数据库异常：SQLException</p>
+<p>输入输出异常：IOException</p>
+<p>方法未找到异常：NoSuchMethodException</p>
+<p>java.lang.AbstractMethodError</p>
+<p>抽象方法错误。当应用试图调用抽象方法时抛出。</p>
+<p>java.lang.AssertionError</p>
+<p>断言错。用来指示一个断言失败的情况。</p>
+<p>java.lang.ClassCircularityError</p>
+<p>类循环依赖错误。在初始化一个类时，若检测到类之间循环依赖则抛出该异常。</p>
+<p>java.lang.ClassFormatError</p>
+<p>类格式错误。当Java虚拟机试图从一个文件中读取Java类，而检测到该文件的内容不符合类的有效格式时抛出。</p>
+<p>java.lang.Error</p>
+<p>错误。是所有错误的基类，用于标识严重的程序运行问题。这些问题通常描述一些不应被应用程序捕获的反常情况。</p>
+<p>java.lang.ExceptionInInitializerError</p>
+<p>初始化程序错误。当执行一个类的静态初始化程序的过程中，发生了异常时抛出。静态初始化程序是指直接包含于类中的static语句段。</p>
+<p>java.lang.IllegalAccessError</p>
+<p>违法访问错误。当一个应用试图访问、修改某个类的域（Field）或者调用其方法，但是又违反域或方法的可见性声明，则抛出该异常。</p>
+<p>java.lang.IncompatibleClassChangeError</p>
+<p>不兼容的类变化错误。当正在执行的方法所依赖的类定义发生了不兼容的改变时，抛出该异常。一般在修改了应用中的某些类的声明定义而没有对整个应用重新编译而直接运行的情况下，容易引发该错误。</p>
+<p>java.lang.InstantiationError</p>
+<p>实例化错误。当一个应用试图通过Java的new操作符构造一个抽象类或者接口时抛出该异常.</p>
+<p>java.lang.InternalError</p>
+<p>内部错误。用于指示Java虚拟机发生了内部错误。</p>
+<p>java.lang.LinkageError</p>
+<p>链接错误。该错误及其所有子类指示某个类依赖于另外一些类，在该类编译之后，被依赖的类改变了其类定义而没有重新编译所有的类，进而引发错误的情况。</p>
+<p>java.lang.NoClassDefFoundError</p>
+<p>未找到类定义错误。当Java虚拟机或者类装载器试图实例化某个类，而找不到该类的定义时抛出该错误。</p>
+<p>java.lang.NoSuchFieldError</p>
+<p>域不存在错误。当应用试图访问或者修改某类的某个域，而该类的定义中没有该域的定义时抛出该错误。</p>
+<p>java.lang.NoSuchMethodError</p>
+<p>方法不存在错误。当应用试图调用某类的某个方法，而该类的定义中没有该方法的定义时抛出该错误。</p>
+<p>java.lang.OutOfMemoryError</p>
+<p>内存不足错误。当可用内存不足以让Java虚拟机分配给一个对象时抛出该错误。</p>
+<p>java.lang.StackOverflowError</p>
+<p>堆栈溢出错误。当一个应用递归调用的层次太深而导致堆栈溢出时抛出该错误。</p>
+<p>java.lang.ThreadDeath</p>
+<p>线程结束。当调用Thread类的stop方法时抛出该错误，用于指示线程结束。</p>
+<p>java.lang.UnknownError</p>
+<p>未知错误。用于指示Java虚拟机发生了未知严重错误的情况。</p>
+<p>java.lang.UnsatisfiedLinkError</p>
+<p>未满足的链接错误。当Java虚拟机未找到某个类的声明为native方法的本机语言定义时抛出。</p>
+<p>java.lang.UnsupportedClassVersionError</p>
+<p>不支持的类版本错误。当Java虚拟机试图从读取某个类文件，但是发现该文件的主、次版本号不被当前Java虚拟机支持的时候，抛出该错误。</p>
+<p>java.lang.VerifyError</p>
+<p>验证错误。当验证器检测到某个类文件中存在内部不兼容或者安全问题时抛出该错误。</p>
+<p>java.lang.VirtualMachineError</p>
+<p>虚拟机错误。用于指示虚拟机被破坏或者继续执行操作所需的资源不足的情况。</p>
+<p>java.lang.ArithmeticException</p>
+<p>算术条件异常。譬如：整数除零等。</p>
+<p>java.lang.ArrayIndexOutOfBoundsException</p>
+<p>数组索引越界异常。当对数组的索引值为负数或大于等于数组大小时抛出。</p>
+<p>java.lang.ArrayStoreException</p>
+<p>数组存储异常。当向数组中存放非数组声明类型对象时抛出。</p>
+<p>java.lang.ClassCastException</p>
+<p>类造型异常。假设有类A和B（A不是B的父类或子类），O是A的实例，那么当强制将O构造为类B的实例时抛出该异常。该异常经常被称为强制类型转换异常。</p>
+<p>java.lang.ClassNotFoundException</p>
+<p>找不到类异常。当应用试图根据字符串形式的类名构造类，而在遍历CLASSPAH之后找不到对应名称的class文件时，抛出该异常。</p>
+<p>java.lang.CloneNotSupportedException</p>
+<p>不支持克隆异常。当没有实现Cloneable接口或者不支持克隆方法时,调用其clone()方法则抛出该异常。</p>
+<p>java.lang.EnumConstantNotPresentException</p>
+<p>枚举常量不存在异常。当应用试图通过名称和枚举类型访问一个枚举对象，但该枚举对象并不包含常量时，抛出该异常。</p>
+<p>java.lang.Exception</p>
+<p>根异常。用以描述应用程序希望捕获的情况。</p>
+<p>java.lang.IllegalAccessException</p>
+<p>违法的访问异常。当应用试图通过反射方式创建某个类的实例、访问该类属性、调用该类方法，而当时又无法访问类的、属性的、方法的或构造方法的定义时抛出该异常。</p>
+<p>java.lang.IllegalMonitorStateException</p>
+<p>违法的监控状态异常。当某个线程试图等待一个自己并不拥有的对象（O）的监控器或者通知其他线程等待该对象（O）的监控器时，抛出该异常。</p>
+<p>java.lang.IllegalStateException</p>
+<p>违法的状态异常。当在Java环境和应用尚未处于某个方法的合法调用状态，而调用了该方法时，抛出该异常。</p>
+<p>java.lang.IllegalThreadStateException</p>
+<p>违法的线程状态异常。当县城尚未处于某个方法的合法调用状态，而调用了该方法时，抛出异常。</p>
+<p>java.lang.IndexOutOfBoundsException</p>
+<p>索引越界异常。当访问某个序列的索引值小于0或大于等于序列大小时，抛出该异常。</p>
+<p>java.lang.InstantiationException</p>
+<p>实例化异常。当试图通过newInstance()方法创建某个类的实例，而该类是一个抽象类或接口时，抛出该异常。</p>
+<p>java.lang.InterruptedException</p>
+<p>被中止异常。当某个线程处于长时间的等待、休眠或其他暂停状态，而此时其他的线程通过Thread的interrupt方法终止该线程时抛出该异常。</p>
+<p>java.lang.NegativeArraySizeException</p>
+<p>数组大小为负值异常。当使用负数大小值创建数组时抛出该异常。</p>
+<p>java.lang.NoSuchFieldException</p>
+<p>属性不存在异常。当访问某个类的不存在的属性时抛出该异常。</p>
+<p>java.lang.NoSuchMethodException</p>
+<p>方法不存在异常。当访问某个类的不存在的方法时抛出该异常。</p>
+<p>java.lang.NullPointerException</p>
+<p>空指针异常。当应用试图在要求使用对象的地方使用了null时，抛出该异常。譬如：调用null对象的实例方法、访问null对象的属性、计算null对象的长度、使用throw语句抛出null等等。</p>
+<p>java.lang.NumberFormatException</p>
+<p>数字格式异常。当试图将一个String转换为指定的数字类型，而该字符串确不满足数字类型要求的格式时，抛出该异常。</p>
+<p>java.lang.RuntimeException</p>
+<p>运行时异常。是所有Java虚拟机正常操作期间可以被抛出的异常的父类。</p>
+<p>java.lang.SecurityException</p>
+<p>安全异常。由安全管理器抛出，用于指示违反安全情况的异常。</p>
+<p>java.lang.StringIndexOutOfBoundsException</p>
+<p>字符串索引越界异常。当使用索引值访问某个字符串中的字符，而该索引值小于0或大于等于序列大小时，抛出该异常。</p>
+<p>java.lang.TypeNotPresentException</p>
+<p>类型不存在异常。当应用试图以某个类型名称的字符串表达方式访问该类型，但是根据给定的名称又找不到该类型是抛出该异常。该异常与ClassNotFoundException的区别在于该异常是unchecked（不被检查）异常，而ClassNotFoundException是checked（被检查）异常。</p>
+<p>java.lang.UnsupportedOperationException</p>
+<p>不支持的方法异常。指明请求的方法不被支持情况的异常。</p>
+<h3 id="异常捕获与处理"><a href="#异常捕获与处理" class="headerlink" title="异常捕获与处理"></a>异常捕获与处理</h3><p>Java的异常处理本质上是<strong>抛出异常</strong>和<strong>捕获异常</strong>。</p>
+<h4 id="异常的捕获和展示"><a href="#异常的捕获和展示" class="headerlink" title="异常的捕获和展示"></a>异常的捕获和展示</h4><p>异常类型获取</p>
+<p>通过getClass().getName()方式</p>
+<p>出错点获取</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">String regEx = <span class="string">"Caused by:(.*)"</span>;    </div><div class="line">Pattern pat = Pattern.compile(regEx);    </div><div class="line">Matcher mat = pat.matcher(content);    </div><div class="line"><span class="keyword">boolean</span> rs = mat.find();    </div><div class="line">System.out.println(<span class="string">"found?"</span> + rs);  </div><div class="line">System.out.println(mat.group(<span class="number">1</span>));</div></pre></td></tr></table></figure>
+<p>或者</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">e.getCause().getClass() <span class="comment">//获取类型</span></div><div class="line">e.getCause().getMessage() <span class="comment">//获取信息</span></div></pre></td></tr></table></figure>
+<p>异常信息的获取</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">ByteArrayOutputStream baos = <span class="keyword">new</span> ByteArrayOutputStream();  </div><div class="line">e.printStackTrace(<span class="keyword">new</span> PrintStream(baos));  </div><div class="line">String exception = baos.toString();  </div><div class="line">System.out.println(<span class="string">"baos:"</span> + exception);</div></pre></td></tr></table></figure>
+<h4 id="异常处理的基本语法"><a href="#异常处理的基本语法" class="headerlink" title="异常处理的基本语法"></a>异常处理的基本语法</h4><p>​    Java异常处理涉及到五个关键字，分别是：try、catch、finally、throw、throws。下面将骤一介绍，通过认识这五个关键字，掌握基本异常处理知识。</p>
+<p>　　• try        —      用于监听。将要被监听的代码(可能抛出异常的代码)放在try语句块之内，当try语句块内发生异常时，异常就被抛出。<br>　　• catch   —      用于捕获异常。catch用来捕获try语句块中发生的异常。<br>　　• finally  —      finally语句块总是会被执行。它主要用于回收在try块里打开的物力资源(如数据库连接、网络连接和磁盘文件)。只有finally块，执行完成之后，才会回来执行try或者catch块中的return或者throw语句，如果finally中使用了return或者throw等终止方法的语句，则就不会跳回执行，直接停止。<br>　　• throw   —     用于抛出异常。<br>　　• throws —      用在方法签名中，用于声明该方法可能抛出的异常。</p>
+<p>​    <strong>try-catch</strong></p>
+<p>​    如下try-catch所描述的即是监控区域，关键词try后的一对大括号将一块可能发生异常的代码包起来，即为监控区域。Java方法在运行过程中发生了异常，则创建异常对象。将异常抛出监控区域之外，由Java运行时系统负责寻找匹配的catch子句来捕获异常。若有一个catch语句匹配到了，则执行该catch块中的异常处理代码，就不再尝试匹配别的catch块了。</p>
+<p>使用多重的catch语句：很多情况下，由单个的代码段可能引起多个异常。处理这种情况，我们需要定义两个或者更多的catch子句，每个子句捕获一种类型的异常，当异常被引发时，每个catch子句被依次检查，第一个匹配异常类型的子句执行，当一个catch子句执行以后，其他的子句将被旁路。</p>
+<p>总之顺序是 先小后大，即先子类后父类。对于有多个catch子句的异常程序而言，应该尽量将捕获底层异常类的catch子句放在前面，同时尽量将捕获相对高层的异常类的catch子句放在后面。否则，捕获底层异常类的catch子句将可能会被屏蔽。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">try</span>&#123;</div><div class="line">    <span class="comment">//code that might generate exceptions    </span></div><div class="line">&#125;<span class="keyword">catch</span>(Exception e)&#123;</div><div class="line">    <span class="comment">//the code of handling exception1</span></div><div class="line">&#125;<span class="keyword">catch</span>(Exception e)&#123;</div><div class="line">    <span class="comment">//the code of handling exception2</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>​    <strong>try-catch-finally</strong></p>
+<p>​     try-catch语句还可以包括第三部分，就是finally子句。它表示无论是否出现异常，都应当执行的内容。try-catch-finally语句的一般语法形式为：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">try</span> &#123;  </div><div class="line">    <span class="comment">// 可能会发生异常的程序代码  </span></div><div class="line">&#125; <span class="keyword">catch</span> (Type1 id1) &#123;  </div><div class="line">    <span class="comment">// 捕获并处理try抛出的异常类型Type1  </span></div><div class="line">&#125; <span class="keyword">catch</span> (Type2 id2) &#123;  </div><div class="line">    <span class="comment">// 捕获并处理try抛出的异常类型Type2  </span></div><div class="line">&#125; <span class="keyword">finally</span> &#123;  </div><div class="line">    <span class="comment">// 无论是否发生异常，都将执行的语句块  </span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>​     除了下列情况，总将执行 finally 做为结束：JVM 过早终止（调用 System.exit(int)）；在 finally 块中抛出一个未处理的异常；计算机断电、失火、或遭遇病毒攻击。</p>
+<p>​    <strong>throws抛出异常</strong></p>
+<p>​    如果一个方法可能会出现异常，但没有能力处理这种异常，可以在方法声明处用throws子句来声明抛出异常。</p>
+<p>Throws抛出异常的规则：<br>如果是不受检查异常（unchecked exception），即Error、RuntimeException  或它们的子类，那么可以不使用throws关键字来声明要抛出的异常，编译仍能顺利通过，但在运行时会被系统抛出。<br>必须声明方法可抛出的任何检查异常（checked exception）。即如果一个方法可能出现受可查异常，要么用try-catch语句捕获，要么用throws子句声明将它抛出，否则会导致编译错误<br>仅当抛出了异常，该方法的调用者才必须处理或者重新抛出该异常。当方法的调用者无力处理该异常的时候，应该继续抛出，而不是囫囵吞枣。<br>调用方法必须遵循任何可查异常的处理和声明规则。若覆盖一个方法，则不能声明与覆盖方法不同的异常。声明的任何异常必须是被覆盖方法所声明异常的同类或子类。</p>
+<p>​    <strong>使用throw抛出异常</strong></p>
+<p>​    throw总是出现在函数体中，用来抛出一个Throwable类型的异常。程序会在throw语句后立即终止，它后面的语句执行不到，然后在包含它的所有try块中（可能在上层调用函数中）从里向外寻找含有与其匹配的catch子句的try块。<br>我们知道，异常是异常类的实例对象，我们可以创建异常类的实例对象通过throw语句抛出。该语句的语法格式为：</p>
+<pre><code>throw new exceptionname;
+</code></pre><h4 id="自定义异常"><a href="#自定义异常" class="headerlink" title="自定义异常"></a>自定义异常</h4><p>用户自定义异常类，只需继承Exception类即可。</p>
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p><a href="http://blog.csdn.net/hguisu/article/details/6155636" target="_blank" rel="external">http://blog.csdn.net/hguisu/article/details/6155636</a></p>
+<p><a href="http://blog.csdn.net/hongweigg/article/details/18313461" target="_blank" rel="external">http://blog.csdn.net/hongweigg/article/details/18313461</a></p>
+<p><a href="http://blog.csdn.net/beidou321/article/details/6499288/" target="_blank" rel="external">http://blog.csdn.net/beidou321/article/details/6499288/</a></p>
+<p><a href="http://www.cnblogs.com/Qian123/p/5715402.html" target="_blank" rel="external">http://www.cnblogs.com/Qian123/p/5715402.html</a></p>
+<p><a href="http://swiftlet.net/archives/998" target="_blank" rel="external">http://swiftlet.net/archives/998</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+<div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/1.jpg" alt="Luckylau wechat" style="width: 200px; max-width: 100%;"/>
+    <div>如果对您有价值,看官可以打赏的！</div>
+</div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java基础/" rel="tag"># java基础</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/02/SDN和NFV的区别/" rel="next" title="SDN和NFV的区别？">
+                <i class="fa fa-chevron-left"></i> SDN和NFV的区别？
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/logo.jpg"
+               alt="Luckylau" />
+          <p class="site-author-name" itemprop="name">Luckylau</p>
+          <p class="site-description motion-element" itemprop="description">人生识字忧患始</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">65</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Luckylau" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://weibo.com/2606534415/profile?topnav=1&wvr=6&is_all=1" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#异常的示例"><span class="nav-number">1.</span> <span class="nav-text">异常的示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#异常的分类"><span class="nav-number">2.</span> <span class="nav-text">异常的分类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#按类别分类"><span class="nav-number">2.1.</span> <span class="nav-text">按类别分类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#按可查分类"><span class="nav-number">2.2.</span> <span class="nav-text">按可查分类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#按运行分类"><span class="nav-number">2.3.</span> <span class="nav-text">按运行分类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常见异常集"><span class="nav-number">2.4.</span> <span class="nav-text">常见异常集</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#异常捕获与处理"><span class="nav-number">3.</span> <span class="nav-text">异常捕获与处理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#异常的捕获和展示"><span class="nav-number">3.1.</span> <span class="nav-text">异常的捕获和展示</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#异常处理的基本语法"><span class="nav-number">3.2.</span> <span class="nav-text">异常处理的基本语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自定义异常"><span class="nav-number">3.3.</span> <span class="nav-text">自定义异常</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考："><span class="nav-number">4.</span> <span class="nav-text">参考：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Luckylau</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid="></script>
+      <!-- UY END -->
+  
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
