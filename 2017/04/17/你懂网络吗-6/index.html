@@ -84,28 +84,25 @@
 
 
 
-<meta name="description" content="本文主要是基于学习《CCNA学习指南》总结网络必备的知识。
+<meta name="description" content="本文主要是基于学习《CCNA学习指南》和《史上最“牛”的 Cisco 路由器配置与管理手册》总结网络必备的知识。
 本篇章涉及以下内容：
 OSPF协议
-OSPF 术语链路             链路就是一个网络或者一个被指定给任一给定网络的路由器接口。当一个接口被添加到 OSPF 进程时，它就被 OSPF 认定是一个链路。这个链路或接口都将有一个与它关联的状态信息( up 或 down)，以及一个或多个 IP 地址。
-路由器 ID">
+OSPF 术语链路             链路就是一个网络或者一个被指定给任一给定网络的路由器接口。当一个接口被添加到 OSPF 进程时，它就被 OSPF 认定是一个链路。这个链路或接口都将有一个与它关联的状态信息( up 或 down)，以及一个">
 <meta property="og:type" content="article">
 <meta property="og:title" content="你懂网络吗(6)">
 <meta property="og:url" content="https://luckylau.github.io/2017/04/17/你懂网络吗-6/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
-<meta property="og:description" content="本文主要是基于学习《CCNA学习指南》总结网络必备的知识。
+<meta property="og:description" content="本文主要是基于学习《CCNA学习指南》和《史上最“牛”的 Cisco 路由器配置与管理手册》总结网络必备的知识。
 本篇章涉及以下内容：
 OSPF协议
-OSPF 术语链路             链路就是一个网络或者一个被指定给任一给定网络的路由器接口。当一个接口被添加到 OSPF 进程时，它就被 OSPF 认定是一个链路。这个链路或接口都将有一个与它关联的状态信息( up 或 down)，以及一个或多个 IP 地址。
-路由器 ID">
-<meta property="og:updated_time" content="2017-04-19T08:08:10.478Z">
+OSPF 术语链路             链路就是一个网络或者一个被指定给任一给定网络的路由器接口。当一个接口被添加到 OSPF 进程时，它就被 OSPF 认定是一个链路。这个链路或接口都将有一个与它关联的状态信息( up 或 down)，以及一个">
+<meta property="og:updated_time" content="2017-05-05T08:56:20.237Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="你懂网络吗(6)">
-<meta name="twitter:description" content="本文主要是基于学习《CCNA学习指南》总结网络必备的知识。
+<meta name="twitter:description" content="本文主要是基于学习《CCNA学习指南》和《史上最“牛”的 Cisco 路由器配置与管理手册》总结网络必备的知识。
 本篇章涉及以下内容：
 OSPF协议
-OSPF 术语链路             链路就是一个网络或者一个被指定给任一给定网络的路由器接口。当一个接口被添加到 OSPF 进程时，它就被 OSPF 认定是一个链路。这个链路或接口都将有一个与它关联的状态信息( up 或 down)，以及一个或多个 IP 地址。
-路由器 ID">
+OSPF 术语链路             链路就是一个网络或者一个被指定给任一给定网络的路由器接口。当一个接口被添加到 OSPF 进程时，它就被 OSPF 认定是一个链路。这个链路或接口都将有一个与它关联的状态信息( up 或 down)，以及一个">
 
 
 
@@ -397,7 +394,7 @@ OSPF 术语链路             链路就是一个网络或者一个被指定给�
       
 
       
-        <p>本文主要是基于学习《CCNA学习指南》总结网络必备的知识。</p>
+        <p>本文主要是基于学习《CCNA学习指南》和《史上最“牛”的 Cisco 路由器配置与管理手册》总结网络必备的知识。</p>
 <p>本篇章涉及以下内容：</p>
 <p><strong>OSPF协议</strong></p>
 <h3 id="OSPF-术语"><a href="#OSPF-术语" class="headerlink" title="OSPF 术语"></a>OSPF 术语</h3><p><strong>链路</strong>             链路就是一个网络或者一个被指定给任一给定网络的路由器接口。当一个接口被添加到 OSPF 进程时，它就被 OSPF 认定是一个链路。这个链路或接口都将有一个与它关联的状态信息( up 或 down)，以及一个或多个 IP 地址。</p>
@@ -417,6 +414,8 @@ OSPF 术语链路             链路就是一个网络或者一个被指定给�
 <p><strong>点到点</strong>             点到点被定义为一种由两个路由器间的直接连接组成的网络拓扑类型，这一连接为路由器提供单一的通信路径。</p>
 <p><strong>点到多点</strong>         点到多点也被定义为一种网络拓扑类型，这种拓扑中包含单个路由器上的单一接口与多个目的路由器间的一系列连接。所有位于不同路由器上的接口都共享属于同一网络的点到多点的连接。与点到点一样，这里不需要 DR 或 BDR。</p>
 <h3 id="OSPF协议介绍"><a href="#OSPF协议介绍" class="headerlink" title="OSPF协议介绍"></a>OSPF协议介绍</h3><p>​    每个 OSPF 路由器维护相同 AS 拓扑结构的数据库。从这个数据库里，构造出最短路径树来计算出路由表。当拓扑结构发生变化时， OSPF 协议能迅速重新计算出路径，而只产生少量的路由协议流量。此外，所有的 OSPF 路由选择分组的交换都是经过验证的。</p>
+<h4 id="OSPF-与-RIP"><a href="#OSPF-与-RIP" class="headerlink" title="OSPF 与 RIP"></a>OSPF 与 RIP</h4><p><strong>采用链路状态路由算法。</strong>RIP 采用的相对简单的“距离矢量”路由算法，仅以“距离”（ Distance）作为度量； 而 OSPF采用的是更加复杂的“链路状态”路由算法包括线路带宽、 端口状态、端口带宽、端口优先级、链路稳定性等方面，是以“开销”（ cost）作为其度量的。</p>
+<p><strong>可划分不同区域。</strong>在一个 OSPF 网络中，<strong>只能有一个 AS，但在这个 AS 中可以划分多个区域（ Area）</strong>，同一个区域的不同 OSPF 路由器进程可以一样，也可以不一样。 在 OSPF 路由协议中，每一个区域中的路由器都按照该区域中定义的链路状态算法来计算网络拓扑结构，这意味着每一个区域都有着该区域独立的网络拓扑数据库及网络拓扑图。对于每一个区域， 其网络拓扑结构在区域外是不可见的，同样，在每一个区域中的路由器对其域外的其余网络结构也不了解。这样做有利于减少网络中链路状态数据包在全网范围内的广播，也是 OSPF 将其路由域或一个 AS 划分成很多个区域的重要原因。</p>
 
       
     </div>
@@ -609,7 +608,7 @@ OSPF 术语链路             链路就是一个网络或者一个被指定给�
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#OSPF-术语"><span class="nav-number">1.</span> <span class="nav-text">OSPF 术语</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OSPF协议介绍"><span class="nav-number">2.</span> <span class="nav-text">OSPF协议介绍</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#OSPF-术语"><span class="nav-number">1.</span> <span class="nav-text">OSPF 术语</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OSPF协议介绍"><span class="nav-number">2.</span> <span class="nav-text">OSPF协议介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#OSPF-与-RIP"><span class="nav-number">2.1.</span> <span class="nav-text">OSPF 与 RIP</span></a></li></ol></li></ol></div>
             
 
           </div>
