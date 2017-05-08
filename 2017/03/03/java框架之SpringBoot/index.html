@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="java," />
+  <meta name="keywords" content="SpringBoot," />
 
 
 
@@ -99,7 +99,7 @@ https://github.com/Luckylau/SpringBoot-NeutronApi
 <meta property="og:image" content="https://luckylau.github.io/2017/03/03/java框架之SpringBoot/1.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/03/03/java框架之SpringBoot/2.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/03/03/java框架之SpringBoot/3.png">
-<meta property="og:updated_time" content="2017-03-06T01:21:58.020Z">
+<meta property="og:updated_time" content="2017-05-08T12:55:16.760Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java框架之SpringBoot">
 <meta name="twitter:description" content="SpringBoot非常受欢迎，在github我也用SpringBoot封装neutron-api，地址为：
@@ -418,7 +418,7 @@ https://github.com/Luckylau/SpringBoot-NeutronApi
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">parent</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-parent<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.4.0.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">parent</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">         <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">         <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">       <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">      <span class="comment">&lt;!--数据库操作--&gt;</span></div><div class="line">         <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">         <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-jpa<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">      <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>在src/main/resources这个文件夹下面新建一个application.properties</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">#DB Configuration:</div><div class="line">spring.datasource.driverClassName = com.mysql.jdbc.Driver</div><div class="line">spring.datasource.url = jdbc:mysql://localhost:3306/testdb</div><div class="line">spring.datasource.username = root</div><div class="line">spring.datasource.password = 123456</div><div class="line"></div><div class="line">#JPA Configuration:  </div><div class="line">spring.jpa.database=MySQL</div><div class="line">spring.jpa.show-sql=true  </div><div class="line">spring.jpa.generate-ddl=true  </div><div class="line">spring.jpa.hibernate.ddl-auto=update  </div><div class="line">#spring.jpa.database-platform=org.hibernate.dialect.MySQL5Dialect  </div><div class="line">spring.jpa.hibernate.naming_strategy=org.hibernate.cfg.ImprovedNamingStrategy  </div><div class="line">#spring.jpa.database=org.hibernate.dialect.MySQL5InnoDBDialect </div><div class="line">#spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MYSQL5Dialect</div></pre></td></tr></table></figure>
-<p>待续。。。。。</p>
+<p>后面将有SpringBoot专题学习。</p>
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p><a href="http://www.infoq.com/cn/articles/microframeworks1-spring-boot" target="_blank" rel="external">http://www.infoq.com/cn/articles/microframeworks1-spring-boot</a></p>
 <p><a href="http://blog.csdn.net/cool__wang/article/details/49466609" target="_blank" rel="external">http://blog.csdn.net/cool__wang/article/details/49466609</a></p>
 <p><a href="http://www.cnblogs.com/dreamroute/p/5173896.html" target="_blank" rel="external">http://www.cnblogs.com/dreamroute/p/5173896.html</a></p>
@@ -450,7 +450,7 @@ https://github.com/Luckylau/SpringBoot-NeutronApi
       
         <div class="post-tags">
           
-            <a href="/tags/java/" rel="tag"># java</a>
+            <a href="/tags/SpringBoot/" rel="tag"># SpringBoot</a>
           
         </div>
       
@@ -559,7 +559,7 @@ https://github.com/Luckylau/SpringBoot-NeutronApi
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-count">16</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
