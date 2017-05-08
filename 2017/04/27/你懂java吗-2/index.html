@@ -126,7 +126,7 @@ final关键字
 ​    Java关键字final有“这是无法改变的”或者“终态的”含义，它可以修饰非抽象类、非抽象类成员方法和变量。你可能出于两种理解而需要阻止改变：设计或效率。
 final类不能被继承，没有子类，final类中的方法默认是final的。
 final">
-<meta property="og:updated_time" content="2017-05-08T03:51:58.287Z">
+<meta property="og:updated_time" content="2017-05-08T03:58:20.633Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="你懂java吗(2)">
 <meta name="twitter:description" content="更新时间
@@ -495,8 +495,8 @@ final">
 <p>实际上，<strong>static块的执行发生在“初始化”的阶段。初始化阶段，jvm主要完成对静态变量的初始化，静态块执行等工作。</strong></p>
 <p><strong>执行static块的几种情况</strong>：</p>
 <p>第一次new A()的过程会打印””；因为这个过程包括了初始化；</p>
-<p>第一次Class.forName(“A”)的过程会打印””；因为这个过程相当于Class.forName(“A”,true,this.getClass().getClassLoader())；</p>
-<p>第一次Class.forName(“A”,false,this.getClass().getClassLoader())的过程则不会打印””。因为false指明了装载类的过程中，不进行初始化。不初始化则不会执行static块。</p>
+<p>第一次Class.forName(“A”)的过程会打印；因为这个过程相当于Class.forName(“A”,true,this.getClass().getClassLoader())；</p>
+<p>第一次Class.forName(“A”,false,this.getClass().getClassLoader())的过程则不会打印。因为false指明了装载类的过程中，不进行初始化。不初始化则不会执行static块。</p>
 <h4 id="重要的几点说明"><a href="#重要的几点说明" class="headerlink" title="重要的几点说明"></a>重要的几点说明</h4><p>1.<strong>被static修饰的成员变量和成员方法独立于该类的任何对象。</strong>也就是说，它不依赖类特定的实例，被类的所有实例共享。只要这个类被加载，Java虚拟机就能根据类名在运行时数据区的方法区内定找到他们。因此，static对象可以在它的任何对象创建之前访问，无需引用任何对象。</p>
 <p>2.<strong>用public修饰的static成员变量和成员方法本质是全局变量和全局方法，当声明它类的对象时，不生成static变量的副本，而是类的所有实例共享同一个static变量。</strong></p>
 <p>3.static变量前可以有private修饰，表示这个变量可以在类的静态代码块中，或者类的其他静态成员方法中使用（当然也可以在非静态成员方法中使用–废话），<strong>但是不能在其他类中通过类名来直接引用，这一点很重要。</strong>实际上你需要搞明白，private是访问权限限定，static表示不要实例化就可以使用，这样就容易理解多了。static前面加上其它访问权限关键字的效果也以此类推。</p>
