@@ -84,31 +84,70 @@
 
 
 
-<meta name="description" content="final关键字
+<meta name="description" content="更新时间
+更新内容
+
+
+
+
+2017-04-27
+原文初始化
+
+
+2017-05-08
+static方法初始化的过程
+
+
+
+final关键字
 ​    Java关键字final有“这是无法改变的”或者“终态的”含义，它可以修饰非抽象类、非抽象类成员方法和变量。你可能出于两种理解而需要阻止改变：设计或效率。
 final类不能被继承，没有子类，final类中的方法默认是final的。
-final方法不能被子类的方法覆盖，但可以被继承。
-final成员变量表示常量，只能被赋值一次，赋值后值不再改变。
-final不能用于修饰构">
+final">
 <meta property="og:type" content="article">
 <meta property="og:title" content="你懂java吗(2)">
 <meta property="og:url" content="https://luckylau.github.io/2017/04/27/你懂java吗-2/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
-<meta property="og:description" content="final关键字
+<meta property="og:description" content="更新时间
+更新内容
+
+
+
+
+2017-04-27
+原文初始化
+
+
+2017-05-08
+static方法初始化的过程
+
+
+
+final关键字
 ​    Java关键字final有“这是无法改变的”或者“终态的”含义，它可以修饰非抽象类、非抽象类成员方法和变量。你可能出于两种理解而需要阻止改变：设计或效率。
 final类不能被继承，没有子类，final类中的方法默认是final的。
-final方法不能被子类的方法覆盖，但可以被继承。
-final成员变量表示常量，只能被赋值一次，赋值后值不再改变。
-final不能用于修饰构">
-<meta property="og:updated_time" content="2017-04-28T08:23:19.779Z">
+final">
+<meta property="og:updated_time" content="2017-05-08T03:51:58.287Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="你懂java吗(2)">
-<meta name="twitter:description" content="final关键字
+<meta name="twitter:description" content="更新时间
+更新内容
+
+
+
+
+2017-04-27
+原文初始化
+
+
+2017-05-08
+static方法初始化的过程
+
+
+
+final关键字
 ​    Java关键字final有“这是无法改变的”或者“终态的”含义，它可以修饰非抽象类、非抽象类成员方法和变量。你可能出于两种理解而需要阻止改变：设计或效率。
 final类不能被继承，没有子类，final类中的方法默认是final的。
-final方法不能被子类的方法覆盖，但可以被继承。
-final成员变量表示常量，只能被赋值一次，赋值后值不再改变。
-final不能用于修饰构">
+final">
 
 
 
@@ -400,7 +439,25 @@ final不能用于修饰构">
       
 
       
-        <p><strong>final关键字</strong></p>
+        <table>
+<thead>
+<tr>
+<th>更新时间</th>
+<th style="text-align:left">更新内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2017-04-27</td>
+<td style="text-align:left">原文初始化</td>
+</tr>
+<tr>
+<td>2017-05-08</td>
+<td style="text-align:left">static方法初始化的过程</td>
+</tr>
+</tbody>
+</table>
+<p><strong>final关键字</strong></p>
 <p>​    Java关键字final有“这是无法改变的”或者“终态的”含义，它可以修饰非抽象类、非抽象类成员方法和变量。你可能出于两种理解而需要阻止改变：设计或效率。</p>
 <p>final类不能被继承，没有子类，final类中的方法默认是final的。</p>
 <p>final方法不能被子类的方法覆盖，但可以被继承。</p>
@@ -425,7 +482,21 @@ final不能用于修饰构">
 <h4 id="static变量"><a href="#static变量" class="headerlink" title="static变量"></a>static变量</h4><p>按照是否静态的对类成员变量进行分类可分两种：一种是被static修饰的变量，叫静态变量或类变量；另一种是没有被static修饰的变量，叫实例变量。两者的区别是：对于静态变量在内存中只有一个拷贝（节省内存），JVM只为静态分配一次内存，在加载类的过程中完成静态变量的内存分配，可用类名直接访问（方便），当然也可以通过对象来访问（但是这是不推荐的）。</p>
 <h4 id="静态方法"><a href="#静态方法" class="headerlink" title="静态方法"></a>静态方法</h4><p>静态方法可以直接通过类名调用，任何的实例也都可以调用，因此<strong>静态方法中不能用this和super关键字，不能直接访问所属类的实例变量和实例方法</strong>(就是不带static的成员变量和成员成员方法)，只能访问所属类的静态成员变量和成员方法。因为实例成员与特定的对象关联！这个需要去理解，想明白其中的道理，不是记忆！！！ 因为static方法独立于任何实例，因此static方法必须被实现，而不能是抽象的abstract。</p>
 <h4 id="static代码块"><a href="#static代码块" class="headerlink" title="static代码块"></a>static代码块</h4><p>static代码块也叫静态代码块，是在类中独立于类成员的static语句块，可以有多个，位置可以随便放，它不在任何的方法体内，JVM加载类时会执行这些静态的代码块，如果static代码块有多个，JVM将按照它们在类中出现的先后顺序依次执行它们，每个代码块只会被执行一次。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">staitcTest</span> </span>&#123;		</div><div class="line">		<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> B;</div><div class="line">		<span class="keyword">private</span> <span class="keyword">int</span> b;</div><div class="line">		<span class="keyword">static</span> &#123;</div><div class="line">			B = <span class="number">1</span>;  </div><div class="line">			System.out.println(<span class="string">" B : "</span> +B);</div><div class="line">			staitcTest t = <span class="keyword">new</span> staitcTest(); </div><div class="line">			t.printTest();</div><div class="line">			t.B=<span class="number">2</span>;</div><div class="line">			t.b=<span class="number">1</span>;</div><div class="line">			System.out.println(<span class="string">" B : "</span> + B);</div><div class="line">			System.out.println(<span class="string">" b : "</span> +t.b);		</div><div class="line">		&#125;</div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">printTest</span><span class="params">()</span></span>&#123;</div><div class="line">			System.out.println(<span class="string">".... test ...."</span>);</div><div class="line">		&#125;</div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;		</div><div class="line">		&#125;	</div><div class="line">		<span class="keyword">static</span> &#123; </div><div class="line">            B = <span class="number">3</span>; </div><div class="line">            System.out.println(<span class="string">" B : "</span> + B);          </div><div class="line">		&#125; 		</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">staitcTest</span> </span>&#123;		</div><div class="line">		<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> B;</div><div class="line">		<span class="keyword">private</span> <span class="keyword">int</span> b;</div><div class="line">		<span class="keyword">static</span> &#123;</div><div class="line">			B = <span class="number">1</span>;  </div><div class="line">			System.out.println(<span class="string">" B : "</span> +B);</div><div class="line">			staitcTest t = <span class="keyword">new</span> staitcTest(); </div><div class="line">			t.printTest();</div><div class="line">			t.B=<span class="number">2</span>;</div><div class="line">			t.b=<span class="number">1</span>;</div><div class="line">			System.out.println(<span class="string">" B : "</span> + B);</div><div class="line">			System.out.println(<span class="string">" b : "</span> +t.b);		</div><div class="line">		&#125;</div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">printTest</span><span class="params">()</span></span>&#123;</div><div class="line">			System.out.println(<span class="string">".... test ...."</span>);</div><div class="line">		&#125;</div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;		</div><div class="line">		&#125;	</div><div class="line">		<span class="keyword">static</span> &#123; </div><div class="line">            B = <span class="number">3</span>; </div><div class="line">            System.out.println(<span class="string">" B : "</span> + B);          </div><div class="line">		&#125; 		</div><div class="line">&#125;</div><div class="line"><span class="comment">//output</span></div><div class="line"> B : <span class="number">1</span></div><div class="line"> B : <span class="number">2</span></div><div class="line"> b : <span class="number">1</span></div><div class="line"> B : <span class="number">3</span></div></pre></td></tr></table></figure>
+<p>解释static代码块如何加载（static块到底在什么时候运行的）：</p>
+<p>一个类的运行包括以下步骤：装载—-连接—-初始化</p>
+<p><strong>装载阶段</strong>又三个基本动作组成：</p>
+<p>通过类型的完全限定名，产生一个代表该类型的二进制数据流；<br>解析这个二进制数据流为方法区内的内部数据结构；<br>创建一个表示该类型的java.lang.Class类的实例；<br>另外如果一个类装载器在预先装载的时遇到缺失或错误的class文件，它需要等到程序首次主动使用该类时才报告错误。</p>
+<p><strong>连接阶段</strong>又分为三部分：</p>
+<p>验证，确认类型符合Java语言的语义，检查各个类之间的二进制兼容性(比如final的类不用拥有子类等)，另外还需要进行符号引用的验证。<br>准备，Java虚拟机为类变量分配内存，设置默认初始值。<br>解析(可选的) ，在类型的常量池中寻找类，接口，字段和方法的符号引用，把这些符号引用替换成直接引用的过程。</p>
+<p>当一个类被主动使用时，Java虚拟就会对其<strong>初始化</strong>，如下六种情况为主动使用：</p>
+<p>当创建某个类的新实例时（如通过new或者反射，克隆，反序列化等）<br>当调用某个类的静态方法时<br>当使用某个类或接口的静态字段时<br>当调用Java API中的某些反射方法时，比如类Class中的方法，或者java.lang.reflect中的类的方法时<br>当初始化某个子类时<br>当虚拟机启动某个被标明为启动类的类（即包含main方法的那个类）</p>
+<p>Java编译器会收集所有的类变量初始化语句和类型的静态初始化器，将这些放到一个特殊的方法中：clinit。</p>
+<p>实际上，<strong>static块的执行发生在“初始化”的阶段。初始化阶段，jvm主要完成对静态变量的初始化，静态块执行等工作。</strong></p>
+<p><strong>执行static块的几种情况</strong>：</p>
+<p>第一次new A()的过程会打印””；因为这个过程包括了初始化；</p>
+<p>第一次Class.forName(“A”)的过程会打印””；因为这个过程相当于Class.forName(“A”,true,this.getClass().getClassLoader())；</p>
+<p>第一次Class.forName(“A”,false,this.getClass().getClassLoader())的过程则不会打印””。因为false指明了装载类的过程中，不进行初始化。不初始化则不会执行static块。</p>
 <h4 id="重要的几点说明"><a href="#重要的几点说明" class="headerlink" title="重要的几点说明"></a>重要的几点说明</h4><p>1.<strong>被static修饰的成员变量和成员方法独立于该类的任何对象。</strong>也就是说，它不依赖类特定的实例，被类的所有实例共享。只要这个类被加载，Java虚拟机就能根据类名在运行时数据区的方法区内定找到他们。因此，static对象可以在它的任何对象创建之前访问，无需引用任何对象。</p>
 <p>2.<strong>用public修饰的static成员变量和成员方法本质是全局变量和全局方法，当声明它类的对象时，不生成static变量的副本，而是类的所有实例共享同一个static变量。</strong></p>
 <p>3.static变量前可以有private修饰，表示这个变量可以在类的静态代码块中，或者类的其他静态成员方法中使用（当然也可以在非静态成员方法中使用–废话），<strong>但是不能在其他类中通过类名来直接引用，这一点很重要。</strong>实际上你需要搞明白，private是访问权限限定，static表示不要实例化就可以使用，这样就容易理解多了。static前面加上其它访问权限关键字的效果也以此类推。</p>
@@ -446,6 +517,7 @@ final不能用于修饰构">
 <h4 id="finalize"><a href="#finalize" class="headerlink" title="finalize"></a>finalize</h4><p>它是一个方法，属于java.lang.Object类，它的定义如下：<br>​    protected void finalize() throws Throwable { }<br>​    众所周知，finalize()方法是GC(garbage collector)运行机制的一部分，finalize()方法是在GC清理它所从属的对象时被调用的，如果执行它的过程中抛出了无法捕获的异常(uncaught exception)，GC将终止对改对象的清理，并且该异常会被忽略；直到下一次GC开始清理这个对象时，它的finalize()会被再次调用。</p>
 <p>以后在java垃圾回收详细分析。</p>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://lavasoft.blog.51cto.com/62575/18771/" target="_blank" rel="external">http://lavasoft.blog.51cto.com/62575/18771/</a></p>
+<p><a href="http://www.cnblogs.com/ivanfu/archive/2012/02/12/2347817.html" target="_blank" rel="external">http://www.cnblogs.com/ivanfu/archive/2012/02/12/2347817.html</a></p>
 
       
     </div>
