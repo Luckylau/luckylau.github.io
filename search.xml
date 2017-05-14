@@ -3,6 +3,13 @@
   
     
     <entry>
+      <title><![CDATA[你懂java吗?]]></title>
+      <url>%2F2017%2F05%2F14%2F%E4%BD%A0%E6%87%82java%E5%90%97%2F</url>
+      <content type="text"><![CDATA[目录： Enum的用法 final关键字 异常 泛型]]></content>
+    </entry>
+
+    
+    <entry>
       <title><![CDATA[maven父子项目创建]]></title>
       <url>%2F2017%2F05%2F12%2Fmaven%E7%88%B6%E5%AD%90%E9%A1%B9%E7%9B%AE%E5%88%9B%E5%BB%BA%2F</url>
       <content type="text"><![CDATA[使用SpringToolSuite 下一步之后得到如下图，我们可以把src文件删除了。 pom.xml文件如下内容： 1234567891011121314151617181920&lt;project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"&gt; &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt; &lt;groupId&gt;A&lt;/groupId&gt; &lt;artifactId&gt;B&lt;/artifactId&gt; &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt; &lt;packaging&gt;pom&lt;/packaging&gt; &lt;distributionManagement&gt; &lt;site&gt; &lt;id&gt;website&lt;/id&gt; &lt;url&gt;scp://webhost.company.com/www/website&lt;/url&gt; &lt;/site&gt; &lt;/distributionManagement&gt; &lt;properties&gt; &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt; &lt;/properties&gt;&lt;/project&gt; 我们可以删除不用的保留如下： 123456789101112&lt;project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"&gt; &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt; &lt;groupId&gt;A&lt;/groupId&gt; &lt;artifactId&gt;B&lt;/artifactId&gt; &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt; &lt;packaging&gt;pom&lt;/packaging&gt; &lt;properties&gt; &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt; &lt;/properties&gt;&lt;/project&gt; pom.xml文件内容如下： 123456789101112131415&lt;project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"&gt; &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt; &lt;groupId&gt;A&lt;/groupId&gt; &lt;artifactId&gt;B&lt;/artifactId&gt; &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt; &lt;packaging&gt;pom&lt;/packaging&gt; &lt;properties&gt; &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt; &lt;/properties&gt; &lt;modules&gt; &lt;module&gt;C&lt;/module&gt; &lt;/modules&gt;&lt;/project&gt; 其他子项目类似。]]></content>
