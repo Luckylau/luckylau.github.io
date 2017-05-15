@@ -3,6 +3,20 @@
   
     
     <entry>
+      <title><![CDATA[你懂python吗?]]></title>
+      <url>%2F2017%2F05%2F15%2F%E4%BD%A0%E6%87%82python%E5%90%97%2F</url>
+      <content type="text"><![CDATA[Python的函数参数传递 深刻理解Python中的元类(metaclass) @staticmethod和@classmethod的区别 Python 的类的下划线命名 python的format函数使用 args和 *kwargs python的新式类和旧式类 init与new的区别 python的单例模式 Python的闭包和装饰器 lambda函数 python的拷贝 Python垃圾回收机制]]></content>
+    </entry>
+
+    
+    <entry>
+      <title><![CDATA[tags: python基础]]></title>
+      <url>%2F2017%2F05%2F15%2Ftags-python%E5%9F%BA%E7%A1%80%2F</url>
+      <content type="text"></content>
+    </entry>
+
+    
+    <entry>
       <title><![CDATA[你懂java吗?]]></title>
       <url>%2F2017%2F05%2F14%2F%E4%BD%A0%E6%87%82java%E5%90%97%2F</url>
       <content type="text"><![CDATA[目录： Enum的用法 final关键字 异常 泛型]]></content>
