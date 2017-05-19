@@ -97,7 +97,7 @@ Java中对象的创建使用new操作符创建一个对象
 <meta property="og:image" content="https://luckylau.github.io/2017/05/19/你懂java吗-6/2.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/05/19/你懂java吗-6/3.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/05/19/你懂java吗-6/1.png">
-<meta property="og:updated_time" content="2017-05-19T03:30:13.538Z">
+<meta property="og:updated_time" content="2017-05-19T03:36:42.509Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="你懂java吗(6)">
 <meta name="twitter:description" content="java的clone()的使用
@@ -408,7 +408,8 @@ Java中对象的创建使用new操作符创建一个对象
 <p>​    由于age是基本数据类型， 那么对它的拷贝没有什么疑议，直接将一个4字节的整数值拷贝过来就行。但是name是String类型的， 它只是一个引用， 指向一个真正的String对象，那么对它的拷贝有两种方式： 直接将源对象中的name的引用值拷贝给新对象的name字段， 或者是根据原Person对象中的name指向的字符串对象创建一个新的相同的字符串对象，将这个新字符串对象的引用赋给新拷贝的Person对象的name字段。这两种拷贝方式分别叫做浅拷贝和深拷贝。我们由结果发现<strong>String类型是浅拷贝。</strong></p>
 <p><img src="/2017/05/19/你懂java吗-6/1.png" alt=""></p>
 <h4 id="如何实现深拷贝"><a href="#如何实现深拷贝" class="headerlink" title="如何实现深拷贝"></a>如何实现深拷贝</h4><h4 id="string-在clone-中的特殊性"><a href="#string-在clone-中的特殊性" class="headerlink" title="string 在clone()中的特殊性"></a>string 在clone()中的特殊性</h4><p>首先string源码分析如下地址：</p>
-<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p><a href="http://blog.csdn.net/zhangjg_blog/article/details/18369201" target="_blank" rel="external">http://blog.csdn.net/zhangjg_blog/article/details/18369201</a></p>
+<p><a href="https://luckylau.github.io/2017/05/19/%E4%BD%A0%E6%87%82java%E5%90%97-7/">https://luckylau.github.io/2017/05/19/%E4%BD%A0%E6%87%82java%E5%90%97-7/</a></p>
+<h4 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h4><p><a href="http://blog.csdn.net/zhangjg_blog/article/details/18369201" target="_blank" rel="external">http://blog.csdn.net/zhangjg_blog/article/details/18369201</a></p>
 <p><a href="http://www.cnblogs.com/carbs/archive/2012/06/26/2564373.html" target="_blank" rel="external">http://www.cnblogs.com/carbs/archive/2012/06/26/2564373.html</a></p>
 
       
@@ -602,7 +603,7 @@ Java中对象的创建使用new操作符创建一个对象
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Java中对象的创建"><span class="nav-number">1.</span> <span class="nav-text">Java中对象的创建</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#复制对象-or-复制引用-or-深拷贝-or-浅拷贝"><span class="nav-number">2.</span> <span class="nav-text">复制对象 or 复制引用 or 深拷贝 or 浅拷贝</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如何实现深拷贝"><span class="nav-number">3.</span> <span class="nav-text">如何实现深拷贝</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#string-在clone-中的特殊性"><span class="nav-number">4.</span> <span class="nav-text">string 在clone()中的特殊性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考："><span class="nav-number"></span> <span class="nav-text">参考：</span></a></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Java中对象的创建"><span class="nav-number">1.</span> <span class="nav-text">Java中对象的创建</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#复制对象-or-复制引用-or-深拷贝-or-浅拷贝"><span class="nav-number">2.</span> <span class="nav-text">复制对象 or 复制引用 or 深拷贝 or 浅拷贝</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如何实现深拷贝"><span class="nav-number">3.</span> <span class="nav-text">如何实现深拷贝</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#string-在clone-中的特殊性"><span class="nav-number">4.</span> <span class="nav-text">string 在clone()中的特殊性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参考："><span class="nav-number">5.</span> <span class="nav-text">参考：</span></a></li></ol></div>
             
 
           </div>
