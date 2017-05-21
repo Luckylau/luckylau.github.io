@@ -385,10 +385,17 @@
 
       
         
-          
-            <p><strong>String的源码分析</strong></p>
-
-          
+          <p><strong>String的源码分析</strong></p>
+<h3 id="从一段代码说起"><a href="#从一段代码说起" class="headerlink" title="从一段代码说起"></a>从一段代码说起</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StringDemo</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		String a = <span class="string">"abc"</span>;</div><div class="line">		String b = <span class="string">"a"</span> + <span class="string">"b"</span> + <span class="string">"c"</span>;</div><div class="line">		System.out.println(a == b); <span class="comment">//true</span></div><div class="line">		String c = <span class="keyword">new</span> String(<span class="string">"abc"</span>);</div><div class="line">		System.out.println(a == c); <span class="comment">//false</span></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>下面我们从源码看String的具体实现（<strong>本文是jdk1.8</strong>）。</p>
+<h3 id="String的初始化"><a href="#String的初始化" class="headerlink" title="String的初始化"></a>String的初始化</h3><p>String类的属性包含一个不可变的char数组用来存放字符串，一个int型的变量hash用来存放计算后的哈希值</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/05/19/你懂java吗-7/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
