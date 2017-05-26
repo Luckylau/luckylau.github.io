@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="hexo," />
+  <meta name="keywords" content="java虚拟机," />
 
 
 
@@ -84,19 +84,21 @@
 
 
 
-<meta name="description" content="提交到github上备份:
-12345678910111213cd blog/hexo# 初始化仓库git initgit add .git commit -m &amp;quot;init&amp;quot;# 建一个分支git checkout -b hexo# 删除本地的master分支git branch -d master# 添加远程git remote add origin https://githu">
+<meta name="description" content="深入理解Java Class文件格式
+Class文件的位置和作用​    JVM不会理解我们写的Java源文件， 我们必须把Java源文件编译成class文件， 才能被JVM识别， 对于JVM而言， class文件相当于一个接口， 理解了这个接口， 能帮助我们更好的理解JVM的行为；另一方面， class文件以另一种方式重新描述了我们在源文件中要表达的意思， 理解class文件如何重新描述我们编写">
 <meta property="og:type" content="article">
-<meta property="og:title" content="hexo备份小技巧">
-<meta property="og:url" content="https://luckylau.github.io/2017/01/21/hexo备份小技巧/index.html">
+<meta property="og:title" content="你懂java吗(11)">
+<meta property="og:url" content="https://luckylau.github.io/2017/05/26/你懂java吗-11/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
-<meta property="og:description" content="提交到github上备份:
-12345678910111213cd blog/hexo# 初始化仓库git initgit add .git commit -m &amp;quot;init&amp;quot;# 建一个分支git checkout -b hexo# 删除本地的master分支git branch -d master# 添加远程git remote add origin https://githu">
-<meta property="og:updated_time" content="2017-01-23T01:38:57.621Z">
+<meta property="og:description" content="深入理解Java Class文件格式
+Class文件的位置和作用​    JVM不会理解我们写的Java源文件， 我们必须把Java源文件编译成class文件， 才能被JVM识别， 对于JVM而言， class文件相当于一个接口， 理解了这个接口， 能帮助我们更好的理解JVM的行为；另一方面， class文件以另一种方式重新描述了我们在源文件中要表达的意思， 理解class文件如何重新描述我们编写">
+<meta property="og:image" content="https://luckylau.github.io/2017/05/26/你懂java吗-11/1.png">
+<meta property="og:updated_time" content="2017-05-26T07:54:14.942Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="hexo备份小技巧">
-<meta name="twitter:description" content="提交到github上备份:
-12345678910111213cd blog/hexo# 初始化仓库git initgit add .git commit -m &amp;quot;init&amp;quot;# 建一个分支git checkout -b hexo# 删除本地的master分支git branch -d master# 添加远程git remote add origin https://githu">
+<meta name="twitter:title" content="你懂java吗(11)">
+<meta name="twitter:description" content="深入理解Java Class文件格式
+Class文件的位置和作用​    JVM不会理解我们写的Java源文件， 我们必须把Java源文件编译成class文件， 才能被JVM识别， 对于JVM而言， class文件相当于一个接口， 理解了这个接口， 能帮助我们更好的理解JVM的行为；另一方面， class文件以另一种方式重新描述了我们在源文件中要表达的意思， 理解class文件如何重新描述我们编写">
+<meta name="twitter:image" content="https://luckylau.github.io/2017/05/26/你懂java吗-11/1.png">
 
 
 
@@ -124,13 +126,13 @@
 
 
 
-  <link rel="canonical" href="https://luckylau.github.io/2017/01/21/hexo备份小技巧/"/>
+  <link rel="canonical" href="https://luckylau.github.io/2017/05/26/你懂java吗-11/"/>
 
 
 
 
 
-  <title> hexo备份小技巧 | Luckylau's Blog </title>
+  <title> 你懂java吗(11) | Luckylau's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -286,7 +288,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/01/21/hexo备份小技巧/">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/05/26/你懂java吗-11/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Luckylau">
@@ -310,7 +312,7 @@
             
             
               
-                hexo备份小技巧
+                你懂java吗(11)
               
             
           </h1>
@@ -325,8 +327,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-21T17:03:59+08:00">
-                2017-01-21
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-26T11:45:45+08:00">
+                2017-05-26
               </time>
             
 
@@ -348,8 +350,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Tools/" itemprop="url" rel="index">
-                    <span itemprop="name">Tools</span>
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
                   </a>
                 </span>
 
@@ -388,11 +390,180 @@
       
 
       
-        <p>提交到github上备份:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">cd blog/hexo</div><div class="line"># 初始化仓库</div><div class="line">git init</div><div class="line">git add .</div><div class="line">git commit -m &quot;init&quot;</div><div class="line"># 建一个分支</div><div class="line">git checkout -b hexo</div><div class="line"># 删除本地的master分支</div><div class="line">git branch -d master</div><div class="line"># 添加远程</div><div class="line">git remote add origin https://github.com/用户名/用户名.github.io.git</div><div class="line"># 保存</div><div class="line">git push -u  origin hexo</div></pre></td></tr></table></figure>
+        <p><strong>深入理解Java Class文件格式</strong></p>
+<h3 id="Class文件的位置和作用"><a href="#Class文件的位置和作用" class="headerlink" title="Class文件的位置和作用"></a>Class文件的位置和作用</h3><p>​    JVM不会理解我们写的Java源文件， 我们必须把Java源文件编译成class文件， 才能被JVM识别， 对于JVM而言， class文件相当于一个接口， 理解了这个接口， 能帮助我们更好的理解JVM的行为；另一方面， class文件以另一种方式重新描述了我们在源文件中要表达的意思， 理解class文件如何重新描述我们编写的源文件， 对于深入理解Java语言和语法都是很有帮助的。</p>
+<p> 在整个Java技术体系结构中， class文件处于中间的位置， 对于理解整个体系有着承上启下的作用。 </p>
+<p><img src="/2017/05/26/你懂java吗-11/1.png" alt=""></p>
+<h3 id="Class文件格式概述"><a href="#Class文件格式概述" class="headerlink" title="Class文件格式概述"></a>Class文件格式概述</h3><p>​    class文件是一种8位字节的二进制流文件， 各个数据项按顺序紧密的从前向后排列， 相邻的项之间没有间隙， 这样可以使得class文件非常紧凑， 体积轻巧， 可以被JVM快速的加载至内存， 并且占据较少的内存空间。 我们的Java源文件， 在被编译之后， 每个类（或者接口）都单独占据一个class文件， 并且类中的所有信息都会在class文件中有相应的描述， 由于class文件很灵活， 它甚至比Java源文件有着更强的描述能力。</p>
 <a id="more"></a>
-<p>更换环境时:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">#1.安装git(配置git),nodejs;</div><div class="line">#2.克隆到本地</div><div class="line">git clone https://github.com/用户名/用户名.github.io.git hexo</div><div class="line">cd hexo </div><div class="line">git checkout hexo</div><div class="line">#3.安装各种npm包</div><div class="line">npm install -g hexo-cli</div><div class="line">npm install</div><div class="line">npm install hexo-deployer-git --save</div><div class="line">#用于markdown插入图片,首先确认 _config.yml 中有 post_asset_folder:true</div><div class="line">npm install https://github.com/CodeFalling/hexo-asset-image --save</div><div class="line">#4 部署</div><div class="line">hexo clean</div><div class="line">hexo generate</div><div class="line">hexo deploy</div></pre></td></tr></table></figure>
+<p>class文件中的信息是一项一项排列的， 每项数据都有它的固定长度， 有的占一个字节， 有的占两个字节， 还有的占四个字节或8个字节， 数据项的不同长度分别用u1, u2, u4, u8表示， 分别表示一种数据项在class文件中占据一个字节， 两个字节， 4个字节和8个字节。 可以把u1, u2, u3, u4看做class文件数据项的“类型” 。</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>名称</th>
+<th>数量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>u4</td>
+<td>magic</td>
+<td>1</td>
+</tr>
+<tr>
+<td>u2</td>
+<td>minor_version</td>
+<td>1</td>
+</tr>
+<tr>
+<td>u2</td>
+<td>major_version</td>
+<td>1</td>
+</tr>
+<tr>
+<td>u2</td>
+<td>constant_pool_count</td>
+<td>1</td>
+</tr>
+<tr>
+<td>cp_info</td>
+<td>constant_pool</td>
+<td>constant_pool_count - 1</td>
+</tr>
+<tr>
+<td>u2</td>
+<td>access_flags</td>
+<td>1</td>
+</tr>
+<tr>
+<td>u2</td>
+<td>this_class</td>
+<td>1</td>
+</tr>
+<tr>
+<td>u2</td>
+<td>super_class</td>
+<td>1</td>
+</tr>
+<tr>
+<td>u2</td>
+<td>interfaces_count</td>
+<td>1</td>
+</tr>
+<tr>
+<td>u2</td>
+<td>interfaces</td>
+<td>interfaces_count</td>
+</tr>
+<tr>
+<td>u2</td>
+<td>fields_count</td>
+<td>1</td>
+</tr>
+<tr>
+<td>field_info</td>
+<td>fields</td>
+<td>fields_count</td>
+</tr>
+<tr>
+<td>u2</td>
+<td>methods_count</td>
+<td>1</td>
+</tr>
+<tr>
+<td>method_info</td>
+<td>methods</td>
+<td>methods_count</td>
+</tr>
+<tr>
+<td>u2</td>
+<td>attribute_count</td>
+<td>1</td>
+</tr>
+<tr>
+<td>attribute_info</td>
+<td>attributes</td>
+<td>attributes_count</td>
+</tr>
+</tbody>
+</table>
+<h4 id="class文件中的魔数和版本号"><a href="#class文件中的魔数和版本号" class="headerlink" title="class文件中的魔数和版本号"></a>class文件中的魔数和版本号</h4><p>​     <strong>魔数(magic)</strong><br>​    在class文件开头的四个字节， 存放着class文件的魔数， 这个魔数是class文件的标志，他是一个固定的值： 0XCAFEBABE 。 也就是说他是判断一个文件是不是class格式的文件的标准， 如果开头四个字节不是0XCAFEBABE， 那么就说明它不是class文件， 不能被JVM识别。</p>
+<p>​    <strong>版本号(minor_version,major_version)</strong><br>​    紧接着魔数的四个字节是class文件的此版本号和主版本号。 随着Java的发展， class文件的格式也会做相应的变动。 版本号标志着class文件在什么时候， 加入或改变了哪些特性。 举例来说， 不同版本的javac编译器编译的class文件， 版本号可能不同， 而不同版本的JVM能识别的class文件的版本号也可能不同， 一般情况下， 高版本的JVM能识别低版本的javac编译器编译的class文件， 而低版本的JVM不能识别高版本的javac编译器编译的class文件。 如果使用低版本的JVM执行高版本的class文件， JVM会抛出java.lang.UnsupportedClassVersionError 。</p>
+<h4 id="class文件中的常量池概述"><a href="#class文件中的常量池概述" class="headerlink" title="class文件中的常量池概述"></a>class文件中的常量池概述</h4><pre><code>常量池是class文件中的一项非常重要的数据。 常量池中存放了文字字符串， 常量值， 当前类的类名， 字段名， 方法名， 各个字段和方法的描述符， 对当前类的字段和方法的引用信息， 当前类中对其他类的引用信息等等。 常量池中几乎包含类中的所有信息的描述， class文件中的很多其他部分都是对常量池中的数据项的引用，比如this_class, super_class, field_info, attribute_info等， 另外字节码指令中也存在对常量池的引用， 这个对常量池的引用当做字节码指令的一个操作数。  此外， 常量池中各个项也会相互引用。
+</code></pre><p>​    <strong>常量池计数器(constant_pool_count)</strong></p>
+<p>​    常量池是class文件中非常重要的结构，它描述着整个class文件的字面量信息。 常量池是由一组constant_pool结构体数组组成的，而数组的大小则由常量池计数器指定。常量池计数器constant_pool_count 的值 =constant_pool表中的成员数+ 1。constant_pool表的索引值只有在大于 0 且小于constant_pool_count时才会被认为是有效的。</p>
+<p>​    <strong>常量池数据区(constant_pool[contstant_pool_count-1])</strong></p>
+<p>​    常量池，constant_pool是一种表结构,它包含 Class 文件结构及其子结构中引用的所有字符串常量、 类或接口名、字段名和其它常量。 每个数据项叫做一个XXX_info项， 比如， 一个常量池中一个CONSTANT_Utf8类型的项， 就是一个<code>CONSTANT_Utf8_info</code> 。除此之外， 每个info项中都有一个标志值（tag）， 这个标志值表明了这个常量池中的info项的类型是什么， 从上面的表格中可以看出， 一个<code>CONSTANT_Utf8_info</code>中的tag值为1， 而一个<code>CONSTANT_Fieldref_info</code>中的tag值为9 。</p>
+<table>
+<thead>
+<tr>
+<th><strong>常量池中数据项类型</strong></th>
+<th><strong>类型标志</strong></th>
+<th><strong>类型描述</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CONSTANT_Utf8</td>
+<td>1</td>
+<td>UTF-8编码的Unicode字符串</td>
+</tr>
+<tr>
+<td>CONSTANT_Integer</td>
+<td>3</td>
+<td>int类型字面值</td>
+</tr>
+<tr>
+<td>CONSTANT_Float</td>
+<td>4</td>
+<td>float类型字面值</td>
+</tr>
+<tr>
+<td>CONSTANT_Long</td>
+<td>5</td>
+<td>long类型字面值</td>
+</tr>
+<tr>
+<td>CONSTANT_Double</td>
+<td>6</td>
+<td>double类型字面值</td>
+</tr>
+<tr>
+<td>CONSTANT_Class</td>
+<td>7</td>
+<td>对一个类或接口的符号引用</td>
+</tr>
+<tr>
+<td>CONSTANT_String</td>
+<td>8</td>
+<td>String类型字面值</td>
+</tr>
+<tr>
+<td>CONSTANT_Fieldref</td>
+<td>9</td>
+<td>对一个字段的符号引用</td>
+</tr>
+<tr>
+<td>CONSTANT_Methodref</td>
+<td>10</td>
+<td>对一个类中声明的方法的符号引用</td>
+</tr>
+<tr>
+<td>CONSTANT_InterfaceMethodref</td>
+<td>11</td>
+<td>对一个接口中声明的方法的符号引用</td>
+</tr>
+<tr>
+<td>CONSTANT_NameAndType</td>
+<td>12</td>
+<td>对一个字段或方法的部分符号引用</td>
+</tr>
+</tbody>
+</table>
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p><a href="http://blog.csdn.net/zhangjg_blog/article/details/21486985" target="_blank" rel="external">http://blog.csdn.net/zhangjg_blog/article/details/21486985</a></p>
+<p><a href="http://blog.csdn.net/luanlouis/article/details/39892027" target="_blank" rel="external">http://blog.csdn.net/luanlouis/article/details/39892027</a></p>
+
       
     </div>
 
@@ -420,7 +591,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/hexo/" rel="tag"># hexo</a>
+            <a href="/tags/java虚拟机/" rel="tag"># java虚拟机</a>
           
         </div>
       
@@ -429,8 +600,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/01/19/Python中的struct模块/" rel="next" title="Python中的struct模块">
-                <i class="fa fa-chevron-left"></i> Python中的struct模块
+              <a href="/2017/05/26/你懂java吗-10/" rel="next" title="你懂java吗(10)">
+                <i class="fa fa-chevron-left"></i> 你懂java吗(10)
               </a>
             
           </div>
@@ -438,10 +609,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/01/22/pyinstaller使用技巧/" rel="prev" title="pyinstaller使用技巧">
-                pyinstaller使用技巧 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -488,8 +655,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/logo.jpg"
@@ -565,6 +741,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Class文件的位置和作用"><span class="nav-number">1.</span> <span class="nav-text">Class文件的位置和作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Class文件格式概述"><span class="nav-number">2.</span> <span class="nav-text">Class文件格式概述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#class文件中的魔数和版本号"><span class="nav-number">2.1.</span> <span class="nav-text">class文件中的魔数和版本号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#class文件中的常量池概述"><span class="nav-number">2.2.</span> <span class="nav-text">class文件中的常量池概述</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考："><span class="nav-number">3.</span> <span class="nav-text">参考：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
     </div>
