@@ -389,7 +389,6 @@
 <h3 id="Class文件的位置和作用"><a href="#Class文件的位置和作用" class="headerlink" title="Class文件的位置和作用"></a>Class文件的位置和作用</h3><p>​    JVM不会理解我们写的Java源文件， 我们必须把Java源文件编译成class文件， 才能被JVM识别， 对于JVM而言， class文件相当于一个接口， 理解了这个接口， 能帮助我们更好的理解JVM的行为；另一方面， class文件以另一种方式重新描述了我们在源文件中要表达的意思， 理解class文件如何重新描述我们编写的源文件， 对于深入理解Java语言和语法都是很有帮助的。</p>
 <p> 在整个Java技术体系结构中， class文件处于中间的位置， 对于理解整个体系有着承上启下的作用。 </p>
 <p><img src="/2017/05/26/你懂java吗-11/1.png" alt=""></p>
-<h3 id="Class文件格式概述"><a href="#Class文件格式概述" class="headerlink" title="Class文件格式概述"></a>Class文件格式概述</h3><p>​    class文件是一种8位字节的二进制流文件， 各个数据项按顺序紧密的从前向后排列， 相邻的项之间没有间隙， 这样可以使得class文件非常紧凑， 体积轻巧， 可以被JVM快速的加载至内存， 并且占据较少的内存空间。 我们的Java源文件， 在被编译之后， 每个类（或者接口）都单独占据一个class文件， 并且类中的所有信息都会在class文件中有相应的描述， 由于class文件很灵活， 它甚至比Java源文件有着更强的描述能力。</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/05/26/你懂java吗-11/#more" rel="contents">
