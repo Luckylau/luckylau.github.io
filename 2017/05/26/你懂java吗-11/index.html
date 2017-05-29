@@ -96,7 +96,8 @@ Class文件的位置和作用​    JVM不会理解我们写的Java源文件， 
 <meta property="og:image" content="https://luckylau.github.io/2017/05/26/你懂java吗-11/3.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/05/26/你懂java吗-11/4.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/05/26/你懂java吗-11/2.png">
-<meta property="og:updated_time" content="2017-05-27T07:52:59.133Z">
+<meta property="og:image" content="https://luckylau.github.io/2017/05/26/你懂java吗-11/6.png">
+<meta property="og:updated_time" content="2017-05-29T07:35:32.055Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="你懂java吗(11)">
 <meta name="twitter:description" content="深入理解Java Class文件格式
@@ -652,6 +653,21 @@ Class文件的位置和作用​    JVM不会理解我们写的Java源文件， 
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(参数<span class="number">1</span>类型 参数<span class="number">2</span>类型 参数<span class="number">3</span>类型 ...)返回值类型</div></pre></td></tr></table></figure>
 <p><img src="/2017/05/26/你懂java吗-11/2.png" alt=""></p>
 <p>特殊方法的方法名,如类的构造方法的方法名使用字符串 <code>&lt;init&gt;</code> 表示， 而静态初始化方法的方法名使用字符串 <code>&lt;clinit&gt;</code> 表示。 除了这两种特殊的方法外， 其他普通方法的方法名， 和源文件中的方法名相同。</p>
+<h4 id="class文件中的访问标志信息"><a href="#class文件中的访问标志信息" class="headerlink" title="class文件中的访问标志信息"></a>class文件中的访问标志信息</h4><p>访问标志（access_flags）紧接着常量池后，占有两个字节，总共16位</p>
+<p><img src="/2017/05/26/你懂java吗-11/6.png" alt=""></p>
+<p>当JVM在编译某个类或者接口的源代码时，JVM会解析出这个类或者接口的访问标志信息，然后，将这些标志设置到访问标志（access_flags）这16个位上。</p>
+<p>a. 我们知道，每个定义的类或者接口都会生成class文件（这里也包括内部类，在某个类中定义的静态内部类也会单独生成一个class文件）。         对于定义的类，JVM在将其编译成class文件时，会将class文件的访问标志的第11位设置为1 。第11位叫做ACC_SUPER标志位；对于定义的接口，JVM在将其编译成class文件时，会将class文件的访问标志的第8位 设置为 1 。第8位叫做ACC_INTERFACE标志位；</p>
+<p>b. class文件表示的类或者接口的访问权限有public类型的和包package类型的。</p>
+<p>如果类或者接口被声明为public类型的，那么，JVM将其编译成class文件时，会将class文件的访问标志的第16位设置为1 。第16位叫做ACC_PUBLIC标志符；</p>
+<p> c. 类是否为抽象类型的，即我们定义的类有没有被abstract关键字修饰，即我们定义的类是否为抽象类。</p>
+<p> 如果我们形如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span>  <span class="keyword">abstract</span>  <span class="class"><span class="keyword">class</span> <span class="title">MyClass</span></span>&#123;......&#125;</div></pre></td></tr></table></figure>
+<p>定义某个类时，JVM将它编译成class文件的时候，会将class文件的访问标志的第7位设置为1 。第7位叫做ACC_ABSTRACT标志位。 另外值得注意的是，对于定义的接口，JVM在编译接口的时候也会对class文件的访问标志上的ACC_ABSTRACT标志位设置为 1；</p>
+<p>d. 该类是否被声明了final类型,即表示该类不能被继承。</p>
+<p>此时JVM会在编译class文件的过程中，会将class文件的访问标志的第12位设置为 1 。第12位叫做ACC_FINAL标志位；</p>
+<p>e. 如果我们这个class文件不是JVM通过Java源代码文件编译而成的，而是用户自己通过class文件的组织规则生成的，那么，一般会对class文件的访问标志第4位设置为 1 。通过JVM编译源代码产生的class文件此标志位为 0，第4位叫做ACC_SYNTHETIC标志位；</p>
+<p>f. 枚举类，对于定义的枚举类如：public enum EnumTest{….}，JVM也会对此枚举类编译成class文件，这时，对于这样的class文件，JVM会对访问标志第2位设置为 1 ，以表示它是枚举类。第2位叫做ACC_ENUM标志位；</p>
+<p>g. 注解类，对于定义的注解类如：public @interface{…..},JVM会对此注解类编译成class文件，对于这样的class文件，JVM会将访问标志第3位设置为1，以表示这是个注解类，第3位叫做ACC_ANNOTATION标志位。</p>
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p><a href="http://blog.csdn.net/zhangjg_blog/article/details/21486985" target="_blank" rel="external">http://blog.csdn.net/zhangjg_blog/article/details/21486985</a></p>
 <p><a href="http://blog.csdn.net/luanlouis/article/details/39892027" target="_blank" rel="external">http://blog.csdn.net/luanlouis/article/details/39892027</a></p>
 
@@ -842,7 +858,7 @@ Class文件的位置和作用​    JVM不会理解我们写的Java源文件， 
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Class文件的位置和作用"><span class="nav-number">1.</span> <span class="nav-text">Class文件的位置和作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Class文件格式概述"><span class="nav-number">2.</span> <span class="nav-text">Class文件格式概述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#class文件中的魔数和版本号"><span class="nav-number">2.1.</span> <span class="nav-text">class文件中的魔数和版本号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#class文件中的常量池概述"><span class="nav-number">2.2.</span> <span class="nav-text">class文件中的常量池概述</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考："><span class="nav-number">3.</span> <span class="nav-text">参考：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Class文件的位置和作用"><span class="nav-number">1.</span> <span class="nav-text">Class文件的位置和作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Class文件格式概述"><span class="nav-number">2.</span> <span class="nav-text">Class文件格式概述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#class文件中的魔数和版本号"><span class="nav-number">2.1.</span> <span class="nav-text">class文件中的魔数和版本号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#class文件中的常量池概述"><span class="nav-number">2.2.</span> <span class="nav-text">class文件中的常量池概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#class文件中的访问标志信息"><span class="nav-number">2.3.</span> <span class="nav-text">class文件中的访问标志信息</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考："><span class="nav-number">3.</span> <span class="nav-text">参考：</span></a></li></ol></div>
             
 
           </div>
