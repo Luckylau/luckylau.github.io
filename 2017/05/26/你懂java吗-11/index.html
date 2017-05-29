@@ -97,7 +97,9 @@ Class文件的位置和作用​    JVM不会理解我们写的Java源文件， 
 <meta property="og:image" content="https://luckylau.github.io/2017/05/26/你懂java吗-11/4.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/05/26/你懂java吗-11/2.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/05/26/你懂java吗-11/6.png">
-<meta property="og:updated_time" content="2017-05-29T07:35:32.055Z">
+<meta property="og:image" content="https://luckylau.github.io/2017/05/26/你懂java吗-11/7.png">
+<meta property="og:image" content="https://luckylau.github.io/2017/05/26/你懂java吗-11/8.png">
+<meta property="og:updated_time" content="2017-05-29T08:53:22.411Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="你懂java吗(11)">
 <meta name="twitter:description" content="深入理解Java Class文件格式
@@ -668,6 +670,12 @@ Class文件的位置和作用​    JVM不会理解我们写的Java源文件， 
 <p>e. 如果我们这个class文件不是JVM通过Java源代码文件编译而成的，而是用户自己通过class文件的组织规则生成的，那么，一般会对class文件的访问标志第4位设置为 1 。通过JVM编译源代码产生的class文件此标志位为 0，第4位叫做ACC_SYNTHETIC标志位；</p>
 <p>f. 枚举类，对于定义的枚举类如：public enum EnumTest{….}，JVM也会对此枚举类编译成class文件，这时，对于这样的class文件，JVM会对访问标志第2位设置为 1 ，以表示它是枚举类。第2位叫做ACC_ENUM标志位；</p>
 <p>g. 注解类，对于定义的注解类如：public @interface{…..},JVM会对此注解类编译成class文件，对于这样的class文件，JVM会将访问标志第3位设置为1，以表示这是个注解类，第3位叫做ACC_ANNOTATION标志位。</p>
+<h4 id="class文件中的this-class"><a href="#class文件中的this-class" class="headerlink" title="class文件中的this_class"></a>class文件中的this_class</h4><p>一个Java类源文件经过JVM编译会生成一个class文件，也有可能一个Java类源文件中定义了其他类或者内部类，这样编译出来的class文件就不止一个，但每一个class文件表示某一个类，至于这个class表示哪一个类，便可以通过 类索引 这个数据项来确定。</p>
+<h4 id="class文件中的super-class"><a href="#class文件中的super-class" class="headerlink" title="class文件中的super_class"></a>class文件中的super_class</h4><p>​    Java支持单继承模式，除了java.lang.Object 类除外，每一个类都会有且只有一个父类。class文件中紧接着类索引(this_class)之后的两个字节区域表示父类索引，跟类索引一样，父类索引这两个字节中的值指向了常量池中的某个常量池项CONSTANT_Class_info，表示该class表示的类是继承自哪一个类。如果没有显式的继承一个，也就是说如果当前类是直接继承Object的， 那么super_class值为0 。  如果一个索引值为0， 那么就说明这个索引不引用任何常量池中的数据项， 因为常量池中的数据项是从1开始的。 也就是说， 如果一个类的class文件中的super_class为0 ， 那么就代表该类直接继承Object类。 </p>
+<h4 id="class文件中的interfaces-count和interfaces"><a href="#class文件中的interfaces-count和interfaces" class="headerlink" title="class文件中的interfaces_count和interfaces"></a>class文件中的interfaces_count和interfaces</h4><p>​    紧接着super_class的是interfaces_count， 表示当前类所实现的接口的数量或者当前接口所继承的超接口的数量。 注意， 只有当前类直接实现的接口才会被统计， 如果当前类继承了另一个类， 而另一个类又实现了一个接口， 那么这个接口不会统计在当前类的interfaces_count中。 在interfaces_count后面是interfaces， 他可以看做是一个数组， 其中的每个数组项是一个索引， 指向常量池中的一个CONSTANT_Class_info， 这个CONSTANT_Class_info又会引用常量池中的一个CONSTANT_Utf8_info ， 这个CONSTANT_Utf8_info 中存放着有当前类型直接实现或继承的接口的全限定名。 当前类型实现或继承了几个接口， 在interfaces数组中就会有几个数项与之相对应。 </p>
+<h4 id="class文件中的fields-count和fields"><a href="#class文件中的fields-count和fields" class="headerlink" title="class文件中的fields_count和fields"></a>class文件中的fields_count和fields</h4><p><img src="/2017/05/26/你懂java吗-11/7.png" alt=""></p>
+<p>Java中的一个Field字段应该包含信息如下：</p>
+<p><img src="/2017/05/26/你懂java吗-11/8.png" alt=""></p>
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p><a href="http://blog.csdn.net/zhangjg_blog/article/details/21486985" target="_blank" rel="external">http://blog.csdn.net/zhangjg_blog/article/details/21486985</a></p>
 <p><a href="http://blog.csdn.net/luanlouis/article/details/39892027" target="_blank" rel="external">http://blog.csdn.net/luanlouis/article/details/39892027</a></p>
 
@@ -858,7 +866,7 @@ Class文件的位置和作用​    JVM不会理解我们写的Java源文件， 
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Class文件的位置和作用"><span class="nav-number">1.</span> <span class="nav-text">Class文件的位置和作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Class文件格式概述"><span class="nav-number">2.</span> <span class="nav-text">Class文件格式概述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#class文件中的魔数和版本号"><span class="nav-number">2.1.</span> <span class="nav-text">class文件中的魔数和版本号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#class文件中的常量池概述"><span class="nav-number">2.2.</span> <span class="nav-text">class文件中的常量池概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#class文件中的访问标志信息"><span class="nav-number">2.3.</span> <span class="nav-text">class文件中的访问标志信息</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考："><span class="nav-number">3.</span> <span class="nav-text">参考：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Class文件的位置和作用"><span class="nav-number">1.</span> <span class="nav-text">Class文件的位置和作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Class文件格式概述"><span class="nav-number">2.</span> <span class="nav-text">Class文件格式概述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#class文件中的魔数和版本号"><span class="nav-number">2.1.</span> <span class="nav-text">class文件中的魔数和版本号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#class文件中的常量池概述"><span class="nav-number">2.2.</span> <span class="nav-text">class文件中的常量池概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#class文件中的访问标志信息"><span class="nav-number">2.3.</span> <span class="nav-text">class文件中的访问标志信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#class文件中的this-class"><span class="nav-number">2.4.</span> <span class="nav-text">class文件中的this_class</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#class文件中的super-class"><span class="nav-number">2.5.</span> <span class="nav-text">class文件中的super_class</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#class文件中的interfaces-count和interfaces"><span class="nav-number">2.6.</span> <span class="nav-text">class文件中的interfaces_count和interfaces</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#class文件中的fields-count和fields"><span class="nav-number">2.7.</span> <span class="nav-text">class文件中的fields_count和fields</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考："><span class="nav-number">3.</span> <span class="nav-text">参考：</span></a></li></ol></div>
             
 
           </div>
