@@ -99,7 +99,15 @@ Class文件的位置和作用​    JVM不会理解我们写的Java源文件， 
 <meta property="og:image" content="https://luckylau.github.io/2017/05/26/你懂java吗-11/6.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/05/26/你懂java吗-11/7.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/05/26/你懂java吗-11/8.png">
-<meta property="og:updated_time" content="2017-05-29T08:53:22.411Z">
+<meta property="og:image" content="https://luckylau.github.io/2017/05/26/你懂java吗-11/9.png">
+<meta property="og:image" content="https://luckylau.github.io/2017/05/26/你懂java吗-11/10.png">
+<meta property="og:image" content="https://luckylau.github.io/2017/05/26/你懂java吗-11/11.png">
+<meta property="og:image" content="https://luckylau.github.io/2017/05/26/你懂java吗-11/12.png">
+<meta property="og:image" content="https://luckylau.github.io/2017/05/26/你懂java吗-11/13.png">
+<meta property="og:image" content="https://luckylau.github.io/2017/05/26/你懂java吗-11/14.png">
+<meta property="og:image" content="https://luckylau.github.io/2017/05/26/你懂java吗-11/15.png">
+<meta property="og:image" content="https://luckylau.github.io/2017/05/26/你懂java吗-11/16.png">
+<meta property="og:updated_time" content="2017-05-30T13:50:14.128Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="你懂java吗(11)">
 <meta name="twitter:description" content="深入理解Java Class文件格式
@@ -676,6 +684,36 @@ Class文件的位置和作用​    JVM不会理解我们写的Java源文件， 
 <h4 id="class文件中的fields-count和fields"><a href="#class文件中的fields-count和fields" class="headerlink" title="class文件中的fields_count和fields"></a>class文件中的fields_count和fields</h4><p><img src="/2017/05/26/你懂java吗-11/7.png" alt=""></p>
 <p>Java中的一个Field字段应该包含信息如下：</p>
 <p><img src="/2017/05/26/你懂java吗-11/8.png" alt=""></p>
+<p>FIeld_info的组成元素：访问标志（access_flags）、名称索引（name_index）、描述索引（descriptor_index）、属性表集合</p>
+<p>其中access_flags占两个字节， 描述的是字段的访问标志信息</p>
+<p><img src="/2017/05/26/你懂java吗-11/9.png" alt=""></p>
+<h4 id="class文件中的methods-count和methods"><a href="#class文件中的methods-count和methods" class="headerlink" title="class文件中的methods_count和methods"></a>class文件中的methods_count和methods</h4><p>​     方法表集合是指由若干个方法表（method_info）组成的集合。对于在类中定义的若干个，经过JVM编译成class文件后，会将相应的method方法信息组织到一个叫做方法表集合的结构中，字段表集合是一个类数组结构，如下图所示：</p>
+<p><img src="/2017/05/26/你懂java吗-11/10.png" alt=""></p>
+<p><strong>注意：</strong></p>
+<p>​    methods_count描述的是当前的类中定义的方法的个数，这里包括静态方法， 但不包括从父类继承的方法。 如果当前class文件是由一个接口生成的， 那么这里的methods_count描述的是接口中定义的抽象方法的数量， 我们知道， 接口中定义的方法默认都是公有的。此外需要说明的是， 编译器可能会在编译时向class文件增加额外的方法， 也就是说， class文件中的方法的数量可能多于源文件中由用户定义的方法。 举例来说： 如果当前类没有定义构造方法， 那么编译器会增加一个无参数的构造函数<init>； 如果当前类或接口中定义了静态变量， 并且使用初始化表达式为其赋值， 或者定义了static静态代码块， 那么编译器在编译的时候会默认增加一个静态初始化方法<clinit> 。</clinit></init></p>
+<p>​    位于methods_count下面的数据叫做methods ， 可以把它看做一个数组， 数组中的每一项是一个method_info 。这个数组中一共有methods_count个method_info ， 每个method_info 都是对一个方法的描述。</p>
+<p><img src="/2017/05/26/你懂java吗-11/11.png" alt=""></p>
+<p>上图中的method_info结构体的定义，该结构体的定义跟描述field字段 的field_info结构体的结构几乎完全一致</p>
+<p>方法表的结构体由：访问标志(access_flags)、名称索引(name_index)、描述索引(descriptor_index)、属性表(attribute_info)集合组成。</p>
+<p>访问标志(access_flags)：<br>method_info结构体最前面的两个字节表示的访问标志（access_flags），记录这这个方法的作用域、静态or非静态、可变性、是否可同步、是否本地方法、是否抽象等信息。</p>
+<p><img src="/2017/05/26/你懂java吗-11/12.png" alt=""></p>
+<p>名称索引(name_index)：<br>紧跟在访问标志（access_flags）后面的两个字节称为名称索引，这两个字节中的值指向了常量池中的某一个常量池项，这个方法的名称以UTF-8格式的字符串存储在这个常量池项中。</p>
+<p>描述索引(descriptor_index)：<br>描述索引表示的是这个方法的特征或者说是签名，一个方法会有若干个参数和返回值，而若干个参数的数据类型和返回值的数据类型构成了这个方法的描述，其基本格式为：     (参数数据类型描述列表)返回值数据类型   。</p>
+<p>所谓的方法描述符，实质上就是指用一个什么样的字符串来描述一个方法</p>
+<p><img src="/2017/05/26/你懂java吗-11/13.png" alt=""></p>
+<p>属性表(attribute_info)集合：</p>
+<p>这个属性表集合非常重要，方法的实现被JVM编译成JVM的机器码指令，机器码指令就存放在一个Code类型的属性表中；如果方法声明要抛出异常，那么异常信息会在一个Exceptions类型的属性表中予以展现。这些信息包括：<br>​    这个方法的代码实现，即方法的可执行的机器指令<br>​    这个方法声明的要抛出的异常信息<br>​    这个方法是否被@deprecated注解表示<br>​    这个方法是否是编译器自动生成的</p>
+<p><img src="/2017/05/26/你懂java吗-11/14.png" alt=""></p>
+<p> <strong>Code类型</strong></p>
+<p>Code类型的属性表(attribute_info)可以说是class文件中最为重要的部分，因为它包含的是JVM可以运行的机器码指令，JVM能够运行这个类，就是从这个属性中取出机器码的。</p>
+<p><img src="/2017/05/26/你懂java吗-11/15.png" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">1.  attribute_name_index,属性名称索引，占有2个字节，其内的值指向了常量池中的某一项，该项表示字符串“Code”;</div><div class="line">2.  attribute_length,属性长度，占有 4个字节，其内的值表示后面有多少个字节是属于此Code属性表的；</div><div class="line">3.  max_stack,操作数栈深度的最大值，占有 2 个字节，在方法执行的任意时刻，操作数栈都不应该超过这个值，虚拟机的运行的时候，会根据这个值来设置该方法对应的栈帧(Stack Frame)中的操作数栈的深度；</div><div class="line">4.  max_locals,最大局部变量数目，占有 2个字节，其内的值表示局部变量表所需要的存储空间大小；</div><div class="line">5.  code_length,机器指令长度，占有 4 个字节，表示跟在其后的多少个字节表示的是机器指令；</div><div class="line">6.  code,机器指令区域，该区域占有的字节数目由 code_length中的值决定。JVM最底层的要执行的机器指令就存储在这里；</div><div class="line">7.  exception_table_length,显式异常表长度，占有2个字节，如果在方法代码中出现了try&#123;&#125; catch()形式的结构，该值不会为空，紧跟其后会跟着若干个exception_table结构体，以表示异常捕获情况；</div><div class="line">8.  exception_table，显式异常表，占有8 个字节，start_pc,end_pc,handler_pc中的值都表示的是PC计数器中的指令地址。exception_table表示的意思是：如果字节码从第start_pc行到第end_pc行之间出现了catch_type所描述的异常类型，那么将跳转到handler_pc行继续处理。</div><div class="line">9.  attribute_count,属性计数器，占有 2 个字节，表示Code属性表的其他属性的数目。</div><div class="line">10. attribute_info,表示Code属性表具有的属性表，它主要分为两个类型的属性表：“LineNumberTable”类型和“LocalVariableTable”类型。</div><div class="line">   “LineNumberTable”类型的属性表记录着Java源码和机器指令之间的对应关系</div><div class="line">   “LocalVariableTable”类型的属性表记录着局部变量描述</div></pre></td></tr></table></figure>
+<p>机器指令(code)：JVM使用一个字节表示机器操作码，即对JVM底层而言，它能表示的机器操作码不多于2的 8 次方，即 256个。class文件中的机器指令部分是class文件中最重要的部分。</p>
+<p>异常处理跳转信息：如果代码中出现了try{}catch{}块，那么try{}块内的机器指令的地址范围记录下来，并且记录对应的catch{}块中的起始机器指令地址，当运行时在try块中有异常抛出的话，JVM会将catch{}块对应懂得其实机器指令地址传递给PC寄存器，从而实现指令跳转。</p>
+<p>Java源码行号和机器指令的对应关系—LineNumberTable属性表：编译器在将java源码编译成class文件时，会将源码中的语句行号跟编译好的机器指令关联起来，这样的class文件加载到内存中并运行时，如果抛出异常，JVM可以根据这个对应关系，抛出异常信息，告诉我们我们的源码的多少行有问题，方便我们定位问题。这个信息不是运行时必不可少的信息，但是默认情况下，编译器会生成这一项信息，如果你项取消这一信息，你可以使用-g:none 或-g:lines来取消或者要求设置这一项信息。如果使用了-g:none来生成class文件，class文件中将不会有LineNumberTable属性表，造成的影响就是 将来如果代码报错，将无法定位错误信息报错的行，并且如果项调试代码，将不能在此类中打断点（因为没有指定行号。）</p>
+<p>局部变量表描述信息—-LocalVariableTable属性表：</p>
+<p>局部变量表信息会记录栈帧局部变量表中的变量和java源码中定义的变量之间的关系，这个信息不是运行时必须的属性，默认情况下不会生成到class文件中。你可以根据javac指令的-g:none或者-g:vars选项来取消或者设置这一项信息。<br>它有什么作用呢？  当我们使用IDE进行开发时，最喜欢的莫过于它们的代码提示功能了。如果在项目中引用到了第三方的jar包，而第三方的包中的class文件中有无LocalVariableTable属性表的区别如下：</p>
+<p><img src="/2017/05/26/你懂java吗-11/16.png" alt=""></p>
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p><a href="http://blog.csdn.net/zhangjg_blog/article/details/21486985" target="_blank" rel="external">http://blog.csdn.net/zhangjg_blog/article/details/21486985</a></p>
 <p><a href="http://blog.csdn.net/luanlouis/article/details/39892027" target="_blank" rel="external">http://blog.csdn.net/luanlouis/article/details/39892027</a></p>
 
@@ -866,7 +904,7 @@ Class文件的位置和作用​    JVM不会理解我们写的Java源文件， 
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Class文件的位置和作用"><span class="nav-number">1.</span> <span class="nav-text">Class文件的位置和作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Class文件格式概述"><span class="nav-number">2.</span> <span class="nav-text">Class文件格式概述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#class文件中的魔数和版本号"><span class="nav-number">2.1.</span> <span class="nav-text">class文件中的魔数和版本号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#class文件中的常量池概述"><span class="nav-number">2.2.</span> <span class="nav-text">class文件中的常量池概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#class文件中的访问标志信息"><span class="nav-number">2.3.</span> <span class="nav-text">class文件中的访问标志信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#class文件中的this-class"><span class="nav-number">2.4.</span> <span class="nav-text">class文件中的this_class</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#class文件中的super-class"><span class="nav-number">2.5.</span> <span class="nav-text">class文件中的super_class</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#class文件中的interfaces-count和interfaces"><span class="nav-number">2.6.</span> <span class="nav-text">class文件中的interfaces_count和interfaces</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#class文件中的fields-count和fields"><span class="nav-number">2.7.</span> <span class="nav-text">class文件中的fields_count和fields</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考："><span class="nav-number">3.</span> <span class="nav-text">参考：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Class文件的位置和作用"><span class="nav-number">1.</span> <span class="nav-text">Class文件的位置和作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Class文件格式概述"><span class="nav-number">2.</span> <span class="nav-text">Class文件格式概述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#class文件中的魔数和版本号"><span class="nav-number">2.1.</span> <span class="nav-text">class文件中的魔数和版本号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#class文件中的常量池概述"><span class="nav-number">2.2.</span> <span class="nav-text">class文件中的常量池概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#class文件中的访问标志信息"><span class="nav-number">2.3.</span> <span class="nav-text">class文件中的访问标志信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#class文件中的this-class"><span class="nav-number">2.4.</span> <span class="nav-text">class文件中的this_class</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#class文件中的super-class"><span class="nav-number">2.5.</span> <span class="nav-text">class文件中的super_class</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#class文件中的interfaces-count和interfaces"><span class="nav-number">2.6.</span> <span class="nav-text">class文件中的interfaces_count和interfaces</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#class文件中的fields-count和fields"><span class="nav-number">2.7.</span> <span class="nav-text">class文件中的fields_count和fields</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#class文件中的methods-count和methods"><span class="nav-number">2.8.</span> <span class="nav-text">class文件中的methods_count和methods</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考："><span class="nav-number">3.</span> <span class="nav-text">参考：</span></a></li></ol></div>
             
 
           </div>
