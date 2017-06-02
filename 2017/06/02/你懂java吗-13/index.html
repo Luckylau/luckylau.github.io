@@ -85,29 +85,23 @@
 
 
 <meta name="description" content="JVM类加载器机制与类加载过程
-java是一种动态语言​    我们都知道JVM（java虚拟机）执行的不是本地机器码指令，而是执行一种称之为字节码的指令（存在于class文件中）。这就要求虚拟机在
-真正执行字节码之前，先把相关的class文件加载到内存中。虚拟机不是一次性加载所有需要的class文件，因为它在执行的时候根本不会知道以
-后会用到哪些class文件。它是每用到一个类，就会在运行时“动">
+java是一种动态语言​    我们都知道JVM（java虚拟机）执行的不是本地机器码指令，而是执行一种称之为字节码的指令（存在于class文件中）。这就要求虚拟机在真正执行字节码之前，先把相关的class文件加载到内存中。虚拟机不是一次性加载所有需要的class文件，因为它在执行的时候根本不会知道以后会用到哪些class文件。它是每用到一个类，就会在运行时“动态地">
 <meta property="og:type" content="article">
 <meta property="og:title" content="你懂java吗(13)">
 <meta property="og:url" content="https://luckylau.github.io/2017/06/02/你懂java吗-13/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
 <meta property="og:description" content="JVM类加载器机制与类加载过程
-java是一种动态语言​    我们都知道JVM（java虚拟机）执行的不是本地机器码指令，而是执行一种称之为字节码的指令（存在于class文件中）。这就要求虚拟机在
-真正执行字节码之前，先把相关的class文件加载到内存中。虚拟机不是一次性加载所有需要的class文件，因为它在执行的时候根本不会知道以
-后会用到哪些class文件。它是每用到一个类，就会在运行时“动">
+java是一种动态语言​    我们都知道JVM（java虚拟机）执行的不是本地机器码指令，而是执行一种称之为字节码的指令（存在于class文件中）。这就要求虚拟机在真正执行字节码之前，先把相关的class文件加载到内存中。虚拟机不是一次性加载所有需要的class文件，因为它在执行的时候根本不会知道以后会用到哪些class文件。它是每用到一个类，就会在运行时“动态地">
 <meta property="og:image" content="https://luckylau.github.io/2017/06/02/你懂java吗-13/1.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/06/02/你懂java吗-13/2.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/06/02/你懂java吗-13/3.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/06/02/你懂java吗-13/4.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/06/02/你懂java吗-13/5.png">
-<meta property="og:updated_time" content="2017-06-02T15:04:21.408Z">
+<meta property="og:updated_time" content="2017-06-02T15:08:47.463Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="你懂java吗(13)">
 <meta name="twitter:description" content="JVM类加载器机制与类加载过程
-java是一种动态语言​    我们都知道JVM（java虚拟机）执行的不是本地机器码指令，而是执行一种称之为字节码的指令（存在于class文件中）。这就要求虚拟机在
-真正执行字节码之前，先把相关的class文件加载到内存中。虚拟机不是一次性加载所有需要的class文件，因为它在执行的时候根本不会知道以
-后会用到哪些class文件。它是每用到一个类，就会在运行时“动">
+java是一种动态语言​    我们都知道JVM（java虚拟机）执行的不是本地机器码指令，而是执行一种称之为字节码的指令（存在于class文件中）。这就要求虚拟机在真正执行字节码之前，先把相关的class文件加载到内存中。虚拟机不是一次性加载所有需要的class文件，因为它在执行的时候根本不会知道以后会用到哪些class文件。它是每用到一个类，就会在运行时“动态地">
 <meta name="twitter:image" content="https://luckylau.github.io/2017/06/02/你懂java吗-13/1.png">
 
 
@@ -401,41 +395,24 @@ java是一种动态语言​    我们都知道JVM（java虚拟机）执行的�
 
       
         <p><strong>JVM类加载器机制与类加载过程</strong></p>
-<h3 id="java是一种动态语言"><a href="#java是一种动态语言" class="headerlink" title="java是一种动态语言"></a>java是一种动态语言</h3><p>​    我们都知道JVM（java虚拟机）执行的不是本地机器码指令，而是执行一种称之为字节码的指令（存在于class文件中）。这就要求虚拟机在</p>
-<p>真正执行字节码之前，先把相关的class文件加载到内存中。虚拟机不是一次性加载所有需要的class文件，因为它在执行的时候根本不会知道以</p>
-<p>后会用到哪些class文件。它是每用到一个类，就会在运行时“动态地”加载和这个类相关的class文件。这就是java被称之为动态性语言的根本原</p>
-<p>因。除了动态加载类之外，还会动态的初始化类，对类进行动态链接。其中在JVM中负责对类进行加载的正是本文要介绍的类加载器</p>
-<p>（ClassLoader），所以，类加载器是JVM不可或缺的重要组件。</p>
+<h3 id="java是一种动态语言"><a href="#java是一种动态语言" class="headerlink" title="java是一种动态语言"></a>java是一种动态语言</h3><p>​    我们都知道JVM（java虚拟机）执行的不是本地机器码指令，而是执行一种称之为字节码的指令（存在于class文件中）。这就要求虚拟机在真正执行字节码之前，先把相关的class文件加载到内存中。虚拟机不是一次性加载所有需要的class文件，因为它在执行的时候根本不会知道以后会用到哪些class文件。它是每用到一个类，就会在运行时“动态地”加载和这个类相关的class文件。这就是java被称之为动态性语言的根本原因。除了动态加载类之外，还会动态的初始化类，对类进行动态链接。其中在JVM中负责对类进行加载的正是本文要介绍的类加载器（ClassLoader），所以，类加载器是JVM不可或缺的重要组件。</p>
 <p><img src="/2017/06/02/你懂java吗-13/1.png" alt=""></p>
 <a id="more"></a>
 <h3 id="Java虚拟机启动、加载类过程"><a href="#Java虚拟机启动、加载类过程" class="headerlink" title="Java虚拟机启动、加载类过程"></a>Java虚拟机启动、加载类过程</h3><p>比如我们通过window的cmd命令执行javac  test.java 生成class文件后，再执行java  test运行时，有如下几个过程。</p>
 <p>第一步，根据JVM内存配置要求，为JVM申请特定大小的内存空间。</p>
 <p>第二步，创建一个引导类加载器实例，初步加载系统类到内存方法区区域中。</p>
-<p>JVM申请好内存空间后，JVM会创建一个引导类加载器（Bootstrap Classloader）实例，引导类加载器是使用C++语言实现的，负责加载JVM虚</p>
-<p>拟机运行时所需的<strong>基本系统级别的类</strong>，如java.lang.String, java.lang.Object等等。</p>
-<p>引导类加载器(Bootstrap Classloader)会读取 {JRE_HOME}/lib 下的jar包和配置，然后将这些系统类加载到方法区内。</p>
+<p>JVM申请好内存空间后，JVM会创建一个引导类加载器（Bootstrap Classloader）实例，引导类加载器是使用C++语言实现的，负责加载JVM虚拟机运行时所需的<strong>基本系统级别的类</strong>，如java.lang.String, java.lang.Object等等。引导类加载器(Bootstrap Classloader)会读取 {JRE_HOME}/lib 下的jar包和配置，然后将这些系统类加载到方法区内。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">rt.jar	运行环境包，rt即runtime，J2SE 的类定义都在这个包内</div><div class="line">charsets.jar	字符集支持包</div><div class="line">jce.jar	是一组包，它们提供用于加密、密钥生成和协商以及 Message Authentication Code（MAC）算法的框架和实现</div><div class="line">jsse.jar	安全套接字拓展包Java(TM) Secure Socket Extension</div><div class="line">classlist	该文件内表示是引导类加载器应该加载的类的清单</div><div class="line">net.properties	JVM 网络配置信息</div></pre></td></tr></table></figure>
 <p><strong>引导类加载器</strong>(Bootstrap ClassLoader） 加载系统类后，JVM内存会呈现如下格局：</p>
-<p>对于某一个特定的类而言，在方法区中它应该有 运行时常量池、类型信息、字段信息、方法信息、类加载器的引用，对应class实例的引用等信</p>
-<p>息，其中类加载器的引用,由于这些类是由引导类加载器(Bootstrap Classloader)进行加载的，而 引导类加载器是有C++语言实现的，所以是无</p>
-<p>法访问的，故而该引用为NULL。对应class实例的引用， 类加载器在加载类信息放到方法区中后，会创建一个对应的Class 类型的实例放到堆</p>
-<p>(Heap)中, 作为开发人员访问方法区中类定义的入口和切入点。</p>
+<p>对于某一个特定的类而言，在方法区中它应该有 运行时常量池、类型信息、字段信息、方法信息、类加载器的引用，对应class实例的引用等信息，其中类加载器的引用,由于这些类是由引导类加载器(Bootstrap Classloader)进行加载的，而 引导类加载器是有C++语言实现的，所以是无法访问的，故而该引用为NULL。对应class实例的引用， 类加载器在加载类信息放到方法区中后，会创建一个对应的Class 类型的实例放到堆(Heap)中, 作为开发人员访问方法区中类定义的入口和切入点。</p>
 <p><img src="/2017/06/02/你懂java吗-13/2.png" alt=""></p>
 <p>第三步，创建JVM 启动器实例 Launcher,并取得类加载器ClassLoader</p>
-<p>JVM虚拟机调用已经加载在方法区的类sun.misc.Launcher 的静态方法getLauncher(),  获取sun.misc.Launcher 实例。sun.misc.Launcher 使用</p>
-<p>了单例模式设计，保证一个JVM虚拟机内只有一个sun.misc.Launcher实例。<br>在Launcher的内部，其定义了两个类加载器(ClassLoader),分别是sun.misc.Launcher.ExtClassLoader和</p>
-<p>sun.misc.Launcher.AppClassLoader，这两个类加载器分别被称为<strong>拓展类加载器</strong>(Extension ClassLoader) 和 <strong>应用类加载器</strong>(Application </p>
-<p>ClassLoader)。</p>
+<p>JVM虚拟机调用已经加载在方法区的类sun.misc.Launcher 的静态方法getLauncher(),  获取sun.misc.Launcher 实例。sun.misc.Launcher 使用了单例模式设计，保证一个JVM虚拟机内只有一个sun.misc.Launcher实例。在Launcher的内部，其定义了两个类加载器(ClassLoader),分别是sun.misc.Launcher.ExtClassLoader和sun.misc.Launcher.AppClassLoader，这两个类加载器分别被称为<strong>拓展类加载器</strong>(Extension ClassLoader) 和 <strong>应用类加载器</strong>(Application ClassLoader)。</p>
 <p><img src="/2017/06/02/你懂java吗-13/3.png" alt=""></p>
-<p>说明：除了引导类加载器(Bootstrap Class Loader )之外的其他类加载器，都有一个能力，就是判断某一个类是否被引导类加载器加载过，如果</p>
-<p>加载过，可以直接返回对应的Class<t> instance，如果没有，则返回null.  图上的指向引导类加载器的虚线表示类加载器有限的访问引导类加载</t></p>
-<p>器的功能。</p>
+<p>说明：除了引导类加载器(Bootstrap Class Loader )之外的其他类加载器，都有一个能力，就是判断某一个类是否被引导类加载器加载过，如果加载过，可以直接返回对应的Class<t> instance，如果没有，则返回null.  图上的指向引导类加载器的虚线表示类加载器有限的访问引导类加载器的功能。</t></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sun.misc.Launcher launcher = sun.misc.Launcher.getLauncher(); <span class="comment">//获取Java启动器  </span></div><div class="line">ClassLoader classLoader = launcher.getClassLoader();          <span class="comment">//获取类加载器ClassLoader用来加载class到内存来</span></div></pre></td></tr></table></figure>
-<p>launcher.getClassLoader() 方法将会返回 AppClassLoader 实例，AppClassLoader将ExtClassLoader作为自己的父加载器。</p>
-<p>当AppClassLoader加载类时，会首先尝试让父加载器ExtClassLoader进行加载，如果父加载器ExtClassLoader加载成功，则AppClassLoader</p>
-<p>直接返回父加载器ExtClassLoader加载的结果；</p>
-<p>如果父加载器ExtClassLoader加载失败，AppClassLoader则会判断该类是否是引导的系统类(即是否是通过Bootstrap类加载器加载，这会调用</p>
-<p>Native方法进行查找)；若要加载的类不是系统引导类，那么ClassLoader将会尝试自己加载，加载失败将会抛出“ClassNotFoundException”。</p>
+<p>launcher.getClassLoader() 方法将会返回 AppClassLoader 实例，AppClassLoader将ExtClassLoader作为自己的父加载器。当AppClassLoader加载类时，会首先尝试让父加载器ExtClassLoader进行加载，如果父加载器ExtClassLoader加载成功，则AppClassLoader直接返回父加载器ExtClassLoader加载的结果；</p>
+<p>如果父加载器ExtClassLoader加载失败，AppClassLoader则会判断该类是否是引导的系统类(即是否是通过Bootstrap类加载器加载，这会调用Native方法进行查找)；若要加载的类不是系统引导类，那么ClassLoader将会尝试自己加载，加载失败将会抛出“ClassNotFoundException”。</p>
 <p><img src="/2017/06/02/你懂java吗-13/4.png" alt=""></p>
 <p>上述应用类加载器的模式就是我们说的<strong>双亲委派模型</strong>（parent-delegation model）</p>
 <p>对于某个特定的类加载器而言，应该为其指定一个父类加载器，当用其进行加载类的时候：</p>
@@ -449,42 +426,22 @@ java是一种动态语言​    我们都知道JVM（java虚拟机）执行的�
 <ol>
 <li><p>父类加载器(parent classloader)：它可以替子加载器尝试加载类</p>
 </li>
-<li><p>引导类加载器（bootstrap classloader）: 子类加载器只能判断某个类是否被引导类加载器加载过，而不能委托它加载某个类；换句话说，</p>
-<p>就是子类加载器不能接触到引导类加载器，引导类加载器对其他类加载器而言是透明的。</p>
+<li><p>引导类加载器（bootstrap classloader）: 子类加载器只能判断某个类是否被引导类加载器加载过，而不能委托它加载某个类；换句话说，就是子类加载器不能接触到引导类加载器，引导类加载器对其他类加载器而言是透明的。</p>
+<p>双亲加载模型：</p>
 </li>
 </ol>
-<p>双亲加载模型：</p>
 <p><img src="/2017/06/02/你懂java吗-13/5.png" alt=""></p>
-<p>使用双亲委派模型的好处在于Java类随着它的类加载器一起具备了一种带有优先级的层次关系。例如类java.lang.Object，它存在在rt.jar中，无</p>
-<p>论哪一个类加载器要加载这个类，最终都是委派给处于模型最顶端的Bootstrap ClassLoader进行加载，因此Object类在程序的各种类加载器环</p>
-<p>境中都是同一个类。相反，如果没有双亲委派模型而是由各个类加载器自行加载的话，如果用户编写了一个java.lang.Object的同名类并放在</p>
-<p>ClassPath中，那系统中将会出现多个不同的Object类，程序将混乱。因此，如果开发者尝试编写一个与rt.jar类库中重名的Java类，可以正常编</p>
-<p>译，但是永远无法被加载运行。</p>
+<p>使用双亲委派模型的好处在于Java类随着它的类加载器一起具备了一种带有优先级的层次关系。例如类java.lang.Object，它存在在rt.jar中，无论哪一个类加载器要加载这个类，最终都是委派给处于模型最顶端的Bootstrap ClassLoader进行加载，因此Object类在程序的各种类加载器环境中都是同一个类。相反，如果没有双亲委派模型而是由各个类加载器自行加载的话，如果用户编写了一个java.lang.Object的同名类并放在ClassPath中，那系统中将会出现多个不同的Object类，程序将混乱。因此，如果开发者尝试编写一个与rt.jar类库中重名的Java类，可以正常编译，但是永远无法被加载运行。</p>
 <p>第四步，使用类加载器ClassLoader加载test</p>
-<p>当AppClassLoader要加载test时，会去查看该类的定义，发现它内部声明使用了其它的类，假如有java.lang.Object、java.lang.System、</p>
-<p>java.io.PrintStream、java.lang.Class等；test类要想正常工作，首先要能够保证这些其内部声明的类加载成功。所以AppClassLoader要先将这</p>
-<p>些类加载到内存中。<strong>这个过程会通过上述的双亲委派模型来完成所需类的加载。</strong></p>
-<p>JVM方法区的类信息区是按照类加载器进行划分的，每个类加载器会维护自己加载类信息；</p>
-<p>某个类加载器在加载相应的类时，会相应地在JVM内存堆（Heap）中创建一个对应的Class<t>，用来表示访问该类信息的入口。</t></p>
+<p>当AppClassLoader要加载test时，会去查看该类的定义，发现它内部声明使用了其它的类，假如有java.lang.Object、java.lang.System、java.io.PrintStream、java.lang.Class等；test类要想正常工作，首先要能够保证这些其内部声明的类加载成功。所以AppClassLoader要先将这些类加载到内存中。<strong>这个过程会通过上述的双亲委派模型来完成所需类的加载。</strong>JVM方法区的类信息区是按照类加载器进行划分的，每个类加载器会维护自己加载类信息；某个类加载器在加载相应的类时，会相应地在JVM内存堆（Heap）中创建一个对应的Class<t>，用来表示访问该类信息的入口。</t></p>
 <p>第五步，使用Main类的main方法作为程序入口运行程序</p>
 <p>第六步，方法执行完毕，JVM销毁，释放内存</p>
 <h3 id="回顾总结java类加载器"><a href="#回顾总结java类加载器" class="headerlink" title="回顾总结java类加载器"></a>回顾总结java类加载器</h3><p>1.类加载器有哪些？其组织结构是怎样的？</p>
-<p>​    JVM自身定义了三个类加载器：引导类加载器(Bootstrap Class Loader)、拓展类加载器(Extension Class Loader )、应用加载器</p>
-<p>(Application Class Loader)。当然用户可以自定义类加载器。</p>
-<p>​    引导类加载器(Bootstrap Class Loader): 该类加载器使JVM使用C/C++底层代码实现的加载器，用以加载JVM运行时所需要的系统类，这些</p>
-<p>系统类在{JRE_HOME}/lib目录下。由于类加载器是使用平台相关的底层C/C++语言实现的， 所以该加载器不能被Java代码访问到。但是，我们</p>
-<p>可以查询某个类是否被引导类加载器加载过。我们经常使用的系统类如：java.lang.String,java.lang.Object,java.lang*……. 这些都被放在 </p>
-<p>{JRE_HOME}/lib/rt.jar包内， 当JVM系统启动的时候，引导类加载器会将其加载到 JVM内存的方法区中。</p>
-<p>​    拓展类加载器(Extension Class Loader): 该加载器是用于加载 java 的拓展类 ，拓展类一般会放在 {JRE_HOME}/lib/ext/ 目录下，用来提供</p>
-<p>除了系统类之外的额外功能。拓展类加载器是是整个JVM加载器的Java代码可以访问到的类加载器的最顶端，即是超级父加载器，拓展类加载器</p>
-<p>是没有父类加载器的。</p>
-<p>​    应用类加载器(Applocatoin Class Loader): 该类加载器是用于加载用户代码，是用户代码的入口。我经常执行指令 java   </p>
-<p>xxx.x.xxx.x.x.XClass , 实际上，JVM就是使用的AppClassLoader加载 xxx.x.xxx.x.x.XClass 类的。应用类加载器将拓展类加载器当成自己的父类</p>
-<p>加载器，当其尝试加载类的时候，首先尝试让其父加载器-拓展类加载器加载；如果拓展类加载器加载成功，则直接返回加载结果Class<t> </t></p>
-<p>instance,加载失败，则会询问是否引导类加载器已经加载了该类；只有没有加载的时候，应用类加载器才会尝试自己加载。由于</p>
-<p>xxx.x.xxx.x.x.XClass是整个用户代码的入口，在Java虚拟机规范中，称其为 初始类(Initial Class)。</p>
-<p>​    用户自定义类加载器（Customized Class Loader）：用户可以自己定义类加载器来加载类。所有的类加载器都要继承</p>
-<p>java.lang.ClassLoader类。</p>
+<p>​    JVM自身定义了三个类加载器：引导类加载器(Bootstrap Class Loader)、拓展类加载器(Extension Class Loader )、应用加载器(Application Class Loader)。当然用户可以自定义类加载器。</p>
+<p>​    引导类加载器(Bootstrap Class Loader): 该类加载器使JVM使用C/C++底层代码实现的加载器，用以加载JVM运行时所需要的系统类，这些系统类在{JRE_HOME}/lib目录下。由于类加载器是使用平台相关的底层C/C++语言实现的， 所以该加载器不能被Java代码访问到。但是，我们可以查询某个类是否被引导类加载器加载过。我们经常使用的系统类如：java.lang.String,java.lang.Object,java.lang*……. 这些都被放在 {JRE_HOME}/lib/rt.jar包内， 当JVM系统启动的时候，引导类加载器会将其加载到 JVM内存的方法区中。</p>
+<p>​    拓展类加载器(Extension Class Loader): 该加载器是用于加载 java 的拓展类 ，拓展类一般会放在 {JRE_HOME}/lib/ext/ 目录下，用来提供除了系统类之外的额外功能。拓展类加载器是是整个JVM加载器的Java代码可以访问到的类加载器的最顶端，即是超级父加载器，拓展类加载器是没有父类加载器的。</p>
+<p>​    应用类加载器(Applocatoin Class Loader): 该类加载器是用于加载用户代码，是用户代码的入口。我经常执行指令 java   xxx.x.xxx.x.x.XClass , 实际上，JVM就是使用的AppClassLoader加载 xxx.x.xxx.x.x.XClass 类的。应用类加载器将拓展类加载器当成自己的父类加载器，当其尝试加载类的时候，首先尝试让其父加载器-拓展类加载器加载；如果拓展类加载器加载成功，则直接返回加载结果Class<t> instance,加载失败，则会询问是否引导类加载器已经加载了该类；只有没有加载的时候，应用类加载器才会尝试自己加载。由于xxx.x.xxx.x.x.XClass是整个用户代码的入口，在Java虚拟机规范中，称其为 初始类(Initial Class)。</t></p>
+<p>​    用户自定义类加载器（Customized Class Loader）：用户可以自己定义类加载器来加载类。所有的类加载器都要继承java.lang.ClassLoader类。</p>
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p><a href="http://blog.csdn.net/luanlouis/article/details/50529868" target="_blank" rel="external">http://blog.csdn.net/luanlouis/article/details/50529868</a></p>
 <p><a href="http://blog.csdn.net/zhangjg_blog/article/details/16102131" target="_blank" rel="external">http://blog.csdn.net/zhangjg_blog/article/details/16102131</a></p>
 
