@@ -96,7 +96,7 @@
 有助于覆盖大型地理区域">
 <meta property="og:type" content="article">
 <meta property="og:title" content="你懂网络吗(4)">
-<meta property="og:url" content="https://luckylau.github.io/2017/04/12/你懂网络吗-4/index.html">
+<meta property="og:url" content="https://luckylau.github.io/2017/06/07/你懂网络吗-4/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
 <meta property="og:description" content="本文主要是基于学习《CCNA学习指南》总结网络必备的知识。
 本篇章涉及以下内容：
@@ -108,10 +108,10 @@
 优化网络性能 
 简化管理 
 有助于覆盖大型地理区域">
-<meta property="og:image" content="https://luckylau.github.io/2017/04/12/你懂网络吗-4/1.png">
-<meta property="og:image" content="https://luckylau.github.io/2017/04/12/你懂网络吗-4/2.png">
-<meta property="og:image" content="https://luckylau.github.io/2017/04/12/你懂网络吗-4/3.png">
-<meta property="og:updated_time" content="2017-04-16T08:52:17.629Z">
+<meta property="og:image" content="https://luckylau.github.io/2017/06/07/你懂网络吗-4/1.png">
+<meta property="og:image" content="https://luckylau.github.io/2017/06/07/你懂网络吗-4/2.png">
+<meta property="og:image" content="https://luckylau.github.io/2017/06/07/你懂网络吗-4/3.png">
+<meta property="og:updated_time" content="2017-06-07T07:24:34.511Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="你懂网络吗(4)">
 <meta name="twitter:description" content="本文主要是基于学习《CCNA学习指南》总结网络必备的知识。
@@ -124,7 +124,7 @@
 优化网络性能 
 简化管理 
 有助于覆盖大型地理区域">
-<meta name="twitter:image" content="https://luckylau.github.io/2017/04/12/你懂网络吗-4/1.png">
+<meta name="twitter:image" content="https://luckylau.github.io/2017/06/07/你懂网络吗-4/1.png">
 
 
 
@@ -152,7 +152,7 @@
 
 
 
-  <link rel="canonical" href="https://luckylau.github.io/2017/04/12/你懂网络吗-4/"/>
+  <link rel="canonical" href="https://luckylau.github.io/2017/06/07/你懂网络吗-4/"/>
 
 
 
@@ -314,7 +314,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/04/12/你懂网络吗-4/">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/06/07/你懂网络吗-4/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Luckylau">
@@ -353,8 +353,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-12T10:21:17+08:00">
-                2017-04-12
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-07T15:24:17+08:00">
+                2017-06-07
               </time>
             
 
@@ -429,10 +429,10 @@
 <a id="more"></a>
 <p>​    要让子网划分方案管用，网络中的每台机器都必须知道主机地址的哪部分为子网地址，这是通过给每台机器分配子网掩码实现的。子网掩码是一个长 32 位的值，让 IP 分组的接收方能够将 IP 地址的网络 ID 部分和主机 D 部分区分开来。</p>
 <p> A 类、 B 类和 C 类网络的默认子网掩码如下：</p>
-<p><img src="/2017/04/12/你懂网络吗-4/1.png" alt=""></p>
+<p><img src="/2017/06/07/你懂网络吗-4/1.png" alt=""></p>
 <p>​       此外，你还需要理解一个名词CIDR ( Classless Inter-Domain Routing ，元类域间路由选择)</p>
-<p><img src="/2017/04/12/你懂网络吗-4/2.png" alt=""></p>
-<p><img src="/2017/04/12/你懂网络吗-4/3.png" alt=""></p>
+<p><img src="/2017/06/07/你懂网络吗-4/2.png" alt=""></p>
+<p><img src="/2017/06/07/你懂网络吗-4/3.png" alt=""></p>
 <p>/8 ~ /15 只能用于标准的 A 类网络， /16 ~ /23 可用于标准的 A 类和 标准的B 类网络，而/24 ~ /30 可用于标准的 A 类、标准的 B 类和标准的 C 类网络。</p>
 <h3 id="C-类网络的子网划分"><a href="#C-类网络的子网划分" class="headerlink" title="C 类网络的子网划分"></a>C 类网络的子网划分</h3><p>二进制 十进制 CIDR<br>00000000 = 0      /24<br>10000000 = 128      /25<br>11000000 = 192      /26<br>11100000 = 224      /27<br>11110000 = 240      /28<br>11111000 = 248       /29<br>11111100 = 252       /30</p>
 <p>你不能使用/31 和/32 ，因为至少需要 2 个主机位，这样才有可供分配给主机的IP 地址。</p>
@@ -482,6 +482,8 @@
 <p>10.255.255.0/27，10.255.255.32/27，10.255.255.64/27，10.255.255.96/27，</p>
 <p>172.255.255.128/27，172.255.255.160/27，172.255.255.192/27，172.255.255.224/27。</p>
 <p>则上述节点在10.168.10.32/27子网中, 广播地址是10.168.10.63</p>
+<p>工具程序地址：</p>
+<p><a href="https://github.com/Luckylau/UsefulTools/tree/master/NetUtils" target="_blank" rel="external">https://github.com/Luckylau/UsefulTools/tree/master/NetUtils</a></p>
 
       
     </div>
@@ -519,8 +521,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/04/10/neutron的防火墙原理/" rel="next" title="neutron的防火墙原理">
-                <i class="fa fa-chevron-left"></i> neutron的防火墙原理
+              <a href="/2017/06/02/你懂java吗-13/" rel="next" title="你懂java吗(13)">
+                <i class="fa fa-chevron-left"></i> 你懂java吗(13)
               </a>
             
           </div>
@@ -528,10 +530,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/04/17/你懂网络吗-5/" rel="prev" title="你懂网络吗(5)">
-                你懂网络吗(5) <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
