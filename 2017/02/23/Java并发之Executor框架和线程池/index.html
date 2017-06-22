@@ -92,7 +92,7 @@
 <meta property="og:site_name" content="Luckylau's Blog">
 <meta property="og:description" content="1.基础简介：​        在Java 5之后，并发编程引入了一堆新的启动、调度和管理线程的API。Executor框架便是Java 5中引入的，其内部使用了线程池机制，它在java.util.cocurrent 包下，通过该框架来控制线程的启动、执行和关闭，可以简化并发编程的操作。
 ​        Executor框架包括：线程池，Executor，Executors，ExecutorSe">
-<meta property="og:updated_time" content="2017-02-27T02:32:42.692Z">
+<meta property="og:updated_time" content="2017-06-21T13:21:19.915Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java并发之Executor框架和线程池">
 <meta name="twitter:description" content="1.基础简介：​        在Java 5之后，并发编程引入了一堆新的启动、调度和管理线程的API。Executor框架便是Java 5中引入的，其内部使用了线程池机制，它在java.util.cocurrent 包下，通过该框架来控制线程的启动、执行和关闭，可以简化并发编程的操作。
@@ -454,12 +454,10 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="title">newFixedThreadPool</span><span class="params">(<span class="keyword">int</span> nThreads)</span> </span>&#123;  </div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ThreadPoolExecutor(nThreads, nThreads,  </div><div class="line">                                  <span class="number">0L</span>, TimeUnit.MILLISECONDS,  </div><div class="line">                                  <span class="keyword">new</span> LinkedBlockingQueue&lt;Runnable&gt;());  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p> 它将corePoolSize和maximumPoolSize都设定为了nThreads，这样便实现了线程池的大小的固定，不会动态地扩大，另外，keepAliveTime设定为了0，也就是说线程只要空闲下来，就会被移除线程池，敢于LinkedBlockingQueue下面会说。</p>
 <h4 id="6-ExecuteService-服务的关闭"><a href="#6-ExecuteService-服务的关闭" class="headerlink" title="6.ExecuteService 服务的关闭"></a>6.ExecuteService 服务的关闭</h4><p>​        shutdown()方法在终止前允许执行以前提交的任务，而 shutdownNow() 方法阻止等待任务的启动并试图停止当前正在执行的任务。在终止后，执行程序没有任务在执行，也没有任务在等待执行，并且无法提交新任务。应该关闭未使用的 ExecutorService以允许回收其资源。</p>
-<h4 id="7-排队的策略"><a href="#7-排队的策略" class="headerlink" title="7.排队的策略:"></a>7.排队的策略:</h4><pre><code>1、直接提交。缓冲队列采用 SynchronousQueue，它将任务直接交给线程处理而不保持它们。如果不存在可用于立即运行任务的线程（即线程池中的线程都在工作），则试图把任务加入缓冲队列将会失败，因此会构造一个新的线程来处理新添加的任务，并将其加入到线程池中。直接提交通常要求无界 maximumPoolSizes（Integer.MAX_VALUE） 以避免拒绝新提交的任务。newCachedThreadPool采用的便是这种策略。
-
-2、无界队列。使用无界队列（典型的便是采用预定义容量的 LinkedBlockingQueue，理论上是该缓冲队列可以对无限多的任务排队）将导致在所有 corePoolSize 线程都工作的情况下将新任务加入到缓冲队列中。这样，创建的线程就不会超过 corePoolSize，也因此，maximumPoolSize 的值也就无效了。当每个任务完全独立于其他任务，即任务执行互不影响时，适合于使用无界队列。newFixedThreadPool采用的便是这种策略。
-
-3、有界队列。当使用有限的 maximumPoolSizes 时，有界队列（一般缓冲队列使用ArrayBlockingQueue，并制定队列的最大长度）有助于防止资源耗尽，但是可能较难调整和控制，队列大小和最大池大小需要相互折衷，需要设定合理的参数。
-</code></pre><h4 id="8-参考："><a href="#8-参考：" class="headerlink" title="8.参考："></a>8.参考：</h4><p><a href="http://blog.csdn.net/ns_code/article/details/17465497" target="_blank" rel="external">http://blog.csdn.net/ns_code/article/details/17465497</a></p>
+<h4 id="7-排队的策略"><a href="#7-排队的策略" class="headerlink" title="7.排队的策略:"></a>7.排队的策略:</h4><p>​    直接提交。缓冲队列采用 SynchronousQueue，它将任务直接交给线程处理而不保持它们。如果不存在可用于立即运行任务的线程（即线程池中的线程都在工作），则试图把任务加入缓冲队列将会失败，因此会构造一个新的线程来处理新添加的任务，并将其加入到线程池中。直接提交通常要求无界 maximumPoolSizes（Integer.MAX_VALUE） 以避免拒绝新提交的任务。newCachedThreadPool采用的便是这种策略。</p>
+<p>​    无界队列。使用无界队列（典型的便是采用预定义容量的 LinkedBlockingQueue，理论上是该缓冲队列可以对无限多的任务排队）将导致在所有 corePoolSize 线程都工作的情况下将新任务加入到缓冲队列中。这样，创建的线程就不会超过 corePoolSize，也因此，maximumPoolSize 的值也就无效了。当每个任务完全独立于其他任务，即任务执行互不影响时，适合于使用无界队列。newFixedThreadPool采用的便是这种策略。</p>
+<p>​    有界队列。当使用有限的 maximumPoolSizes 时，有界队列（一般缓冲队列使用ArrayBlockingQueue，并制定队列的最大长度）有助于防止资源耗尽，但是可能较难调整和控制，队列大小和最大池大小需要相互折衷，需要设定合理的参数。</p>
+<h4 id="8-参考："><a href="#8-参考：" class="headerlink" title="8.参考："></a>8.参考：</h4><p><a href="http://blog.csdn.net/ns_code/article/details/17465497" target="_blank" rel="external">http://blog.csdn.net/ns_code/article/details/17465497</a></p>
 <p><a href="http://blog.csdn.net/linghu_java/article/details/17123057" target="_blank" rel="external">http://blog.csdn.net/linghu_java/article/details/17123057</a></p>
 <p><a href="http://blog.csdn.net/bairrfhoinn/article/details/16848785" target="_blank" rel="external">http://blog.csdn.net/bairrfhoinn/article/details/16848785</a></p>
 <p><a href="http://zhangjunhd.blog.51cto.com/113473/70068/" target="_blank" rel="external">http://zhangjunhd.blog.51cto.com/113473/70068/</a></p>
@@ -583,7 +581,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">87</span>
+                <span class="site-state-item-count">88</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
