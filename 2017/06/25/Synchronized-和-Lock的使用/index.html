@@ -89,16 +89,16 @@
 修饰一个方法，被修饰的方法称为同步方法，其作用的范围是整个方法，作用的对象是调用这个方法的对象； 
 修改一个静态的方法，其">
 <meta property="og:type" content="article">
-<meta property="og:title" content="volatile,Synchronized 和 Lock的使用">
+<meta property="og:title" content="volatile,synchronized 和 lock的使用">
 <meta property="og:url" content="https://luckylau.github.io/2017/06/25/Synchronized-和-Lock的使用/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
 <meta property="og:description" content="锁的相关概念介绍volatile的用法synchronized的用法synchronized是Java中的关键字，是一种同步锁。它修饰的对象有以下几种： 
 修饰一个代码块，被修饰的代码块称为同步语句块，其作用的范围是大括号{}括起来的代码，作用的对象是调用这个代码块的对象； 
 修饰一个方法，被修饰的方法称为同步方法，其作用的范围是整个方法，作用的对象是调用这个方法的对象； 
 修改一个静态的方法，其">
-<meta property="og:updated_time" content="2017-06-25T04:08:56.348Z">
+<meta property="og:updated_time" content="2017-06-25T04:11:56.223Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="volatile,Synchronized 和 Lock的使用">
+<meta name="twitter:title" content="volatile,synchronized 和 lock的使用">
 <meta name="twitter:description" content="锁的相关概念介绍volatile的用法synchronized的用法synchronized是Java中的关键字，是一种同步锁。它修饰的对象有以下几种： 
 修饰一个代码块，被修饰的代码块称为同步语句块，其作用的范围是大括号{}括起来的代码，作用的对象是调用这个代码块的对象； 
 修饰一个方法，被修饰的方法称为同步方法，其作用的范围是整个方法，作用的对象是调用这个方法的对象； 
@@ -136,7 +136,7 @@
 
 
 
-  <title> volatile,Synchronized 和 Lock的使用 | Luckylau's Blog </title>
+  <title> volatile,synchronized 和 lock的使用 | Luckylau's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -316,7 +316,7 @@
             
             
               
-                volatile,Synchronized 和 Lock的使用
+                volatile,synchronized 和 lock的使用
               
             
           </h1>
@@ -421,8 +421,7 @@
 <h4 id="修饰一个类"><a href="#修饰一个类" class="headerlink" title="修饰一个类"></a>修饰一个类</h4><p>用法如下</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ClassName</span> </span>&#123;</div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method</span><span class="params">()</span> </span>&#123;</div><div class="line">      <span class="keyword">synchronized</span>(ClassName.class) &#123;</div><div class="line">         <span class="comment">// todo</span></div><div class="line">      &#125;</div><div class="line">   &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SyncThread</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</div><div class="line">	   <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> count;</div><div class="line">	   <span class="keyword">private</span> String name;</div><div class="line">	   <span class="function"><span class="keyword">public</span> <span class="title">SyncThread</span><span class="params">(<span class="keyword">int</span> count,String name)</span> </span>&#123;</div><div class="line">	      <span class="keyword">this</span>.count = count;</div><div class="line">	      <span class="keyword">this</span>.name = name;</div><div class="line">	   &#125;</div><div class="line">	   <span class="meta">@Override</span></div><div class="line">	   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">		   method();</div><div class="line">	   &#125;</div><div class="line">	   <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getCount</span><span class="params">()</span> </span>&#123;</div><div class="line">	      <span class="keyword">return</span> count;</div><div class="line">	   &#125;</div><div class="line">	   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">method</span><span class="params">()</span> </span>&#123;</div><div class="line">		   <span class="keyword">synchronized</span> (SyncThread.class) &#123;</div><div class="line">			   <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</div><div class="line">		            <span class="keyword">try</span> &#123;</div><div class="line">		               System.out.println(Thread.currentThread().getName() + <span class="string">":"</span> + (count++));</div><div class="line">		               Thread.sleep(<span class="number">100</span>);</div><div class="line">		            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">		               e.printStackTrace();</div><div class="line">		            &#125;</div><div class="line">		         &#125;	</div><div class="line">			   &#125;	         </div><div class="line">		   &#125;	   </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="lock的用法"><a href="#lock的用法" class="headerlink" title="lock的用法"></a>lock的用法</h3><h4 id="lock的接口"><a href="#lock的接口" class="headerlink" title="lock的接口"></a>lock的接口</h4><p>ReentrantLock的用法</p>
-
+<h3 id="lock的用法"><a href="#lock的用法" class="headerlink" title="lock的用法"></a>lock的用法</h3><h4 id="lock的接口"><a href="#lock的接口" class="headerlink" title="lock的接口"></a>lock的接口</h4><h4 id="ReentrantLock的用法"><a href="#ReentrantLock的用法" class="headerlink" title="ReentrantLock的用法"></a>ReentrantLock的用法</h4>
       
     </div>
 
@@ -610,7 +609,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#锁的相关概念介绍"><span class="nav-number">1.</span> <span class="nav-text">锁的相关概念介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#volatile的用法"><span class="nav-number">2.</span> <span class="nav-text">volatile的用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#synchronized的用法"><span class="nav-number">3.</span> <span class="nav-text">synchronized的用法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#修饰一个代码块"><span class="nav-number">3.1.</span> <span class="nav-text">修饰一个代码块</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修饰一个方法"><span class="nav-number">3.2.</span> <span class="nav-text">修饰一个方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修饰一个静态的方法"><span class="nav-number">3.3.</span> <span class="nav-text">修饰一个静态的方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修饰一个类"><span class="nav-number">3.4.</span> <span class="nav-text">修饰一个类</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lock的用法"><span class="nav-number">4.</span> <span class="nav-text">lock的用法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#lock的接口"><span class="nav-number">4.1.</span> <span class="nav-text">lock的接口</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#锁的相关概念介绍"><span class="nav-number">1.</span> <span class="nav-text">锁的相关概念介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#volatile的用法"><span class="nav-number">2.</span> <span class="nav-text">volatile的用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#synchronized的用法"><span class="nav-number">3.</span> <span class="nav-text">synchronized的用法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#修饰一个代码块"><span class="nav-number">3.1.</span> <span class="nav-text">修饰一个代码块</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修饰一个方法"><span class="nav-number">3.2.</span> <span class="nav-text">修饰一个方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修饰一个静态的方法"><span class="nav-number">3.3.</span> <span class="nav-text">修饰一个静态的方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修饰一个类"><span class="nav-number">3.4.</span> <span class="nav-text">修饰一个类</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lock的用法"><span class="nav-number">4.</span> <span class="nav-text">lock的用法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#lock的接口"><span class="nav-number">4.1.</span> <span class="nav-text">lock的接口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ReentrantLock的用法"><span class="nav-number">4.2.</span> <span class="nav-text">ReentrantLock的用法</span></a></li></ol></li></ol></div>
             
 
           </div>
