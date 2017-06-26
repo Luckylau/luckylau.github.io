@@ -385,11 +385,9 @@
 
       
         
-          <h3 id="锁的相关概念介绍"><a href="#锁的相关概念介绍" class="headerlink" title="锁的相关概念介绍"></a>锁的相关概念介绍</h3><h3 id="volatile的用法"><a href="#volatile的用法" class="headerlink" title="volatile的用法"></a>volatile的用法</h3><h3 id="synchronized的用法"><a href="#synchronized的用法" class="headerlink" title="synchronized的用法"></a>synchronized的用法</h3><p>synchronized是Java中的关键字，是一种同步锁。它修饰的对象有以下几种： </p>
-<p>修饰一个<strong>代码块</strong>，被修饰的代码块称为同步语句块，其作用的范围是大括号{}括起来的代码，作用的对象是调用这个代码块的对象； </p>
-<p>修饰一个<strong>方法</strong>，被修饰的方法称为同步方法，其作用的范围是整个方法，作用的对象是调用这个方法的对象； </p>
-<p>修改一个<strong>静态的方法</strong>，其作用的范围是整个静态方法，作用的对象是这个类的所有对象； </p>
-<p>修改一个<strong>类</strong>，其作用的范围是synchronized后面括号括起来的部分，作用的对象是这个类的所有对象。</p>
+          <h3 id="锁的相关概念介绍"><a href="#锁的相关概念介绍" class="headerlink" title="锁的相关概念介绍"></a>锁的相关概念介绍</h3><h4 id="可重入锁"><a href="#可重入锁" class="headerlink" title="可重入锁"></a>可重入锁</h4><p>如果锁具备可重入性，则称作为可重入锁。像synchronized和ReentrantLock都是可重入锁，可重入性表明了锁的分配机制：基于线程的分配，而不是基于方法调用的分配。举个简单的例子，当一个线程执行到某个synchronized方法时，比如说method1，而在method1中会调用另外一个synchronized方法method2，此时线程不必重新去申请锁，而是可以直接执行方法method2。</p>
+<h4 id="可中断锁"><a href="#可中断锁" class="headerlink" title="可中断锁"></a>可中断锁</h4><p>synchronized就不是可中断锁，而Lock是可中断锁。如果某一线程A正在执行锁中的代码，另一线程B正在等待获取该锁，可能由于等待时间过长，线程B不想等待了，想先处理其他事情，我们可以让它中断自己或者在别的线程中中断它，这种就是可中断锁。下面的lockInterruptibly()的用法时已经体现了Lock的可中断性。</p>
+<h4 id="公平锁"><a href="#公平锁" class="headerlink" title="公平锁"></a>公平锁</h4><p>公平锁即尽量以请求锁的顺序来获取锁。比如同是有多个线程在等待一个锁，当这个锁被释放时，等待时间最久的线程（最先请求的线程）会获得该所，这种就是公平锁。</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/06/25/Synchronized-和-Lock的使用/#more" rel="contents">
