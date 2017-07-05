@@ -85,21 +85,24 @@
 
 
 <meta name="description" content="本文在阅读大话数据结构这本书的基础上，结合java语言的特点，来理解树，代码均为自己实现。
-树相关算法题以下是涉及到树我的github的算法题集合
-https://github.com/Luckylau/my-algorithm-training/tree/master/java/N-Series/BinaryTree%26DivideConquer%26DFS%26BFS">
+树树（Tree）是n（n&amp;gt;=0）个结点的有限集。 n=0又称为空树。在任意一课非空的树中：
+​    （1）有且仅有一个特定的称为跟（Root）的结点；
+​    （2）当n&amp;gt;1时，其余结点可分为m（m&amp;gt;0）个互不相交的有限集，其中每一个集合本身又是一棵树，并且称为根的子树（SubTree">
 <meta property="og:type" content="article">
 <meta property="og:title" content="阅读大话数据结构（5）">
 <meta property="og:url" content="https://luckylau.github.io/2017/07/05/阅读大话数据结构（5）/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
 <meta property="og:description" content="本文在阅读大话数据结构这本书的基础上，结合java语言的特点，来理解树，代码均为自己实现。
-树相关算法题以下是涉及到树我的github的算法题集合
-https://github.com/Luckylau/my-algorithm-training/tree/master/java/N-Series/BinaryTree%26DivideConquer%26DFS%26BFS">
-<meta property="og:updated_time" content="2017-07-05T03:21:42.828Z">
+树树（Tree）是n（n&amp;gt;=0）个结点的有限集。 n=0又称为空树。在任意一课非空的树中：
+​    （1）有且仅有一个特定的称为跟（Root）的结点；
+​    （2）当n&amp;gt;1时，其余结点可分为m（m&amp;gt;0）个互不相交的有限集，其中每一个集合本身又是一棵树，并且称为根的子树（SubTree">
+<meta property="og:updated_time" content="2017-07-05T06:53:22.817Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="阅读大话数据结构（5）">
 <meta name="twitter:description" content="本文在阅读大话数据结构这本书的基础上，结合java语言的特点，来理解树，代码均为自己实现。
-树相关算法题以下是涉及到树我的github的算法题集合
-https://github.com/Luckylau/my-algorithm-training/tree/master/java/N-Series/BinaryTree%26DivideConquer%26DFS%26BFS">
+树树（Tree）是n（n&amp;gt;=0）个结点的有限集。 n=0又称为空树。在任意一课非空的树中：
+​    （1）有且仅有一个特定的称为跟（Root）的结点；
+​    （2）当n&amp;gt;1时，其余结点可分为m（m&amp;gt;0）个互不相交的有限集，其中每一个集合本身又是一棵树，并且称为根的子树（SubTree">
 
 
 
@@ -392,6 +395,55 @@ https://github.com/Luckylau/my-algorithm-training/tree/master/java/N-Series/Bina
 
       
         <p>本文在阅读大话数据结构这本书的基础上，结合<strong>java语言</strong>的特点，来理解<strong>树</strong>，代码均为自己实现。</p>
+<h3 id="树"><a href="#树" class="headerlink" title="树"></a>树</h3><p>树（Tree）是n（n&gt;=0）个结点的有限集。 n=0又称为空树。在任意一课非空的树中：</p>
+<p>​    （1）有且仅有一个特定的称为跟（Root）的结点；</p>
+<p>​    （2）当n&gt;1时，其余结点可分为m（m&gt;0）个互不相交的有限集，其中每一个集合本身又是一棵树，并且称为根的子树（SubTree）。 </p>
+<p><strong>树是一种一对多的数据结构。</strong> </p>
+<p>​    需要注意的是： </p>
+<p>​    （1）当n&gt;0时根结点是惟一的，不可能存在多个根结点。 </p>
+<p>​    （2）m&gt;0时，子树的个数没有限制，但它们一定是互不相交的。如果相交，就不符合树的定义。 </p>
+<a id="more"></a>
+<p>​    结点拥有的子树称为<strong>结点的度</strong>。度为0的结点称为叶结点或终端结点；度不为0的结点称为非终端结点或分支结点。除根结点外，分支结点</p>
+<p>也称为内部结点。树的度是树内各结点的度的最大值。</p>
+<p><strong>树中结点最大的层次称为树的深度或高度。</strong></p>
+<h3 id="树的存储结构"><a href="#树的存储结构" class="headerlink" title="树的存储结构"></a>树的存储结构</h3><p>树有两种实现方式：数组和链表；</p>
+<p>树有三种不同表示法：双亲表示法、孩子表示法、孩子兄弟表示法。</p>
+<h3 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h3><p><strong>二叉树</strong>（Binary Tree）是n（n&gt;=0）个结点的有限集合，该集合或者为空集（称为空二叉树），或者由一个根结点和两棵互不相交的、分别称为根结点的左子树和右子树的二叉树组成。 </p>
+<p><strong>二叉树的特点</strong>：</p>
+<p>每个结点最多有两棵子树，所以二叉树中不存在大于2的结点。注意不是只有两棵子树，而是最多有。没有子树或者有一棵子树都是可以的。</p>
+<p>左子树和右子树是有顺序的，次序不能颠倒。就像人的左右手。</p>
+<p>即使树中某结点只有一棵子树，也要区分它是左子树还是右子树。</p>
+<p><strong>二叉树有5种基本形态</strong>：</p>
+<p>​    空二叉树。</p>
+<p>​    只有一个根结点。</p>
+<p>​    根结点只有左子树。</p>
+<p>​    根结点只有右子树。</p>
+<p>​    根结点既有左子树又有右子树。</p>
+<p><strong>特殊二叉树：</strong></p>
+<p><strong>斜树：</strong>只有左子树或者只有右子树。线性表是一种特殊的树。</p>
+<p><strong>满二叉树：</strong>所有分支结点都存在左子树和右子树，并且所有叶子都在同一层上。 </p>
+<p>满二叉树的特点有：</p>
+<p>叶子只能在最下一层。出现在其他层就不可能达到平衡。</p>
+<p>非叶子结点的度一定是2。否则就是“缺胳膊少腿了”。</p>
+<p>在同样深度的二叉树中，满二叉树的结点个数越多，叶子树越多。</p>
+<p><strong>完全二叉树：</strong></p>
+<p>叶子结点只能在最下两层。</p>
+<p>最下层的叶子一定集中在左部连续的位置。</p>
+<p>倒数第二层，若有叶子结点，一定都在右部连续位置。</p>
+<p>如果结点度为1，则该结点只有左孩子，即不存在右子树的情况。</p>
+<p>同样结点数从二叉树，完全二叉树的深度最小。</p>
+<p><strong>判断一棵树是否是完全二叉树，心中默默给每个结点按照满二叉树的结构逐层顺序编号，如果编号出现空档，就不是完全二叉树，否则就是。</strong> </p>
+<p>满二叉树是特殊的完全二叉树。 </p>
+<p>完全二叉树必须先满足左后满足右，缺的元素只能是满二叉树最下一层的，高度差小于或等于1。</p>
+<h3 id="二叉树的存储结构"><a href="#二叉树的存储结构" class="headerlink" title="二叉树的存储结构"></a>二叉树的存储结构</h3><p>二叉树有两种存储结构：顺序存储结构和二叉链表。</p>
+<p>顺序存储结构：一般只有完全二叉树才考虑顺序存储结构，因为完全二叉树的严格性，可以充分利用顺序存储空间。其他二叉树都会造成空间的</p>
+<p>浪费，特别是右斜树。</p>
+<p>二叉链表：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TreeNode</span>&lt;<span class="title">E</span>&gt; </span>&#123;</div><div class="line">	<span class="keyword">public</span> E val;</div><div class="line">	<span class="keyword">public</span> TreeNode left,right;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">TreeNode</span><span class="params">(E val)</span></span>&#123;</div><div class="line">		<span class="keyword">this</span>.val = val;</div><div class="line">		<span class="keyword">this</span>.left = <span class="keyword">null</span>;</div><div class="line">		<span class="keyword">this</span>.right = <span class="keyword">null</span>;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="遍历二叉树"><a href="#遍历二叉树" class="headerlink" title="遍历二叉树"></a>遍历二叉树</h3><h4 id="定义树"><a href="#定义树" class="headerlink" title="定义树"></a>定义树</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TreeNode</span> </span>&#123;</div><div class="line">	<span class="keyword">public</span> <span class="keyword">int</span> val;</div><div class="line">	<span class="keyword">public</span> TreeNode left,right;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">TreeNode</span><span class="params">(<span class="keyword">int</span> val)</span></span>&#123;</div><div class="line">		<span class="keyword">this</span>.val = val;</div><div class="line">		<span class="keyword">this</span>.left = <span class="keyword">null</span>;</div><div class="line">		<span class="keyword">this</span>.right = <span class="keyword">null</span>;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span></span>&#123;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">this</span>.val+<span class="string">""</span>;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="前序遍历"><a href="#前序遍历" class="headerlink" title="前序遍历"></a>前序遍历</h4><h4 id="中序遍历"><a href="#中序遍历" class="headerlink" title="中序遍历"></a>中序遍历</h4><h4 id="后序遍历"><a href="#后序遍历" class="headerlink" title="后序遍历"></a>后序遍历</h4><h4 id="层序遍历"><a href="#层序遍历" class="headerlink" title="层序遍历"></a>层序遍历</h4><p>已知前序遍历序列和中序遍历序列，可以唯一确定一棵二叉树。 </p>
+<p>已知后序遍历序列和中序遍历序列，可以唯一确定一棵二叉树。 </p>
+<p>已知前序遍历序列和后序遍历序列，不可以唯一确定一棵二叉树。</p>
 <h3 id="树相关算法题"><a href="#树相关算法题" class="headerlink" title="树相关算法题"></a>树相关算法题</h3><p>以下是涉及到树我的github的算法题集合</p>
 <p><a href="https://github.com/Luckylau/my-algorithm-training/tree/master/java/N-Series/BinaryTree%26DivideConquer%26DFS%26BFS" target="_blank" rel="external">https://github.com/Luckylau/my-algorithm-training/tree/master/java/N-Series/BinaryTree%26DivideConquer%26DFS%26BFS</a></p>
 
@@ -586,7 +638,7 @@ https://github.com/Luckylau/my-algorithm-training/tree/master/java/N-Series/Bina
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#树相关算法题"><span class="nav-number">1.</span> <span class="nav-text">树相关算法题</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#树"><span class="nav-number">1.</span> <span class="nav-text">树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#树的存储结构"><span class="nav-number">2.</span> <span class="nav-text">树的存储结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二叉树"><span class="nav-number">3.</span> <span class="nav-text">二叉树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二叉树的存储结构"><span class="nav-number">4.</span> <span class="nav-text">二叉树的存储结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#遍历二叉树"><span class="nav-number">5.</span> <span class="nav-text">遍历二叉树</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#定义树"><span class="nav-number">5.1.</span> <span class="nav-text">定义树</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#前序遍历"><span class="nav-number">5.2.</span> <span class="nav-text">前序遍历</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#中序遍历"><span class="nav-number">5.3.</span> <span class="nav-text">中序遍历</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#后序遍历"><span class="nav-number">5.4.</span> <span class="nav-text">后序遍历</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#层序遍历"><span class="nav-number">5.5.</span> <span class="nav-text">层序遍历</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#树相关算法题"><span class="nav-number">6.</span> <span class="nav-text">树相关算法题</span></a></li></ol></div>
             
 
           </div>
