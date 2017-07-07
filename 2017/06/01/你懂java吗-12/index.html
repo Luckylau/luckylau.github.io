@@ -84,24 +84,72 @@
 
 
 
-<meta name="description" content="Java运行时数据区
-​    JVM就是一个特殊的进程， 我们执行的java程序， 都运行在一个JVM进程中， 这个进程的作用就是加载class文件， 并且执行class文件中的代码。既然虚拟机作为一个虚拟的计算机， 来执行我们的程序， 那么在执行的过程中， 必然要有地方存放我们的代码（class文件）； 在执行的过程中， 总会创建很多对象， 必须有地方存放这些对象； 在执行的过程中， 还需要保">
+<meta name="description" content="修改内容
+时间
+
+
+
+
+初版
+2017-06-01
+
+
+内存泄漏和访问堆中对象
+2017-07-06
+
+
+
+Java运行时数据区，探秘虚拟机内存管理
+​    JVM就是一个特殊的进程， 我们执行的java程序， 都运行在一个JVM进程中， 这个进程的作用就是加载class文件， 并且执行class文件中的代码。既然虚拟机作为一个虚拟的计算机， 来执行我们的程序， 那么在执行的过程中， 必然">
 <meta property="og:type" content="article">
 <meta property="og:title" content="你懂java吗(12)">
 <meta property="og:url" content="https://luckylau.github.io/2017/06/01/你懂java吗-12/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
-<meta property="og:description" content="Java运行时数据区
-​    JVM就是一个特殊的进程， 我们执行的java程序， 都运行在一个JVM进程中， 这个进程的作用就是加载class文件， 并且执行class文件中的代码。既然虚拟机作为一个虚拟的计算机， 来执行我们的程序， 那么在执行的过程中， 必然要有地方存放我们的代码（class文件）； 在执行的过程中， 总会创建很多对象， 必须有地方存放这些对象； 在执行的过程中， 还需要保">
+<meta property="og:description" content="修改内容
+时间
+
+
+
+
+初版
+2017-06-01
+
+
+内存泄漏和访问堆中对象
+2017-07-06
+
+
+
+Java运行时数据区，探秘虚拟机内存管理
+​    JVM就是一个特殊的进程， 我们执行的java程序， 都运行在一个JVM进程中， 这个进程的作用就是加载class文件， 并且执行class文件中的代码。既然虚拟机作为一个虚拟的计算机， 来执行我们的程序， 那么在执行的过程中， 必然">
 <meta property="og:image" content="https://luckylau.github.io/2017/06/01/你懂java吗-12/1.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/06/01/你懂java吗-12/2.png">
+<meta property="og:image" content="https://luckylau.github.io/2017/06/01/你懂java吗-12/8.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/06/01/你懂java吗-12/3.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/06/01/你懂java吗-12/4.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/06/01/你懂java吗-12/5.png">
-<meta property="og:updated_time" content="2017-06-08T06:37:06.341Z">
+<meta property="og:image" content="https://luckylau.github.io/2017/06/01/你懂java吗-12/6.png">
+<meta property="og:image" content="https://luckylau.github.io/2017/06/01/你懂java吗-12/7.png">
+<meta property="og:updated_time" content="2017-07-06T09:55:34.277Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="你懂java吗(12)">
-<meta name="twitter:description" content="Java运行时数据区
-​    JVM就是一个特殊的进程， 我们执行的java程序， 都运行在一个JVM进程中， 这个进程的作用就是加载class文件， 并且执行class文件中的代码。既然虚拟机作为一个虚拟的计算机， 来执行我们的程序， 那么在执行的过程中， 必然要有地方存放我们的代码（class文件）； 在执行的过程中， 总会创建很多对象， 必须有地方存放这些对象； 在执行的过程中， 还需要保">
+<meta name="twitter:description" content="修改内容
+时间
+
+
+
+
+初版
+2017-06-01
+
+
+内存泄漏和访问堆中对象
+2017-07-06
+
+
+
+Java运行时数据区，探秘虚拟机内存管理
+​    JVM就是一个特殊的进程， 我们执行的java程序， 都运行在一个JVM进程中， 这个进程的作用就是加载class文件， 并且执行class文件中的代码。既然虚拟机作为一个虚拟的计算机， 来执行我们的程序， 那么在执行的过程中， 必然">
 <meta name="twitter:image" content="https://luckylau.github.io/2017/06/01/你懂java吗-12/1.png">
 
 
@@ -394,13 +442,45 @@
       
 
       
-        <p><strong>Java运行时数据区</strong></p>
+        <table>
+<thead>
+<tr>
+<th>修改内容</th>
+<th>时间</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>初版</td>
+<td>2017-06-01</td>
+</tr>
+<tr>
+<td>内存泄漏和访问堆中对象</td>
+<td>2017-07-06</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Java运行时数据区，探秘虚拟机内存管理</strong></p>
 <p>​    JVM就是一个特殊的进程， 我们执行的java程序， 都运行在一个JVM进程中， 这个进程的作用就是加载class文件， 并且执行class文件中的代码。既然虚拟机作为一个虚拟的计算机， 来执行我们的程序， 那么在执行的过程中， 必然要有地方存放我们的代码（class文件）； 在执行的过程中， 总会创建很多对象， 必须有地方存放这些对象； 在执行的过程中， 还需要保存一些执行的状态， 比如， 将要执行哪个方法， 当前方法执行完成之后， 要返回到哪个方法等信息， 所以， 必须有一个地方来保持执行的状态。 上面的描述中， “地方”指的当然就是内存区域， 程序运行起来之后， 就是一个动态的过程， 必须合理的划分内存区域， 来存放各种数据。</p>
 <p>​    JVM运行时数据区(JVM Runtime Area)其实就是指JVM在运行期间，其对计算机内存空间的划分和分配。</p>
 <h3 id="JVM的体系结构"><a href="#JVM的体系结构" class="headerlink" title="JVM的体系结构"></a>JVM的体系结构</h3><p><img src="/2017/06/01/你懂java吗-12/1.png" alt=""></p>
 <a id="more"></a>
 <p>类加载器子系统用于将class文件加载到虚拟机的运行时数据区中（准确的说应该是方法区） 。 可以认为执行引擎是字节码的执行机制， 一个线程可以看做是一个执行引擎的实例。</p>
 <h3 id="运行时数据区如何运转的？"><a href="#运行时数据区如何运转的？" class="headerlink" title="运行时数据区如何运转的？"></a>运行时数据区如何运转的？</h3><p><img src="/2017/06/01/你懂java吗-12/2.png" alt=""></p>
+<h3 id="运行时数据区的OutOfMemoryError异常？"><a href="#运行时数据区的OutOfMemoryError异常？" class="headerlink" title="运行时数据区的OutOfMemoryError异常？"></a>运行时数据区的OutOfMemoryError异常？</h3><p>这一块除了PC寄存器外，都有可能出现内存泄漏问题。我们可以做相关试验。</p>
+<p>首先在Eclipse的Debug页签中设置虚拟机参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">-verbose:gc -Xms20M -Xmx20M -Xmn10M -XX:+PrintGCDetails -XX:SurvivorRatio=8</div><div class="line">-Xms20M  设置JVM猝死内存为20M。此值可以设置与-Xmx相同，以避免每次垃圾回收完成后JVM重新分配内存。</div><div class="line">-Xmx20M ，设置JVM最大可用内存为512M。</div><div class="line">-Xmn10m：设置年轻代大小为10M。整个堆大小=年轻代大小 + 年老代大小 + 持久代大小。持久代一般固定大小为64m，所以增大年轻代后，将会减小年老代大小。此值对系统性能影响较大，Sun官方推荐配置为整个堆的3/8。</div></pre></td></tr></table></figure>
+<p><img src="/2017/06/01/你懂java吗-12/8.png" alt=""></p>
+<h4 id="java堆溢出"><a href="#java堆溢出" class="headerlink" title="java堆溢出"></a>java堆溢出</h4><p>在上述参数基础上加上<code>-XX:+HeapDumpOnOutOfMemoryError</code>让虚拟机在出现内存溢出异常时Dump出当前的内存堆转储快照以便事后进行分析。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.util.ArrayList;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		List&lt;Object&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">		<span class="keyword">while</span>(<span class="keyword">true</span>)&#123;</div><div class="line">			list.add(<span class="keyword">new</span> Object());</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//输出</span></div><div class="line">java.lang.OutOfMemoryError: Java heap space</div><div class="line">Dumping heap to java_pid9212.hprof ...</div><div class="line">Heap dump file created [<span class="number">27960620</span> bytes in <span class="number">0.073</span> secs]</div></pre></td></tr></table></figure>
+<p>分析思路</p>
+<p>使用Memory Analyzer分析，eclipse安装地址：<a href="http://archive.eclipse.org/mat/1.2/update-site/" target="_blank" rel="external">http://archive.eclipse.org/mat/1.2/update-site/</a></p>
+<p>​    如果是内存泄露，可进一步通过工具查看泄露对象到GC Roots的引用链。 于是就能找到泄露对象是通过怎样的路径与GC Roots相关联并导致垃圾收集器无法自动回收它们的。 掌握了泄露对象的类型信息及GC Roots引用链的信息，就可以比较准确地定位出泄露代码的位置。<br>​    如果不存在泄露，换句话说，就是内存中的对象确实都还必须存活着，那就应当检查虚拟机的堆参数（-Xmx与-Xms），与机器物理内存对比看是否还可以调大，从代码上检查是否存在某些对象生命周期过长、 持有状态时间过长的情况，尝试减少程序运行期的内存消耗。</p>
+<h4 id="虚拟机栈和本地方法栈溢出"><a href="#虚拟机栈和本地方法栈溢出" class="headerlink" title="虚拟机栈和本地方法栈溢出"></a>虚拟机栈和本地方法栈溢出</h4><p>​    如果线程请求的栈深度大于虚拟机所允许的最大深度，将抛出StackOverflowError异常。如果虚拟机在扩展栈时无法申请到足够的内存空间，则抛出OutOfMemoryError异常。这里把异常分成两种情况，看似更加严谨，但却存在着一些互相重叠的地方：当栈空间无法继续分配时，到底是内存太小，还是已使用的栈空间太大，其本质上只是对同一件事情的两种描述而已。下面这个代码演示的是在单个线程下，无论是由于栈帧太大还是虚拟机栈容量太小，当内存无法分配的时候，虚拟机抛出的都是StackOverflowError异常。 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JavaVMStackSOF</span> </span>&#123;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">int</span> stackLength=<span class="number">1</span>;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">stackLeak</span><span class="params">()</span></span>&#123;</div><div class="line">			stackLength++;</div><div class="line">			stackLeak();</div><div class="line">			&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		JavaVMStackSOF oom=<span class="keyword">new</span> JavaVMStackSOF();</div><div class="line">		<span class="keyword">try</span>&#123;</div><div class="line">			oom.stackLeak();</div><div class="line">		&#125;<span class="keyword">catch</span>(Throwable e)&#123;</div><div class="line">			System.out.println(<span class="string">"stack length："</span>+oom.stackLength);</div><div class="line">			<span class="keyword">throw</span> e;</div><div class="line">		&#125;</div><div class="line"> 	&#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//输出</span></div><div class="line">stack length：<span class="number">214238</span></div><div class="line">Exception in thread <span class="string">"main"</span> java.lang.StackOverflowError</div><div class="line">	at Concurrency.JavaVMStackSOF.stackLeak(JavaVMStackSOF.java:<span class="number">8</span>)</div><div class="line">	at Concurrency.JavaVMStackSOF.stackLeak(JavaVMStackSOF.java:<span class="number">8</span>)</div><div class="line">	at Concurrency.JavaVMStackSOF.stackLeak(JavaVMStackSOF.java:<span class="number">8</span>)</div></pre></td></tr></table></figure>
+<p>​    如果使用虚拟机默认参数，栈深度在大多数情况下（因为每个方法压入栈的帧大小并不是一样的，所以只能说在大多数情况下）达到1000～2000完全没有问题，对于正常的方法调用（包括递归），这个深度应该完全够用了。 但是，如果是建立过多线程导致的内存溢出，在不能减少线程数或者更换64位虚拟机的情况下，就只能通过减少最大堆和减少栈容量来换取更多的线程。 </p>
+<h4 id="方法区和运行时常量池溢出"><a href="#方法区和运行时常量池溢出" class="headerlink" title="方法区和运行时常量池溢出"></a>方法区和运行时常量池溢出</h4><p>​    String.intern()是一个Native方法，它的作用是：如果字符串常量池中已经包含一个等于此String对象的字符串，则返回代表池中这个字符串的String对象；否则，将此String对象包含的字符串添加到常量池中，并且返回此String对象的引用。通过<code>-XX:PermSize</code>和<code>-XX:MaxPermSize</code>限制方法区大小，从而间接限制其中常量池的容量。这两个命令java8已移除，不做讨论。</p>
+<h4 id="本机直接内存溢出"><a href="#本机直接内存溢出" class="headerlink" title="本机直接内存溢出"></a>本机直接内存溢出</h4><p>略</p>
 <h3 id="运行时数据区之PC寄存器"><a href="#运行时数据区之PC寄存器" class="headerlink" title="运行时数据区之PC寄存器"></a>运行时数据区之PC寄存器</h3><p>即程序计数器，用于存放一条指令的地址， 这条指令就是虚拟机要执行的下一条指令。如果是java,其PC记录的是正在执行的虚拟机字节码指令地址。如上图所示，pc寄存器和线程相关联， 每一个线程都有一个PC寄存器。</p>
 <h3 id="运行时数据区之Java栈"><a href="#运行时数据区之Java栈" class="headerlink" title="运行时数据区之Java栈"></a>运行时数据区之Java栈</h3><p>如图所示，在线程创建的时候，都会为其创建一个私有的虚拟机栈，也就是说Java栈上的所有数据都是线程私有的， 也就是说， 每个线程都会有自己的Java栈， 不会相互访问其他Java栈中的数据。</p>
 <p><img src="/2017/06/01/你懂java吗-12/3.png" alt=""></p>
@@ -425,6 +505,11 @@
 <h3 id="运行时数据区之堆"><a href="#运行时数据区之堆" class="headerlink" title="运行时数据区之堆"></a>运行时数据区之堆</h3><p>​    方法区是存放类型数据的， 而堆则是存放运行时产生的对象的。 和C++不同的是， Java只能在堆中存放对象， 而不能在栈上分配对象， 所有运行时产生的对象全部都存放于堆中， 包括数组。 我们知道， 在Java中， 数组也是对象。一个JVM实例中只有一个堆， 所有线程共享堆中的数据（对象） 。</p>
 <p>​    但是Java虚拟机的指令集中并不包含任何释放内存的指令， 因而我们也就不能手动释放内存。 所有被创建的对象都会被一个叫做垃圾收集器（GC）的模块自动回收， 垃圾收集器有不同的实现方式， 他们以 特定的方式判断对象是否过期， 并以特定的方式对对象进行回收。</p>
 <p>​    所有创建的对象都存在堆中， 而垃圾收集器会自动回收过期的对象， 所以，JVM的堆区是垃圾收集器的“重点管理区” 。</p>
+<p>如何访问堆中的对象？</p>
+<p>​    建立对象是为了使用对象，我们的Java程序需要通过栈上的reference数据来操作堆上的具体对象。 由于reference类型在Java虚拟机规范中只规定了一个指向对象的引用，并没有定义这个引用应该通过何种方式去定位、 访问堆中的对象的具体位置，所以对象访问方式也是取决于虚拟机实现而定的。 目前主流的访问方式有<strong>使用句柄和直接指针</strong>两种。</p>
+<p><img src="/2017/06/01/你懂java吗-12/6.png" alt=""></p>
+<p><img src="/2017/06/01/你懂java吗-12/7.png" alt=""></p>
+<p>​    使用句柄来访问的最大好处就是reference中存储的是稳定的句柄地址，在对象被移动（垃圾收集时移动对象是非常普遍的行为）时只会改变句柄中的实例数据指针，而reference本身不需要修改。<br>​    使用直接指针访问方式的最大好处就是速度更快，它节省了一次指针定位的时间开销，由于对象的访问在Java中非常频繁，因此这类开销积少成多后也是一项非常可观的执行成本。</p>
 <p>Java 堆可能发生如下异常情况：</p>
 <p>如果实际所需的堆超过了自动内存管理系统能提供的最大容量，那 Java 虚拟机将会抛出一个OutOfMemoryError 异常。</p>
 
@@ -546,7 +631,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">95</span>
+                <span class="site-state-item-count">96</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -619,7 +704,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#JVM的体系结构"><span class="nav-number">1.</span> <span class="nav-text">JVM的体系结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行时数据区如何运转的？"><span class="nav-number">2.</span> <span class="nav-text">运行时数据区如何运转的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行时数据区之PC寄存器"><span class="nav-number">3.</span> <span class="nav-text">运行时数据区之PC寄存器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行时数据区之Java栈"><span class="nav-number">4.</span> <span class="nav-text">运行时数据区之Java栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行时数据区之本地方法栈"><span class="nav-number">5.</span> <span class="nav-text">运行时数据区之本地方法栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行时数据区之方法区"><span class="nav-number">6.</span> <span class="nav-text">运行时数据区之方法区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行时数据区之堆"><span class="nav-number">7.</span> <span class="nav-text">运行时数据区之堆</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#JVM的体系结构"><span class="nav-number">1.</span> <span class="nav-text">JVM的体系结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行时数据区如何运转的？"><span class="nav-number">2.</span> <span class="nav-text">运行时数据区如何运转的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行时数据区的OutOfMemoryError异常？"><span class="nav-number">3.</span> <span class="nav-text">运行时数据区的OutOfMemoryError异常？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#java堆溢出"><span class="nav-number">3.1.</span> <span class="nav-text">java堆溢出</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#虚拟机栈和本地方法栈溢出"><span class="nav-number">3.2.</span> <span class="nav-text">虚拟机栈和本地方法栈溢出</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方法区和运行时常量池溢出"><span class="nav-number">3.3.</span> <span class="nav-text">方法区和运行时常量池溢出</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#本机直接内存溢出"><span class="nav-number">3.4.</span> <span class="nav-text">本机直接内存溢出</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行时数据区之PC寄存器"><span class="nav-number">4.</span> <span class="nav-text">运行时数据区之PC寄存器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行时数据区之Java栈"><span class="nav-number">5.</span> <span class="nav-text">运行时数据区之Java栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行时数据区之本地方法栈"><span class="nav-number">6.</span> <span class="nav-text">运行时数据区之本地方法栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行时数据区之方法区"><span class="nav-number">7.</span> <span class="nav-text">运行时数据区之方法区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行时数据区之堆"><span class="nav-number">8.</span> <span class="nav-text">运行时数据区之堆</span></a></li></ol></div>
             
 
           </div>
