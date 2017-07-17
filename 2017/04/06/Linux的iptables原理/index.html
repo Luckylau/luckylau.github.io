@@ -98,7 +98,7 @@
 <meta property="og:image" content="https://luckylau.github.io/2017/04/06/Linux的iptables原理/6.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/04/06/Linux的iptables原理/7.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/04/06/Linux的iptables原理/8.png">
-<meta property="og:updated_time" content="2017-04-06T08:16:48.992Z">
+<meta property="og:updated_time" content="2017-07-17T05:33:22.790Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux的iptables原理">
 <meta name="twitter:description" content="​    在Linux系统中，对于防火墙的实现一般分为包过滤防火墙，TCP-Wrapper即程序管控，代理服务器等几种方式。其中，iptables作为一种基于包过滤方式的防火墙工具，在实际中应用非常广泛，是非常重要的一个安全工具。真正实现防火墙功能的是 netfilter，它是一个 linux 内核模块，做实际的包过滤。实际上，除了 iptables 以外，还有很多类似的用户空间工具。">
@@ -489,12 +489,20 @@
 <p>-L ：列出目前的 table 的规则</p>
 <p>-n ：不进行 IP 与 HOSTNAME 的反查，显示讯息的速度会快很多！</p>
 <p>-v ：列出更多的信息，包括通过该规则的封包总位数、相关的网络接口等</p>
-<p>iptables-save [-t table] （列出完整的防火墙规则）</p>
+<p>iptables-save <code>[-t table]</code> （列出完整的防火墙规则）</p>
 <p>选项与参数：</p>
 <p>-t ：可以仅针对某些表格来输出，例如仅针对 nat 或 filter 等等</p>
-<p>​    这个命令主要是把内存态的规则保存到文件,然后下次启动的时候用iptables-restore来载入规则. 但是这个命令常常用来查看防火墙规则.比iptables用得都多, 主要是输出结果的格式比较紧凑直观.而且能方便的能看到所有表的规则.</p>
+<p>​    这个命令主要是把内存态的规则保存到文件,然后下次启动的时候用iptables-restore来载入规则. 但是这个命令常常用来查看防火墙规则。比iptables用得都多, 主要是输出结果的格式比较紧凑直观.而且能方便的能看到所有表的规则.</p>
 <p>iptables <code>[-t tables][-FXZ]</code></p>
 <p>选项与参数：<br>-F ：清除所有的已订定的规则；<br>-X ：杀掉所有使用者 “自定义” 的 chain (应该说的是 tables ）啰；<br>-Z ：将所有的 chain 的计数与流量统计都归零</p>
+<h3 id="iptables命令举例"><a href="#iptables命令举例" class="headerlink" title="iptables命令举例"></a>iptables命令举例</h3><p>清空当前的所有规则和计数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">iptables -F  #清空所有的防火墙规则</div><div class="line">iptables -X  #删除用户自定义的空链</div><div class="line">iptables -Z  #清空计数</div></pre></td></tr></table></figure>
+<p>配置允许ssh端口连接</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">iptables -A INPUT -s 192.168.1.0/24 -p tcp --dport 22 -j ACCEPT  </div><div class="line">#22为你的ssh端口， -s 192.168.1.0/24表示允许这个网段的机器来连接，其它网段的ip地址是登陆不了你的机器的。 -j ACCEPT表示接受这样的请求</div></pre></td></tr></table></figure>
+<p>允许本地回环地址可以正常使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">iptables -A INPUT -i lo -j ACCEPT </div><div class="line">#本地圆环地址就是那个127.0.0.1，是本机上使用的,它进与出都设置为允许</div><div class="line">iptables -A OUTPUT -o lo -j ACCEPT</div></pre></td></tr></table></figure>
+<p>设置默认的规则</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">iptables -P INPUT DROP #配置默认的不让进</div><div class="line">iptables -P FORWARD DROP #默认的不允许转发</div><div class="line">iptables -P OUTPUT ACCEPT #默认的可以出去</div></pre></td></tr></table></figure>
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p><a href="http://fishcried.com/2016-02-19/iptables/" target="_blank" rel="external">http://fishcried.com/2016-02-19/iptables/</a></p>
 <p><a href="http://cn.linux.vbird.org/linux_server/0250simple_firewall_3.php" target="_blank" rel="external">http://cn.linux.vbird.org/linux_server/0250simple_firewall_3.php</a></p>
 
@@ -689,7 +697,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#iptables的“链”与“表”"><span class="nav-number">1.</span> <span class="nav-text">iptables的“链”与“表”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#iptables实现SNAT与DNAT"><span class="nav-number">2.</span> <span class="nav-text">iptables实现SNAT与DNAT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#iptables常用命令"><span class="nav-number">3.</span> <span class="nav-text">iptables常用命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考："><span class="nav-number">4.</span> <span class="nav-text">参考：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#iptables的“链”与“表”"><span class="nav-number">1.</span> <span class="nav-text">iptables的“链”与“表”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#iptables实现SNAT与DNAT"><span class="nav-number">2.</span> <span class="nav-text">iptables实现SNAT与DNAT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#iptables常用命令"><span class="nav-number">3.</span> <span class="nav-text">iptables常用命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#iptables命令举例"><span class="nav-number">4.</span> <span class="nav-text">iptables命令举例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考："><span class="nav-number">5.</span> <span class="nav-text">参考：</span></a></li></ol></div>
             
 
           </div>
