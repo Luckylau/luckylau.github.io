@@ -169,7 +169,7 @@ O(1)
 希尔排序
 O(nl">
 <meta property="og:image" content="https://luckylau.github.io/2017/07/27/阅读大话数据结构（8）/1.png">
-<meta property="og:updated_time" content="2017-07-27T11:21:18.141Z">
+<meta property="og:updated_time" content="2017-07-28T01:10:38.658Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="阅读大话数据结构（8）">
 <meta name="twitter:description" content="本文在阅读大话数据结构这本书的基础上，结合java语言的特点，来理解排序，代码均为自己实现。
@@ -576,9 +576,8 @@ O(nl">
 </tbody>
 </table>
 <a id="more"></a>
-<h3 id="排序的基本概念"><a href="#排序的基本概念" class="headerlink" title="排序的基本概念"></a>排序的基本概念</h3><p>​    假设含有n个记录的序列为{r1,r2,……,rn}，其相应的关键字分别为{k1,k2,……,kn}，需确定1，2，……，n的一种排列p1,p2,……,pn，使其相应的关键字满足kp1≤kp2≤……≤kpn（非递减或非递增）关系，即使得序列成为一个按关键字有序的序列{rp1,rp2,……,rpn}，这样的操作就称为<strong>排序</strong>。</p>
-<pre><code>假设ki=kj（1≤i≤n,1≤j≤n,i≠j），且在排序前的序列中ri领先于rj（即i&lt;j）。如果排序后ri仍领先于rj，则称所用的排序方法是稳定的；反之，若可能使得排序后的序列中rj领先ri，则称所用的排序方法是不稳定的。
-</code></pre><p>​    内排序与外排序：根据在排序过程中待排序的记录是否全部被放置在内存中。内排序是在排序整个过程中，待排序的所有记录全部被放置在内存中。外排序是由于排序的记录个数太多，不能同时放置在内存，整个排序过程需要在内外存之间多次交换数据才能进行。</p>
+<h3 id="排序的基本概念"><a href="#排序的基本概念" class="headerlink" title="排序的基本概念"></a>排序的基本概念</h3><p>​    假设含有n个记录的序列为{r1,r2,……,rn}，其相应的关键字分别为{k1,k2,……,kn}，需确定1，2，……，n的一种排列p1,p2,……,pn，使其相应的关键字满足kp1≤kp2≤……≤kpn（非递减或非递增）关系，即使得序列成为一个按关键字有序的序列{rp1,rp2,……,rpn}，这样的操作就称为<strong>排序</strong>。假设ki=kj（1≤i≤n,1≤j≤n,i≠j），且在排序前的序列中ri领先于rj（即i&lt;j）。如果排序后ri仍领先于rj，则称所用的排序方法是稳定的；反之，若可能使得排序后的序列中rj领先ri，则称所用的排序方法是不稳定的。</p>
+<p>​    内排序与外排序：根据在排序过程中待排序的记录是否全部被放置在内存中。内排序是在排序整个过程中，待排序的所有记录全部被放置在内存中。外排序是由于排序的记录个数太多，不能同时放置在内存，整个排序过程需要在内外存之间多次交换数据才能进行。</p>
 <p>对于内排序来说，排序算法的性能主要是受三个方面影响：时间性能；辅助空间；算法的复杂性。</p>
 <p>排序的结构图如下：</p>
 <p><img src="/2017/07/27/阅读大话数据结构（8）/1.png" alt=""></p>
@@ -644,6 +643,10 @@ O(nl">
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/30/Neutron之ovs/" rel="prev" title="Neutron之OVS">
+                Neutron之OVS <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -713,7 +716,7 @@ O(nl">
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">99</span>
+                <span class="site-state-item-count">100</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
