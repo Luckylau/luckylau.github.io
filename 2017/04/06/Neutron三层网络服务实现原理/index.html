@@ -114,7 +114,7 @@
 <meta property="og:image" content="https://luckylau.github.io/2017/04/06/Neutron三层网络服务实现原理/7.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/04/06/Neutron三层网络服务实现原理/8.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/04/06/Neutron三层网络服务实现原理/9.png">
-<meta property="og:updated_time" content="2017-07-19T05:59:04.463Z">
+<meta property="og:updated_time" content="2017-08-03T03:40:22.387Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Neutron三层网络服务实现原理">
 <meta name="twitter:description" content="​    Neutron 对虚拟三层网络的实现是通过其 L3 Agent （neutron-l3-agent）。该 Agent 利用 Linux IP 栈、route 和 iptables 来实现内网内不同网络内的虚机之间的网络流量，以及虚机和外网之间网络流量的路由和转发。为了在同一个Linux 系统上支持可能的 IP 地址空间重叠，它使用了 Linux network namespace 来提供">
@@ -464,8 +464,8 @@
 <h3 id="Linux-IP-栈"><a href="#Linux-IP-栈" class="headerlink" title="Linux IP 栈"></a>Linux IP 栈</h3><h4 id="Secondary-IP"><a href="#Secondary-IP" class="headerlink" title="Secondary IP"></a>Secondary IP</h4><p>我们看一个路由器的ip信息qg-37790cfc-43接口绑定了浮动ip。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">ip netns exec qrouter-71d8932f-3782-470f-b3a2-f80203f96885 ip addr</div><div class="line">16: qg-37790cfc-43: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UNKNOWN group default qlen 1</div><div class="line">    link/ether fa:16:3e:51:15:05 brd ff:ff:ff:ff:ff:ff</div><div class="line">    inet 10.0.99.2/24 brd 10.0.99.255 scope global qg-37790cfc-43</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">    inet 10.0.99.3/32 brd 10.0.99.3 scope global qg-37790cfc-43</div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line">    inet6 fe80::f816:3eff:fe51:1505/64 scope link </div><div class="line">       valid_lft forever preferred_lft forever</div><div class="line"></div><div class="line">#解释</div><div class="line">&lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt;：端口的各种状态</div><div class="line">BROADCAST： device can send traffic to all hosts on the link （能够发广播）</div><div class="line">MULTICAST： device can perform and receive multicast packets （能够发多播）</div><div class="line">UP： device is functioning （enabled 状态，可通过 ip * up/down 设置。）</div><div class="line">LOWER_UP：the state of the Ethernet link（表示线已接上）</div><div class="line">inet/brd/scope：IP 地址及子网掩码，广播地址，作用域</div><div class="line">scope：global：valid everywhere</div></pre></td></tr></table></figure>
 <p>​    这个interface有两个静态 IP 地址。第一个是主要的（primary）IP，第二个是辅助的（ secondary） 的 IP。当一个网卡配置了静态IP后，你可以添加secondary  IP 给它。这样它就拥有了多个 IP 地址了。Secondary IP 不可以通过 DHCP 分配。它所有的IP 地址都关联到它唯一的一个 MAC 地址上。那为什么需要 secondary IP 地址呢？ 路由器有个 Secondary IP 的概念，这个特性可以创建逻辑子网，也就是说在一个物理网口上连接两个子网，比如这个网口接到一台交换机上，如果这个网口没有配置Secondary IP的话，那么这台交换机只能连接一个网段的主机，比如 192.168.1.1/24，但是，如果它配置了Secondary IP，那么就可以连接两个网段的主机，比如 192.168.1.1/24 和 10.0.0.1/24。</p>
-<h4 id="Gratuitous-ARP"><a href="#Gratuitous-ARP" class="headerlink" title="Gratuitous ARP"></a>Gratuitous ARP</h4><pre><code>众所周知，ARP的基本功能就是在以太网环境中，通过目标设备的IP地址，查询目标设备的MAC地址，以保证通信的顺利进行。但由于ARP的广播、动态学习等特性注定了它不是一种安全的协议，所以在实际应用中，会由于各种各样的原因使ARP学习失败，从而影响网络的互通性，并进而影响用户的业务稳定运行。整个ARP的体系里基本上就是由ARP Request和Response组成的,Request就是告知对方“我要什么”，而Response是回答“我是什么”。但有些时候也会例外，他们虽然从形式上还是Request和Response的，但它们通常不会不是一问一答的，而是只有其中的一部分，所以通常被称为免费ARP或无为ARP（Gratuitous ARP）。
-</code></pre><p>​    Gratuitous ARP在主机启动的时候，请求自己的IP地址对应的MAC地址。</p>
+<h4 id="Gratuitous-ARP"><a href="#Gratuitous-ARP" class="headerlink" title="Gratuitous ARP"></a>Gratuitous ARP</h4><p>​    众所周知，ARP的基本功能就是在以太网环境中，通过目标设备的IP地址，查询目标设备的MAC地址，以保证通信的顺利进行。但由于ARP的广播、动态学习等特性注定了它不是一种安全的协议，所以在实际应用中，会由于各种各样的原因使ARP学习失败，从而影响网络的互通性，并进而影响用户的业务稳定运行。整个ARP的体系里基本上就是由ARP Request和Response组成的,Request就是告知对方“我要什么”，而Response是回答“我是什么”。但有些时候也会例外，他们虽然从形式上还是Request和Response的，但它们通常不会不是一问一答的，而是只有其中的一部分，所以通常被称为免费ARP或无为ARP（Gratuitous ARP）。</p>
+<p>Gratuitous ARP在主机启动的时候，请求自己的IP地址对应的MAC地址。</p>
 <p>它常用于三个用途：</p>
 <p>​    Change of L2 address：通告自己改变了 MAC 地址。以 ARP Response 的形式发送广播，它通常只是为了把自己的ARP信息通告/更新给局域网全体，这种Response不需要别人请求，是自己主动发送的通告。当一个网络设备的 MAC 地址发生改变时，发送该设备的 Gratuitous ARP，通知所在广播域内的已经包含该 IP 地址在其 ARP 表中的机器去更新它的 ARP 条目。</p>
 <p>​    Duplicate address detection：重复 MAC 地址检测。以 ARP Request的形式发送广播，请求自己的MAC地址，目的是探测局域网中是否有跟自己IP地址相同的主机，也就是常说的IP冲突。发送主机并不需要一定收到此请求的回答。如果收到一个回答，表示网络中存在与自身IP相同的主机。如果没有收到应答，则表示本机所使用的IP与网络中其它主机并不冲突。</p>
@@ -728,7 +728,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">100</span>
+                <span class="site-state-item-count">101</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
