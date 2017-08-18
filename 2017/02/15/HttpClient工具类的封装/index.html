@@ -91,7 +91,7 @@
 <meta property="og:site_name" content="Luckylau's Blog">
 <meta property="og:description" content="一.HttpClient 介绍：​       HttpClient相比传统JDK自带的URLConnection，增加了易用性和灵活性，它不仅是客户端发送Http请求变得容易，而且也方便了开发人员测试接口（基于Http协议的），即提高了开发的效率，也方便提高代码的健壮性。它支持在HTTP/1.1规范中定义的所有的HTTP方法：GET, HEAD, POST, PUT, DELETE, TRACE">
 <meta property="og:image" content="https://luckylau.github.io/2017/02/15/HttpClient工具类的封装/1.jpg">
-<meta property="og:updated_time" content="2017-02-21T07:18:21.946Z">
+<meta property="og:updated_time" content="2017-08-11T01:55:40.187Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HttpClient工具类">
 <meta name="twitter:description" content="一.HttpClient 介绍：​       HttpClient相比传统JDK自带的URLConnection，增加了易用性和灵活性，它不仅是客户端发送Http请求变得容易，而且也方便了开发人员测试接口（基于Http协议的），即提高了开发的效率，也方便提高代码的健壮性。它支持在HTTP/1.1规范中定义的所有的HTTP方法：GET, HEAD, POST, PUT, DELETE, TRACE">
@@ -388,8 +388,8 @@
 
       
         <h4 id="一-HttpClient-介绍："><a href="#一-HttpClient-介绍：" class="headerlink" title="一.HttpClient 介绍："></a>一.HttpClient 介绍：</h4><p>​       HttpClient相比传统JDK自带的URLConnection，增加了易用性和灵活性，它不仅是客户端发送Http请求变得容易，而且也方便了开发人员测试接口（基于Http协议的），即提高了开发的效率，也方便提高代码的健壮性。它支持在HTTP/1.1规范中定义的所有的HTTP方法：GET, HEAD, POST, PUT, DELETE, TRACE 和 OPTIONS。每有一个方法都有一个对应的类：HttpGet，HttpHead，HttpPost，HttpPut，HttpDelete，HttpTrace和HttpOptions。所有的这些类均实现了HttpUriRequest接口，故可以作为execute的执行参数使用。 HTTP请求的URI包含一个协议计划protocol scheme，主机名host name,，可选的端口optional port，资源的路径resource path，可选的查询optional query和可选的片段optional fragment。</p>
-<h4 id="二-特性："><a href="#二-特性：" class="headerlink" title="二. 特性："></a>二. 特性：</h4><p>​         基于标准、纯净的Java语言。实现了Http1.0和Http1.1</p>
-<p>​        以可扩展的面向对象的结构实现了Http全部的方法（GET, POST, PUT, DELETE, HEAD, OPTIONS, and TRACE）。</p>
+<h4 id="二-特性："><a href="#二-特性：" class="headerlink" title="二. 特性："></a>二. 特性：</h4><p>​       基于标准、纯净的Java语言。实现了Http1.0和Http1.1</p>
+<p>​       以可扩展的面向对象的结构实现了Http全部的方法（GET, POST, PUT, DELETE, HEAD, OPTIONS, and TRACE）。</p>
   <a id="more"></a>
 <p>​       支持HTTPS协议。  </p>
 <p>​       通过Http代理建立透明的连接。</p>
@@ -414,10 +414,7 @@
 <p>​      调用HttpResponse的getAllHeaders()、getHeaders(String name)等方法可获取服务器的响应头；调用HttpResponse的getEntity()方法可获取HttpEntity对象，该对象包装了服务器的响应内容。程序可通过该对象获取服务器的响应内容。</p>
 <p>​      释放连接。无论执行方法是否成功，都必须释放连接</p>
 <h4 id="四-封装工具类"><a href="#四-封装工具类" class="headerlink" title="四.封装工具类"></a>四.封装工具类</h4><p><img src="/2017/02/15/HttpClient工具类的封装/1.jpg" alt=""></p>
-<p>​      1.HttpHeader封装</p>
-<p>​      2.SSL封装</p>
-<p>​      3.HttpClientBuilder封装</p>
-<p>​      链接：<a href="https://github.com/Luckylau/UsefulTools" target="_blank" rel="external">https://github.com/Luckylau/UsefulTools</a></p>
+<p>​      我的相关实现链接：<a href="https://github.com/Luckylau/UsefulTools" target="_blank" rel="external">https://github.com/Luckylau/UsefulTools</a></p>
 <h4 id="五-参考资料"><a href="#五-参考资料" class="headerlink" title="五.参考资料"></a>五.参考资料</h4><p><a href="http://blog.csdn.net/xiaoxian8023/article/category/5968067" target="_blank" rel="external">http://blog.csdn.net/xiaoxian8023/article/category/5968067</a></p>
 <p><a href="http://blog.csdn.net/wangpeng047/article/details/19624529" target="_blank" rel="external">http://blog.csdn.net/wangpeng047/article/details/19624529</a></p>
 
@@ -539,7 +536,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">101</span>
+                <span class="site-state-item-count">102</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

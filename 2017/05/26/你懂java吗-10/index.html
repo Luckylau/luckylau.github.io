@@ -87,14 +87,14 @@
 <meta name="description" content="java的Thread类和Runnable接口
 并发的理解​    对于一个CPU来说，无论我创建多少个线程，所谓的“并发执行”、“同时”其实都不是真正意义上的“同时”。操作系统将进程线程进行管理，轮流（没有固定的顺序）分配每个进程很短的一段时间（不一定是均分），然后在每个线程内部，程序代码自己处理该进程内部线程的时间分配，多个线程之间相互的切换去执行，这个切换时间也是非常短的。因此多任务、多进程">
 <meta property="og:type" content="article">
-<meta property="og:title" content="你懂java吗(10)">
+<meta property="og:title" content="Java并发之Thread的操作">
 <meta property="og:url" content="https://luckylau.github.io/2017/05/26/你懂java吗-10/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
 <meta property="og:description" content="java的Thread类和Runnable接口
 并发的理解​    对于一个CPU来说，无论我创建多少个线程，所谓的“并发执行”、“同时”其实都不是真正意义上的“同时”。操作系统将进程线程进行管理，轮流（没有固定的顺序）分配每个进程很短的一段时间（不一定是均分），然后在每个线程内部，程序代码自己处理该进程内部线程的时间分配，多个线程之间相互的切换去执行，这个切换时间也是非常短的。因此多任务、多进程">
-<meta property="og:updated_time" content="2017-07-16T10:27:13.207Z">
+<meta property="og:updated_time" content="2017-08-11T02:14:38.739Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="你懂java吗(10)">
+<meta name="twitter:title" content="Java并发之Thread的操作">
 <meta name="twitter:description" content="java的Thread类和Runnable接口
 并发的理解​    对于一个CPU来说，无论我创建多少个线程，所谓的“并发执行”、“同时”其实都不是真正意义上的“同时”。操作系统将进程线程进行管理，轮流（没有固定的顺序）分配每个进程很短的一段时间（不一定是均分），然后在每个线程内部，程序代码自己处理该进程内部线程的时间分配，多个线程之间相互的切换去执行，这个切换时间也是非常短的。因此多任务、多进程">
 
@@ -130,7 +130,7 @@
 
 
 
-  <title> 你懂java吗(10) | Luckylau's Blog </title>
+  <title> Java并发之Thread的操作 | Luckylau's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -310,7 +310,7 @@
             
             
               
-                你懂java吗(10)
+                Java并发之Thread的操作
               
             
           </h1>
@@ -460,8 +460,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/05/26/你懂java吗-9/" rel="next" title="你懂java吗(9)">
-                <i class="fa fa-chevron-left"></i> 你懂java吗(9)
+              <a href="/2017/05/26/你懂java吗-9/" rel="next" title="Java虚拟机之理解Java虚拟机的含义">
+                <i class="fa fa-chevron-left"></i> Java虚拟机之理解Java虚拟机的含义
               </a>
             
           </div>
@@ -470,8 +470,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/05/26/你懂java吗-11/" rel="prev" title="你懂java吗(11)">
-                你懂java吗(11) <i class="fa fa-chevron-right"></i>
+              <a href="/2017/05/26/你懂java吗-11/" rel="prev" title="Java虚拟机之理解Class文件">
+                Java虚拟机之理解Class文件 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -542,7 +542,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">101</span>
+                <span class="site-state-item-count">102</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

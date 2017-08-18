@@ -90,7 +90,7 @@
 <meta property="og:url" content="https://luckylau.github.io/2017/02/23/Java并发之Executor框架和线程池/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
 <meta property="og:description" content="1.基础简介：​        在Java 5之后，并发编程引入了一堆新的启动、调度和管理线程的API。Executor框架便是Java 5中引入的，其内部使用了线程池机制，它在java.util.cocurrent 包下，通过该框架来控制线程的启动、执行和关闭，可以简化并发编程的操作。">
-<meta property="og:updated_time" content="2017-08-08T02:15:43.237Z">
+<meta property="og:updated_time" content="2017-08-09T08:04:11.582Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java并发之Executor框架和线程池">
 <meta name="twitter:description" content="1.基础简介：​        在Java 5之后，并发编程引入了一堆新的启动、调度和管理线程的API。Executor框架便是Java 5中引入的，其内部使用了线程池机制，它在java.util.cocurrent 包下，通过该框架来控制线程的启动、执行和关闭，可以简化并发编程的操作。">
@@ -411,7 +411,7 @@
 <pre><code>创建一个可重用固定线程数的线程池，以共享的无界队列方式来运行这些线程。在任意点，在大多数 nThreads 线程会处于处理任务的活动状态。如果在所有线程处于活动状态时提交附加任务，则在有可用线程之前，附加任务将在队列中等待。如果某个线程因为执行异常而结束，那么线程池会补充一个新线程。
 </code></pre><p> <strong>public static ExecutorService newSingleThreadExecutor()</strong></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="title">newSingleThreadExecutor</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> FinalizableDelegatedExecutorService</div><div class="line">            (<span class="keyword">new</span> ThreadPoolExecutor(<span class="number">1</span>, <span class="number">1</span>,</div><div class="line">                                    <span class="number">0L</span>, TimeUnit.MILLISECONDS,</div><div class="line">                                    <span class="keyword">new</span> LinkedBlockingQueue&lt;Runnable&gt;()));</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<p>创建一个单线程化的Executor。 单例线程，任意时间池中只能有一个线程，用的是和cache池和fixed池相同的底层池，但线程数目是1-1,0秒IDLE（无IDLE）。</p>
+<p>​    创建一个单线程化的Executor。 单例线程，任意时间池中只能有一个线程，用的是和cache池和fixed池相同的底层池，但线程数目是1-1,0秒IDLE（无IDLE）。</p>
 <p><strong>public static ScheduledExecutorService newScheduledThreadPool(int corePoolSize)</strong></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ScheduledExecutorService <span class="title">newScheduledThreadPool</span><span class="params">(<span class="keyword">int</span> corePoolSize)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ScheduledThreadPoolExecutor(corePoolSize);</div><div class="line">    &#125;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">ScheduledThreadPoolExecutor</span><span class="params">(<span class="keyword">int</span> corePoolSize)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>(corePoolSize, Integer.MAX_VALUE, <span class="number">0</span>, NANOSECONDS,</div><div class="line">              <span class="keyword">new</span> DelayedWorkQueue());</div><div class="line">    &#125;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">ThreadPoolExecutor</span><span class="params">(<span class="keyword">int</span> corePoolSize,</span></span></div><div class="line">                              <span class="keyword">int</span> maximumPoolSize,</div><div class="line">                              <span class="keyword">long</span> keepAliveTime,</div><div class="line">                              TimeUnit unit,</div><div class="line">                              BlockingQueue&lt;Runnable&gt; workQueue) &#123;</div><div class="line">        <span class="keyword">this</span>(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue,</div><div class="line">             Executors.defaultThreadFactory(), defaultHandler);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
 <p>​    创建一个支持定时及周期性的任务执行的线程池，多数情况下可用来替代Timer类。 调度型线程池，这个池子里的线程可以按schedule依次delay执行，或周期执行。每一个被调度的任务都会由线程池中一个线程去执行，因此任务是并发执行的，相互之间不会受到干扰。需要注意的是，只有当任务的执行时间到来时，ScheduedExecutor才会真正启动一个线程，其余时间 ScheduledExecutor 都是在轮询任务的状态。ScheduledExecutorService中两种最常用的调度方法 ScheduleAtFixedRate 和 ScheduleWithFixedDelay。ScheduleAtFixedRate每次执行时间为上一次任务开始起向后推一个时间间隔；ScheduleWithFixedDelay每次执行时间为上一次任务结束起向后推一个时间间隔。由此可见，ScheduleAtFixedRate是基于固定时间间隔进行任务调度，ScheduleWithFixedDelay 取决于每次任务执行的时间长短，是基于不固定时间间隔进行任务调度。</p>
@@ -434,12 +434,7 @@
 <p>Executor执行inVokeAny任务</p>
 <p>​       方法 invokeAny() 接收一個包含 Callable 对象的集合作为参数。调用该方法不会返回 Future 对象，而是返回集合中某一個 Callable 对象的结果，而且无法保证调用之后返回的结果是哪一個 Callable，只知道它是这些 Callable 中一個执行结束的 Callable 对象。<br>如果一个任务运行完毕或者抛出异常，方法会取消其它的 Callable 的执行。</p>
 <p>Executor执行invokeAll任务</p>
-<p>​        方法 invokeAll() 会调用存在于参数集合中的所有 Callable 对象，并且返回壹個包含 Future 对象的集合，你可以通过这個返回的集合来管理每個 Callable 的执行结果。<br>需要注意的是，任务有可能因为异常而导致运行结束，所以它可能并不是真的成功运行了。但是我们没有办法通过 Future 对象来了解到这個差异。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="title">newCachedThreadPool</span><span class="params">()</span> </span>&#123;  </div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ThreadPoolExecutor(<span class="number">0</span>, Integer.MAX_VALUE,  </div><div class="line">                                  <span class="number">60L</span>, TimeUnit.SECONDS,  </div><div class="line">                                  <span class="keyword">new</span> SynchronousQueue&lt;Runnable&gt;());  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>它将corePoolSize设定为0，而将maximumPoolSize设定为了Integer的最大值，线程空闲超过60秒，将会从线程池中移除。由于核心线程数为0，因此每次添加任务，都会先从线程池中找空闲线程，如果没有就会创建一个线程（SynchronousQueue<runnalbe>决定的，后面会说）来执行新的任务，并将该线程加入到线程池中，而最大允许的线程数为Integer的最大值，因此这个线程池理论上可以不断扩大。</runnalbe></p>
-<p>再来看newFixedThreadPool的不带RejectedExecutionHandler参数的构造方法，如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="title">newFixedThreadPool</span><span class="params">(<span class="keyword">int</span> nThreads)</span> </span>&#123;  </div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ThreadPoolExecutor(nThreads, nThreads,  </div><div class="line">                                  <span class="number">0L</span>, TimeUnit.MILLISECONDS,  </div><div class="line">                                  <span class="keyword">new</span> LinkedBlockingQueue&lt;Runnable&gt;());  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p> 它将corePoolSize和maximumPoolSize都设定为了nThreads，这样便实现了线程池的大小的固定，不会动态地扩大，另外，keepAliveTime设定为了0，也就是说线程只要空闲下来，就会被移除线程池，对于LinkedBlockingQueue下面会说。</p>
+<p>​        方法 invokeAll() 会调用存在于参数集合中的所有 Callable 对象，并且返回壹個包含 Future 对象的集合，你可以通过这個返回的集合来管理每個 Callable 的执行结果。需要注意的是，任务有可能因为异常而导致运行结束，所以它可能并不是真的成功运行了。但是我们没有办法通过 Future 对象来了解到这個差异。</p>
 <h4 id="6-ExecuteService-服务的关闭"><a href="#6-ExecuteService-服务的关闭" class="headerlink" title="6.ExecuteService 服务的关闭"></a>6.ExecuteService 服务的关闭</h4><p>​        shutdown()方法在终止前允许执行以前提交的任务，而 shutdownNow() 方法阻止等待任务的启动并试图停止当前正在执行的任务。在终止后，执行程序没有任务在执行，也没有任务在等待执行，并且无法提交新任务。应该关闭未使用的 ExecutorService以允许回收其资源。</p>
 <h4 id="7-排队的策略"><a href="#7-排队的策略" class="headerlink" title="7.排队的策略:"></a>7.排队的策略:</h4><p>​    直接提交。缓冲队列采用 SynchronousQueue，它将任务直接交给线程处理而不保持它们。如果不存在可用于立即运行任务的线程（即线程池中的线程都在工作），则试图把任务加入缓冲队列将会失败，因此会构造一个新的线程来处理新添加的任务，并将其加入到线程池中。直接提交通常要求无界 maximumPoolSizes（Integer.MAX_VALUE） 以避免拒绝新提交的任务。newCachedThreadPool采用的便是这种策略。</p>
 <p>​    无界队列。使用无界队列（典型的便是采用预定义容量的 LinkedBlockingQueue，理论上是该缓冲队列可以对无限多的任务排队）将导致在所有 corePoolSize 线程都工作的情况下将新任务加入到缓冲队列中。这样，创建的线程就不会超过 corePoolSize，也因此，maximumPoolSize 的值也就无效了。当每个任务完全独立于其他任务，即任务执行互不影响时，适合于使用无界队列。newFixedThreadPool采用的便是这种策略。</p>
@@ -497,8 +492,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/02/25/线程同步工具CountDownLatch，CyclicBarrier和Semaphore的用法/" rel="prev" title="线程同步工具CountDownLatch，CyclicBarrier和Semaphore的用法">
-                线程同步工具CountDownLatch，CyclicBarrier和Semaphore的用法 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/02/25/线程同步工具CountDownLatch，CyclicBarrier和Semaphore的用法/" rel="prev" title="Java并发之线程同步工具">
+                Java并发之线程同步工具 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -569,7 +564,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">101</span>
+                <span class="site-state-item-count">102</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
