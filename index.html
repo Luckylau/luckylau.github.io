@@ -386,8 +386,8 @@
       
         
           <p>最近项目使用了Redis，抽个时间系统的整理一下Redis的使用。</p>
-<h3 id="什么是Redis？"><a href="#什么是Redis？" class="headerlink" title="什么是Redis？"></a>什么是Redis？</h3><p>​    Redis是Nosql数据库中使用较为广泛的非关系型内存数据库，Redis内部是一个<strong>key-value</strong>存储系统。它支持存储的value类型相对更多，包括<strong>string(字符串)、list(链表)、set(集合)、zset(sorted set –有序集合)和hash（哈希类型，类似于Java中的map）</strong>。Redis基于内存运行并支持持久化的NoSQL数据库，是当前最热门的NoSql数据库之一，也被人们称为数据结构服务器。 </p>
-<h3 id="为什么要使用Redis？"><a href="#为什么要使用Redis？" class="headerlink" title="为什么要使用Redis？"></a>为什么要使用Redis？</h3><p>​    数据结构(Data Structure)需求越来越多, 但memcache中没有, 影响开发效率；性能需求, 随着读操作的量的上升需要解决，经历的过程有：<strong>数据库读写分离(M/S)–&gt;数据库使用多个Slave–&gt;增加Cache (memcache)–&gt;转到Redis。</strong>没有使用Redis时候需要水平拆分，对表的拆分，将有的用户放在这个表，有的用户放在另外一个表；可靠性需求 ，Cache的”雪崩”问题让人纠结 ，Cache面临着快速恢复的挑战；开发成本需求 。Cache和DB的一致性维护成本越来越高(先清理DB，再清理缓存， 不行啊， 太慢了！) 开发需要跟上不断涌入的产品需求 硬件成本最贵的就是数据库层面的机器，基本上比前端的机器要贵几倍，主要是IO密集型，很耗硬件；维护性复杂 ，一致性维护成本越来越高； </p>
+<h3 id="什么是Redis？"><a href="#什么是Redis？" class="headerlink" title="什么是Redis？"></a>什么是Redis？</h3><p>​        Redis是Nosql数据库中使用较为广泛的非关系型内存数据库，Redis内部是一个<strong>key-value</strong>存储系统。它支持存储的value类型相对更多，包括<strong>string(字符串)、list(链表)、set(集合)、zset(sorted set –有序集合)和hash（哈希类型，类似于Java中的map）</strong>。Redis基于内存运行并支持持久化的NoSQL数据库，是当前最热门的NoSql数据库之一，也被人们称为数据结构服务器。</p>
+<h3 id="为什么要使用Redis？"><a href="#为什么要使用Redis？" class="headerlink" title="为什么要使用Redis？"></a>为什么要使用Redis？</h3><p>​        数据结构(Data Structure)需求越来越多, 但memcache中没有, 影响开发效率；性能需求, 随着读操作的量的上升需要解决，经历的过程有：<strong>数据库读写分离(M/S)–&gt;数据库使用多个Slave–&gt;增加Cache (memcache)–&gt;转到Redis。</strong>没有使用Redis时候需要水平拆分，对表的拆分，将有的用户放在这个表，有的用户放在另外一个表；可靠性需求 ，Cache的”雪崩”问题让人纠结 ，Cache面临着快速恢复的挑战；开发成本需求 。Cache和DB的一致性维护成本越来越高(先清理DB，再清理缓存， 不行啊， 太慢了！) 开发需要跟上不断涌入的产品需求 硬件成本最贵的就是数据库层面的机器，基本上比前端的机器要贵几倍，主要是IO密集型，很耗硬件；维护性复杂 ，一致性维护成本越来越高； </p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/08/13/SpringBoot之Redis/#more" rel="contents">
