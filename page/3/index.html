@@ -752,7 +752,7 @@
               
                 
                 <a class="post-title-link" href="/2017/06/25/Synchronized-和-Lock的使用/" itemprop="url">
-                  volatile,synchronized 和 lock的使用
+                  Volatile,Synchronized ,final和 Lock的使用
                 </a>
               
             
@@ -827,9 +827,8 @@
 
       
         
-          <h3 id="volatile的用法"><a href="#volatile的用法" class="headerlink" title="volatile的用法"></a>volatile的用法</h3><p>在学习volatile关键字用法之前，首先了解java的内存模型，参考地址为：</p>
-<p><a href="https://luckylau.github.io/2017/06/26/java%E7%9A%84%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/">https://luckylau.github.io/2017/06/26/java%E7%9A%84%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/</a></p>
-<h4 id="volatile关键字"><a href="#volatile关键字" class="headerlink" title="volatile关键字"></a>volatile关键字</h4><p>​     volatile 变量可以被看作是一种 “程度较轻的 synchronized”；与 synchronized 块相比，volatile 变量所需的编码较少，并且运行时开销也较少，但是它所能实现的功能也仅是 synchronized 的一部分。在某些情况下，如果读操作远远大于写操作，volatile 变量还可以提供优于锁的性能优势。</p>
+          <h3 id="Volatile的用法"><a href="#Volatile的用法" class="headerlink" title="Volatile的用法"></a>Volatile的用法</h3><p>在学习volatile关键字用法之前，首先了解<a href="https://luckylau.github.io/2017/06/26/java%E7%9A%84%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/">java的内存模型</a>。</p>
+<h4 id="volatile的定义与实现原理"><a href="#volatile的定义与实现原理" class="headerlink" title="volatile的定义与实现原理"></a>volatile的定义与实现原理</h4><p>​     volatile 变量可以被看作是一种 “<strong>程度较轻的 synchronized</strong>”；与 synchronized 块相比，volatile 变量所需的编码较少，并且运行时开销也较少，但是它所能实现的功能也仅是 synchronized 的一部分。在某些情况下，如果读操作远远大于写操作，volatile 变量还可以提供优于锁的性能优势。</p>
 <p>​    一旦一个共享变量（类的成员变量、类的静态成员变量）被volatile修饰之后，那么就具备了两层语义：保证了不同线程对这个变量进行操作时的可见性，即一个线程修改了某个变量的值，这新值对其他线程来说是立即可见的。禁止进行指令重排序。但是<strong>不能保证原子性！</strong></p>
           <!--noindex-->
           <div class="post-button text-center">

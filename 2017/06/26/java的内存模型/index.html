@@ -93,7 +93,9 @@
 <meta property="og:image" content="https://luckylau.github.io/2017/06/26/java的内存模型/1.jpg">
 <meta property="og:image" content="https://luckylau.github.io/2017/06/26/java的内存模型/2.jpg">
 <meta property="og:image" content="https://luckylau.github.io/2017/06/26/java的内存模型/3.jpg">
-<meta property="og:updated_time" content="2017-07-16T08:22:51.684Z">
+<meta property="og:image" content="https://luckylau.github.io/2017/06/26/java的内存模型/2.png">
+<meta property="og:image" content="https://luckylau.github.io/2017/06/26/java的内存模型/1.png">
+<meta property="og:updated_time" content="2017-09-06T08:13:32.611Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java的内存模型">
 <meta name="twitter:description" content="内存模型的基本概念​    计算机在执行程序时，每条指令都是在CPU中执行的，而执行指令过程中，势必涉及到数据的读取和写入。由于程序运行过程中的临时数据是存放在主存（物理内存）当中的，这时就存在一个问题，由于CPU执行速度很快，而从内存读取数据和向内存写入数据的过程跟CPU执行指令的速度比起来要慢的多，因此如果任何时候对数据的操作都要通过和内存的交互来进行，会大大降低指令执行的速度。因此在CPU里">
@@ -402,6 +404,7 @@
 <p>​    这种方式阻塞了其他CPU对其他部件访问（如内存），从而使得只能有一个CPU能使用这个变量的内存。比如上面例子中 如果一个线程在执行 <code>i = i +1</code>，如果在执行这段代码的过程中，在总线上发出了LCOK#锁的信号，那么只有等待这段代码完全执行完毕之后，其他CPU才能从变量i所在的内存读取变量，然后进行相应的操作。虽然解决了缓存不一致性，但是由于在锁住总线期间，其他CPU无法访问内存，导致效率低下。</p>
 <p><strong>通过缓存一致性协议</strong></p>
 <p>​    最出名的就是Intel 的MESI协议，MESI协议保证了每个缓存中使用的共享变量的副本是一致的。它核心的思想是：当CPU写数据时，如果发现操作的变量是共享变量，即在其他CPU中也存在该变量的副本，会发出信号通知其他CPU将该变量的缓存行置为无效状态，因此当其他CPU需要读取这个变量时，发现自己缓存中缓存该变量的缓存行是无效的，那么它就会从内存重新读取。</p>
+<p>​    但是有两种情况下处理器不会使用缓存锁定 ：当操作的数据不能被缓存在处理器内部，或操作的数据跨多个缓存行（cache line）时，则处理器会调用总线锁定。有些处理器不支持缓存锁定。对于Intel 486和Pentium处理器，就算锁定的内存区域在处理器的缓存行中也会调用总线锁定。</p>
 <p>另外在理解并发时候，我们需要掌握三个概念：原子性问题，可见性问题，有序性问题，后面在java的内存模型详细说明。</p>
 <p>原子性问题：即一个操作或者多个操作 要么全部执行并且执行的过程不会被任何因素打断，要么就都不执行。</p>
 <p>可见性问题：指当多个线程访问同一个变量时，一个线程修改了这个变量的值，其他线程能够立即看得到修改的值。</p>
@@ -432,18 +435,19 @@
 <p>如果一个变量事先没有被lock操作锁定，那就不允许对它执行unlock操作，也不允许去unlock一个被其他线程锁定住的变量。</p>
 <p>对一个变量执行unlock操作之前，必须先把此变量同步回主内存中（执行store、 write操作）。</p>
 <p>附录：对于long和double型变量的特殊规则</p>
-<p>​    允许虚拟机将没有被volatile修饰的64位数据的读写操作划分为两次32位的操作来进行，即允许虚拟机实现选择可以不保证64位数据类型的load、 store、 read和write这4个操作的原子性，这点就是所谓的long和double的非原子性协定（Nonatomic Treatment ofdouble and<br>long Variables）。在实际开发中，目前各种平台下的商用虚拟机几乎都选择把64位数据的读写操作作为原子操作来对待，因此我们在编写代码时一般不需要把用到的long和double变量专门声明为volatile。</p>
-<h4 id="原子性、-可见性与有序性"><a href="#原子性、-可见性与有序性" class="headerlink" title="原子性、 可见性与有序性"></a>原子性、 可见性与有序性</h4><p>原子性（Atomicity）：由Java内存模型来直接保证的原子性变量操作包括read、 load、assign、 use、 store和write，我们大致可以认为基本数据类型的访问读写是具备原子性的。</p>
+<p>​    允许虚拟机将没有被volatile修饰的64位数据的读写操作划分为两次32位的操作来进行，即允许虚拟机实现选择可以不保证64位数据类型的load、 store、 read和write这4个操作的原子性，这点就是所谓的long和double的非原子性协定（Nonatomic Treatment ofdouble and long Variables）。在实际开发中，目前各种平台下的商用虚拟机几乎都选择把64位数据的读写操作作为原子操作来对待，因此我们在编写代码时一般不需要把用到的long和double变量专门声明为volatile。</p>
+<h4 id="原子性、-可见性与有序性"><a href="#原子性、-可见性与有序性" class="headerlink" title="原子性、 可见性与有序性"></a>原子性、 可见性与有序性</h4><p><strong>原子性（Atomicity）</strong>：由Java内存模型来直接保证的原子性变量操作包括read、 load、assign、 use、 store和write，我们大致可以认为基本数据类型的访问读写是具备原子性的。</p>
 <p>如果应用场景需要一个更大范围的原子性保证（经常会遇到），Java内存模型还提供了lock和unlock操作来满足这种需求，尽管虚拟机未把lock和unlock操作直接开放给用户使用，但是却提供了更高层次的字节码指令monitorenter和monitorexit来隐式地使用这两个操作，这两个字节码指令反映到Java代码中就是同步块——synchronized关键字，因此在synchronized块之间的操作也具备原子性。</p>
-<p>可见性（Visibility）：可见性是指当一个线程修改了共享变量的值，其他线程能够立即得知这个修改。 </p>
+<p>除此之外使用循环CAS实现原子操作，例如原子包装类。</p>
+<p><strong>可见性（Visibility）</strong>：可见性是指当一个线程修改了共享变量的值，其他线程能够立即得知这个修改。 </p>
 <p>除了volatile之外，Java还有两个关键字能实现可见性，即synchronized和final。同步块的可见性是由“对一个变量执行unlock操作之前，必须先把此变量同步回主内存中（执行store、write操作）”这条规则获得的，而final关键字的可见性是指：被final修饰的字段在构造器中一旦初始化完成，并且构造器没有把“this”的引用传递出去（this引用逃逸是一件很危险的事情，其他线程有可能通过这个引用访问到“初始化了一半”的对象），那在其他线程中就能看见final字段的值。</p>
-<p>有序性（Ordering）：如果在本线程内观察，所有的操作都是有序的；如果在一个线程中观察另一个线程，所有的操作都是无序的。 前半句是指“线程内表现为串行的语义”（Within-Thread As-If-Serial Semantics），后半句是指“指令重排序”现象和“工作内存与主内存同步延迟”现象。</p>
+<p><strong>有序性（Ordering）</strong>：如果在本线程内观察，所有的操作都是有序的；如果在一个线程中观察另一个线程，所有的操作都是无序的。 前半句是指“线程内表现为串行的语义”（Within-Thread As-If-Serial Semantics），后半句是指“指令重排序”现象和“工作内存与主内存同步延迟”现象。</p>
 <p>​    Java语言提供了volatile和synchronized两个关键字来保证线程之间操作的有序性，volatile关键字本身就包含了禁止指令重排序的语义，而synchronized则是由“一个变量在同一个时刻只允许一条线程对其进行lock操作”这条规则获得的，这条规则决定了持有同一个锁的两个同步块只能串行地进入。</p>
 <h4 id="重排序"><a href="#重排序" class="headerlink" title="重排序"></a>重排序</h4><p>​    为了提高编译效率，Java内存模型中，允许编译器和处理器对指令进行重排序，但是重排序过程不会影响到单线程程序的执行，却会影响到多线程并发执行的正确性。</p>
 <p>重排序分三种类型：</p>
-<p>编译器优化的重排序。编译器在不改变单线程程序语义的前提下，可以重新安排语句的执行顺序。</p>
-<p>指令级并行的重排序。现代处理器采用了指令级并行技术（Instruction-Level Parallelism， ILP）来将多条指令重叠执行。如果不存在数据依赖性，处理器可以改变语句对应机器指令的执行顺序。</p>
-<p>内存系统的重排序。由于处理器使用缓存和读/写缓冲区，这使得加载和存储操作看上去可能是在乱序执行。</p>
+<p><strong>编译器优化的重排序。</strong>编译器在不改变单线程程序语义的前提下，可以重新安排语句的执行顺序。</p>
+<p><strong>指令级并行的重排序。</strong>现代处理器采用了指令级并行技术（Instruction-Level Parallelism， ILP）来将多条指令重叠执行。如果不存在数据依赖性，处理器可以改变语句对应机器指令的执行顺序。</p>
+<p><strong>内存系统的重排序。</strong>由于处理器使用缓存和读/写缓冲区，这使得加载和存储操作看上去可能是在乱序执行。</p>
 <p><img src="/2017/06/26/java的内存模型/3.jpg" alt=""></p>
 <p>​    对于编译器，JMM的编译器重排序规则会禁止特定类型的编译器重排序（不是所有的编译器重排序都要禁止）。对于处理器重排序，JMM的处理器重排序规则会要求java编译器在生成指令序列时，插入特定类型的内存屏障（memory barriers，intel称之为memory fence）指令，通过内存屏障指令来禁止特定类型的处理器重排序（不是所有的处理器重排序都要禁止）。<br>​    JMM属于语言级的内存模型，它确保在不同的编译器和不同的处理器平台之上，通过<strong>禁止特定类型的编译器重排序和处理器重排序</strong>，为程序员提供一致的内存可见性保证。</p>
 <p>JMM把内存屏障指令分为下列四类：</p>
@@ -483,10 +487,13 @@
 <p>在每个volatile写操作的后面插入一个StoreLoad屏障。</p>
 <p>在每个volatile读操作的后面插入一个LoadLoad屏障。</p>
 <p>在每个volatile读操作的后面插入一个LoadStore屏障。</p>
+<p><img src="/2017/06/26/java的内存模型/2.png" alt=""></p>
 <h4 id="happens-before原则"><a href="#happens-before原则" class="headerlink" title="happens-before原则"></a>happens-before原则</h4><p>​    从JDK5开始，java使用新的JSR -133内存模型。JSR-133使用happens-before的概念来阐述操作之间的<strong>内存可见性</strong>。在JMM中，如果一个操作执行的结果需要对另一个操作可见，那么这两个操作之间必须要存在happens-before关系。这里提到的两个操作既可以是在一个线程之内，也可以是在不同线程之间。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">程序顺序规则：一个线程中的每个操作，happens- before 于该线程中的任意后续操作。</div><div class="line">监视器锁规则：对一个监视器锁的解锁，happens- before 于随后对这个监视器锁的加锁。</div><div class="line">volatile变量规则：对一个volatile域的写，happens- before 于任意后续对这个volatile域的读。</div><div class="line">传递性：如果A happens- before B，且B happens- before C，那么A happens- before C。</div></pre></td></tr></table></figure>
 <p>​    注意，两个操作之间具有happens-before关系，并不意味着前一个操作必须要在后一个操作之前执行！happens-before仅仅要求前一个操作（执行的结果）对后一个操作可见，且前一个操作按顺序排在第二个操作之前（the first is visible to and ordered before the second）。</p>
-<h4 id="as-if-serial语义"><a href="#as-if-serial语义" class="headerlink" title="as-if-serial语义"></a>as-if-serial语义</h4><p>​    as-if-serial语义的意思指：不管怎么重排序（编译器和处理器为了提高并行度），（单线程）程序的执行结果不能被改变。编译器，runtime 和处理器都必须遵守as-if-serial语义。</p>
+<p>happens-before与JMM的关系：<br><img src="/2017/06/26/java的内存模型/1.png" alt=""></p>
+<h4 id="as-if-serial语义"><a href="#as-if-serial语义" class="headerlink" title="as-if-serial语义"></a>as-if-serial语义</h4><p>​    as-if-serial语义的意思指：不管怎么重排序（编译器和处理器为了提高并行度），（单线程）程序的执行结果不能被改变。编译器，runtime 和处理器都必须遵守as-if-serial语义。as-if-serial语义把单线程程序保护了起来，遵守as-if-serial语义的编译器、runtime和处理器共同为编写单线程程序的程序员创建了一个幻觉：单线程程序是按程序的顺序来执行的。asif-serial语义使单线程程序员无需担心重排序会干扰他们，也无需担心内存可见性问题。</p>
+<p>总结：JMM是一个语言级的内存模型，处理器内存模型是硬件级的内存模型，顺序一致性内存模型是一个理论参考模型。 </p>
 
       
     </div>
@@ -524,8 +531,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/06/25/Synchronized-和-Lock的使用/" rel="next" title="volatile,synchronized 和 lock的使用">
-                <i class="fa fa-chevron-left"></i> volatile,synchronized 和 lock的使用
+              <a href="/2017/06/25/Synchronized-和-Lock的使用/" rel="next" title="Volatile,Synchronized ,final和 Lock的使用">
+                <i class="fa fa-chevron-left"></i> Volatile,Synchronized ,final和 Lock的使用
               </a>
             
           </div>
