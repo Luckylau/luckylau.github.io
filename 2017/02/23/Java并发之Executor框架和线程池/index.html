@@ -90,7 +90,7 @@
 <meta property="og:url" content="https://luckylau.github.io/2017/02/23/Java并发之Executor框架和线程池/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
 <meta property="og:description" content="1.基础简介：​        在Java 5之后，并发编程引入了一堆新的启动、调度和管理线程的API。Executor框架便是Java 5中引入的，其内部使用了线程池机制，它在java.util.cocurrent 包下，通过该框架来控制线程的启动、执行和关闭，可以简化并发编程的操作。">
-<meta property="og:updated_time" content="2017-08-09T08:04:11.582Z">
+<meta property="og:updated_time" content="2017-09-07T03:47:51.656Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java并发之Executor框架和线程池">
 <meta name="twitter:description" content="1.基础简介：​        在Java 5之后，并发编程引入了一堆新的启动、调度和管理线程的API。Executor框架便是Java 5中引入的，其内部使用了线程池机制，它在java.util.cocurrent 包下，通过该框架来控制线程的启动、执行和关闭，可以简化并发编程的操作。">
@@ -436,7 +436,7 @@
 <p>Executor执行invokeAll任务</p>
 <p>​        方法 invokeAll() 会调用存在于参数集合中的所有 Callable 对象，并且返回壹個包含 Future 对象的集合，你可以通过这個返回的集合来管理每個 Callable 的执行结果。需要注意的是，任务有可能因为异常而导致运行结束，所以它可能并不是真的成功运行了。但是我们没有办法通过 Future 对象来了解到这個差异。</p>
 <h4 id="6-ExecuteService-服务的关闭"><a href="#6-ExecuteService-服务的关闭" class="headerlink" title="6.ExecuteService 服务的关闭"></a>6.ExecuteService 服务的关闭</h4><p>​        shutdown()方法在终止前允许执行以前提交的任务，而 shutdownNow() 方法阻止等待任务的启动并试图停止当前正在执行的任务。在终止后，执行程序没有任务在执行，也没有任务在等待执行，并且无法提交新任务。应该关闭未使用的 ExecutorService以允许回收其资源。</p>
-<h4 id="7-排队的策略"><a href="#7-排队的策略" class="headerlink" title="7.排队的策略:"></a>7.排队的策略:</h4><p>​    直接提交。缓冲队列采用 SynchronousQueue，它将任务直接交给线程处理而不保持它们。如果不存在可用于立即运行任务的线程（即线程池中的线程都在工作），则试图把任务加入缓冲队列将会失败，因此会构造一个新的线程来处理新添加的任务，并将其加入到线程池中。直接提交通常要求无界 maximumPoolSizes（Integer.MAX_VALUE） 以避免拒绝新提交的任务。newCachedThreadPool采用的便是这种策略。</p>
+<h4 id="7-排队的策略"><a href="#7-排队的策略" class="headerlink" title="7.排队的策略:"></a>7.排队的策略:</h4><p>​    直接提交。缓冲队列采用 SynchronousQueue，它将任务直接交给线程处理而不保持它们。如果不存在可用于立即运行任务的线程（即线程池中的线程都在工作），则试图把任务加入缓冲队列将会失败，因此会构造一个新的线程来处理新添加的任务，并将其加入到线程池中。直接提交通常要求无界 maximumPoolSizes （Integer.MAX_VALUE） 以避免拒绝新提交的任务。newCachedThreadPool采用的便是这种策略。</p>
 <p>​    无界队列。使用无界队列（典型的便是采用预定义容量的 LinkedBlockingQueue，理论上是该缓冲队列可以对无限多的任务排队）将导致在所有 corePoolSize 线程都工作的情况下将新任务加入到缓冲队列中。这样，创建的线程就不会超过 corePoolSize，也因此，maximumPoolSize 的值也就无效了。当每个任务完全独立于其他任务，即任务执行互不影响时，适合于使用无界队列。newFixedThreadPool采用的便是这种策略。</p>
 <p>​    有界队列。当使用有限的 maximumPoolSizes 时，有界队列（一般缓冲队列使用ArrayBlockingQueue，并制定队列的最大长度）有助于防止资源耗尽，但是可能较难调整和控制，队列大小和最大池大小需要相互折衷，需要设定合理的参数。</p>
 <h4 id="8-参考："><a href="#8-参考：" class="headerlink" title="8.参考："></a>8.参考：</h4><p><a href="http://blog.csdn.net/ns_code/article/details/17465497" target="_blank" rel="external">http://blog.csdn.net/ns_code/article/details/17465497</a></p>
@@ -564,7 +564,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">102</span>
+                <span class="site-state-item-count">103</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
