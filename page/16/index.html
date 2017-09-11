@@ -678,7 +678,25 @@
 
       
         
-          <h4 id="1-基础简介："><a href="#1-基础简介：" class="headerlink" title="1.基础简介："></a>1.基础简介：</h4><p>​        在Java 5之后，并发编程引入了一堆新的启动、调度和管理线程的API。Executor框架便是Java 5中引入的，其内部使用了线程池机制，它在java.util.cocurrent 包下，通过该框架来控制线程的启动、执行和关闭，可以简化并发编程的操作。</p>
+          <table>
+<thead>
+<tr>
+<th>修订</th>
+<th>时间</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>初始化章节</td>
+<td>2017-02-23</td>
+</tr>
+<tr>
+<td>丰富内容，梳理章节</td>
+<td>2017-09-11</td>
+</tr>
+</tbody>
+</table>
+<h3 id="基础简介"><a href="#基础简介" class="headerlink" title="基础简介"></a>基础简介</h3><p>​        在Java中，使用线程来异步执行任务 。Java线程的创建与销毁需要一定的开销，如果我们为每一个任务创建一个新线程来执行，这些线程的创建与销毁将消耗大量的计算资源。同时，为每一个任务创建一个新线程来执行，这种策略可能会使处于高负荷状态的应用最终崩溃。Java的线程既是工作单元，也是执行机制。从JDK 5开始，把工作单元与执行机制分离开来。工作单元包括Runnable和Callable，而执行机制由Executor框架提供，通过该框架来控制线程的启动、执行和关闭，可以简化并发编程的操作。</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/02/23/Java并发之Executor框架和线程池/#more" rel="contents">

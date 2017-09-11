@@ -84,29 +84,72 @@
 
 
 
-<meta name="description" content="RunnableRunnable是个接口，在它里面只声明了一个run()方法：
+<meta name="description" content="内容
+时间
+
+
+
+
+初始化
+2017-06-22
+
+
+更新FutureTask
+2017-09-11
+
+
+
+RunnableRunnable是个接口，在它里面只声明了一个run()方法：
 123public interface Runnable &amp;#123;	public abstract void run();&amp;#125;
 使用很简单：
-1.实现该接口并重写run方法 2.利用该类的对象创建线程 3.线程启动时就会自动调用该对象的run方法
-相对于继承Thread来创建线程方式，使用Runnable可">
+1.实现该接口并重写run方法 2.利用该类的对象创">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Runnable Callable及Future FutureTask的用法">
+<meta property="og:title" content="Runnable，Callable及Future，FutureTask的用法">
 <meta property="og:url" content="https://luckylau.github.io/2017/06/22/Runnable-Callable及Future的用法/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
-<meta property="og:description" content="RunnableRunnable是个接口，在它里面只声明了一个run()方法：
+<meta property="og:description" content="内容
+时间
+
+
+
+
+初始化
+2017-06-22
+
+
+更新FutureTask
+2017-09-11
+
+
+
+RunnableRunnable是个接口，在它里面只声明了一个run()方法：
 123public interface Runnable &amp;#123;	public abstract void run();&amp;#125;
 使用很简单：
-1.实现该接口并重写run方法 2.利用该类的对象创建线程 3.线程启动时就会自动调用该对象的run方法
-相对于继承Thread来创建线程方式，使用Runnable可">
+1.实现该接口并重写run方法 2.利用该类的对象创">
 <meta property="og:image" content="https://luckylau.github.io/2017/06/22/Runnable-Callable及Future的用法/1.jpg">
-<meta property="og:updated_time" content="2017-08-09T09:57:59.609Z">
+<meta property="og:image" content="https://luckylau.github.io/2017/06/22/Runnable-Callable及Future的用法/2.jpg">
+<meta property="og:updated_time" content="2017-09-11T08:13:39.991Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Runnable Callable及Future FutureTask的用法">
-<meta name="twitter:description" content="RunnableRunnable是个接口，在它里面只声明了一个run()方法：
+<meta name="twitter:title" content="Runnable，Callable及Future，FutureTask的用法">
+<meta name="twitter:description" content="内容
+时间
+
+
+
+
+初始化
+2017-06-22
+
+
+更新FutureTask
+2017-09-11
+
+
+
+RunnableRunnable是个接口，在它里面只声明了一个run()方法：
 123public interface Runnable &amp;#123;	public abstract void run();&amp;#125;
 使用很简单：
-1.实现该接口并重写run方法 2.利用该类的对象创建线程 3.线程启动时就会自动调用该对象的run方法
-相对于继承Thread来创建线程方式，使用Runnable可">
+1.实现该接口并重写run方法 2.利用该类的对象创">
 <meta name="twitter:image" content="https://luckylau.github.io/2017/06/22/Runnable-Callable及Future的用法/1.jpg">
 
 
@@ -141,7 +184,7 @@
 
 
 
-  <title> Runnable Callable及Future FutureTask的用法 | Luckylau's Blog </title>
+  <title> Runnable，Callable及Future，FutureTask的用法 | Luckylau's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -321,7 +364,7 @@
             
             
               
-                Runnable Callable及Future FutureTask的用法
+                Runnable，Callable及Future，FutureTask的用法
               
             
           </h1>
@@ -399,7 +442,25 @@
       
 
       
-        <h3 id="Runnable"><a href="#Runnable" class="headerlink" title="Runnable"></a>Runnable</h3><p>Runnable是个接口，在它里面只声明了一个run()方法：</p>
+        <table>
+<thead>
+<tr>
+<th>内容</th>
+<th>时间</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>初始化</td>
+<td>2017-06-22</td>
+</tr>
+<tr>
+<td>更新FutureTask</td>
+<td>2017-09-11</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Runnable"><a href="#Runnable" class="headerlink" title="Runnable"></a>Runnable</h3><p>Runnable是个接口，在它里面只声明了一个run()方法：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Runnable</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>使用很简单：</p>
 <p>1.实现该接口并重写run方法 2.利用该类的对象创建线程 3.线程启动时就会自动调用该对象的run方法</p>
@@ -448,12 +509,29 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span> ; i++)&#123;</div><div class="line">			RequestDemo re = <span class="keyword">new</span> RequestDemo(<span class="string">"db"</span>);</div><div class="line">			Thread th =<span class="keyword">new</span> Thread(re);</div><div class="line">			th.start();</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>在上面的例子中，我们通过加锁确保高并发环境下的线程安全，也确保了connection只创建一次，然而确牺牲了性能。改用ConcurrentHash的情况下，几乎可以避免加锁的操作，性能大大提高，但是在高并发的情况下有可能出现Connection被创建多次的现象。(我们将上述的HashMap换成ConcurrentHash，去掉lock,发现Connection会被创建多次),我们使用FutureTask可以解决这个问题。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.util.Random;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.Callable;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.ConcurrentHashMap;</div><div class="line"><span class="keyword">import</span> java.util.concurrent.FutureTask;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Connection</span> </span>&#123;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> ConcurrentHashMap&lt;String,FutureTask&lt;Connection&gt;&gt;connectionPool = <span class="keyword">new</span> ConcurrentHashMap&lt;String, FutureTask&lt;Connection&gt;&gt;();</div><div class="line">	<span class="keyword">private</span> String name;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> Random random = <span class="keyword">new</span> Random();</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Connection</span> <span class="params">(String name)</span></span>&#123;</div><div class="line">		<span class="keyword">this</span>.name = name;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Connection <span class="title">getConnection</span><span class="params">(String key)</span> <span class="keyword">throws</span> Exception</span>&#123; </div><div class="line">	    FutureTask&lt;Connection&gt;connectionTask=connectionPool.get(key);  </div><div class="line">	    <span class="keyword">if</span>(connectionTask!=<span class="keyword">null</span>)&#123;  </div><div class="line">	        <span class="keyword">return</span> connectionTask.get();  </div><div class="line">	    &#125;<span class="keyword">else</span>&#123;  </div><div class="line">	        Callable&lt;Connection&gt; callable = <span class="keyword">new</span> Callable&lt;Connection&gt;()&#123;  </div><div class="line">	            <span class="meta">@Override</span>  </div><div class="line">	            <span class="function"><span class="keyword">public</span> Connection <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;  </div><div class="line">	                <span class="comment">// TODO Auto-generated method stub  </span></div><div class="line">	                <span class="keyword">return</span> createConnection();  </div><div class="line">	            &#125;  </div><div class="line">	        &#125;;  </div><div class="line">	        FutureTask&lt;Connection&gt;newTask = <span class="keyword">new</span> FutureTask&lt;Connection&gt;(callable);  </div><div class="line">	        connectionTask = connectionPool.putIfAbsent(key, newTask);  </div><div class="line">	        <span class="keyword">if</span>(connectionTask==<span class="keyword">null</span>)&#123;</div><div class="line">	            connectionTask = newTask;  </div><div class="line">	            connectionTask.run();  </div><div class="line">	        &#125;  </div><div class="line">	        <span class="keyword">return</span> connectionTask.get();  </div><div class="line">	    &#125;  </div><div class="line">	&#125;  </div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> Connection <span class="title">createConnection</span><span class="params">()</span></span>&#123;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">new</span> Connection(<span class="string">"db-connect-"</span>+random.nextInt(<span class="number">1000</span>));</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> name;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="FutureTask的实现"><a href="#FutureTask的实现" class="headerlink" title="FutureTask的实现"></a>FutureTask的实现</h4><p>FutureTask的实现基于AbstractQueuedSynchronizer（以下简称为AQS）。java.util.concurrent中的很多可阻塞类（比如ReentrantLock）都是基于AQS来实现的。AQS是一个同步框架，它提供通用机制来原子性管理同步状态、阻塞和唤醒线程，以及维护被阻塞线程的队列。JDK 6中AQS被广泛使用，基于AQS实现的同步器包括：ReentrantLock、Semaphore、ReentrantReadWriteLock、CountDownLatch和FutureTask。</p>
+<p>每一个基于AQS实现的同步器都会包含两种类型的操作，如下：</p>
+<p>至少一个acquire操作。这个操作阻塞调用线程，除非/直到AQS的状态允许这个线程继续执行。FutureTask的acquire操作为get()/get（long timeout，TimeUnit unit）方法调用。<br>至少一个release操作。这个操作改变AQS的状态，改变后的状态可允许一个或多个阻塞线程被解除阻塞。FutureTask的release操作包括run()方法和cancel（…）方法。<br>基于“复合优先于继承”的原则，FutureTask声明了一个内部私有的继承于AQS的子类Sync，对FutureTask所有公有方法的调用都会委托给这个内部子类。</p>
+<p>AQS被作为“模板方法模式”的基础类提供给FutureTask的内部子类Sync，这个内部子类只需要实现状态检查和状态更新的方法即可，这些方法将控制FutureTask的获取和释放操作。具体来说，Sync实现了AQS的tryAcquire Shared（int）方法和tryReleaseShared（int）方法，Sync通过这两个方法来检查和更新同步状态。</p>
+<p><img src="/2017/06/22/Runnable-Callable及Future的用法/2.jpg" alt=""></p>
+<p>Sync是FutureTask的内部私有类，它继承自AQS。创建FutureTask时会创建内部私有的成员对象Sync，Future Task所有的的公有方法都直接委托给了内部私有的Sync。</p>
+<p>FutureTask.get()方法会调用AQS.acquireSharedInterruptibly（int arg）方法：</p>
+<p>调用AQS.acquireSharedInterruptibly（int arg）方法，这个方法首先会回调在子类Sync中实现的tryAcquire Shared()方法来判断acquire操作是否可以成功。acquire操作可以成功的条件为：state为执行完成状态RAN或已取消状态CANCELLED，且runner不为null。</p>
+<p>如果成功则get()方法立即返回。如果失败则到线程等待队列中去等待其他线程执行release操作。</p>
+<p>当其他线程执行release操作（比如FutureTask.run()或FutureTask.cancel（…））唤醒当前线程后，当前线程再次执行tryAcquireShared()将返回正值1，当前线程将离开线程等待队列并唤醒它的后继线程。</p>
+<p>最后返回计算的结果或抛出异常。</p>
+<p>FutureTask.run()方法的执行过程：</p>
+<p>执行在构造函数中指定的任务（Callable.call()）</p>
+<p>以原子方式来更新同步状态（调用AQS.compareAndSetState（int expect，int update），设置state为执行完成状态RAN）。如果这个原子操作成功，就设置代表计算结果的变量result的值为Callable.call()的返回值，然后调用AQS.releaseShared（int arg）。</p>
+<p>AQS.releaseShared（int arg）首先会回调在子类Sync中实现的tryReleaseShared（arg）来执行release操作（设置运行任务的线程runner为null，然会返回true）；AQS.releaseShared（int arg），然后唤醒线程等待队列中的第一个线程。</p>
+<p>调用FutureTask.done() 。</p>
 <h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p><a href="http://www.cnblogs.com/MOBIN/p/6185387.html" target="_blank" rel="external">http://www.cnblogs.com/MOBIN/p/6185387.html</a></p>
 <p><a href="http://www.importnew.com/17572.html" target="_blank" rel="external">http://www.importnew.com/17572.html</a></p>
 <p><a href="http://blog.csdn.net/chdjj/article/details/38900521" target="_blank" rel="external">http://blog.csdn.net/chdjj/article/details/38900521</a></p>
 <p><a href="http://blog.csdn.net/liulipuo/article/details/39029643" target="_blank" rel="external">http://blog.csdn.net/liulipuo/article/details/39029643</a></p>
 <p><a href="http://blog.csdn.net/linchunquan/article/details/22382487" target="_blank" rel="external">http://blog.csdn.net/linchunquan/article/details/22382487</a></p>
 <p><a href="http://blog.csdn.net/javazejian/article/details/50896505" target="_blank" rel="external">http://blog.csdn.net/javazejian/article/details/50896505</a></p>
+<p>《java的并发编程艺术》</p>
 
       
     </div>
@@ -646,7 +724,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Runnable"><span class="nav-number">1.</span> <span class="nav-text">Runnable</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Callable"><span class="nav-number">2.</span> <span class="nav-text">Callable</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Future"><span class="nav-number">3.</span> <span class="nav-text">Future</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FutureTask"><span class="nav-number">4.</span> <span class="nav-text">FutureTask</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考："><span class="nav-number">5.</span> <span class="nav-text">参考：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Runnable"><span class="nav-number">1.</span> <span class="nav-text">Runnable</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Callable"><span class="nav-number">2.</span> <span class="nav-text">Callable</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Future"><span class="nav-number">3.</span> <span class="nav-text">Future</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FutureTask"><span class="nav-number">4.</span> <span class="nav-text">FutureTask</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#FutureTask的实现"><span class="nav-number">4.1.</span> <span class="nav-text">FutureTask的实现</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考："><span class="nav-number">5.</span> <span class="nav-text">参考：</span></a></li></ol></div>
             
 
           </div>

@@ -84,19 +84,19 @@
 
 
 
-<meta name="description" content="java的注解（Annotation）机制*
-什么是注解？​    在JDK中我们经常看到@Override @SuppressWarnings(“unchecked”)，@Deprecated这三种注解。我们好奇的点开其中的一个实现，代码非常简单。其实在我们使用各种开发框架时候，注解也是经常用到的相关的代码，比如SpringBoot里的@RestController，@Autowired等。下面">
+<meta name="description" content="java的注解（Annotation）机制
+什么是注解？​    在JDK中我们经常看到@Override @SuppressWarnings(“unchecked”)，@Deprecated这三种注解。我们好奇的点开其中的一个实现，代码非常简单。其实在我们使用各种开发框架时候，注解也是经常用到的相关的代码，比如SpringBoot里的@RestController，@Autowired等。下面我">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java基础之注解">
 <meta property="og:url" content="https://luckylau.github.io/2017/08/08/你懂java吗-20/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
-<meta property="og:description" content="java的注解（Annotation）机制*
-什么是注解？​    在JDK中我们经常看到@Override @SuppressWarnings(“unchecked”)，@Deprecated这三种注解。我们好奇的点开其中的一个实现，代码非常简单。其实在我们使用各种开发框架时候，注解也是经常用到的相关的代码，比如SpringBoot里的@RestController，@Autowired等。下面">
-<meta property="og:updated_time" content="2017-08-11T02:29:15.799Z">
+<meta property="og:description" content="java的注解（Annotation）机制
+什么是注解？​    在JDK中我们经常看到@Override @SuppressWarnings(“unchecked”)，@Deprecated这三种注解。我们好奇的点开其中的一个实现，代码非常简单。其实在我们使用各种开发框架时候，注解也是经常用到的相关的代码，比如SpringBoot里的@RestController，@Autowired等。下面我">
+<meta property="og:updated_time" content="2017-09-11T05:07:30.342Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java基础之注解">
-<meta name="twitter:description" content="java的注解（Annotation）机制*
-什么是注解？​    在JDK中我们经常看到@Override @SuppressWarnings(“unchecked”)，@Deprecated这三种注解。我们好奇的点开其中的一个实现，代码非常简单。其实在我们使用各种开发框架时候，注解也是经常用到的相关的代码，比如SpringBoot里的@RestController，@Autowired等。下面">
+<meta name="twitter:description" content="java的注解（Annotation）机制
+什么是注解？​    在JDK中我们经常看到@Override @SuppressWarnings(“unchecked”)，@Deprecated这三种注解。我们好奇的点开其中的一个实现，代码非常简单。其实在我们使用各种开发框架时候，注解也是经常用到的相关的代码，比如SpringBoot里的@RestController，@Autowired等。下面我">
 
 
 
@@ -388,7 +388,7 @@
       
 
       
-        <p><strong>java的注解（Annotation）机制*</strong></p>
+        <p><strong>java的注解（Annotation）机制</strong></p>
 <h3 id="什么是注解？"><a href="#什么是注解？" class="headerlink" title="什么是注解？"></a>什么是注解？</h3><p>​    在JDK中我们经常看到@Override @SuppressWarnings(“unchecked”)，@Deprecated这三种注解。我们好奇的点开其中的一个实现，代码非常简单。其实在我们使用各种开发框架时候，注解也是经常用到的相关的代码，比如SpringBoot里的@RestController，@Autowired等。下面我们就详细介绍一下注解。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//@Override</span></div><div class="line"><span class="meta">@Target</span>(ElementType.METHOD)</div><div class="line"><span class="meta">@Retention</span>(RetentionPolicy.SOURCE)</div><div class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Override &#123;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <a id="more"></a>

@@ -310,7 +310,7 @@
               
                 
                 <a class="post-title-link" href="/2017/06/22/Runnable-Callable及Future的用法/" itemprop="url">
-                  Runnable Callable及Future FutureTask的用法
+                  Runnable，Callable及Future，FutureTask的用法
                 </a>
               
             
@@ -385,7 +385,25 @@
 
       
         
-          <h3 id="Runnable"><a href="#Runnable" class="headerlink" title="Runnable"></a>Runnable</h3><p>Runnable是个接口，在它里面只声明了一个run()方法：</p>
+          <table>
+<thead>
+<tr>
+<th>内容</th>
+<th>时间</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>初始化</td>
+<td>2017-06-22</td>
+</tr>
+<tr>
+<td>更新FutureTask</td>
+<td>2017-09-11</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Runnable"><a href="#Runnable" class="headerlink" title="Runnable"></a>Runnable</h3><p>Runnable是个接口，在它里面只声明了一个run()方法：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Runnable</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>使用很简单：</p>
 <p>1.实现该接口并重写run方法 2.利用该类的对象创建线程 3.线程启动时就会自动调用该对象的run方法</p>
