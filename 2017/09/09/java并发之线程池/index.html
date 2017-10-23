@@ -91,7 +91,7 @@
 <meta property="og:site_name" content="Luckylau's Blog">
 <meta property="og:description" content="​         Java中的线程池是运用场景最多的并发框架，几乎所有需要异步或并发执行任务的程序都可以使用线程池。线程池能够带来3个好处：降低资源消耗 （重复利用已创建的线程降低线程创建和销毁造成的消耗），提高响应速度（当任务到达时，任务可以不需要等到线程创建就能立即执行 ），提高线程的可管理性（线程是稀缺资源，如果无限制地创建，不仅会消耗系统资源，还会降低系统的稳定性，使用线程池可以进行统一">
 <meta property="og:image" content="https://luckylau.github.io/2017/09/09/java并发之线程池/1.png">
-<meta property="og:updated_time" content="2017-09-11T03:13:39.647Z">
+<meta property="og:updated_time" content="2017-10-10T10:47:59.325Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java并发之线程池">
 <meta name="twitter:description" content="​         Java中的线程池是运用场景最多的并发框架，几乎所有需要异步或并发执行任务的程序都可以使用线程池。线程池能够带来3个好处：降低资源消耗 （重复利用已创建的线程降低线程创建和销毁造成的消耗），提高响应速度（当任务到达时，任务可以不需要等到线程创建就能立即执行 ），提高线程的可管理性（线程是稀缺资源，如果无限制地创建，不仅会消耗系统资源，还会降低系统的稳定性，使用线程池可以进行统一">
@@ -424,7 +424,7 @@
 <p>例如：CPU密集型任务，配置尽可能小的线程，如配置Ncpu+1个线程的线程池 ；IO密集型任务，应配置尽可能多的线程，如2*Ncpu。混合型的任务。可以通过Runtime.getRuntime().availableProcessors()方法获得当前设备的CPU个数；优先级不同的任务可以使用优先级队列PriorityBlockingQueue来处理。它可以让优先级高的任务先执行（如果一直有优先级高的任务提交到队列里，那么优先级低的任务可能永远不能执行 ）；执行时间不同的任务可以交给不同规模的线程池来处理，或者可以使用优先级队列，让执行时间短的任务先执行；依赖数据库连接池的任务，因为线程提交SQL后需要等待数据库返回结果，等待的时间越长，则CPU空闲时间就越长，那么线程数应该设置得越大，这样才能更好地利用CPU。建议使用有界队列。</p>
 <h3 id="线程池的监控"><a href="#线程池的监控" class="headerlink" title="线程池的监控"></a>线程池的监控</h3><p>如果在系统中大量使用线程池，则有必要对线程池进行监控，方便在出现问题时，可以根据线程池的使用状况快速定位问题。</p>
 <p>taskCount：线程池需要执行的任务数量；</p>
-<p>completedTaskCount：线程池在运行过程中已完成的任务数量，小于或等于taskCount；s</p>
+<p>completedTaskCount：线程池在运行过程中已完成的任务数量，小于或等于taskCount；</p>
 <p>largestPoolSize：线程池里曾经创建过的最大线程数量。通过这个数据可以知道线程池是否曾经满过。如该数值等于线程池的最大大小，则表示线程池曾经满过；</p>
 <p>getPoolSize：线程池的线程数量。如果线程池不销毁的话，线程池里的线程不会自动销毁，所以这个大小只增不减；</p>
 <p>getActiveCount：获取活动的线程数；</p>
@@ -545,7 +545,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">104</span>
+                <span class="site-state-item-count">101</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -563,7 +563,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
