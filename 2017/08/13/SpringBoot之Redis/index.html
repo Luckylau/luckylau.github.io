@@ -92,7 +92,7 @@
 <meta property="og:site_name" content="Luckylau's Blog">
 <meta property="og:description" content="最近项目使用了Redis，抽个时间系统的整理一下Redis的使用。
 什么是Redis？​        Redis是Nosql数据库中使用较为广泛的非关系型内存数据库，Redis内部是一个key-value存储系统。它支持存储的value类型相对更多，包括string(字符串)、list(链表)、set(集合)、zset(sorted set –有序集合)和hash（哈希类型，类似于Java中的m">
-<meta property="og:updated_time" content="2017-08-25T05:15:06.655Z">
+<meta property="og:updated_time" content="2017-10-26T06:10:08.013Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SpringBoot之Redis">
 <meta name="twitter:description" content="最近项目使用了Redis，抽个时间系统的整理一下Redis的使用。
@@ -456,15 +456,6 @@
 <p>最后一个就是WATCH，它本身的作用是“监视key是否被改动过”，而且支持同时监视多个key，只要还没真正触发事务，WATCH都会尽职尽责的监视，一旦发现某个key被修改了，在执行EXEC时就会返回nil，表示事务无法触发。</p>
 <h3 id="Redis的集群"><a href="#Redis的集群" class="headerlink" title="Redis的集群"></a>Redis的集群</h3><h4 id="Redis的主从配置"><a href="#Redis的主从配置" class="headerlink" title="Redis的主从配置"></a>Redis的主从配置</h4><p>​        像MySQL一样，redis是支持主从同步的，而且也支持一主多从以及多级从结构。主从结构，一是为了纯粹的冗余备份，二是为了提升读性能，比如很消耗性能的SORT就可以由从服务器来承担。redis的主从同步是异步进行的，这意味着主从同步不会影响主逻辑，也不会降低redis的处理性能。主从架构中，可以考虑关闭主服务器的数据持久化功能，只让从服务器进行持久化，这样可以提高主服务器的处理性能。<br>​       在主从架构中，从服务器通常被设置为只读模式，这样可以避免从服务器的数据被误修改。但是从服务器仍然可以接受CONFIG等指令，所以还是不应该将从服务器直接暴露到不安全的网络环境中。如果必须如此，那可以考虑给重要指令进行重命名，来避免命令被外人误执行。</p>
 <p>​        其过程如下：从服务器会向主服务器发出SYNC指令，当主服务器接到此命令后，就会调用BGSAVE指令来创建一个子进程专门进行数据持久化工作，也就是将主服务器的数据写入RDB文件中。在数据持久化期间，主服务器将执行的写指令都缓存在内存中。<br>​       在BGSAVE指令执行完成后，主服务器会将持久化好的RDB文件发送给从服务器，从服务器接到此文件后会将其存储到磁盘上，然后再将其读取到内存中。这个动作完成后，主服务器会将这段时间缓存的写指令再以redis协议的格式发送给从服务器。<br>​        另外，要说的一点是，即使有多个从服务器同时发来SYNC指令，主服务器也只会执行一次BGSAVE，然后把持久化好的RDB文件发给多个下游。在redis2.8版本之前，如果从服务器与主服务器因某些原因断开连接的话，都会进行一次主从之间的全量的数据同步；而在2.8版本之后，redis支持了效率更高的增量同步策略，这大大降低了连接断开的恢复成本。<br>​        主服务器会在内存中维护一个缓冲区，缓冲区中存储着将要发给从服务器的内容。从服务器在与主服务器出现网络瞬断之后，从服务器会尝试再次与主服务器连接，一旦连接成功，从服务器就会把“希望同步的主服务器ID”和“希望请求的数据的偏移位置（replication offset）”发送出去。主服务器接收到这样的同步请求后，首先会验证主服务器ID是否和自己的ID匹配，其次会检查“请求的偏移位置”是否存在于自己的缓冲区中，如果两者都满足的话，主服务器就会向从服务器发送增量内容。<br>​        增量同步功能，需要服务器端支持全新的PSYNC指令。这个指令，只有在redis-2.8之后才具有。</p>
-<p><a href="http://blog.csdn.net/zfl092005/article/details/17523945" target="_blank" rel="external">http://blog.csdn.net/zfl092005/article/details/17523945</a></p>
-<p><a href="http://www.cnblogs.com/jager/p/6349860.html" target="_blank" rel="external">http://www.cnblogs.com/jager/p/6349860.html</a></p>
-<p><a href="http://blog.csdn.net/u011204847/article/details/51307044" target="_blank" rel="external">http://blog.csdn.net/u011204847/article/details/51307044</a></p>
-<p><a href="http://blog.csdn.net/huwei2003/article/details/50973967" target="_blank" rel="external">http://blog.csdn.net/huwei2003/article/details/50973967</a></p>
-<p><a href="http://www.cnblogs.com/LiZhiW/p/4851631.html" target="_blank" rel="external">http://www.cnblogs.com/LiZhiW/p/4851631.html</a></p>
-<p><a href="http://blog.csdn.net/vtopqx/article/details/49247285" target="_blank" rel="external">http://blog.csdn.net/vtopqx/article/details/49247285</a></p>
-<p><a href="http://blog.csdn.net/zhe1110/article/details/52993082" target="_blank" rel="external">http://blog.csdn.net/zhe1110/article/details/52993082</a></p>
-<p><a href="http://blog.csdn.net/asas1314/article/details/50203923" target="_blank" rel="external">http://blog.csdn.net/asas1314/article/details/50203923</a></p>
-<p><a href="http://blog.csdn.net/ASAS1314/article/details/50184973" target="_blank" rel="external">http://blog.csdn.net/ASAS1314/article/details/50184973</a></p>
 <p>Redis的集群配置</p>
 <p>Redis的主从集群的Sentinel配置</p>
 <h3 id="SpringBoot操作Redis"><a href="#SpringBoot操作Redis" class="headerlink" title="SpringBoot操作Redis"></a>SpringBoot操作Redis</h3><p>Jedis </p>
@@ -484,6 +475,8 @@
 <p><a href="http://blog.sina.com.cn/s/blog_6940cab30102uy02.html" target="_blank" rel="external">http://blog.sina.com.cn/s/blog_6940cab30102uy02.html</a></p>
 <p><a href="http://www.cnblogs.com/lei2007/p/3837288.html" target="_blank" rel="external">http://www.cnblogs.com/lei2007/p/3837288.html</a></p>
 <p><a href="http://www.jb51.net/article/56448.htm" target="_blank" rel="external">http://www.jb51.net/article/56448.htm</a></p>
+<p><a href="http://blog.csdn.net/zfl092005/article/details/17523945" target="_blank" rel="external">http://blog.csdn.net/zfl092005/article/details/17523945</a></p>
+<p><a href="http://www.cnblogs.com/jager/p/6349860.html" target="_blank" rel="external">http://www.cnblogs.com/jager/p/6349860.html</a></p>
 
       
     </div>
@@ -603,7 +596,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">101</span>
+                <span class="site-state-item-count">102</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -621,7 +614,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
