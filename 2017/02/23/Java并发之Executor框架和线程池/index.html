@@ -84,42 +84,12 @@
 
 
 
-<meta name="description" content="修订
-时间
-
-
-
-
-初始化章节
-2017-02-23
-
-
-丰富内容，梳理章节
-2017-09-11
-
-
-
-基础简介​        在Java中，使用线程来异步执行任务 。Java线程的创建与销毁需要一定的开销，如果我们为每一个任务创建一个新线程来执行，这些线程的创建与销毁将消耗大量的计算资源。同时，为每一个任务创建一个新线程来执行，这种策略可能会使处于高负荷状态的应用最终崩溃。Java的线">
+<meta name="description" content="基础简介​        在Java中，使用线程来异步执行任务 。Java线程的创建与销毁需要一定的开销，如果我们为每一个任务创建一个新线程来执行，这些线程的创建与销毁将消耗大量的计算资源。同时，为每一个任务创建一个新线程来执行，这种策略可能会使处于高负荷状态的应用最终崩溃。Java的线程既是工作单元，也是执行机制。从JDK 5开始，把工作单元与执行机制分离开来。工作单元包括Runnable和Ca">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java并发之Executor框架">
 <meta property="og:url" content="https://luckylau.github.io/2017/02/23/Java并发之Executor框架和线程池/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
-<meta property="og:description" content="修订
-时间
-
-
-
-
-初始化章节
-2017-02-23
-
-
-丰富内容，梳理章节
-2017-09-11
-
-
-
-基础简介​        在Java中，使用线程来异步执行任务 。Java线程的创建与销毁需要一定的开销，如果我们为每一个任务创建一个新线程来执行，这些线程的创建与销毁将消耗大量的计算资源。同时，为每一个任务创建一个新线程来执行，这种策略可能会使处于高负荷状态的应用最终崩溃。Java的线">
+<meta property="og:description" content="基础简介​        在Java中，使用线程来异步执行任务 。Java线程的创建与销毁需要一定的开销，如果我们为每一个任务创建一个新线程来执行，这些线程的创建与销毁将消耗大量的计算资源。同时，为每一个任务创建一个新线程来执行，这种策略可能会使处于高负荷状态的应用最终崩溃。Java的线程既是工作单元，也是执行机制。从JDK 5开始，把工作单元与执行机制分离开来。工作单元包括Runnable和Ca">
 <meta property="og:image" content="https://luckylau.github.io/2017/02/23/Java并发之Executor框架和线程池/1.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/02/23/Java并发之Executor框架和线程池/2.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/02/23/Java并发之Executor框架和线程池/3.png">
@@ -128,25 +98,10 @@
 <meta property="og:image" content="https://luckylau.github.io/2017/02/23/Java并发之Executor框架和线程池/5.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/02/23/Java并发之Executor框架和线程池/7.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/02/23/Java并发之Executor框架和线程池/8.png">
-<meta property="og:updated_time" content="2017-11-18T09:42:01.203Z">
+<meta property="og:updated_time" content="2017-12-28T10:11:48.708Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java并发之Executor框架">
-<meta name="twitter:description" content="修订
-时间
-
-
-
-
-初始化章节
-2017-02-23
-
-
-丰富内容，梳理章节
-2017-09-11
-
-
-
-基础简介​        在Java中，使用线程来异步执行任务 。Java线程的创建与销毁需要一定的开销，如果我们为每一个任务创建一个新线程来执行，这些线程的创建与销毁将消耗大量的计算资源。同时，为每一个任务创建一个新线程来执行，这种策略可能会使处于高负荷状态的应用最终崩溃。Java的线">
+<meta name="twitter:description" content="基础简介​        在Java中，使用线程来异步执行任务 。Java线程的创建与销毁需要一定的开销，如果我们为每一个任务创建一个新线程来执行，这些线程的创建与销毁将消耗大量的计算资源。同时，为每一个任务创建一个新线程来执行，这种策略可能会使处于高负荷状态的应用最终崩溃。Java的线程既是工作单元，也是执行机制。从JDK 5开始，把工作单元与执行机制分离开来。工作单元包括Runnable和Ca">
 <meta name="twitter:image" content="https://luckylau.github.io/2017/02/23/Java并发之Executor框架和线程池/1.png">
 
 
@@ -439,25 +394,7 @@
       
 
       
-        <table>
-<thead>
-<tr>
-<th>修订</th>
-<th>时间</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>初始化章节</td>
-<td>2017-02-23</td>
-</tr>
-<tr>
-<td>丰富内容，梳理章节</td>
-<td>2017-09-11</td>
-</tr>
-</tbody>
-</table>
-<h3 id="基础简介"><a href="#基础简介" class="headerlink" title="基础简介"></a>基础简介</h3><p>​        在Java中，使用线程来异步执行任务 。Java线程的创建与销毁需要一定的开销，如果我们为每一个任务创建一个新线程来执行，这些线程的创建与销毁将消耗大量的计算资源。同时，为每一个任务创建一个新线程来执行，这种策略可能会使处于高负荷状态的应用最终崩溃。Java的线程既是工作单元，也是执行机制。从JDK 5开始，把工作单元与执行机制分离开来。工作单元包括Runnable和Callable，而执行机制由Executor框架提供，通过该框架来控制线程的启动、执行和关闭，可以简化并发编程的操作。</p>
+        <h3 id="基础简介"><a href="#基础简介" class="headerlink" title="基础简介"></a>基础简介</h3><p>​        在Java中，使用线程来异步执行任务 。Java线程的创建与销毁需要一定的开销，如果我们为每一个任务创建一个新线程来执行，这些线程的创建与销毁将消耗大量的计算资源。同时，为每一个任务创建一个新线程来执行，这种策略可能会使处于高负荷状态的应用最终崩溃。Java的线程既是工作单元，也是执行机制。从JDK 5开始，把工作单元与执行机制分离开来。工作单元包括Runnable和Callable，而执行机制由Executor框架提供，通过该框架来控制线程的启动、执行和关闭，可以简化并发编程的操作。</p>
 <a id="more"></a>
 <h3 id="Executors框架"><a href="#Executors框架" class="headerlink" title="Executors框架"></a>Executors框架</h3><h4 id="Executors框架结构"><a href="#Executors框架结构" class="headerlink" title="Executors框架结构"></a>Executors框架结构</h4><p>​       在上层，Java多线程程序通常把应用分解为若干个任务，然后使用用户级的调度器（Executor框架）将这些任务映射为固定数量的线程；在底层，操作系统内核将这些线程映射到硬件处理器上。</p>
 <p><img src="/2017/02/23/Java并发之Executor框架和线程池/1.png" alt=""></p>
@@ -548,6 +485,24 @@
 <p><a href="http://www.cnblogs.com/wanqieddy/p/3853863.html" target="_blank" rel="external">http://www.cnblogs.com/wanqieddy/p/3853863.html</a></p>
 <p><a href="http://blog.csdn.net/defonds/article/details/9715455" target="_blank" rel="external">http://blog.csdn.net/defonds/article/details/9715455</a></p>
 <p>《java并发编程艺术》</p>
+<table>
+<thead>
+<tr>
+<th>修订</th>
+<th>时间</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>初始化章节</td>
+<td>2017-02-23</td>
+</tr>
+<tr>
+<td>丰富内容，梳理章节</td>
+<td>2017-09-11</td>
+</tr>
+</tbody>
+</table>
 
       
     </div>
@@ -667,7 +622,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">105</span>
+                <span class="site-state-item-count">106</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
