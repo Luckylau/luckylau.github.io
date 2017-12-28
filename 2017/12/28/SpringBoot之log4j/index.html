@@ -84,16 +84,19 @@
 
 
 
-<meta name="description" content="什么是log4j？如何使用log4j?如何自定义appender?">
+<meta name="description" content="什么是log4j？​          Log4j有三个主要的组件：Logger(记录器)，Appender (输出源)和Layouts(布局)。可简单理解为日志类别，日志要输出的地方和日志以何种形式输出。综合使用这三个组件可以轻松地记录信息的类型和级别，并可以在运行时控制日志输出的样式和位置。
+Logger​        Loggers组件在此系统中被分为五个级别：DEBUG、INFO、WAR">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SpringBoot之log4j">
 <meta property="og:url" content="https://luckylau.github.io/2017/12/28/SpringBoot之log4j/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
-<meta property="og:description" content="什么是log4j？如何使用log4j?如何自定义appender?">
-<meta property="og:updated_time" content="2017-12-28T10:20:06.121Z">
+<meta property="og:description" content="什么是log4j？​          Log4j有三个主要的组件：Logger(记录器)，Appender (输出源)和Layouts(布局)。可简单理解为日志类别，日志要输出的地方和日志以何种形式输出。综合使用这三个组件可以轻松地记录信息的类型和级别，并可以在运行时控制日志输出的样式和位置。
+Logger​        Loggers组件在此系统中被分为五个级别：DEBUG、INFO、WAR">
+<meta property="og:updated_time" content="2017-12-28T11:51:29.952Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SpringBoot之log4j">
-<meta name="twitter:description" content="什么是log4j？如何使用log4j?如何自定义appender?">
+<meta name="twitter:description" content="什么是log4j？​          Log4j有三个主要的组件：Logger(记录器)，Appender (输出源)和Layouts(布局)。可简单理解为日志类别，日志要输出的地方和日志以何种形式输出。综合使用这三个组件可以轻松地记录信息的类型和级别，并可以在运行时控制日志输出的样式和位置。
+Logger​        Loggers组件在此系统中被分为五个级别：DEBUG、INFO、WAR">
 
 
 
@@ -385,7 +388,95 @@
       
 
       
-        <h3 id="什么是log4j？"><a href="#什么是log4j？" class="headerlink" title="什么是log4j？"></a>什么是log4j？</h3><h3 id="如何使用log4j"><a href="#如何使用log4j" class="headerlink" title="如何使用log4j?"></a>如何使用log4j?</h3><h3 id="如何自定义appender"><a href="#如何自定义appender" class="headerlink" title="如何自定义appender?"></a>如何自定义appender?</h3>
+        <h3 id="什么是log4j？"><a href="#什么是log4j？" class="headerlink" title="什么是log4j？"></a>什么是log4j？</h3><p>​          Log4j有三个主要的组件：<strong>Logger(记录器)</strong>，<strong>Appender (输出源)</strong>和<strong>Layouts(布局)</strong>。可简单理解为日志类别，日志要输出的地方和日志以何种形式输出。综合使用这三个组件可以轻松地记录信息的类型和级别，并可以在运行时控制日志输出的样式和位置。</p>
+<h4 id="Logger"><a href="#Logger" class="headerlink" title="Logger"></a>Logger</h4><p>​        Loggers组件在此系统中被分为五个级别：DEBUG、INFO、WARN、ERROR和FATAL。这五个级别是有顺序的，DEBUG &lt; INFO &lt; WARN &lt; ERROR &lt; FATAL，分别用来指定这条日志信息的重要程度。</p>
+<p>其中重要的是name和additivity。</p>
+<p>name :定义了logger的层级，如x.y 表示两层，x层和y层，x是y的父层级，x.y所在层级是y层级。additivity：默认为true，表示当前logger将打印日志到当前的appender及所有的父层级所指定的appender；false 为只打到当前自己的appender</p>
+<a id="more"></a>
+<table>
+<thead>
+<tr>
+<th>日志记录器</th>
+<th>添加的输出源</th>
+<th>附加特性标识</th>
+<th>输出目标</th>
+<th>评论</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>root</td>
+<td>A1</td>
+<td>not applicable</td>
+<td>A1</td>
+<td>根日志记录器是匿名的，但是可以用Logger.getRootLogger()方法来存取。根日志记录器没有默认输出源。</td>
+</tr>
+<tr>
+<td>x</td>
+<td>A-x1, A-x2</td>
+<td>true</td>
+<td>A1, A-x1, A-x2</td>
+<td>x和根的输出源</td>
+</tr>
+<tr>
+<td>x.y</td>
+<td>none</td>
+<td>true</td>
+<td>A1, A-x1, A-x2</td>
+<td>x和根的输出源</td>
+</tr>
+<tr>
+<td>x.y.z</td>
+<td>A-xyz1</td>
+<td>true</td>
+<td>A1, A-x1, A-x2, A-xyz1</td>
+<td>x.y.z 、x和根的输出源</td>
+</tr>
+<tr>
+<td>security</td>
+<td>A-sec</td>
+<td>false</td>
+<td>A-sec</td>
+<td>由于附加标识被设置为false，没有输出源聚集</td>
+</tr>
+<tr>
+<td>security.access</td>
+<td>none</td>
+<td>true</td>
+<td>A-sec</td>
+<td>由于安全中附加标识被设置为false，所以仅仅有安全的输出源。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="Appender"><a href="#Appender" class="headerlink" title="Appender"></a>Appender</h4><p>允许把日志输出到不同的地方，常使用的类包括：</p>
+<p><strong>org.apache.log4j.ConsoleAppender（控制台）</strong></p>
+<p>ConsoleAppender选项：</p>
+<p>Threshold=WARN：指定日志信息的最低输出级别，默认为DEBUG。<br>ImmediateFlush=true：表示所有消息都会被立即输出，设为false则不输出，默认值是true。<br>Target=System.err：默认值是System.out。</p>
+<p><strong>org.apache.log4j.FileAppender（文件）</strong></p>
+<p>FileAppender选项：</p>
+<p>Threshold=WARN：指定日志信息的最低输出级别，默认为DEBUG。<br>ImmediateFlush=true：表示所有消息都会被立即输出，设为false则不输出，默认值是true。<br>Append=false：true表示消息增加到指定文件中，false则将消息覆盖指定的文件内容，默认值是true。<br>File=D:/logs/logging.log4j：指定消息输出到logging.log4j文件中。<br><strong>org.apache.log4j.DailyRollingFileAppender（每天产生一个日志文件）</strong></p>
+<p>Threshold=WARN：指定日志信息的最低输出级别，默认为DEBUG。<br>ImmediateFlush=true：表示所有消息都会被立即输出，设为false则不输出，默认值是true。<br>Append=false：true表示消息增加到指定文件中，false则将消息覆盖指定的文件内容，默认值是true。<br>File=D:/logs/logging.log4j：指定当前消息输出到logging.log4j文件中。<br>DatePattern=’.’yyyy-MM：每月滚动一次日志文件，即每月产生一个新的日志文件。当前月的日志文件名为system.log，前一个月的日志文件名为system.log.yyyy-MM。</p>
+<p>1)’.’yyyy-MM：每月<br>2)’.’yyyy-ww：每周<br>3)’.’yyyy-MM-dd：每天<br>4)’.’yyyy-MM-dd-a：每天两次<br>5)’.’yyyy-MM-dd-HH：每小时<br>6)’.’yyyy-MM-dd-HH-mm：每分钟<br><strong>org.apache.log4j.RollingFileAppender（文件大小到达指定尺寸的时候产生一个新的文件）</strong></p>
+<p>Threshold=WARN：指定日志信息的最低输出级别，默认为DEBUG。<br>ImmediateFlush=true：表示所有消息都会被立即输出，设为false则不输出，默认值是true。<br>Append=false：true表示消息增加到指定文件中，false则将消息覆盖指定的文件内容，默认值是true。<br>File=D:/logs/logging.log4j：指定消息输出到logging.log4j文件中。<br>MaxFileSize=100KB：后缀可以是KB, MB 或者GB。在日志文件到达该大小时，将会自动滚动，即将原来的内容移到logging.log4j.1文件中。<br>MaxBackupIndex=2：指定可以产生的滚动文件的最大数，例如，设为2则可以产生system.log.1，system.log.2两个滚动文件和一个system.log文件。<br><strong>org.apache.log4j.WriterAppender（将日志信息以流格式发送到任意指定的地方）</strong></p>
+<h4 id="Layouts"><a href="#Layouts" class="headerlink" title="Layouts"></a>Layouts</h4><p>用户希望根据自己的喜好格式化自己的日志输出，Log4j可以在Appenders的后面附加Layouts来完成这个功能。常使用的类如下：</p>
+<p><strong>org.apache.log4j.HTMLLayout（以HTML表格形式布局）</strong></p>
+<p>LocationInfo=true：输出java文件名称和行号，默认值是false。<br>Title=My Logging： 默认值是Log4J Log Messages。</p>
+<p><strong>org.apache.log4j.PatternLayout（可以灵活地指定布局模式）</strong></p>
+<p>ConversionPattern=%m%n：设定以怎样的格式显示消息。</p>
+<p>格式化符号说明：</p>
+<p>%p：输出日志信息的优先级，即DEBUG，INFO，WARN，ERROR，FATAL。<br>%d：输出日志时间点的日期或时间，默认格式为ISO8601，也可以在其后指定格式，如：%d{yyyy/MM/dd HH:mm:ss,SSS}。<br>%r：输出自应用程序启动到输出该log信息耗费的毫秒数。<br>%t：输出产生该日志事件的线程名。<br>%l：输出日志事件的发生位置，相当于%c.%M(%F:%L)的组合，包括类全名、方法、文件名以及在代码中的行数。例如：test.TestLog4j.main(TestLog4j.java:10)。<br>%c：输出日志信息所属的类目，通常就是所在类的全名。<br>%M：输出产生日志信息的方法名。<br>%F：输出日志消息产生时所在的文件名称。<br>%L:：输出代码中的行号。<br>%m:：输出代码中指定的具体日志信息。<br>%n：输出一个回车换行符，Windows平台为”rn”，Unix平台为”n”。<br>%x：输出和当前线程相关联的NDC(嵌套诊断环境)，尤其用到像java servlets这样的多客户多线程的应用中。<br>%%：输出一个”%”字符。<br>另外，还可以在%与格式字符之间加上修饰符来控制其最小长度、最大长度、和文本的对齐方式。如：<br>1) c：指定输出category的名称，最小的长度是20，如果category的名称长度小于20的话，默认的情况下右对齐。<br>2)%-20c：”-“号表示左对齐。<br>3)%.30c：指定输出category的名称，最大的长度是30，如果category的名称长度大于30的话，就会将左边多出的字符截掉，但小于30的话也不会补空格。<br><strong>org.apache.log4j.SimpleLayout（包含日志信息的级别和信息字符串）</strong><br><strong>org.apache.log4j.TTCCLayout（包含日志产生的时间、线程、类别等信息）</strong></p>
+<h3 id="如何使用log4j"><a href="#如何使用log4j" class="headerlink" title="如何使用log4j?"></a>如何使用log4j?</h3><p>以我在项目中使用为例</p>
+<p>xml形式</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">appender</span> <span class="attr">name</span>=<span class="string">"systemLogAppender"</span> <span class="attr">class</span>=<span class="string">"org.apache.log4j.DailyRollingFileAppender"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">param</span> <span class="attr">name</span>=<span class="string">"File"</span> <span class="attr">value</span>=<span class="string">"/system.log"</span> /&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">param</span> <span class="attr">name</span>=<span class="string">"DatePattern"</span> <span class="attr">value</span>=<span class="string">"'.'yyyy-MM-dd"</span> /&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">param</span> <span class="attr">name</span>=<span class="string">"Append"</span> <span class="attr">value</span>=<span class="string">"true"</span> /&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">layout</span> <span class="attr">class</span>=<span class="string">"org.apache.log4j.PatternLayout"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">param</span> <span class="attr">name</span>=<span class="string">"ConversionPattern"</span> <span class="attr">value</span>=<span class="string">"%-d&#123;HH:mm:ss&#125; %-5p [%t] %C(%F:%L) - %m%n"</span> /&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">layout</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">appender</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">appender</span> <span class="attr">name</span>=<span class="string">"consoleAppender"</span> <span class="attr">class</span>=<span class="string">"org.apache.log4j.ConsoleAppender"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">layout</span> <span class="attr">class</span>=<span class="string">"org.apache.log4j.PatternLayout"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">param</span> <span class="attr">name</span>=<span class="string">"ConversionPattern"</span></span></div><div class="line">                   <span class="attr">value</span>=<span class="string">"%-d&#123;yyyy-MM-dd HH:mm:ss,SSS&#125; [[%t]] %-5p [%c] (%C:%L) - %m%n"</span> /&gt;</div><div class="line">        <span class="tag">&lt;/<span class="name">layout</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">appender</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">logger</span> <span class="attr">name</span>=<span class="string">"tech.luckylau"</span> <span class="attr">additivity</span>=<span class="string">"false"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">level</span> <span class="attr">value</span>=<span class="string">"INFO"</span> /&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">appender-ref</span> <span class="attr">ref</span>=<span class="string">"systemLogAppender"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">logger</span>&gt;</span></div><div class="line"> <span class="tag">&lt;<span class="name">root</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">priority</span> <span class="attr">value</span>=<span class="string">"WARN"</span> /&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">appender-ref</span> <span class="attr">ref</span>=<span class="string">"consoleAppender"</span> /&gt;</span></div><div class="line"> <span class="tag">&lt;/<span class="name">root</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>log4j.properties形式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">log4j.rootLogger=WARN, consoleAppender</div><div class="line"></div><div class="line">log4j.appender.consoleAppender=org.apache.log4j.ConsoleAppender</div><div class="line">log4j.appender.consoleAppender.layout=org.apache.log4j.PatternLayout</div><div class="line">log4j.appender.consoleAppender.layout.ConversionPattern=%-d&#123;yyyy-MM-dd HH:mm:ss,SSS&#125; [[%t]] %-5p [%c] (%C:%L) - %m%n</div><div class="line"></div><div class="line">log4j.logger.tech.luckylau=Info,systemLogAppender</div><div class="line">log4j.additivity.tech.luckylau=false</div><div class="line">log4j.appender.systemLogAppender=org.apache.log4j.DailyRollingFileAppender</div><div class="line">log4j.appender.systemLogAppender.File=/system.log</div><div class="line">log4j.appender.systemLogAppender.DatePattern=&apos;.&apos;yyyy-MM-dd</div><div class="line">log4j.appender.systemLogAppender.Append=true</div><div class="line">log4j.appender.systemLogAppender.layout=org.apache.log4j.PatternLayout</div><div class="line">log4j.appender.systemLogAppender.layout.ConversionPattern=%-d&#123;HH:mm:ss&#125; %-5p [%t] %C(%F:%L) - %m%n</div></pre></td></tr></table></figure>
+<h3 id="如何自定义appender"><a href="#如何自定义appender" class="headerlink" title="如何自定义appender?"></a>如何自定义appender?</h3><p>比如有个需求，使用DailyRollingFileAppender时，错误打印频繁如何限速？这时候可以自定义appender。这里是用ratelimter限速。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-log4j<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">     <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.google.guava<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">     <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>guava<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">     <span class="tag">&lt;<span class="name">version</span>&gt;</span>23.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"> <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RateLimiterDailyRollingFileAppender</span> <span class="keyword">extends</span> <span class="title">DailyRollingFileAppender</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> RateLimiter rateLimiter = rateLimiter = RateLimiter.create(<span class="number">0.5</span>);</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">subAppend</span><span class="params">(LoggingEvent event)</span> </span>&#123;</div><div class="line">        Level level = event.getLevel();</div><div class="line">        <span class="comment">/**</span></div><div class="line">         * 处理error</div><div class="line">         */</div><div class="line">        <span class="keyword">if</span>(level != <span class="keyword">null</span> &amp;&amp; level.getSyslogEquivalent() == <span class="number">3</span>)&#123;</div><div class="line">            <span class="keyword">if</span>(rateLimiter.tryAcquire())&#123;</div><div class="line">                <span class="keyword">super</span>.subAppend(event);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">super</span>.subAppend(event);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p><a href="https://segmentfault.com/a/1190000007261547" target="_blank" rel="external">Log4j DailyRollingFileAppender源码详读</a></p>
+<p><a href="https://www.cnblogs.com/ITtangtang/p/3926665.html" target="_blank" rel="external">Log4J日志配置详解</a></p>
+<p><a href="https://www.cnblogs.com/rembau/p/5201001.html" target="_blank" rel="external">支持设置最大日志数量的DailyRollingFileAppender</a></p>
+
       
     </div>
 
@@ -573,7 +664,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是log4j？"><span class="nav-number">1.</span> <span class="nav-text">什么是log4j？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何使用log4j"><span class="nav-number">2.</span> <span class="nav-text">如何使用log4j?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何自定义appender"><span class="nav-number">3.</span> <span class="nav-text">如何自定义appender?</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是log4j？"><span class="nav-number">1.</span> <span class="nav-text">什么是log4j？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Logger"><span class="nav-number">1.1.</span> <span class="nav-text">Logger</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Appender"><span class="nav-number">1.2.</span> <span class="nav-text">Appender</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Layouts"><span class="nav-number">1.3.</span> <span class="nav-text">Layouts</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何使用log4j"><span class="nav-number">2.</span> <span class="nav-text">如何使用log4j?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何自定义appender"><span class="nav-number">3.</span> <span class="nav-text">如何自定义appender?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考："><span class="nav-number">4.</span> <span class="nav-text">参考：</span></a></li></ol></div>
             
 
           </div>
