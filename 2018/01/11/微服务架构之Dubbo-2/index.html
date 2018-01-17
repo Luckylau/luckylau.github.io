@@ -85,21 +85,22 @@
 
 
 <meta name="description" content="本篇从大的概念上来介绍集群容错，后续篇章从源码角度解析。
-什么是集群容错如何配置使用首先看看dubbo目前提供哪些集群解决方案">
+什么是集群容错当我们使用Dubbo的集群环境，会因为某些原因导致服务调用失败的情况，Dubbo提供了多种容错方案，缺省为failover重试。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="微服务架构之Dubbo集群容错(1)">
 <meta property="og:url" content="https://luckylau.github.io/2018/01/11/微服务架构之Dubbo-2/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
 <meta property="og:description" content="本篇从大的概念上来介绍集群容错，后续篇章从源码角度解析。
-什么是集群容错如何配置使用首先看看dubbo目前提供哪些集群解决方案">
+什么是集群容错当我们使用Dubbo的集群环境，会因为某些原因导致服务调用失败的情况，Dubbo提供了多种容错方案，缺省为failover重试。">
+<meta property="og:image" content="https://luckylau.github.io/2018/01/11/微服务架构之Dubbo-2/3.png">
 <meta property="og:image" content="https://luckylau.github.io/2018/01/11/微服务架构之Dubbo-2/2.png">
 <meta property="og:image" content="https://luckylau.github.io/2018/01/11/微服务架构之Dubbo-2/1.png">
-<meta property="og:updated_time" content="2018-01-12T02:13:09.804Z">
+<meta property="og:updated_time" content="2018-01-17T02:19:03.967Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="微服务架构之Dubbo集群容错(1)">
 <meta name="twitter:description" content="本篇从大的概念上来介绍集群容错，后续篇章从源码角度解析。
-什么是集群容错如何配置使用首先看看dubbo目前提供哪些集群解决方案">
-<meta name="twitter:image" content="https://luckylau.github.io/2018/01/11/微服务架构之Dubbo-2/2.png">
+什么是集群容错当我们使用Dubbo的集群环境，会因为某些原因导致服务调用失败的情况，Dubbo提供了多种容错方案，缺省为failover重试。">
+<meta name="twitter:image" content="https://luckylau.github.io/2018/01/11/微服务架构之Dubbo-2/3.png">
 
 
 
@@ -392,9 +393,74 @@
 
       
         <p>本篇从大的概念上来介绍集群容错，后续篇章从源码角度解析。</p>
-<h3 id="什么是集群容错"><a href="#什么是集群容错" class="headerlink" title="什么是集群容错"></a>什么是集群容错</h3><h3 id="如何配置使用"><a href="#如何配置使用" class="headerlink" title="如何配置使用"></a>如何配置使用</h3><p>首先看看dubbo目前提供哪些集群解决方案</p>
-<p><img src="/2018/01/11/微服务架构之Dubbo-2/2.png" alt=""></p>
+<h3 id="什么是集群容错"><a href="#什么是集群容错" class="headerlink" title="什么是集群容错"></a>什么是集群容错</h3><p>当我们使用Dubbo的集群环境，会因为某些原因导致服务调用失败的情况，Dubbo提供了多种容错方案，缺省为failover重试。</p>
+<p><img src="/2018/01/11/微服务架构之Dubbo-2/3.png" alt=""></p>
 <a id="more"></a>
+<p>各节点关系：</p>
+<p>这里的 Invoker 是 Provider 的一个可调用 Service 的抽象，Invoker 封装了 Provider 地址及 Service 接口信息。</p>
+<p>Directory 代表多个 Invoker，可以把它看成 List<invoker> ，但与 List 不同的是，它的值可能是动态变化的，比如注册中心推送变更。</invoker></p>
+<p>Cluster 将 Directory 中的多个 Invoker 伪装成一个 Invoker，对上层透明，伪装过程包含了容错逻辑，调用失败后，重试另一个。</p>
+<p>Router 负责从多个 Invoker 中按路由规则选出子集，比如读写分离，应用隔离等。</p>
+<p>LoadBalance 负责从多个 Invoker 中选出具体的一个用于本次调用，选的过程包含了负载均衡算法，调用失败后，需要重选。</p>
+<h3 id="如何配置使用"><a href="#如何配置使用" class="headerlink" title="如何配置使用"></a>如何配置使用</h3><p>首先看看dubbo目前提供哪些集群解决方案</p>
+<p><img src="/2018/01/11/微服务架构之Dubbo-2/2.png" alt=""></p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>优点</th>
+<th>缺点</th>
+<th>实现类</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Failover Cluster</td>
+<td>失败自动切换，当出现失败，重试其它服务器，通常用于读操作（推荐使用）</td>
+<td>重试会带来更长延迟</td>
+<td>FailoverClusterInvoker</td>
+</tr>
+<tr>
+<td>Failfast Cluster</td>
+<td>快速失败，只发起一次调用，失败立即报错,通常用于非幂等性的写操作</td>
+<td>如果有机器正在重启，可能会出现调用失败</td>
+<td>FailfastClusterInvoker</td>
+</tr>
+<tr>
+<td>Failsafe Cluster</td>
+<td>失败安全，出现异常时，直接忽略，通常用于写入审计日志等操作</td>
+<td>调用信息丢失</td>
+<td>FailsafeClusterInvoker</td>
+</tr>
+<tr>
+<td>Failback Cluster</td>
+<td>失败自动恢复，后台记录失败请求，定时重发，通常用于消息通知操作</td>
+<td>不可靠，重启丢失</td>
+<td>FailbackClusterInvoker</td>
+</tr>
+<tr>
+<td>Forking Cluster</td>
+<td>并行调用多个服务器，只要一个成功即返回，通常用于实时性要求较高的读操作</td>
+<td>需要浪费更多服务资源</td>
+<td>ForkingClusterInvoker</td>
+</tr>
+<tr>
+<td>Broadcast Cluster</td>
+<td>广播调用所有提供者，逐个调用，任意一台报错则报错，通常用于更新提供方本地状态</td>
+<td>速度慢，任意一台报错则报错</td>
+<td>BroadcastClusterInvoker</td>
+</tr>
+</tbody>
+</table>
+<p>failover集群模式: 默认，但是可以配置重试次数</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dubbo:service</span>  <span class="attr">cluster</span>=<span class="string">"failover"</span> <span class="attr">retries</span>=<span class="string">"2"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dubbo:reference</span>  <span class="attr">cluster</span>=<span class="string">"failover"</span> <span class="attr">retries</span>=<span class="string">"2"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dubbo:reference</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dubbo:method</span> <span class="attr">name</span>=<span class="string">"findFoo"</span> <span class="attr">retries</span>=<span class="string">"2"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dubbo:reference</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>failfast集群模式：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dubbo:service</span> <span class="attr">cluster</span>=<span class="string">"failfast"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dubbo:reference</span> <span class="attr">cluster</span>=<span class="string">"failfast"</span> /&gt;</span></div><div class="line">等价于</div><div class="line"><span class="tag">&lt;<span class="name">dubbo:service</span>  <span class="attr">cluster</span>=<span class="string">"failover"</span> <span class="attr">retries</span>=<span class="string">"0"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dubbo:reference</span>  <span class="attr">cluster</span>=<span class="string">"failover"</span> <span class="attr">retries</span>=<span class="string">"0"</span> /&gt;</span></div></pre></td></tr></table></figure>
+<p>failback集群模式：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dubbo:service</span> <span class="attr">cluster</span>=<span class="string">"failback"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dubbo:reference</span> <span class="attr">cluster</span>=<span class="string">"failback"</span> /&gt;</span></div></pre></td></tr></table></figure>
+<p>forking集群模式：</p>
+<p>通过forks=”2”来设置最大并行数</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dubbo:service</span> <span class="attr">cluster</span>=<span class="string">"forking"</span> <span class="attr">forks</span>=<span class="string">"2"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dubbo:reference</span> <span class="attr">cluster</span>=<span class="string">"forking"</span> <span class="attr">forks</span>=<span class="string">"2"</span>/&gt;</span></div></pre></td></tr></table></figure>
 <h3 id="源码解析模块"><a href="#源码解析模块" class="headerlink" title="源码解析模块"></a>源码解析模块</h3><p><img src="/2018/01/11/微服务架构之Dubbo-2/1.png" alt=""></p>
 <p>从官方的介绍我们就很清楚cluster 路由层有哪些模块封装多个提供者的路由及负载均衡，并桥接注册中心，以 Invoker 为中心，扩展接口为 Cluster, Directory, Router, LoadBalance，后续会一个个来解析。</p>
 <p>directory</p>
@@ -450,8 +516,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/01/12/微服务架构之Dubbo-3/" rel="prev" title="微服务架构之Dubbo(3)">
-                微服务架构之Dubbo(3) <i class="fa fa-chevron-right"></i>
+              <a href="/2018/01/12/微服务架构之Dubbo-3/" rel="prev" title="微服务架构之Dubbo基础知识">
+                微服务架构之Dubbo基础知识 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
