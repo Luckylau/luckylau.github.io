@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Linux常用命令," />
+  <meta name="keywords" content="Dubbo," />
 
 
 
@@ -84,28 +84,16 @@
 
 
 
-<meta name="description" content="uptime115:24:23 up 84 days, 17 min,  6 users,  load average: 0.67, 0.66, 0.72
-15:24:23   //系统当前时间
-up 84 days, 17 min  //主机已运行时间,时间越大，说明你的机器越稳定
-6 users  //用户连接数，是总连接数而不是用户数
-load average  //在过去1分钟、5分钟、1">
+<meta name="description" content="dubbo针对服务调用出现RpcException，提供了服务降级的策略，通过mock配置就可以使用，下面我们从源码的角度分析其调用过程。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="linux系统常用监控命令">
-<meta property="og:url" content="https://luckylau.github.io/2017/11/24/linux系统常用监控命令/index.html">
+<meta property="og:title" content="微服务架构之Dubbo服务降级">
+<meta property="og:url" content="https://luckylau.github.io/2018/01/22/微服务架构之Dubbo-6/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
-<meta property="og:description" content="uptime115:24:23 up 84 days, 17 min,  6 users,  load average: 0.67, 0.66, 0.72
-15:24:23   //系统当前时间
-up 84 days, 17 min  //主机已运行时间,时间越大，说明你的机器越稳定
-6 users  //用户连接数，是总连接数而不是用户数
-load average  //在过去1分钟、5分钟、1">
-<meta property="og:updated_time" content="2017-11-24T07:57:49.754Z">
+<meta property="og:description" content="dubbo针对服务调用出现RpcException，提供了服务降级的策略，通过mock配置就可以使用，下面我们从源码的角度分析其调用过程。">
+<meta property="og:updated_time" content="2018-01-22T02:30:02.292Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="linux系统常用监控命令">
-<meta name="twitter:description" content="uptime115:24:23 up 84 days, 17 min,  6 users,  load average: 0.67, 0.66, 0.72
-15:24:23   //系统当前时间
-up 84 days, 17 min  //主机已运行时间,时间越大，说明你的机器越稳定
-6 users  //用户连接数，是总连接数而不是用户数
-load average  //在过去1分钟、5分钟、1">
+<meta name="twitter:title" content="微服务架构之Dubbo服务降级">
+<meta name="twitter:description" content="dubbo针对服务调用出现RpcException，提供了服务降级的策略，通过mock配置就可以使用，下面我们从源码的角度分析其调用过程。">
 
 
 
@@ -133,13 +121,13 @@ load average  //在过去1分钟、5分钟、1">
 
 
 
-  <link rel="canonical" href="https://luckylau.github.io/2017/11/24/linux系统常用监控命令/"/>
+  <link rel="canonical" href="https://luckylau.github.io/2018/01/22/微服务架构之Dubbo-6/"/>
 
 
 
 
 
-  <title> linux系统常用监控命令 | Luckylau's Blog </title>
+  <title> 微服务架构之Dubbo服务降级 | Luckylau's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -295,7 +283,7 @@ load average  //在过去1分钟、5分钟、1">
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/11/24/linux系统常用监控命令/">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2018/01/22/微服务架构之Dubbo-6/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Luckylau">
@@ -319,7 +307,7 @@ load average  //在过去1分钟、5分钟、1">
             
             
               
-                linux系统常用监控命令
+                微服务架构之Dubbo服务降级
               
             
           </h1>
@@ -334,8 +322,8 @@ load average  //在过去1分钟、5分钟、1">
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-11-24T15:01:30+08:00">
-                2017-11-24
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-22T10:01:37+08:00">
+                2018-01-22
               </time>
             
 
@@ -357,8 +345,8 @@ load average  //在过去1分钟、5分钟、1">
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux</span>
+                  <a href="/categories/分布式架构/" itemprop="url" rel="index">
+                    <span itemprop="name">分布式架构</span>
                   </a>
                 </span>
 
@@ -397,36 +385,7 @@ load average  //在过去1分钟、5分钟、1">
       
 
       
-        <h3 id="uptime"><a href="#uptime" class="headerlink" title="uptime"></a>uptime</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">15:24:23 up 84 days, 17 min,  6 users,  load average: 0.67, 0.66, 0.72</div></pre></td></tr></table></figure>
-<p>15:24:23   //系统当前时间</p>
-<p>up 84 days, 17 min  //主机已运行时间,时间越大，说明你的机器越稳定</p>
-<p>6 users  //用户连接数，是总连接数而不是用户数</p>
-<p>load average  //在过去1分钟、5分钟、15分钟内系统的load值</p>
-<a id="more"></a>
-<h3 id="top"><a href="#top" class="headerlink" title="top"></a>top</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">top - 15:28:53 up 84 days, 22 min,  6 users,  load average: 0.19, 0.44, 0.61</div><div class="line">Tasks: 135 total,   1 running, 134 sleeping,   0 stopped,   0 zombie</div><div class="line">%Cpu(s):  6.3 us,  0.6 sy,  0.0 ni, 93.1 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st</div><div class="line">KiB Mem :  8010424 total,   131496 free,  7583244 used,   295684 buff/cache</div><div class="line">KiB Swap:  4194300 total,  2250812 free,  1943488 used.   127160 avail Mem </div><div class="line">PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND</div></pre></td></tr></table></figure>
-<p>第一行同uptime</p>
-<p>第二行任务（进程） 系统现在共有135个进程，1个运行，134个休眠，停止0个，僵尸有0个</p>
-<p>第三行 </p>
-<p>us,用户时间（User  Time）表示CPU执行用户进程所占用的时间，通常情况下希望us的占比越高越好 </p>
-<p>sy,系统时间（System Time）表示CPU自内核态所花费的时间，sy占比比较高通常意味着系统在某些方面设计得不合理，比如频繁的系统调用导致的用户态和内核态的频繁切换</p>
-<p>ni,Nice时间（Nice Time）表示系统在调整进程优先级的时候所花费的时间</p>
-<p>id,空闲时间（Idle Time）表示系统处于空闲期，等待进程运行，这个过程所占用的时间。当然，我们希望id的占比越低越好</p>
-<p>wa,等待时间（Waiting Time）表示CPU在等待I/O操作所花费的时间，系统不应该花费大量的时间来进行等待，否则便表示可能有某个地方设计不合理</p>
-<p>hi,硬件中断处理时间（Hard Irq Time）表示系统处理硬件中断所占用的时间</p>
-<p>si,软件中断处理时间（Soft Irq Time）表示系统处理软件中断所占用的时间</p>
-<p>st,丢失时间（Steal Time）表示被强制等待虚拟CPU的时间</p>
-<p>第四行 内存状态 ，与win概念不一样，linux有一定特殊性，其中有一个思想便是内存利用率最大化，内核会将剩余的内存申请为cached，而cached不属于free范畴。因此，当系统运行时间较长时，会发现cached这块区域比较大，对于有频繁文件读/写操作的系统，这种现象更为明显。</p>
-<p>第五行 swap交换分区，对于内存监控，在top里我们要时刻监控第五行swap交换分区的used，如果这个数值在不断的变化，说明内核在不断进行内存和swap的数据交换，这是真正的内存不够用了。</p>
-<p>第六行</p>
-<p>PID — 进程id<br>USER — 进程所有者<br>PR — 进程优先级<br>NI — nice值。负值表示高优先级，正值表示低优先级<br>VIRT — 进程使用的虚拟内存总量，单位kb。VIRT=SWAP+RES<br>RES — 进程使用的、未被换出的物理内存大小，单位kb。RES=CODE+DATA<br>SHR — 共享内存大小，单位kb<br>S — 进程状态。D=不可中断的睡眠状态 R=运行 S=睡眠 T=跟踪/停止 Z=僵尸进程<br>%CPU — 上次更新到现在的CPU时间占用百分比<br>%MEM — 进程使用的物理内存百分比<br>TIME+ — 进程使用的CPU时间总计，单位1/100秒<br>COMMAND — 进程名称（命令名/命令行）</p>
-<h3 id="df-h"><a href="#df-h" class="headerlink" title="df -h"></a>df -h</h3><p>磁盘剩余空间也是一个非常关键的指标，如果磁盘没有足够的剩余空间，正常的日志写入以及系统I/O都将无法进行。</p>
-<h3 id="iostat-d-k"><a href="#iostat-d-k" class="headerlink" title="iostat -d -k"></a>iostat -d -k</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Linux 3.10.0-514.21.2.el7.x86_64 (iz2zegbc4593l7v9u0xalwz) 	11/24/2017 	_x86_64_	(4 CPU)</div><div class="line">Device:            tps    kB_read/s    kB_wrtn/s    kB_read    kB_wrtn</div><div class="line">vda               3.65        30.76        28.70  223300253  208343752</div></pre></td></tr></table></figure>
-<p>磁盘I/O的繁忙程度也是一个重要的系统指标</p>
-<p>-d表示查看磁盘使用状况，-k表示以KB为单位    显示Device表示设备名称、tps表示每秒处理的I/O请求数、kB_read/s表示每秒从设备读取的数据量、kB_wrtn/s表示美标向设备写入的数据量、kB_read表示读取的数据总量、kB_wrtn表示写入的数据总量。(瞬时)</p>
-<h3 id="free-m"><a href="#free-m" class="headerlink" title="free -m"></a>free -m</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">              total        used        free      shared  buff/cache   available</div><div class="line">Mem:           7822        7402         147           0         272         135</div><div class="line">Swap:          4095        1913        2182</div></pre></td></tr></table></figure>
-<p>程序运行时的数据加载、线程并发、I/O缓冲等，都依赖于内存，可用内存的大小决定了程序是否能正常运行以及运行的性能</p>
-<h3 id="vmstat"><a href="#vmstat" class="headerlink" title="vmstat"></a>vmstat</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">procs -----------memory---------- ---swap-- -----io---- -system-- ------cpu-----</div><div class="line"> r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st</div><div class="line"> 1  0 1959152 133228   7736 283268    1    1     8     7    0    0  9  1 90  0  0</div></pre></td></tr></table></figure>
-<p>si表示每秒从磁盘交换到内存的数据量，单位是KB/s，so表示每秒从内存交换到磁盘的数据量，单位也是KB/s (瞬时)</p>
+        <p>dubbo针对服务调用出现RpcException，提供了服务降级的策略，通过mock配置就可以使用，下面我们从源码的角度分析其调用过程。</p>
 
       
     </div>
@@ -455,7 +414,7 @@ load average  //在过去1分钟、5分钟、1">
       
         <div class="post-tags">
           
-            <a href="/tags/Linux常用命令/" rel="tag"># Linux常用命令</a>
+            <a href="/tags/Dubbo/" rel="tag"># Dubbo</a>
           
         </div>
       
@@ -464,8 +423,8 @@ load average  //在过去1分钟、5分钟、1">
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/11/12/SpringBoot之MyBatis/" rel="next" title="SpringBoot之MyBatis">
-                <i class="fa fa-chevron-left"></i> SpringBoot之MyBatis
+              <a href="/2018/01/19/微服务架构之Dubbo-5/" rel="next" title="微服务架构之Dubbo集群容错(3)">
+                <i class="fa fa-chevron-left"></i> 微服务架构之Dubbo集群容错(3)
               </a>
             
           </div>
@@ -473,10 +432,6 @@ load average  //在过去1分钟、5分钟、1">
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/11/25/设计模式之过滤器模式/" rel="prev" title="设计模式之过滤器模式">
-                设计模式之过滤器模式 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -523,17 +478,8 @@ load average  //在过去1分钟、5分钟、1">
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/logo.jpg"
@@ -609,22 +555,6 @@ load average  //在过去1分钟、5分钟、1">
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#uptime"><span class="nav-number">1.</span> <span class="nav-text">uptime</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#top"><span class="nav-number">2.</span> <span class="nav-text">top</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#df-h"><span class="nav-number">3.</span> <span class="nav-text">df -h</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#iostat-d-k"><span class="nav-number">4.</span> <span class="nav-text">iostat -d -k</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#free-m"><span class="nav-number">5.</span> <span class="nav-text">free -m</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vmstat"><span class="nav-number">6.</span> <span class="nav-text">vmstat</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
     </div>
