@@ -95,7 +95,7 @@
 <meta property="og:image" content="https://luckylau.github.io/2018/01/11/微服务架构之Dubbo-2/3.png">
 <meta property="og:image" content="https://luckylau.github.io/2018/01/11/微服务架构之Dubbo-2/2.png">
 <meta property="og:image" content="https://luckylau.github.io/2018/01/11/微服务架构之Dubbo-2/1.png">
-<meta property="og:updated_time" content="2018-01-19T07:39:57.380Z">
+<meta property="og:updated_time" content="2018-01-29T11:25:53.422Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="微服务架构之Dubbo集群容错(1)">
 <meta name="twitter:description" content="本篇从大的概念上来介绍集群容错，后续篇章从源码角度解析。
@@ -459,8 +459,8 @@
 <p>failback集群模式：</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dubbo:service</span> <span class="attr">cluster</span>=<span class="string">"failback"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dubbo:reference</span> <span class="attr">cluster</span>=<span class="string">"failback"</span> /&gt;</span></div></pre></td></tr></table></figure>
 <p>forking集群模式：</p>
-<p>通过forks=”2”来设置最大并行数</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dubbo:service</span> <span class="attr">cluster</span>=<span class="string">"forking"</span> <span class="attr">forks</span>=<span class="string">"2"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dubbo:reference</span> <span class="attr">cluster</span>=<span class="string">"forking"</span> <span class="attr">forks</span>=<span class="string">"2"</span>/&gt;</span></div></pre></td></tr></table></figure>
+<p>通过forks=”2”来设置最大并行数（目前还真不知道如何配置）</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dubbo:service</span> <span class="attr">cluster</span>=<span class="string">"forking"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dubbo:reference</span> <span class="attr">cluster</span>=<span class="string">"forking"</span> /&gt;</span></div></pre></td></tr></table></figure>
 <h3 id="源码解析模块"><a href="#源码解析模块" class="headerlink" title="源码解析模块"></a>源码解析模块</h3><p><img src="/2018/01/11/微服务架构之Dubbo-2/1.png" alt=""></p>
 <p>从官方的介绍我们就很清楚cluster 的设计 ，我们以 Invoker 为中心，从 Cluster, Directory, Router, LoadBalance，来解析各个接口。</p>
 <p>invoker</p>
