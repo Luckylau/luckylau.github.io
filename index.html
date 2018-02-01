@@ -389,6 +389,7 @@
 <h3 id="Directory"><a href="#Directory" class="headerlink" title="Directory"></a>Directory</h3><p>目录服务Directory， 代表多个Invoker, 可以看成List<Invoker>,它的值可能是动态变化的比如注册中心推送变更。集群选择调用服务时通过目录服务找到所有服务。</Invoker></p>
 <p>Directory的接口定义</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Directory</span>&lt;<span class="title">T</span>&gt; <span class="keyword">extends</span> <span class="title">Node</span> </span>&#123;</div><div class="line">    <span class="function">Class&lt;T&gt; <span class="title">getInterface</span><span class="params">()</span></span>;</div><div class="line">    List&lt;Invoker&lt;T&gt;&gt; list(Invocation invocation) <span class="keyword">throws</span> RpcException;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="/2018/01/31/微服务架构之Dubbo-7/1.png" alt=""></p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/01/31/微服务架构之Dubbo-7/#more" rel="contents">
