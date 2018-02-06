@@ -1,0 +1,922 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Dubbo," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/logo.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="以 Invoker 为中心，从 Cluster, Directory, Router, LoadBalance，来解析各个接口。
+RouterRouter 负责从多个 Invoker 中按路由规则选出子集，比如读写分离，应用隔离等。下图是dubbo-admin的配置界面。
+
+一般路由用于灰度发布等业务场景。根据官网描述，目前路由有3种：ConditionRouter, MockInvokersSe">
+<meta property="og:type" content="article">
+<meta property="og:title" content="微服务架构之Dubbo(8)">
+<meta property="og:url" content="https://luckylau.github.io/2018/02/05/微服务架构之Dubbo-8/index.html">
+<meta property="og:site_name" content="Luckylau's Blog">
+<meta property="og:description" content="以 Invoker 为中心，从 Cluster, Directory, Router, LoadBalance，来解析各个接口。
+RouterRouter 负责从多个 Invoker 中按路由规则选出子集，比如读写分离，应用隔离等。下图是dubbo-admin的配置界面。
+
+一般路由用于灰度发布等业务场景。根据官网描述，目前路由有3种：ConditionRouter, MockInvokersSe">
+<meta property="og:image" content="https://luckylau.github.io/2018/02/05/微服务架构之Dubbo-8/1.png">
+<meta property="og:image" content="https://luckylau.github.io/2018/02/05/微服务架构之Dubbo-8/2.png">
+<meta property="og:updated_time" content="2018-02-06T02:43:14.097Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="微服务架构之Dubbo(8)">
+<meta name="twitter:description" content="以 Invoker 为中心，从 Cluster, Directory, Router, LoadBalance，来解析各个接口。
+RouterRouter 负责从多个 Invoker 中按路由规则选出子集，比如读写分离，应用隔离等。下图是dubbo-admin的配置界面。
+
+一般路由用于灰度发布等业务场景。根据官网描述，目前路由有3种：ConditionRouter, MockInvokersSe">
+<meta name="twitter:image" content="https://luckylau.github.io/2018/02/05/微服务架构之Dubbo-8/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://luckylau.github.io/2018/02/05/微服务架构之Dubbo-8/"/>
+
+
+
+
+
+  <title> 微服务架构之Dubbo(8) | Luckylau's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Luckylau's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">Keep Moving, Keep Learning</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2018/02/05/微服务架构之Dubbo-8/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Luckylau">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/logo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Luckylau's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Luckylau's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                微服务架构之Dubbo(8)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-05T16:14:41+08:00">
+                2018-02-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/分布式架构/" itemprop="url" rel="index">
+                    <span itemprop="name">分布式架构</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>以 Invoker 为中心，从 Cluster, Directory, Router, LoadBalance，来解析各个接口。</p>
+<h3 id="Router"><a href="#Router" class="headerlink" title="Router"></a>Router</h3><p>Router 负责从多个 Invoker 中按路由规则选出子集，比如读写分离，应用隔离等。下图是dubbo-admin的配置界面。</p>
+<p><img src="/2018/02/05/微服务架构之Dubbo-8/1.png" alt=""></p>
+<p>一般路由用于灰度发布等业务场景。根据官网描述，目前路由有3种：ConditionRouter, MockInvokersSelector, ScriptRouter。</p>
+<p><img src="/2018/02/05/微服务架构之Dubbo-8/2.png" alt=""></p>
+<p>ScriptRouter：脚本路由规则 支持 JDK 脚本引擎的所有脚本，比如：javascript, jruby, groovy 等，通过 type=javascript 参数设置脚本类型，缺省为 javascript。</p>
+<p>MockInvokersSelector：一般dubbo-admin没有配置时候会走这条路线，在<a href="http://luckylau.tech/2018/01/17/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E4%B9%8BDubbo-4/" target="_blank" rel="external">微服务架构之Dubbo集群容错(2)</a>有介绍，一般的调用没有设置mock，会在getNormalInvokers方法中的hasMockProviders判断中就返回了；若果设置mock后，就将设置为mock的invoker返回。</p>
+<p>ConditionRouter：即条件路由，主要根据dubbo管理控制台配置的路由规则来过滤相关的invoker, 当我们对路由规则点击启用的时候,  就会触发RegistryDirectory类之前提到的<a href="http://luckylau.tech/2018/01/31/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E4%B9%8BDubbo-7/" target="_blank" rel="external">notify方法</a>。在RegistryDirectory的notify方法中有这样的几行代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// routers</span></div><div class="line">       <span class="keyword">if</span> (routerUrls != <span class="keyword">null</span> &amp;&amp; routerUrls.size() &gt; <span class="number">0</span>) &#123;</div><div class="line">           List&lt;Router&gt; routers = toRouters(routerUrls);</div><div class="line">           <span class="keyword">if</span> (routers != <span class="keyword">null</span>) &#123; <span class="comment">// null - do nothing</span></div><div class="line">               setRouters(routers);</div><div class="line">           &#125;</div><div class="line">       &#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//url转化为router</span></div><div class="line"><span class="function"><span class="keyword">private</span> List&lt;Router&gt; <span class="title">toRouters</span><span class="params">(List&lt;URL&gt; urls)</span> </span>&#123;</div><div class="line">        List&lt;Router&gt; routers = <span class="keyword">new</span> ArrayList&lt;Router&gt;();</div><div class="line">        <span class="keyword">if</span> (urls == <span class="keyword">null</span> || urls.size() &lt; <span class="number">1</span>) &#123;</div><div class="line">            <span class="keyword">return</span> routers;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (urls != <span class="keyword">null</span> &amp;&amp; urls.size() &gt; <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">for</span> (URL url : urls) &#123;</div><div class="line">                <span class="keyword">if</span> (Constants.EMPTY_PROTOCOL.equals(url.getProtocol())) &#123;</div><div class="line">                    <span class="keyword">continue</span>;</div><div class="line">                &#125;</div><div class="line">                String routerType = url.getParameter(Constants.ROUTER_KEY);</div><div class="line">                <span class="keyword">if</span> (routerType != <span class="keyword">null</span> &amp;&amp; routerType.length() &gt; <span class="number">0</span>) &#123;</div><div class="line">                    url = url.setProtocol(routerType);</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                  <span class="comment">//ConditionRouterFactory 来获取</span></div><div class="line">                    Router router = routerFactory.getRouter(url);</div><div class="line">                    <span class="keyword">if</span> (!routers.contains(router))</div><div class="line">                        routers.add(router);</div><div class="line">                &#125; <span class="keyword">catch</span> (Throwable t) &#123;</div><div class="line">                    logger.error(<span class="string">"convert router url to router error, url: "</span> + url, t);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> routers;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">setRouters</span><span class="params">(List&lt;Router&gt; routers)</span> </span>&#123;</div><div class="line">        <span class="comment">// copy list</span></div><div class="line">        routers = routers == <span class="keyword">null</span> ? <span class="keyword">new</span> ArrayList&lt;Router&gt;() : <span class="keyword">new</span> ArrayList&lt;Router&gt;(routers);</div><div class="line">        <span class="comment">// append url router</span></div><div class="line">        String routerkey = url.getParameter(Constants.ROUTER_KEY);</div><div class="line">        <span class="keyword">if</span> (routerkey != <span class="keyword">null</span> &amp;&amp; routerkey.length() &gt; <span class="number">0</span>) &#123;</div><div class="line">            RouterFactory routerFactory = ExtensionLoader.getExtensionLoader(RouterFactory.class).getExtension(routerkey);</div><div class="line">            routers.add(routerFactory.getRouter(url));</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// append mock invoker selector</span></div><div class="line">        routers.add(<span class="keyword">new</span> MockInvokersSelector());</div><div class="line">        Collections.sort(routers);</div><div class="line">        <span class="keyword">this</span>.routers = routers;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConditionRouterFactory</span> <span class="keyword">implements</span> <span class="title">RouterFactory</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String NAME = <span class="string">"condition"</span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> Router <span class="title">getRouter</span><span class="params">(URL url)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ConditionRouter(url);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">ConditionRouter</span><span class="params">(URL url)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.url = url;</div><div class="line">  <span class="comment">//对应dubbo-admin界面的优先级，默认为0</span></div><div class="line">        <span class="keyword">this</span>.priority = url.getParameter(Constants.PRIORITY_KEY, <span class="number">0</span>);</div><div class="line">  <span class="comment">//当路由结果为空时，是否强制执行，如果不强制执行，路由结果为空的路由规则将自动失效，可不填，缺省为flase。</span></div><div class="line">        <span class="keyword">this</span>.force = url.getParameter(Constants.FORCE_KEY, <span class="keyword">false</span>);</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            String rule = url.getParameterAndDecoded(Constants.RULE_KEY);</div><div class="line">            <span class="keyword">if</span> (rule == <span class="keyword">null</span> || rule.trim().length() == <span class="number">0</span>) &#123;</div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Illegal route rule!"</span>);</div><div class="line">            &#125;</div><div class="line">            rule = rule.replace(<span class="string">"consumer."</span>, <span class="string">""</span>).replace(<span class="string">"provider."</span>, <span class="string">""</span>);</div><div class="line">            <span class="keyword">int</span> i = rule.indexOf(<span class="string">"=&gt;"</span>);<span class="comment">//切开</span></div><div class="line">            String whenRule = i &lt; <span class="number">0</span> ? <span class="keyword">null</span> : rule.substring(<span class="number">0</span>, i).trim();</div><div class="line">            String thenRule = i &lt; <span class="number">0</span> ? rule.trim() : rule.substring(i + <span class="number">2</span>).trim();</div><div class="line">            Map&lt;String, MatchPair&gt; when = StringUtils.isBlank(whenRule) || <span class="string">"true"</span>.equals(whenRule) ? <span class="keyword">new</span> HashMap&lt;String, MatchPair&gt;() : parseRule(whenRule);</div><div class="line">            Map&lt;String, MatchPair&gt; then = StringUtils.isBlank(thenRule) || <span class="string">"false"</span>.equals(thenRule) ? <span class="keyword">null</span> : parseRule(thenRule);</div><div class="line">            <span class="comment">// <span class="doctag">NOTE:</span> It should be determined on the business level whether the `When condition` can be empty or not.</span></div><div class="line">            <span class="keyword">this</span>.whenCondition = when;</div><div class="line">            <span class="keyword">this</span>.thenCondition = then;</div><div class="line">        &#125; <span class="keyword">catch</span> (ParseException e) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(e.getMessage(), e);</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>其中如何理解ConditionRouter处理流程呢？首先我们要知道基于条件表达式的规则</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">host = <span class="number">10.20</span>.153.10 =&gt; host = <span class="number">10.20</span>.153.11</div></pre></td></tr></table></figure>
+<p>规则：</p>
+<p>“=&gt;”之前的为消费者匹配条件，所有参数和消费者的URL进行对比，当消费者满足匹配条件时，对该消费者执行后面的过滤规则。<br>“=&gt;”之后为提供者地址列表的过滤条件，所有参数和提供者的URL进行对比，消费者最终只拿到过滤后的地址列表。<br>如果匹配条件为空，表示对所有消费方应用，如：=&gt; host != 10.20.153.11<br>如果过滤条件为空，表示禁止访问，如：host = 10.20.153.10 =&gt;</p>
+<p>白名单：host != 10.20.153.10,10.20.153.11 =&gt;</p>
+<p>黑名单：host = 10.20.153.10,10.20.153.11 =&gt;</p>
+<p>表达式：</p>
+<p>参数支持：<br>服务调用信息，如：method, argument 等 (暂不支持参数路由)<br>URL本身的字段，如：protocol, host, port 等<br>以及URL上的所有参数，如：application, organization 等</p>
+<p>条件支持：<br>等号”=”表示”匹配”，如：host = 10.20.153.10<br>不等号”!=”表示”不匹配”，如：host != 10.20.153.10</p>
+<p>值支持：<br>以逗号”,”分隔多个值，如：host != 10.20.153.10,10.20.153.11<br>以星号“<em>”结尾，表示通配，如：host != 10.20.</em><br>以美元符开头，表示引用消费者参数，如：host = $host</p>
+<p>然后到了refreshInvoker(List<url> invokerUrls) ，在这里面有toMethodInvokers方法，主要作用是将invokers列表转成与方法的映射关系，用到route方法</url></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> List&lt;Invoker&lt;T&gt;&gt; route(List&lt;Invoker&lt;T&gt;&gt; invokers, String method) &#123;</div><div class="line">        Invocation invocation = <span class="keyword">new</span> RpcInvocation(method, <span class="keyword">new</span> Class&lt;?&gt;[<span class="number">0</span>], <span class="keyword">new</span> Object[<span class="number">0</span>]);</div><div class="line">        List&lt;Router&gt; routers = getRouters();</div><div class="line">        <span class="keyword">if</span> (routers != <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">for</span> (Router router : routers) &#123;</div><div class="line">                <span class="keyword">if</span> (router.getUrl() != <span class="keyword">null</span>) &#123;</div><div class="line">                    invokers = router.route(invokers, getConsumerUrl(), invocation);<span class="comment">//这里是ConditionRouter实现的。</span></div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> invokers;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//注意调用时候，这个url是 getConsumerUrl()，即消费者url</span></div><div class="line"><span class="keyword">public</span> &lt;T&gt; List&lt;Invoker&lt;T&gt;&gt; route(List&lt;Invoker&lt;T&gt;&gt; invokers, URL url, Invocation invocation)<span class="keyword">throws</span> RpcException &#123;</div><div class="line">        <span class="keyword">if</span> (invokers == <span class="keyword">null</span> || invokers.size() == <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">return</span> invokers;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">          <span class="comment">//消费者与配置不匹配（配置为空，也意味着不匹配），就不用走后面提供者的过滤了</span></div><div class="line">            <span class="keyword">if</span> (!matchWhen(url, invocation)) &#123;</div><div class="line">                <span class="keyword">return</span> invokers;</div><div class="line">            &#125;</div><div class="line">            List&lt;Invoker&lt;T&gt;&gt; result = <span class="keyword">new</span> ArrayList&lt;Invoker&lt;T&gt;&gt;();</div><div class="line">          <span class="comment">//而提供者没有配置，则是黑名单</span></div><div class="line">            <span class="keyword">if</span> (thenCondition == <span class="keyword">null</span>) &#123;</div><div class="line">                logger.warn(<span class="string">"The current consumer in the service blacklist. consumer: "</span> + NetUtils.getLocalHost() + <span class="string">", service: "</span> + url.getServiceKey());</div><div class="line">                <span class="keyword">return</span> result;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">for</span> (Invoker&lt;T&gt; invoker : invokers) &#123;</div><div class="line">              <span class="comment">//提供者过滤（消费者调用的url与提供者url匹配，就加入）</span></div><div class="line">                <span class="keyword">if</span> (matchThen(invoker.getUrl(), url)) &#123;</div><div class="line">                    result.add(invoker);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span> (result.size() &gt; <span class="number">0</span>) &#123;</div><div class="line">                <span class="keyword">return</span> result;</div><div class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (force) &#123;</div><div class="line">                logger.warn(<span class="string">"The route result is empty and force execute. consumer: "</span> + NetUtils.getLocalHost() + <span class="string">", service: "</span> + url.getServiceKey() + <span class="string">", router: "</span> + url.getParameterAndDecoded(Constants.RULE_KEY));</div><div class="line">                <span class="keyword">return</span> result;</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">catch</span> (Throwable t) &#123;</div><div class="line">            logger.error(<span class="string">"Failed to execute condition router rule: "</span> + getUrl() + <span class="string">", invokers: "</span> + invokers + <span class="string">", cause: "</span> + t.getMessage(), t);</div><div class="line">        &#125;</div><div class="line">  <span class="comment">//其他情况就返回所有的</span></div><div class="line">        <span class="keyword">return</span> invokers;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.bubuko.com/infodetail-2316000.html" target="_blank" rel="external">http://www.bubuko.com/infodetail-2316000.html</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+<div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/1.jpg" alt="Luckylau wechat" style="width: 200px; max-width: 100%;"/>
+    <div>如果对您有价值,看官可以打赏的！</div>
+</div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Dubbo/" rel="tag"># Dubbo</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/31/微服务架构之Dubbo-7/" rel="next" title="微服务架构之Dubbo集群容错(4)">
+                <i class="fa fa-chevron-left"></i> 微服务架构之Dubbo集群容错(4)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/logo.jpg"
+               alt="Luckylau" />
+          <p class="site-author-name" itemprop="name">Luckylau</p>
+          <p class="site-description motion-element" itemprop="description">人生识字忧患始</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">115</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Luckylau" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://weibo.com/2606534415/profile?topnav=1&wvr=6&is_all=1" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Router"><span class="nav-number">1.</span> <span class="nav-text">Router</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">2.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2017 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Luckylau</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid="></script>
+      <!-- UY END -->
+  
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
