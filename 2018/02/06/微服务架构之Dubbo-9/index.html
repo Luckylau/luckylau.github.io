@@ -86,32 +86,20 @@
 
 <meta name="description" content="以 Invoker 为中心，从 Cluster, Directory, Router, LoadBalance，来解析各个接口。
 dubbo提供4种负载均衡策略，根据其思想我做了一个简单的实现，见负载均衡算法。
-LoadBalanceRandomLoadBalance
-随机，按权重设置随机概率。
-
-
-在一个截面上碰撞的概率高，但调用量越大分布越均匀，而且按概率使用权重后也比较均匀，有利于动态调整提">
+LoadBalanceRandomLoadBalance随机，按权重设置随机概率。在一个截面上碰撞的概率高，但调用量越大分布越均匀，而且按概率使用权重后也比较均匀，有利于动态调整提供者权重">
 <meta property="og:type" content="article">
 <meta property="og:title" content="微服务架构之Dubbo集群容错(6)">
 <meta property="og:url" content="https://luckylau.github.io/2018/02/06/微服务架构之Dubbo-9/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
 <meta property="og:description" content="以 Invoker 为中心，从 Cluster, Directory, Router, LoadBalance，来解析各个接口。
 dubbo提供4种负载均衡策略，根据其思想我做了一个简单的实现，见负载均衡算法。
-LoadBalanceRandomLoadBalance
-随机，按权重设置随机概率。
-
-
-在一个截面上碰撞的概率高，但调用量越大分布越均匀，而且按概率使用权重后也比较均匀，有利于动态调整提">
-<meta property="og:updated_time" content="2018-02-06T10:15:31.054Z">
+LoadBalanceRandomLoadBalance随机，按权重设置随机概率。在一个截面上碰撞的概率高，但调用量越大分布越均匀，而且按概率使用权重后也比较均匀，有利于动态调整提供者权重">
+<meta property="og:updated_time" content="2018-02-06T11:32:19.576Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="微服务架构之Dubbo集群容错(6)">
 <meta name="twitter:description" content="以 Invoker 为中心，从 Cluster, Directory, Router, LoadBalance，来解析各个接口。
 dubbo提供4种负载均衡策略，根据其思想我做了一个简单的实现，见负载均衡算法。
-LoadBalanceRandomLoadBalance
-随机，按权重设置随机概率。
-
-
-在一个截面上碰撞的概率高，但调用量越大分布越均匀，而且按概率使用权重后也比较均匀，有利于动态调整提">
+LoadBalanceRandomLoadBalance随机，按权重设置随机概率。在一个截面上碰撞的概率高，但调用量越大分布越均匀，而且按概率使用权重后也比较均匀，有利于动态调整提供者权重">
 
 
 
@@ -405,21 +393,9 @@ LoadBalanceRandomLoadBalance
       
         <p>以 Invoker 为中心，从 Cluster, Directory, Router, LoadBalance，来解析各个接口。</p>
 <p>dubbo提供4种负载均衡策略，根据其思想我做了一个简单的实现，见<a href="https://github.com/Luckylau/UsefulTools/tree/master/Balance" target="_blank" rel="external">负载均衡算法</a>。</p>
-<h3 id="LoadBalance"><a href="#LoadBalance" class="headerlink" title="LoadBalance"></a>LoadBalance</h3><h4 id="RandomLoadBalance"><a href="#RandomLoadBalance" class="headerlink" title="RandomLoadBalance"></a>RandomLoadBalance</h4><ul>
-<li>随机，按权重设置随机概率。</li>
-</ul>
-<ul>
-<li>在一个截面上碰撞的概率高，但调用量越大分布越均匀，而且按概率使用权重后也比较均匀，有利于动态调整提供者权重。</li>
-</ul>
-<p>算法流程：<br>1）获取所有invokers的个数<br>2）遍历所有Invokers, 获取计算每个invokers的权重，并把权重累计加起来 ,每相邻的两个invoker比较他们的权重是否一样，有一个不一样说明权重不均等<br>3）总权重大于零且权重不均等的情况下按总权重获取随机数offset = random.netx(totalWeight),   遍历invokers确定随机数offset落在哪个片段(invoker上)<br>4）权重相同或者总权重为0， 根据invokers个数均等选择invokers.get(random.nextInt(length))</p>
+<h3 id="LoadBalance"><a href="#LoadBalance" class="headerlink" title="LoadBalance"></a>LoadBalance</h3><h4 id="RandomLoadBalance"><a href="#RandomLoadBalance" class="headerlink" title="RandomLoadBalance"></a>RandomLoadBalance</h4><p>随机，按权重设置随机概率。在一个截面上碰撞的概率高，但调用量越大分布越均匀，而且按概率使用权重后也比较均匀，有利于动态调整提供者权重。</p>
+<h4 id="RoundRobinLoadBalance"><a href="#RoundRobinLoadBalance" class="headerlink" title="RoundRobinLoadBalance"></a>RoundRobinLoadBalance</h4><p>轮循，按公约后的权重设置轮循比率。存在慢的提供者累积请求的问题，比如：第二台机器很慢，但没挂，当请求调到第二台时就卡在那，久而久之，所有请求都卡在调到第二台上。</p>
 <a id="more"></a>
-<h4 id="RoundRobinLoadBalance"><a href="#RoundRobinLoadBalance" class="headerlink" title="RoundRobinLoadBalance"></a>RoundRobinLoadBalance</h4><ul>
-<li>轮循，按公约后的权重设置轮循比率。</li>
-</ul>
-<ul>
-<li>存在慢的提供者累积请求的问题，比如：第二台机器很慢，但没挂，当请求调到第二台时就卡在那，久而久之，所有请求都卡在调到第二台上。</li>
-</ul>
-<p>算法流程：<br>1）获取轮询key 服务名+方法名，获取可供调用的invokers个数length<br>设置最大权重的默认值maxWeight=0，设置最小权重的默认值minWeight=Integer.MAX_VALUE<br>2）遍历所有Inokers，比较出得出maxWeight和minWeight , 将权重大于0（相当于可用的）放入map<br>3）如果权重是不一样的，进入新的处理，通过自增序列加一与权重和取模，来返回不同的结果<br>4）如果权重一样，自增序列加一并与length取模，从invokers获取invoker</p>
 <h4 id="LeastActiveLoadBalance"><a href="#LeastActiveLoadBalance" class="headerlink" title="LeastActiveLoadBalance"></a>LeastActiveLoadBalance</h4><p>最少活跃调用数， 相同的活跃的随机选择，活跃数是指调用前后的计数差， 使慢的提供者收到更少的请求，因为越慢的提供者前后的计数差越大。</p>
 <h4 id="ConsistentHashLoadBalance"><a href="#ConsistentHashLoadBalance" class="headerlink" title="ConsistentHashLoadBalance"></a>ConsistentHashLoadBalance</h4><p>一致性hash, 相同参数的请求总是发到同一个提供者，当某一台提供者挂时，原本发往该提供者的请求，基于虚拟节点，平摊到其它提供者，不会引起剧烈变动。</p>
 
