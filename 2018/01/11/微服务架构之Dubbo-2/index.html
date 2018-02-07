@@ -95,7 +95,7 @@
 <meta property="og:image" content="https://luckylau.github.io/2018/01/11/微服务架构之Dubbo-2/3.png">
 <meta property="og:image" content="https://luckylau.github.io/2018/01/11/微服务架构之Dubbo-2/2.png">
 <meta property="og:image" content="https://luckylau.github.io/2018/01/11/微服务架构之Dubbo-2/1.png">
-<meta property="og:updated_time" content="2018-01-29T11:25:53.422Z">
+<meta property="og:updated_time" content="2018-02-07T07:48:29.058Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="微服务架构之Dubbo集群容错(1)">
 <meta name="twitter:description" content="本篇从大的概念上来介绍集群容错，后续篇章从源码角度解析。
@@ -463,11 +463,10 @@
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dubbo:service</span> <span class="attr">cluster</span>=<span class="string">"forking"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dubbo:reference</span> <span class="attr">cluster</span>=<span class="string">"forking"</span> /&gt;</span></div></pre></td></tr></table></figure>
 <h3 id="源码解析模块"><a href="#源码解析模块" class="headerlink" title="源码解析模块"></a>源码解析模块</h3><p><img src="/2018/01/11/微服务架构之Dubbo-2/1.png" alt=""></p>
 <p>从官方的介绍我们就很清楚cluster 的设计 ，我们以 Invoker 为中心，从 Cluster, Directory, Router, LoadBalance，来解析各个接口。</p>
-<p>invoker</p>
-<p>directory</p>
-<p>router</p>
-<p>loadbalance</p>
-<p>cluster</p>
+<p><a href="http://luckylau.tech/2018/01/31/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E4%B9%8BDubbo-7/" target="_blank" rel="external">directory</a></p>
+<p><a href="http://luckylau.tech/2018/02/05/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E4%B9%8BDubbo-8/" target="_blank" rel="external">router</a></p>
+<p><a href="http://luckylau.tech/2018/02/06/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E4%B9%8BDubbo-9/" target="_blank" rel="external">loadbalance</a></p>
+<p><a href="http://luckylau.tech/2018/01/19/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E4%B9%8BDubbo-5/" target="_blank" rel="external">cluster</a></p>
 <h3 id="总结与自我提问"><a href="#总结与自我提问" class="headerlink" title="总结与自我提问"></a>总结与自我提问</h3><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.gitbook.com/book/dubbo/dubbo-user-book" target="_blank" rel="external">https://www.gitbook.com/book/dubbo/dubbo-user-book</a></p>
 <p><a href="https://www.gitbook.com/book/dubbo/dubbo-dev-book" target="_blank" rel="external">https://www.gitbook.com/book/dubbo/dubbo-dev-book</a></p>
 
@@ -589,7 +588,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">117</span>
+                <span class="site-state-item-count">118</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

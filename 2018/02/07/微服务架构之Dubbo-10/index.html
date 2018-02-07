@@ -84,19 +84,28 @@
 
 
 
-<meta name="description" content="这一部分主要梳理Dubbo的服务发布的原理，会涉及dubbo-config等模块内容，从以下几个方面来一步一步深入学习。
-本地暴露远程暴露zoopkeeper的连接与订阅netty的应用参考https://www.jianshu.com/p/1536e8383c0b">
+<meta name="description" content="​       这一部分主要梳理Dubbo的服务发布的原理，会涉及dubbo-config等模块内容，从以下几个方面来一步一步深入学习。
+dubbo-config模块包括dubbo-config-api 和dubbo-config-spring 。
+dubbo-config-api中重要的类包括ReferenceConfig和ServiceConfig，分别处理消费端的配置和提供服务端的配置；
+d">
 <meta property="og:type" content="article">
 <meta property="og:title" content="微服务架构之Dubbo服务发布(1)">
 <meta property="og:url" content="https://luckylau.github.io/2018/02/07/微服务架构之Dubbo-10/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
-<meta property="og:description" content="这一部分主要梳理Dubbo的服务发布的原理，会涉及dubbo-config等模块内容，从以下几个方面来一步一步深入学习。
-本地暴露远程暴露zoopkeeper的连接与订阅netty的应用参考https://www.jianshu.com/p/1536e8383c0b">
-<meta property="og:updated_time" content="2018-02-07T06:48:31.354Z">
+<meta property="og:description" content="​       这一部分主要梳理Dubbo的服务发布的原理，会涉及dubbo-config等模块内容，从以下几个方面来一步一步深入学习。
+dubbo-config模块包括dubbo-config-api 和dubbo-config-spring 。
+dubbo-config-api中重要的类包括ReferenceConfig和ServiceConfig，分别处理消费端的配置和提供服务端的配置；
+d">
+<meta property="og:image" content="https://luckylau.github.io/2018/02/07/微服务架构之Dubbo-10/1.jpg">
+<meta property="og:image" content="https://luckylau.github.io/2018/02/07/微服务架构之Dubbo-10/1.png">
+<meta property="og:updated_time" content="2018-02-07T07:50:50.547Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="微服务架构之Dubbo服务发布(1)">
-<meta name="twitter:description" content="这一部分主要梳理Dubbo的服务发布的原理，会涉及dubbo-config等模块内容，从以下几个方面来一步一步深入学习。
-本地暴露远程暴露zoopkeeper的连接与订阅netty的应用参考https://www.jianshu.com/p/1536e8383c0b">
+<meta name="twitter:description" content="​       这一部分主要梳理Dubbo的服务发布的原理，会涉及dubbo-config等模块内容，从以下几个方面来一步一步深入学习。
+dubbo-config模块包括dubbo-config-api 和dubbo-config-spring 。
+dubbo-config-api中重要的类包括ReferenceConfig和ServiceConfig，分别处理消费端的配置和提供服务端的配置；
+d">
+<meta name="twitter:image" content="https://luckylau.github.io/2018/02/07/微服务架构之Dubbo-10/1.jpg">
 
 
 
@@ -388,8 +397,18 @@
       
 
       
-        <p>这一部分主要梳理Dubbo的服务发布的原理，会涉及dubbo-config等模块内容，从以下几个方面来一步一步深入学习。</p>
-<h3 id="本地暴露"><a href="#本地暴露" class="headerlink" title="本地暴露"></a>本地暴露</h3><h3 id="远程暴露"><a href="#远程暴露" class="headerlink" title="远程暴露"></a>远程暴露</h3><h3 id="zoopkeeper的连接与订阅"><a href="#zoopkeeper的连接与订阅" class="headerlink" title="zoopkeeper的连接与订阅"></a>zoopkeeper的连接与订阅</h3><h3 id="netty的应用"><a href="#netty的应用" class="headerlink" title="netty的应用"></a>netty的应用</h3><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.jianshu.com/p/1536e8383c0b" target="_blank" rel="external">https://www.jianshu.com/p/1536e8383c0b</a></p>
+        <p>​       这一部分主要梳理Dubbo的服务发布的原理，会涉及dubbo-config等模块内容，从以下几个方面来一步一步深入学习。</p>
+<p>dubbo-config模块包括dubbo-config-api 和dubbo-config-spring 。</p>
+<p>dubbo-config-api中重要的类包括ReferenceConfig和ServiceConfig，分别处理消费端的配置和提供服务端的配置；</p>
+<p>dubbo-config-spring 主要是扩展spring配置标签的扩展；</p>
+<p><img src="/2018/02/07/微服务架构之Dubbo-10/1.jpg" alt=""></p>
+<a id="more"></a>
+<p>服务发布的开始还是要从<strong>ServiceBean</strong>说起，我们利用idea的工具查看ServiceBean的继承体系图。</p>
+<p><img src="/2018/02/07/微服务架构之Dubbo-10/1.png" alt=""></p>
+<p>本地暴露</p>
+<p>远程暴露</p>
+<p>netty的启动</p>
+<p>zoopkeeper连接,注册与监听</p>
 
       
     </div>
@@ -437,6 +456,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2018/02/07/微服务架构之Dubbo-11/" rel="prev" title="微服务架构之Dubbo服务发布(2)">
+                微服务架构之Dubbo服务发布(2) <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -482,17 +505,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/logo.jpg"
@@ -505,7 +519,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">117</span>
+                <span class="site-state-item-count">118</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -568,22 +582,6 @@
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#本地暴露"><span class="nav-number">1.</span> <span class="nav-text">本地暴露</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#远程暴露"><span class="nav-number">2.</span> <span class="nav-text">远程暴露</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zoopkeeper的连接与订阅"><span class="nav-number">3.</span> <span class="nav-text">zoopkeeper的连接与订阅</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#netty的应用"><span class="nav-number">4.</span> <span class="nav-text">netty的应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
     </div>
