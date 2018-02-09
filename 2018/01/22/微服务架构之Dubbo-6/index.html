@@ -84,15 +84,15 @@
 
 
 
-<meta name="description" content="dubbo针对服务调用出现RpcException，提供了服务降级的策略，通过mock配置就可以使用，下面我们从源码的角度分析其调用过程。
+<meta name="description" content="dubbo提供了服务降级的策略，我们首先看一下mock机制的降级原理，下面我们从源码的角度分析其调用过程。
 如何使用Dubbo服务降级mock支持的配置大体分为2类，一类用于屏蔽，一类用于容错。可以通过dubbo-admin控制台下发配置。
 
 这里我们只关注配置文件的使用。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="微服务架构之Dubbo服务降级">
+<meta property="og:title" content="微服务架构之Dubbo服务降级（1）">
 <meta property="og:url" content="https://luckylau.github.io/2018/01/22/微服务架构之Dubbo-6/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
-<meta property="og:description" content="dubbo针对服务调用出现RpcException，提供了服务降级的策略，通过mock配置就可以使用，下面我们从源码的角度分析其调用过程。
+<meta property="og:description" content="dubbo提供了服务降级的策略，我们首先看一下mock机制的降级原理，下面我们从源码的角度分析其调用过程。
 如何使用Dubbo服务降级mock支持的配置大体分为2类，一类用于屏蔽，一类用于容错。可以通过dubbo-admin控制台下发配置。
 
 这里我们只关注配置文件的使用。">
@@ -104,10 +104,10 @@
 <meta property="og:image" content="https://luckylau.github.io/2018/01/22/微服务架构之Dubbo-6/5.png">
 <meta property="og:image" content="https://luckylau.github.io/2018/01/22/微服务架构之Dubbo-6/6.png">
 <meta property="og:image" content="https://luckylau.github.io/2018/01/22/微服务架构之Dubbo-6/7.png">
-<meta property="og:updated_time" content="2018-01-25T02:42:29.505Z">
+<meta property="og:updated_time" content="2018-02-09T03:47:28.971Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="微服务架构之Dubbo服务降级">
-<meta name="twitter:description" content="dubbo针对服务调用出现RpcException，提供了服务降级的策略，通过mock配置就可以使用，下面我们从源码的角度分析其调用过程。
+<meta name="twitter:title" content="微服务架构之Dubbo服务降级（1）">
+<meta name="twitter:description" content="dubbo提供了服务降级的策略，我们首先看一下mock机制的降级原理，下面我们从源码的角度分析其调用过程。
 如何使用Dubbo服务降级mock支持的配置大体分为2类，一类用于屏蔽，一类用于容错。可以通过dubbo-admin控制台下发配置。
 
 这里我们只关注配置文件的使用。">
@@ -145,7 +145,7 @@
 
 
 
-  <title> 微服务架构之Dubbo服务降级 | Luckylau's Blog </title>
+  <title> 微服务架构之Dubbo服务降级（1） | Luckylau's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -325,7 +325,7 @@
             
             
               
-                微服务架构之Dubbo服务降级
+                微服务架构之Dubbo服务降级（1）
               
             
           </h1>
@@ -403,7 +403,7 @@
       
 
       
-        <p>dubbo针对服务调用出现RpcException，提供了服务降级的策略，通过mock配置就可以使用，下面我们从源码的角度分析其调用过程。</p>
+        <p>dubbo提供了服务降级的策略，我们首先看一下mock机制的降级原理，下面我们从源码的角度分析其调用过程。</p>
 <h3 id="如何使用Dubbo服务降级"><a href="#如何使用Dubbo服务降级" class="headerlink" title="如何使用Dubbo服务降级"></a>如何使用Dubbo服务降级</h3><p>mock支持的配置大体分为2类，一类用于屏蔽，一类用于容错。可以通过dubbo-admin控制台下发配置。</p>
 <p><img src="/2018/01/22/微服务架构之Dubbo-6/1.png" alt=""></p>
 <p>这里我们只关注配置文件的使用。</p>
@@ -565,7 +565,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">121</span>
+                <span class="site-state-item-count">122</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

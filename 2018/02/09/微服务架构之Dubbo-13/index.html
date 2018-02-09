@@ -84,16 +84,22 @@
 
 
 
-<meta name="description" content="netty的启动">
+<meta name="description" content="netty的启动接着微服务架构之Dubbo服务发布(2）我们详细讲解
+1final ExporterChangeableWrapper&amp;lt;T&amp;gt; exporter = doLocalExport(originInvoker);
+12345678910111213141516private &amp;lt;T&amp;gt; ExporterChangeableWrapper&amp;lt;T&amp;gt; doLoca">
 <meta property="og:type" content="article">
 <meta property="og:title" content="微服务架构之Dubbo服务发布(3)">
 <meta property="og:url" content="https://luckylau.github.io/2018/02/09/微服务架构之Dubbo-13/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
-<meta property="og:description" content="netty的启动">
-<meta property="og:updated_time" content="2018-02-09T02:43:13.685Z">
+<meta property="og:description" content="netty的启动接着微服务架构之Dubbo服务发布(2）我们详细讲解
+1final ExporterChangeableWrapper&amp;lt;T&amp;gt; exporter = doLocalExport(originInvoker);
+12345678910111213141516private &amp;lt;T&amp;gt; ExporterChangeableWrapper&amp;lt;T&amp;gt; doLoca">
+<meta property="og:updated_time" content="2018-02-09T03:41:31.079Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="微服务架构之Dubbo服务发布(3)">
-<meta name="twitter:description" content="netty的启动">
+<meta name="twitter:description" content="netty的启动接着微服务架构之Dubbo服务发布(2）我们详细讲解
+1final ExporterChangeableWrapper&amp;lt;T&amp;gt; exporter = doLocalExport(originInvoker);
+12345678910111213141516private &amp;lt;T&amp;gt; ExporterChangeableWrapper&amp;lt;T&amp;gt; doLoca">
 
 
 
@@ -385,7 +391,14 @@
       
 
       
-        <h3 id="netty的启动"><a href="#netty的启动" class="headerlink" title="netty的启动"></a>netty的启动</h3>
+        <h3 id="netty的启动"><a href="#netty的启动" class="headerlink" title="netty的启动"></a>netty的启动</h3><p>接着<a href="http://luckylau.tech/2018/02/07/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E4%B9%8BDubbo-11/" target="_blank" rel="external">微服务架构之Dubbo服务发布(2）</a>我们详细讲解</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">final</span> ExporterChangeableWrapper&lt;T&gt; exporter = doLocalExport(originInvoker);</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> &lt;T&gt; <span class="function">ExporterChangeableWrapper&lt;T&gt; <span class="title">doLocalExport</span><span class="params">(<span class="keyword">final</span> Invoker&lt;T&gt; originInvoker)</span> </span>&#123;</div><div class="line">        String key = getCacheKey(originInvoker);</div><div class="line">        ExporterChangeableWrapper&lt;T&gt; exporter = (ExporterChangeableWrapper&lt;T&gt;) bounds.get(key);</div><div class="line">        <span class="keyword">if</span> (exporter == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">synchronized</span> (bounds) &#123;</div><div class="line">                exporter = (ExporterChangeableWrapper&lt;T&gt;) bounds.get(key);</div><div class="line">                <span class="keyword">if</span> (exporter == <span class="keyword">null</span>) &#123;</div><div class="line">                    <span class="keyword">final</span> Invoker&lt;?&gt; invokerDelegete = <span class="keyword">new</span> InvokerDelegete&lt;T&gt;(originInvoker, getProviderUrl(originInvoker));</div><div class="line"><span class="comment">//这里最重要的是调用DubboProtocol的export方法，导出完之后，返回一个新的ExporterChangeableWrapper实例</span></div><div class="line">                    exporter = <span class="keyword">new</span> ExporterChangeableWrapper&lt;T&gt;((Exporter&lt;T&gt;) protocol.export(invokerDelegete), originInvoker);</div><div class="line">                    bounds.put(key, exporter);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> exporter;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>DubboProtocol的外面包裹着ProtocolFilterWrapper，再外面还包裹着ProtocolListenerWrapper。会先经过ProtocolListenerWrapper。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//DubboProtocol</span></div><div class="line"><span class="keyword">public</span> &lt;T&gt; <span class="function">Exporter&lt;T&gt; <span class="title">export</span><span class="params">(Invoker&lt;T&gt; invoker)</span> <span class="keyword">throws</span> RpcException </span>&#123;</div><div class="line">        URL url = invoker.getUrl();</div><div class="line">        </div><div class="line">        <span class="comment">// export service.</span></div><div class="line">  <span class="comment">//key由serviceName，version，portgroup,组成</span></div><div class="line">    <span class="comment">//当nio客户端发起远程调用时，nio服务端通过此key来决定调用哪个Exporter，也就是执行的Invoker。</span></div><div class="line">        String key = serviceKey(url);</div><div class="line">        DubboExporter&lt;T&gt; exporter = <span class="keyword">new</span> DubboExporter&lt;T&gt;(invoker, key, exporterMap);</div><div class="line">  <span class="comment">//缓存</span></div><div class="line">        exporterMap.put(key, exporter);</div><div class="line">  <span class="comment">//是否要支持本地存根 ，可以用stub关键字配置，这也是dubbo服务降级方式，详情见服务降级</span></div><div class="line">        <span class="comment">//export an stub service for dispaching event</span></div><div class="line">        Boolean isStubSupportEvent = url.getParameter(Constants.STUB_EVENT_KEY,Constants.DEFAULT_STUB_EVENT);</div><div class="line">        Boolean isCallbackservice = url.getParameter(Constants.IS_CALLBACK_SERVICE, <span class="keyword">false</span>);</div><div class="line">        <span class="keyword">if</span> (isStubSupportEvent &amp;&amp; !isCallbackservice)&#123;</div><div class="line">            String stubServiceMethods = url.getParameter(Constants.STUB_EVENT_METHODS_KEY);</div><div class="line">            <span class="keyword">if</span> (stubServiceMethods == <span class="keyword">null</span> || stubServiceMethods.length() == <span class="number">0</span> )&#123;</div><div class="line">                <span class="keyword">if</span> (logger.isWarnEnabled())&#123;</div><div class="line">                    logger.warn(<span class="keyword">new</span> IllegalStateException(<span class="string">"consumer ["</span> +url.getParameter(Constants.INTERFACE_KEY) +</div><div class="line">                            <span class="string">"], has set stubproxy support event ,but no stub methods founded."</span>));</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                stubServiceMethodsMap.put(url.getServiceKey(), stubServiceMethods);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        openServer(url);</div><div class="line"></div><div class="line">        <span class="comment">// modified by lishen</span></div><div class="line">        optimizeSerialization(url);</div><div class="line"></div><div class="line">        <span class="keyword">return</span> exporter;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://blog.csdn.net/jurson99/article/details/50401270" target="_blank" rel="external">http://blog.csdn.net/jurson99/article/details/50401270</a></p>
+<p><a href="https://www.jianshu.com/p/dcfe426e9cd7" target="_blank" rel="external">https://www.jianshu.com/p/dcfe426e9cd7</a></p>
+
       
     </div>
 
@@ -504,7 +517,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">121</span>
+                <span class="site-state-item-count">122</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -577,7 +590,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#netty的启动"><span class="nav-number">1.</span> <span class="nav-text">netty的启动</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#netty的启动"><span class="nav-number">1.</span> <span class="nav-text">netty的启动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">2.</span> <span class="nav-text">参考</span></a></li></ol></div>
             
 
           </div>
