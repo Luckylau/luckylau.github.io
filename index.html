@@ -387,7 +387,7 @@
         
           
             <p>​      在之前<a href="http://luckylau.tech/2018/01/22/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E4%B9%8BDubbo-6/" target="_blank" rel="external">微服务架构之Dubbo服务降级(1)</a>讲解了mock的服务降级机制，其实stub可以说范围更广阔，更全面的服务降级。</p>
-<p>官方是这样介绍的：Mock是Stub的一个子集，便于服务提供方在客户端执行容错逻辑，因经常需要在出现RpcException(比如网络失败，超时等)时进行容错，而在出现业务异常(比如登录用户名密码错误)时不需要容错，如果用Stub，可能就需要捕获并依赖RpcException类，而用Mock就可以不依赖RpcException，因为<strong>它的约定就是只有出现RpcException时才执行</strong>。<strong>Mock通常用于服务降级，比如某验权服务，当服务提供方全部挂掉后，客户端不抛出异常，而是通过Mock数据返回授权失败。</strong></p>
+<p>​        官方是这样介绍的：Mock是Stub的一个子集，便于服务提供方在客户端执行容错逻辑，因经常需要在出现RpcException(比如网络失败，超时等)时进行容错，而在出现业务异常(比如登录用户名密码错误)时不需要容错，如果用Stub，可能就需要捕获并依赖RpcException类，而用Mock就可以不依赖RpcException，因为它的约定就是只有出现RpcException时才执行。Mock通常用于服务降级，比如某验权服务，当服务提供方全部挂掉后，客户端不抛出异常，而是通过Mock数据返回授权失败。</p>
 
           
         
@@ -528,7 +528,9 @@
       
         
           
-            <h3 id="zoopkeeper连接-注册与监听"><a href="#zoopkeeper连接-注册与监听" class="headerlink" title="zoopkeeper连接,注册与监听"></a>zoopkeeper连接,注册与监听</h3>
+            <h3 id="zoopkeeper连接-注册与监听"><a href="#zoopkeeper连接-注册与监听" class="headerlink" title="zoopkeeper连接,注册与监听"></a>zoopkeeper连接,注册与监听</h3><p>接着<a href="http://luckylau.tech/2018/02/07/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E4%B9%8BDubbo-11/" target="_blank" rel="external">微服务架构之Dubbo服务发布(2）</a>我们详细讲解</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//获取注册中心的地址，并连接，注册</span></div><div class="line">URL registryUrl = getRegistryUrl(originInvoker);</div></pre></td></tr></table></figure>
+
           
         
       

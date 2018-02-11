@@ -5,14 +5,14 @@
     <entry>
       <title><![CDATA[微服务架构之Dubbo服务降级(2)]]></title>
       <url>%2F2018%2F02%2F09%2F%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E4%B9%8BDubbo-15%2F</url>
-      <content type="text"><![CDATA[​ 在之前微服务架构之Dubbo服务降级(1)讲解了mock的服务降级机制，其实stub可以说范围更广阔，更全面的服务降级。 官方是这样介绍的：Mock是Stub的一个子集，便于服务提供方在客户端执行容错逻辑，因经常需要在出现RpcException(比如网络失败，超时等)时进行容错，而在出现业务异常(比如登录用户名密码错误)时不需要容错，如果用Stub，可能就需要捕获并依赖RpcException类，而用Mock就可以不依赖RpcException，因为它的约定就是只有出现RpcException时才执行。Mock通常用于服务降级，比如某验权服务，当服务提供方全部挂掉后，客户端不抛出异常，而是通过Mock数据返回授权失败。]]></content>
+      <content type="text"><![CDATA[​ 在之前微服务架构之Dubbo服务降级(1)讲解了mock的服务降级机制，其实stub可以说范围更广阔，更全面的服务降级。 ​ 官方是这样介绍的：Mock是Stub的一个子集，便于服务提供方在客户端执行容错逻辑，因经常需要在出现RpcException(比如网络失败，超时等)时进行容错，而在出现业务异常(比如登录用户名密码错误)时不需要容错，如果用Stub，可能就需要捕获并依赖RpcException类，而用Mock就可以不依赖RpcException，因为它的约定就是只有出现RpcException时才执行。Mock通常用于服务降级，比如某验权服务，当服务提供方全部挂掉后，客户端不抛出异常，而是通过Mock数据返回授权失败。]]></content>
     </entry>
 
     
     <entry>
       <title><![CDATA[微服务架构之Dubbo服务发布(4)]]></title>
       <url>%2F2018%2F02%2F09%2F%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E4%B9%8BDubbo-14%2F</url>
-      <content type="text"><![CDATA[zoopkeeper连接,注册与监听]]></content>
+      <content type="text"><![CDATA[zoopkeeper连接,注册与监听接着微服务架构之Dubbo服务发布(2）我们详细讲解 12//获取注册中心的地址，并连接，注册URL registryUrl = getRegistryUrl(originInvoker);]]></content>
     </entry>
 
     
@@ -96,7 +96,7 @@
     <entry>
       <title><![CDATA[微服务架构之Dubbo基础知识]]></title>
       <url>%2F2018%2F01%2F12%2F%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E4%B9%8BDubbo-3%2F</url>
-      <content type="text"><![CDATA[在了解Dubbo时候，需要一些java基础知识，方便理解和开发。 SPI的原理SPI机制的adpative原理与Spring融合]]></content>
+      <content type="text"><![CDATA[在了解Dubbo时候，需要一些java基础知识和其他相关技术知识，方便理解和开发。 JAVA相关SPI的原理融合SpringNetty相关Zookeeper相关]]></content>
     </entry>
 
     
