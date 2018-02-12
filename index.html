@@ -527,11 +527,17 @@
 
       
         
-          
-            <h3 id="zoopkeeper连接-注册与监听"><a href="#zoopkeeper连接-注册与监听" class="headerlink" title="zoopkeeper连接,注册与监听"></a>zoopkeeper连接,注册与监听</h3><p>接着<a href="http://luckylau.tech/2018/02/07/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E4%B9%8BDubbo-11/" target="_blank" rel="external">微服务架构之Dubbo服务发布(2）</a>我们详细讲解</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//获取注册中心的地址，并连接，注册</span></div><div class="line">URL registryUrl = getRegistryUrl(originInvoker);</div></pre></td></tr></table></figure>
-
-          
+          <h3 id="zookeeper连接-注册与监听"><a href="#zookeeper连接-注册与监听" class="headerlink" title="zookeeper连接,注册与监听"></a>zookeeper连接,注册与监听</h3><p>接着<a href="http://luckylau.tech/2018/02/07/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E4%B9%8BDubbo-11/">微服务架构之Dubbo服务发布(2）</a>我们详细讲解</p>
+<h4 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//首先获取注册中心的地址</span></div><div class="line">URL registryUrl = getRegistryUrl(originInvoker);</div><div class="line"><span class="comment">//返回的格式是zookeeper://</span></div><div class="line"><span class="keyword">final</span> Registry registry = getRegistry(originInvoker);</div></pre></td></tr></table></figure>
+<p>首先第一个重点来了，追踪代码流程，我们先看其时序图，最终registry的实例是ZookeeperRegistry。</p>
+<p><img src="/2018/02/09/微服务架构之Dubbo-14/1.png" alt=""></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/09/微服务架构之Dubbo-14/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -741,7 +747,7 @@
               
                 
                 <a class="post-title-link" href="/2018/02/08/微服务架构之Dubbo-12/" itemprop="url">
-                  微服务架构之Dubbo的服务引用
+                  微服务架构之Dubbo服务引用
                 </a>
               
             
