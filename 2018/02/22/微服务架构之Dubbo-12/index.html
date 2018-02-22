@@ -1,0 +1,915 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Dubbo," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/logo.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="之前讲解了Dubbo服务的发布，下面我们来看看如何进行服务的引用。
+
+在Spring启动的时候，根据dubbo:reference配置会创建一个ReferenceBean。ReferenceBean继承了ReferenceConfig，重点是看init()方法，前面做了很多工作收集配置参数，然后根据参数信息创建代理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="微服务架构之Dubbo服务引用">
+<meta property="og:url" content="https://luckylau.github.io/2018/02/22/微服务架构之Dubbo-12/index.html">
+<meta property="og:site_name" content="Luckylau's Blog">
+<meta property="og:description" content="之前讲解了Dubbo服务的发布，下面我们来看看如何进行服务的引用。
+
+在Spring启动的时候，根据dubbo:reference配置会创建一个ReferenceBean。ReferenceBean继承了ReferenceConfig，重点是看init()方法，前面做了很多工作收集配置参数，然后根据参数信息创建代理">
+<meta property="og:image" content="https://luckylau.github.io/2018/02/22/微服务架构之Dubbo-12/2.png">
+<meta property="og:image" content="https://luckylau.github.io/2018/02/22/微服务架构之Dubbo-12/1.png">
+<meta property="og:image" content="https://luckylau.github.io/2018/02/22/微服务架构之Dubbo-12/3.png">
+<meta property="og:updated_time" content="2018-02-22T07:20:20.695Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="微服务架构之Dubbo服务引用">
+<meta name="twitter:description" content="之前讲解了Dubbo服务的发布，下面我们来看看如何进行服务的引用。
+
+在Spring启动的时候，根据dubbo:reference配置会创建一个ReferenceBean。ReferenceBean继承了ReferenceConfig，重点是看init()方法，前面做了很多工作收集配置参数，然后根据参数信息创建代理">
+<meta name="twitter:image" content="https://luckylau.github.io/2018/02/22/微服务架构之Dubbo-12/2.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://luckylau.github.io/2018/02/22/微服务架构之Dubbo-12/"/>
+
+
+
+
+
+  <title> 微服务架构之Dubbo服务引用 | Luckylau's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Luckylau's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">Keep Moving, Keep Learning</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2018/02/22/微服务架构之Dubbo-12/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Luckylau">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/logo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Luckylau's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Luckylau's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                微服务架构之Dubbo服务引用
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-22T09:54:15+08:00">
+                2018-02-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/分布式架构/" itemprop="url" rel="index">
+                    <span itemprop="name">分布式架构</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>之前讲解了Dubbo服务的发布，下面我们来看看如何进行服务的引用。</p>
+<p><img src="/2018/02/22/微服务架构之Dubbo-12/2.png" alt=""></p>
+<p>在Spring启动的时候，根据dubbo:reference配置会创建一个ReferenceBean。ReferenceBean继承了ReferenceConfig，重点是看init()方法，前面做了很多工作收集配置参数，然后根据参数信息创建代理</p>
+<a id="more"></a>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ref = createProxy(map);</div></pre></td></tr></table></figure>
+<!--more-->
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//ReferenceConfig</span></div><div class="line"><span class="function"><span class="keyword">private</span> T <span class="title">createProxy</span><span class="params">(Map&lt;String, String&gt; map)</span> </span>&#123;</div><div class="line">        URL tmpUrl = <span class="keyword">new</span> URL(<span class="string">"temp"</span>, <span class="string">"localhost"</span>, <span class="number">0</span>, map);</div><div class="line">        <span class="keyword">final</span> <span class="keyword">boolean</span> isJvmRefer;</div><div class="line">        <span class="keyword">if</span> (isInjvm() == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">if</span> (url != <span class="keyword">null</span> &amp;&amp; url.length() &gt; <span class="number">0</span>) &#123; </div><div class="line">                <span class="comment">//指定URL的情况下，不做本地引用</span></div><div class="line">                isJvmRefer = <span class="keyword">false</span>;</div><div class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (InjvmProtocol.getInjvmProtocol().isInjvmRefer(tmpUrl)) &#123;</div><div class="line">                <span class="comment">//默认情况下如果本地有服务暴露，则引用本地服务</span></div><div class="line">                isJvmRefer = <span class="keyword">true</span>;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                isJvmRefer = <span class="keyword">false</span>;</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            isJvmRefer = isInjvm().booleanValue();</div><div class="line">        &#125;</div><div class="line">    <span class="comment">//</span></div><div class="line">        <span class="keyword">if</span> (isJvmRefer) &#123;</div><div class="line">            URL url = <span class="keyword">new</span> URL(Constants.LOCAL_PROTOCOL, NetUtils.LOCALHOST, <span class="number">0</span>, interfaceClass.getName()).addParameters(map);</div><div class="line">            invoker = refprotocol.refer(interfaceClass, url);</div><div class="line">            <span class="keyword">if</span> (logger.isInfoEnabled()) &#123;</div><div class="line">                logger.info(<span class="string">"Using injvm service "</span> + interfaceClass.getName());</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="comment">// 用户指定URL，指定的URL可能是对点对直连地址，也可能是注册中心URL</span></div><div class="line">            <span class="keyword">if</span> (url != <span class="keyword">null</span> &amp;&amp; url.length() &gt; <span class="number">0</span>) &#123; </div><div class="line">                String[] us = Constants.SEMICOLON_SPLIT_PATTERN.split(url);</div><div class="line">                <span class="keyword">if</span> (us != <span class="keyword">null</span> &amp;&amp; us.length &gt; <span class="number">0</span>) &#123;</div><div class="line">                    <span class="keyword">for</span> (String u : us) &#123;</div><div class="line">                        URL url = URL.valueOf(u);</div><div class="line">                        <span class="keyword">if</span> (url.getPath() == <span class="keyword">null</span> || url.getPath().length() == <span class="number">0</span>) &#123;</div><div class="line">                            url = url.setPath(interfaceName);</div><div class="line">                        &#125;</div><div class="line">                        <span class="keyword">if</span> (Constants.REGISTRY_PROTOCOL.equals(url.getProtocol())) &#123;</div><div class="line">                            urls.add(url.addParameterAndEncoded(Constants.REFER_KEY, StringUtils.toQueryString(map)));</div><div class="line">                        &#125; <span class="keyword">else</span> &#123;</div><div class="line">                            urls.add(ClusterUtils.mergeUrl(url, map));</div><div class="line">                        &#125;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">else</span> &#123; <span class="comment">// 通过注册中心配置拼装URL</span></div><div class="line">                List&lt;URL&gt; us = loadRegistries(<span class="keyword">false</span>);</div><div class="line">                <span class="keyword">if</span> (us != <span class="keyword">null</span> &amp;&amp; us.size() &gt; <span class="number">0</span>) &#123;</div><div class="line">                    <span class="keyword">for</span> (URL u : us) &#123;</div><div class="line">                        URL monitorUrl = loadMonitor(u);</div><div class="line">                        <span class="keyword">if</span> (monitorUrl != <span class="keyword">null</span>) &#123;</div><div class="line">                            map.put(Constants.MONITOR_KEY, URL.encode(monitorUrl.toFullString()));</div><div class="line">                        &#125;</div><div class="line">                        urls.add(u.addParameterAndEncoded(Constants.REFER_KEY, StringUtils.toQueryString(map)));</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">if</span> (urls == <span class="keyword">null</span> || urls.size() == <span class="number">0</span>) &#123;</div><div class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"No such any registry to reference "</span> + interfaceName + <span class="string">" on the consumer "</span> + NetUtils.getLocalHost() + <span class="string">" use dubbo version "</span> + Version.getVersion() + <span class="string">", please config &lt;dubbo:registry address=\"...\" /&gt; to your spring config."</span>);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="keyword">if</span> (urls.size() == <span class="number">1</span>) &#123;</div><div class="line">                invoker = refprotocol.refer(interfaceClass, urls.get(<span class="number">0</span>));</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="comment">//多注册中心</span></div><div class="line">                List&lt;Invoker&lt;?&gt;&gt; invokers = <span class="keyword">new</span> ArrayList&lt;Invoker&lt;?&gt;&gt;();</div><div class="line">                URL registryURL = <span class="keyword">null</span>;</div><div class="line">                <span class="keyword">for</span> (URL url : urls) &#123;</div><div class="line">                    invokers.add(refprotocol.refer(interfaceClass, url));</div><div class="line">                    <span class="keyword">if</span> (Constants.REGISTRY_PROTOCOL.equals(url.getProtocol())) &#123;</div><div class="line">                        registryURL = url; <span class="comment">// 用了最后一个registry url</span></div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">if</span> (registryURL != <span class="keyword">null</span>) &#123; <span class="comment">// 有 注册中心协议的URL</span></div><div class="line">                    <span class="comment">// 对有注册中心的Cluster 只用 AvailableCluster</span></div><div class="line">                    URL u = registryURL.addParameter(Constants.CLUSTER_KEY, AvailableCluster.NAME);</div><div class="line">                    invoker = cluster.join(<span class="keyword">new</span> StaticDirectory(u, invokers));</div><div class="line">                &#125; <span class="keyword">else</span> &#123; <span class="comment">// 不是 注册中心的URL</span></div><div class="line">                    invoker = cluster.join(<span class="keyword">new</span> StaticDirectory(invokers));</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        Boolean c = check;</div><div class="line">        <span class="keyword">if</span> (c == <span class="keyword">null</span> &amp;&amp; consumer != <span class="keyword">null</span>) &#123;</div><div class="line">            c = consumer.isCheck();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (c == <span class="keyword">null</span>) &#123;</div><div class="line">            c = <span class="keyword">true</span>; <span class="comment">// default true</span></div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (c &amp;&amp; !invoker.isAvailable()) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"Failed to check the status of the service "</span> + interfaceName + <span class="string">". No provider available for the service "</span> + (group == <span class="keyword">null</span> ? <span class="string">""</span> : group + <span class="string">"/"</span>) + interfaceName + (version == <span class="keyword">null</span> ? <span class="string">""</span> : <span class="string">":"</span> + version) + <span class="string">" from the url "</span> + invoker.getUrl() + <span class="string">" to the consumer "</span> + NetUtils.getLocalHost() + <span class="string">" use dubbo version "</span> + Version.getVersion());</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (logger.isInfoEnabled()) &#123;</div><div class="line">            logger.info(<span class="string">"Refer dubbo service "</span> + interfaceClass.getName() + <span class="string">" from url "</span> + invoker.getUrl());</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// create service proxy</span></div><div class="line">        <span class="keyword">return</span> (T) proxyFactory.getProxy(invoker);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>获取invoker有3种情况，一种是指定url,做点对点；一种是本地暴露；还有一种是注册中心url。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">invoker = refprotocol.refer(interfaceClass, url);//引用本地暴露的url</div><div class="line">invoker = refprotocol.refer(interfaceClass, urls.get(0));//引用注册中心的url</div></pre></td></tr></table></figure>
+<p>无论是引用本地暴露还是远程暴露的url,都调用refprotocol.refer()，追踪发现refprotocol.refer() 先后经过修饰类 ProtocolFilterWrapper、ProtocolListenerWrapper 最后执行RegistryProtocol。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//RegistryProtocol</span></div><div class="line"><span class="keyword">public</span> &lt;T&gt; <span class="function">Invoker&lt;T&gt; <span class="title">refer</span><span class="params">(Class&lt;T&gt; type, URL url)</span> <span class="keyword">throws</span> RpcException </span>&#123;</div><div class="line">        url = url.setProtocol(url.getParameter(Constants.REGISTRY_KEY, Constants.DEFAULT_REGISTRY)).removeParameter(Constants.REGISTRY_KEY);</div><div class="line">        Registry registry = registryFactory.getRegistry(url);</div><div class="line">        <span class="keyword">if</span> (RegistryService.class.equals(type)) &#123;</div><div class="line">        	<span class="keyword">return</span> proxyFactory.getInvoker((T) registry, type, url);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">// group="a,b" or group="*"处理merge情况</span></div><div class="line">        Map&lt;String, String&gt; qs = StringUtils.parseQueryString(url.getParameterAndDecoded(Constants.REFER_KEY));</div><div class="line">        String group = qs.get(Constants.GROUP_KEY);</div><div class="line">        <span class="keyword">if</span> (group != <span class="keyword">null</span> &amp;&amp; group.length() &gt; <span class="number">0</span> ) &#123;</div><div class="line">            <span class="keyword">if</span> ( ( Constants.COMMA_SPLIT_PATTERN.split( group ) ).length &gt; <span class="number">1</span></div><div class="line">                    || <span class="string">"*"</span>.equals( group ) ) &#123;</div><div class="line">                <span class="keyword">return</span> doRefer( getMergeableCluster(), registry, type, url );</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> doRefer(cluster, registry, type, url);</div><div class="line">    &#125;</div><div class="line"><span class="comment">//</span></div><div class="line"><span class="keyword">private</span> &lt;T&gt; <span class="function">Invoker&lt;T&gt; <span class="title">doRefer</span><span class="params">(Cluster cluster, Registry registry, Class&lt;T&gt; type, URL url)</span> </span>&#123;</div><div class="line">    <span class="comment">//构建消费者引用的服务方的directory</span></div><div class="line">        RegistryDirectory&lt;T&gt; directory = <span class="keyword">new</span> RegistryDirectory&lt;T&gt;(type, url);</div><div class="line">        directory.setRegistry(registry);</div><div class="line">        directory.setProtocol(protocol);</div><div class="line">    <span class="comment">//订阅的url</span></div><div class="line">        URL subscribeUrl = <span class="keyword">new</span> URL(Constants.CONSUMER_PROTOCOL, NetUtils.getLocalHost(), <span class="number">0</span>, type.getName(), directory.getUrl().getParameters());</div><div class="line">        <span class="keyword">if</span> (! Constants.ANY_VALUE.equals(url.getServiceInterface())</div><div class="line">                &amp;&amp; url.getParameter(Constants.REGISTER_KEY, <span class="keyword">true</span>)) &#123;</div><div class="line">    <span class="comment">//服务消费方向注册中心注册自己，供其他层使用，比如服务治理</span></div><div class="line">            registry.register(subscribeUrl.addParameters(Constants.CATEGORY_KEY, Constants.CONSUMERS_CATEGORY,</div><div class="line">                    Constants.CHECK_KEY, String.valueOf(<span class="keyword">false</span>)));</div><div class="line">        &#125;</div><div class="line">    <span class="comment">//订阅服务提供方</span></div><div class="line">    <span class="comment">//同时订阅了三种类型providers，routers，configurators。</span></div><div class="line">        directory.subscribe(subscribeUrl.addParameter(Constants.CATEGORY_KEY, </div><div class="line">                Constants.PROVIDERS_CATEGORY </div><div class="line">                + <span class="string">","</span> + Constants.CONFIGURATORS_CATEGORY </div><div class="line">                + <span class="string">","</span> + Constants.ROUTERS_CATEGORY));</div><div class="line">    <span class="comment">//默认使用FailoverCluster集群策略类，调用join(Directory&lt;T&gt; directory)方法将RegistryDirectory对象封装成FailoverClusterInvoker对象并返回。</span></div><div class="line">    Invoker invoker = cluster.join(directory);</div><div class="line">    <span class="comment">//消费者缓存表</span></div><div class="line">    ProviderConsumerRegTable.registerConsuemr(invoker, url, subscribeUrl, directory);</div><div class="line">        <span class="keyword">return</span> invoker;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>上面这段代码重点是消费方的注册和订阅动作</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">registry.register(subscribeUrl.addParameters(Constants.CATEGORY_KEY, Constants.CONSUMERS_CATEGORY,</div><div class="line">                    Constants.CHECK_KEY, String.valueOf(<span class="keyword">false</span>)));</div><div class="line">        &#125;<span class="comment">//注册动作</span></div><div class="line">directory.subscribe(subscribeUrl.addParameter(Constants.CATEGORY_KEY, </div><div class="line">                Constants.PROVIDERS_CATEGORY </div><div class="line">                + <span class="string">","</span> + Constants.CONFIGURATORS_CATEGORY </div><div class="line">                + <span class="string">","</span> + Constants.ROUTERS_CATEGORY));<span class="comment">//订阅动作</span></div></pre></td></tr></table></figure>
+<p>注册动作，其实调用的是FailbackRegistry的register()方法，和服务发布的注册调用同一个方法。</p>
+<p>订阅动作，其实调用的是FailbackRegistry的subscribe()方法，和服务发布的注册调用同一个方法，不同是它订阅providers，routers，configurators。</p>
+<p>最后最为重要的是创建代理，传入的参数是cluster.join(directory)返回的invoker</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">return</span> (T) proxyFactory.getProxy(invoker);</div><div class="line"><span class="comment">//AbstractProxyFactory</span></div><div class="line"><span class="keyword">public</span> &lt;T&gt; <span class="function">T <span class="title">getProxy</span><span class="params">(Invoker&lt;T&gt; invoker)</span> <span class="keyword">throws</span> RpcException </span>&#123;</div><div class="line">        Class&lt;?&gt;[] interfaces = <span class="keyword">null</span>;</div><div class="line">        String config = invoker.getUrl().getParameter(<span class="string">"interfaces"</span>);</div><div class="line">        <span class="keyword">if</span> (config != <span class="keyword">null</span> &amp;&amp; config.length() &gt; <span class="number">0</span>) &#123;</div><div class="line">            String[] types = Constants.COMMA_SPLIT_PATTERN.split(config);</div><div class="line">            <span class="keyword">if</span> (types != <span class="keyword">null</span> &amp;&amp; types.length &gt; <span class="number">0</span>) &#123;</div><div class="line">                interfaces = <span class="keyword">new</span> Class&lt;?&gt;[types.length + <span class="number">2</span>];</div><div class="line">                interfaces[<span class="number">0</span>] = invoker.getInterface();</div><div class="line">                interfaces[<span class="number">1</span>] = EchoService.class;</div><div class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; types.length; i ++) &#123;</div><div class="line">                    interfaces[i + <span class="number">1</span>] = ReflectUtils.forName(types[i]);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (interfaces == <span class="keyword">null</span>) &#123;</div><div class="line">            interfaces = <span class="keyword">new</span> Class&lt;?&gt;[] &#123;invoker.getInterface(), EchoService.class&#125;;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> getProxy(invoker, interfaces);</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">//JavassistProxyFactory</span></div><div class="line"><span class="keyword">public</span> &lt;T&gt; <span class="function">T <span class="title">getProxy</span><span class="params">(Invoker&lt;T&gt; invoker, Class&lt;?&gt;[] interfaces)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> (T) Proxy.getProxy(interfaces).newInstance(<span class="keyword">new</span> InvokerInvocationHandler(invoker));</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>这个代理生成之后，在消费者消费某个服务时候，就进入InvokerInvocationHandler的逻辑，参考<a href="http://luckylau.tech/2018/01/17/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E4%B9%8BDubbo-4/" target="_blank" rel="external">这篇文章</a>，这样消费者和提供者之间就架起了桥梁。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p><img src="/2018/02/22/微服务架构之Dubbo-12/1.png" alt=""></p>
+<p><img src="/2018/02/22/微服务架构之Dubbo-12/3.png" alt=""></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+<div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/1.jpg" alt="Luckylau wechat" style="width: 200px; max-width: 100%;"/>
+    <div>如果对您有价值,看官可以打赏的！</div>
+</div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Dubbo/" rel="tag"># Dubbo</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/09/微服务架构之Dubbo-15/" rel="next" title="微服务架构之Dubbo服务降级(2)">
+                <i class="fa fa-chevron-left"></i> 微服务架构之Dubbo服务降级(2)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/logo.jpg"
+               alt="Luckylau" />
+          <p class="site-author-name" itemprop="name">Luckylau</p>
+          <p class="site-description motion-element" itemprop="description">人生识字忧患始</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">122</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Luckylau" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://weibo.com/2606534415/profile?topnav=1&wvr=6&is_all=1" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">1.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2017 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Luckylau</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid="></script>
+      <!-- UY END -->
+  
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
