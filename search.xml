@@ -3,6 +3,20 @@
   
     
     <entry>
+      <title><![CDATA[分布式系统基础理论(1)]]></title>
+      <url>%2F2018%2F03%2F09%2F%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80%E7%90%86%E8%AE%BA%2F</url>
+      <content type="text"><![CDATA[本篇主要讲解CAID,CAP和BASE。 CAIDCAPBASE]]></content>
+    </entry>
+
+    
+    <entry>
+      <title><![CDATA[Zookeeper的原理(1)]]></title>
+      <url>%2F2018%2F03%2F05%2FZookeeper%E7%9A%84%E5%8E%9F%E7%90%86%EF%BC%881%EF%BC%89%2F</url>
+      <content type="text"><![CDATA[分布式系统基础理论ACIDCAPBASE分布式系统一致性协议2PC和3PCPaxos算法（重点理解和总结）Paxos在大型系统中常见的应用场景什么是ZookeeperZookeeper能做什么Zookeeper的安装使用Zookeeper的技术内幕ZAB协议系统模型会话详细流程Leader选举服务角色Zookeeper客户端Zookeeper的使用场景zookeeper实现负载均衡常见问题脑裂问题集群奇数个节点参考http://suroot.cn/306.html 《从Paxos到zookeeper 分布式一致性原理与实践》]]></content>
+    </entry>
+
+    
+    <entry>
       <title><![CDATA[Spring的设计思想之整体架构]]></title>
       <url>%2F2018%2F02%2F28%2FSpring%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3%E4%B9%8B%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84%2F</url>
       <content type="text"></content>
