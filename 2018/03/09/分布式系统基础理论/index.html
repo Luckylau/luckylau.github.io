@@ -84,19 +84,30 @@
 
 
 
-<meta name="description" content="本篇主要讲解CAID,CAP和BASE。
-CAIDCAPBASE">
+<meta name="description" content="本篇主要讲解ACID, CAP和 BASE。
+​       最近看了《从Paxos到zookeeper 分布式一致性原理与实践》这本书，想提取总结一些分布式相关的内容，做一下梳理，本篇主要讲解ACID, CAP和 BASE。
+在《分布式系统概念与设计》一书中对分布式定义如下：
+​          分布式系统是一个硬件或软件组件分布在不同的网络计算机上，彼此之间仅仅通过消息传递进行通信和协调的系">
 <meta property="og:type" content="article">
 <meta property="og:title" content="分布式系统基础理论(1)">
 <meta property="og:url" content="https://luckylau.github.io/2018/03/09/分布式系统基础理论/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
-<meta property="og:description" content="本篇主要讲解CAID,CAP和BASE。
-CAIDCAPBASE">
-<meta property="og:updated_time" content="2018-03-09T04:02:18.189Z">
+<meta property="og:description" content="本篇主要讲解ACID, CAP和 BASE。
+​       最近看了《从Paxos到zookeeper 分布式一致性原理与实践》这本书，想提取总结一些分布式相关的内容，做一下梳理，本篇主要讲解ACID, CAP和 BASE。
+在《分布式系统概念与设计》一书中对分布式定义如下：
+​          分布式系统是一个硬件或软件组件分布在不同的网络计算机上，彼此之间仅仅通过消息传递进行通信和协调的系">
+<meta property="og:image" content="https://luckylau.github.io/2018/03/09/分布式系统基础理论/1.png">
+<meta property="og:image" content="https://luckylau.github.io/2018/03/09/分布式系统基础理论/2.png">
+<meta property="og:image" content="https://luckylau.github.io/2018/03/09/分布式系统基础理论/3.png">
+<meta property="og:image" content="https://luckylau.github.io/2018/03/09/分布式系统基础理论/4.png">
+<meta property="og:updated_time" content="2018-03-11T07:59:55.538Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="分布式系统基础理论(1)">
-<meta name="twitter:description" content="本篇主要讲解CAID,CAP和BASE。
-CAIDCAPBASE">
+<meta name="twitter:description" content="本篇主要讲解ACID, CAP和 BASE。
+​       最近看了《从Paxos到zookeeper 分布式一致性原理与实践》这本书，想提取总结一些分布式相关的内容，做一下梳理，本篇主要讲解ACID, CAP和 BASE。
+在《分布式系统概念与设计》一书中对分布式定义如下：
+​          分布式系统是一个硬件或软件组件分布在不同的网络计算机上，彼此之间仅仅通过消息传递进行通信和协调的系">
+<meta name="twitter:image" content="https://luckylau.github.io/2018/03/09/分布式系统基础理论/1.png">
 
 
 
@@ -388,8 +399,34 @@ CAIDCAPBASE">
       
 
       
-        <p>本篇主要讲解CAID,CAP和BASE。</p>
-<h3 id="CAID"><a href="#CAID" class="headerlink" title="CAID"></a>CAID</h3><h3 id="CAP"><a href="#CAP" class="headerlink" title="CAP"></a>CAP</h3><h3 id="BASE"><a href="#BASE" class="headerlink" title="BASE"></a>BASE</h3>
+        <p>本篇主要讲解<strong>ACID, CAP</strong>和 <strong>BASE</strong>。</p>
+<p>​       最近看了《从Paxos到zookeeper 分布式一致性原理与实践》这本书，想提取总结一些分布式相关的内容，做一下梳理，本篇主要讲解<strong>ACID</strong>, <strong>CAP</strong>和 <strong>BASE</strong>。</p>
+<p>在《分布式系统概念与设计》一书中对分布式定义如下：</p>
+<p>​          分布式系统是一个硬件或软件组件分布在不同的网络计算机上，彼此之间仅仅通过消息传递进行通信和协调的系统。</p>
+<a id="more"></a>
+<h3 id="从ACID到CAP-BASE"><a href="#从ACID到CAP-BASE" class="headerlink" title="从ACID到CAP/BASE"></a>从ACID到CAP/BASE</h3><h4 id="本地事务"><a href="#本地事务" class="headerlink" title="本地事务"></a>本地事务</h4><h5 id="ACID"><a href="#ACID" class="headerlink" title="ACID"></a>ACID</h5><p>​        ACID主要是事务的4个基本特征。<strong>事务是指由一系列对系统中数据进行访问与更新的操作所组成的一个程序执行逻辑单元，狭义上的事务特指数据库事务。</strong>它在多个程序并发访问数据库的时候，可以在这些应用程序之间提供一个隔离方法，以防止彼此操作互相干扰，另一方面为数据库操作序列提供了以从失败中恢复到正常状态的方法，同时提供了数据库即使在异常状态下仍能保持数据一致性的方法。</p>
+<p><strong>原子性(Atomicity)：</strong>事务必须是一个原子的操作序列单元。只允许出现“全部执行成功”和“全部不执行”两种状态。</p>
+<p><strong>一致性(Consistency)：</strong>事务的执行不能破坏数据库数据的完整性和一致性。一个事务在执行前后，数据库都必须处于一致性状态。也就是说，事务执行的结果必须是使数据库从一个一致性状态转变到另一个一致性状态。</p>
+<p><strong>隔离性(Isolation)：</strong>在并发环境中，并发的事务是相互隔离的，一个事务的执行不能被其他事务干扰。也即，不同的事务并发操作相同数据时，每个事务都有各自完整的数据空间。</p>
+<p>需要注意的是隔离性有4个不同的级别</p>
+<p><img src="/2018/03/09/分布式系统基础理论/1.png" alt=""></p>
+<p><img src="/2018/03/09/分布式系统基础理论/2.png" alt=""></p>
+<p><strong>持久性(Durability):</strong> 也称永久性，是指一个事务一旦提交，它对数据库中对应数据的状态变更就是永久性，即使发生系统崩溃或机器宕机等故障。</p>
+<p>遵循ACID是<strong>本地事务</strong>保持数据一致性的关键。</p>
+<h4 id="分布式事务"><a href="#分布式事务" class="headerlink" title="分布式事务"></a>分布式事务</h4><p>​       分布式事务是指事务的参与者、支持事务的服务器、资源服务器以及事务管理器分别位于分布式系统的不同节点之上。通常一个分布式事务中会涉及对多个数据源或业务系统的操作。通常一个分布式事务可以被定义为一种嵌套型的事务，同时也具有ACID事务特性。但其中的各个子事务的执行又是分布式的。</p>
+<h5 id="CAP"><a href="#CAP" class="headerlink" title="CAP"></a>CAP</h5><p>一个分布式系统不能同时满足<strong>一致性（Consistency）</strong>、<strong>可用性（Availability）</strong>和<strong>分区容错性（Partition tolerance）</strong>这三个基本需求，最多只能同时满足其中两项。</p>
+<p><strong>一致性（Consistency）</strong>是指数据在多个副本之间是否能够保持一致的特性。在一致性的需求下，当一个系统在数据一致的状态下执行更新操作后，应该保证系统的数据仍然处于一致的状态。在分布式系统中，如果能做到针对一个数据项的更新操作执行成功后，所有的用户都可以读取到其最新的值，这样的系统被认为具有<strong>强一致性</strong>（严格一致性）。</p>
+<p><strong>可用性（Availability）</strong>是指系统提供的服务必须一致处于可用的状态，对于用户的每一个操作总是能够在有限时间内返回对应的处理结果。</p>
+<p><strong>分区容错性（Partition tolerance）</strong>是指分布式系统在遇到任何网络分区故障的时候，仍然需要能够保证对外提供满足一致性和可用性服务，除非是整个网络环境都发生了故障。网络分区是指在分布式系统中，不同的节点分布在不同的子网络（机房或异地网络等）中，由于一些特殊原因导致这些子网络之间出现网络不连通的状况，但各个子网络的内部网络正常，从而导致整个网络环境被切分成了若干孤立的区域。</p>
+<p><img src="/2018/03/09/分布式系统基础理论/3.png" alt=""></p>
+<p><img src="/2018/03/09/分布式系统基础理论/4.png" alt=""></p>
+<h5 id="BASE"><a href="#BASE" class="headerlink" title="BASE"></a>BASE</h5><p>​        BASE是<strong>Basically Available</strong>、<strong>Soft state</strong>和<strong>Eventually consistent</strong>三个短语的缩写。BASE是对CAP中一致性和可用性权衡的结果，其来源是对大规模互联网系统分布式实践的总结。其核心思想是即使无法做到强一致性，但每个应用都可以根据自身业务特点，采用适当的方式来使系统达到最终一致性。</p>
+<p><strong>基本可用Basically Available</strong>是指在分布式系统出现不可预知故障时，允许损失部分可用性，但这绝不等价于系统不可用。例如响应时间损失：查询时间增加；功能上损失：双11部分消费者都被引导到一个降级页面。</p>
+<p><strong>弱状态Soft state</strong>，和硬状态相对，是指允许系统中的数据存在中间状态，并认为中间状态的存在不会影响系统的整体可用性，即允许系统在不同节点的数据副本之间进行数据同步的过程存在延时。</p>
+<p><strong>最终一致性Eventually consistent</strong>，强调的是系统中所有数据副本，在经过一段时间后，最终能够达到一个一致的状态。最终一致性包括5种情形：1.因果一致性2.读己之所写3.会话一致性4.单调读一致性5.单调写一致性。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>​       ACID是传统数据库常用的设计理念，追求强一致性模型。BASE理论面向的是大型高可用可扩展的分布式系统，和传统事务的ACID特性是相反的，在分布式系统设计的场景中，系统组件对一致性要求是不同的，因此ACID和BASE又会结合使用。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.hollischuang.com/archives/666" target="_blank" rel="external">http://www.hollischuang.com/archives/666</a></p>
+
       
     </div>
 
@@ -577,7 +614,7 @@ CAIDCAPBASE">
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#CAID"><span class="nav-number">1.</span> <span class="nav-text">CAID</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CAP"><span class="nav-number">2.</span> <span class="nav-text">CAP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BASE"><span class="nav-number">3.</span> <span class="nav-text">BASE</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#从ACID到CAP-BASE"><span class="nav-number">1.</span> <span class="nav-text">从ACID到CAP/BASE</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#本地事务"><span class="nav-number">1.1.</span> <span class="nav-text">本地事务</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#ACID"><span class="nav-number">1.1.1.</span> <span class="nav-text">ACID</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分布式事务"><span class="nav-number">1.2.</span> <span class="nav-text">分布式事务</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#CAP"><span class="nav-number">1.2.1.</span> <span class="nav-text">CAP</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#BASE"><span class="nav-number">1.2.2.</span> <span class="nav-text">BASE</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">2.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
             
 
           </div>

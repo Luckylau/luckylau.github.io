@@ -385,10 +385,17 @@
 
       
         
-          
-            <p>本篇主要讲解CAID,CAP和BASE。</p>
-<h3 id="CAID"><a href="#CAID" class="headerlink" title="CAID"></a>CAID</h3><h3 id="CAP"><a href="#CAP" class="headerlink" title="CAP"></a>CAP</h3><h3 id="BASE"><a href="#BASE" class="headerlink" title="BASE"></a>BASE</h3>
-          
+          <p>本篇主要讲解<strong>ACID, CAP</strong>和 <strong>BASE</strong>。</p>
+<p>​       最近看了《从Paxos到zookeeper 分布式一致性原理与实践》这本书，想提取总结一些分布式相关的内容，做一下梳理，本篇主要讲解<strong>ACID</strong>, <strong>CAP</strong>和 <strong>BASE</strong>。</p>
+<p>在《分布式系统概念与设计》一书中对分布式定义如下：</p>
+<p>​          分布式系统是一个硬件或软件组件分布在不同的网络计算机上，彼此之间仅仅通过消息传递进行通信和协调的系统。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/03/09/分布式系统基础理论/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -527,7 +534,7 @@
       
         
           
-            <h3 id="分布式系统基础理论"><a href="#分布式系统基础理论" class="headerlink" title="分布式系统基础理论"></a>分布式系统基础理论</h3><h4 id="ACID"><a href="#ACID" class="headerlink" title="ACID"></a>ACID</h4><h4 id="CAP"><a href="#CAP" class="headerlink" title="CAP"></a>CAP</h4><h4 id="BASE"><a href="#BASE" class="headerlink" title="BASE"></a>BASE</h4><h3 id="分布式系统一致性协议"><a href="#分布式系统一致性协议" class="headerlink" title="分布式系统一致性协议"></a>分布式系统一致性协议</h3><h4 id="2PC和3PC"><a href="#2PC和3PC" class="headerlink" title="2PC和3PC"></a>2PC和3PC</h4><h4 id="Paxos算法（重点理解和总结）"><a href="#Paxos算法（重点理解和总结）" class="headerlink" title="Paxos算法（重点理解和总结）"></a>Paxos算法（重点理解和总结）</h4><h5 id="Paxos在大型系统中常见的应用场景"><a href="#Paxos在大型系统中常见的应用场景" class="headerlink" title="Paxos在大型系统中常见的应用场景"></a>Paxos在大型系统中常见的应用场景</h5><h3 id="什么是Zookeeper"><a href="#什么是Zookeeper" class="headerlink" title="什么是Zookeeper"></a>什么是Zookeeper</h3><h3 id="Zookeeper能做什么"><a href="#Zookeeper能做什么" class="headerlink" title="Zookeeper能做什么"></a>Zookeeper能做什么</h3><h3 id="Zookeeper的安装使用"><a href="#Zookeeper的安装使用" class="headerlink" title="Zookeeper的安装使用"></a>Zookeeper的安装使用</h3><h3 id="Zookeeper的技术内幕"><a href="#Zookeeper的技术内幕" class="headerlink" title="Zookeeper的技术内幕"></a>Zookeeper的技术内幕</h3><h4 id="ZAB协议"><a href="#ZAB协议" class="headerlink" title="ZAB协议"></a>ZAB协议</h4><h4 id="系统模型"><a href="#系统模型" class="headerlink" title="系统模型"></a>系统模型</h4><h4 id="会话详细流程"><a href="#会话详细流程" class="headerlink" title="会话详细流程"></a>会话详细流程</h4><h4 id="Leader选举"><a href="#Leader选举" class="headerlink" title="Leader选举"></a>Leader选举</h4><h4 id="服务角色"><a href="#服务角色" class="headerlink" title="服务角色"></a>服务角色</h4><h3 id="Zookeeper客户端"><a href="#Zookeeper客户端" class="headerlink" title="Zookeeper客户端"></a>Zookeeper客户端</h3><h3 id="Zookeeper的使用场景"><a href="#Zookeeper的使用场景" class="headerlink" title="Zookeeper的使用场景"></a>Zookeeper的使用场景</h3><h4 id="zookeeper实现负载均衡"><a href="#zookeeper实现负载均衡" class="headerlink" title="zookeeper实现负载均衡"></a>zookeeper实现负载均衡</h4><h3 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h3><h4 id="脑裂问题"><a href="#脑裂问题" class="headerlink" title="脑裂问题"></a>脑裂问题</h4><h4 id="集群奇数个节点"><a href="#集群奇数个节点" class="headerlink" title="集群奇数个节点"></a>集群奇数个节点</h4><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://suroot.cn/306.html" target="_blank" rel="external">http://suroot.cn/306.html</a></p>
+            <h3 id="分布式系统一致性协议"><a href="#分布式系统一致性协议" class="headerlink" title="分布式系统一致性协议"></a>分布式系统一致性协议</h3><h4 id="2PC和3PC"><a href="#2PC和3PC" class="headerlink" title="2PC和3PC"></a>2PC和3PC</h4><h4 id="Paxos算法（重点理解和总结）"><a href="#Paxos算法（重点理解和总结）" class="headerlink" title="Paxos算法（重点理解和总结）"></a>Paxos算法（重点理解和总结）</h4><h5 id="Paxos在大型系统中常见的应用场景"><a href="#Paxos在大型系统中常见的应用场景" class="headerlink" title="Paxos在大型系统中常见的应用场景"></a>Paxos在大型系统中常见的应用场景</h5><h3 id="什么是Zookeeper"><a href="#什么是Zookeeper" class="headerlink" title="什么是Zookeeper"></a>什么是Zookeeper</h3><h3 id="Zookeeper能做什么"><a href="#Zookeeper能做什么" class="headerlink" title="Zookeeper能做什么"></a>Zookeeper能做什么</h3><h3 id="Zookeeper的安装使用"><a href="#Zookeeper的安装使用" class="headerlink" title="Zookeeper的安装使用"></a>Zookeeper的安装使用</h3><h3 id="Zookeeper的技术内幕"><a href="#Zookeeper的技术内幕" class="headerlink" title="Zookeeper的技术内幕"></a>Zookeeper的技术内幕</h3><h4 id="ZAB协议"><a href="#ZAB协议" class="headerlink" title="ZAB协议"></a>ZAB协议</h4><h4 id="系统模型"><a href="#系统模型" class="headerlink" title="系统模型"></a>系统模型</h4><h4 id="会话详细流程"><a href="#会话详细流程" class="headerlink" title="会话详细流程"></a>会话详细流程</h4><h4 id="Leader选举"><a href="#Leader选举" class="headerlink" title="Leader选举"></a>Leader选举</h4><h4 id="服务角色"><a href="#服务角色" class="headerlink" title="服务角色"></a>服务角色</h4><h3 id="Zookeeper客户端"><a href="#Zookeeper客户端" class="headerlink" title="Zookeeper客户端"></a>Zookeeper客户端</h3><h3 id="Zookeeper的使用场景"><a href="#Zookeeper的使用场景" class="headerlink" title="Zookeeper的使用场景"></a>Zookeeper的使用场景</h3><h4 id="zookeeper实现负载均衡"><a href="#zookeeper实现负载均衡" class="headerlink" title="zookeeper实现负载均衡"></a>zookeeper实现负载均衡</h4><h3 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h3><h4 id="脑裂问题"><a href="#脑裂问题" class="headerlink" title="脑裂问题"></a>脑裂问题</h4><h4 id="集群奇数个节点"><a href="#集群奇数个节点" class="headerlink" title="集群奇数个节点"></a>集群奇数个节点</h4><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://suroot.cn/306.html" target="_blank" rel="external">http://suroot.cn/306.html</a></p>
 <p>《从Paxos到zookeeper 分布式一致性原理与实践》</p>
 
           
