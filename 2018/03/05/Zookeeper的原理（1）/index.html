@@ -84,19 +84,18 @@
 
 
 
-<meta name="description" content="什么是ZookeeperZookeeper能做什么Zookeeper的安装使用Zookeeper的技术内幕ZAB协议系统模型会话详细流程Leader选举服务角色Zookeeper客户端Zookeeper的使用场景zookeeper实现负载均衡常见问题脑裂问题集群奇数个节点参考http://suroot.cn/306.html
-《从Paxos到zookeeper 分布式一致性原理与实践》">
+<meta name="description" content="​         Apache Zookeeper是由Apache Hadoop的子项目发展而来，于2010年11月正式成为Apache顶级项目。Zookeeper为分布式应用提供高效且可靠的分布式协调服务，提供了统一命名服务、配置管理、分布式锁等分布式的基础服务。Zookeeper并没有直接采用Paxos算法，而是采用了一种被称为ZAB(Zookeeper Atomic Broadcast)的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Zookeeper的原理(1)">
 <meta property="og:url" content="https://luckylau.github.io/2018/03/05/Zookeeper的原理（1）/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
-<meta property="og:description" content="什么是ZookeeperZookeeper能做什么Zookeeper的安装使用Zookeeper的技术内幕ZAB协议系统模型会话详细流程Leader选举服务角色Zookeeper客户端Zookeeper的使用场景zookeeper实现负载均衡常见问题脑裂问题集群奇数个节点参考http://suroot.cn/306.html
-《从Paxos到zookeeper 分布式一致性原理与实践》">
-<meta property="og:updated_time" content="2018-03-13T02:10:36.332Z">
+<meta property="og:description" content="​         Apache Zookeeper是由Apache Hadoop的子项目发展而来，于2010年11月正式成为Apache顶级项目。Zookeeper为分布式应用提供高效且可靠的分布式协调服务，提供了统一命名服务、配置管理、分布式锁等分布式的基础服务。Zookeeper并没有直接采用Paxos算法，而是采用了一种被称为ZAB(Zookeeper Atomic Broadcast)的">
+<meta property="og:image" content="https://luckylau.github.io/2018/03/05/Zookeeper的原理（1）/1.png">
+<meta property="og:updated_time" content="2018-03-14T07:47:35.741Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Zookeeper的原理(1)">
-<meta name="twitter:description" content="什么是ZookeeperZookeeper能做什么Zookeeper的安装使用Zookeeper的技术内幕ZAB协议系统模型会话详细流程Leader选举服务角色Zookeeper客户端Zookeeper的使用场景zookeeper实现负载均衡常见问题脑裂问题集群奇数个节点参考http://suroot.cn/306.html
-《从Paxos到zookeeper 分布式一致性原理与实践》">
+<meta name="twitter:description" content="​         Apache Zookeeper是由Apache Hadoop的子项目发展而来，于2010年11月正式成为Apache顶级项目。Zookeeper为分布式应用提供高效且可靠的分布式协调服务，提供了统一命名服务、配置管理、分布式锁等分布式的基础服务。Zookeeper并没有直接采用Paxos算法，而是采用了一种被称为ZAB(Zookeeper Atomic Broadcast)的">
+<meta name="twitter:image" content="https://luckylau.github.io/2018/03/05/Zookeeper的原理（1）/1.png">
 
 
 
@@ -388,8 +387,35 @@
       
 
       
-        <h3 id="什么是Zookeeper"><a href="#什么是Zookeeper" class="headerlink" title="什么是Zookeeper"></a>什么是Zookeeper</h3><h3 id="Zookeeper能做什么"><a href="#Zookeeper能做什么" class="headerlink" title="Zookeeper能做什么"></a>Zookeeper能做什么</h3><h3 id="Zookeeper的安装使用"><a href="#Zookeeper的安装使用" class="headerlink" title="Zookeeper的安装使用"></a>Zookeeper的安装使用</h3><h3 id="Zookeeper的技术内幕"><a href="#Zookeeper的技术内幕" class="headerlink" title="Zookeeper的技术内幕"></a>Zookeeper的技术内幕</h3><h4 id="ZAB协议"><a href="#ZAB协议" class="headerlink" title="ZAB协议"></a>ZAB协议</h4><h4 id="系统模型"><a href="#系统模型" class="headerlink" title="系统模型"></a>系统模型</h4><h4 id="会话详细流程"><a href="#会话详细流程" class="headerlink" title="会话详细流程"></a>会话详细流程</h4><h4 id="Leader选举"><a href="#Leader选举" class="headerlink" title="Leader选举"></a>Leader选举</h4><h4 id="服务角色"><a href="#服务角色" class="headerlink" title="服务角色"></a>服务角色</h4><h3 id="Zookeeper客户端"><a href="#Zookeeper客户端" class="headerlink" title="Zookeeper客户端"></a>Zookeeper客户端</h3><h3 id="Zookeeper的使用场景"><a href="#Zookeeper的使用场景" class="headerlink" title="Zookeeper的使用场景"></a>Zookeeper的使用场景</h3><h4 id="zookeeper实现负载均衡"><a href="#zookeeper实现负载均衡" class="headerlink" title="zookeeper实现负载均衡"></a>zookeeper实现负载均衡</h4><h3 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h3><h4 id="脑裂问题"><a href="#脑裂问题" class="headerlink" title="脑裂问题"></a>脑裂问题</h4><h4 id="集群奇数个节点"><a href="#集群奇数个节点" class="headerlink" title="集群奇数个节点"></a>集群奇数个节点</h4><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://suroot.cn/306.html" target="_blank" rel="external">http://suroot.cn/306.html</a></p>
-<p>《从Paxos到zookeeper 分布式一致性原理与实践》</p>
+        <p>​         Apache Zookeeper是由Apache Hadoop的子项目发展而来，于2010年11月正式成为Apache顶级项目。<strong>Zookeeper为分布式应用提供高效且可靠的分布式协调服务，提供了统一命名服务、配置管理、分布式锁等分布式的基础服务。</strong>Zookeeper并没有直接采用Paxos算法，而是采用了一种被称为ZAB(Zookeeper Atomic Broadcast)的一致性协议。</p>
+<h3 id="什么是Zookeeper"><a href="#什么是Zookeeper" class="headerlink" title="什么是Zookeeper"></a>什么是Zookeeper</h3><p>​        Zookeeper是一个开源的分布式协调服务，由Yahoo创建，是Google Chubby的开源实现。Zookeeper将那些复杂且容易出错的分布式一致性服务封装起来，构成一个高效可靠的原语集，并以一系列简单易用的接口提供给用户使用。</p>
+<a id="more"></a>
+<p>Zookeeper可以保证如下分布式一致性特性：</p>
+<p><strong>顺序一致性</strong>：从同一个客户端发起的事务请求，最终将会严格地按照其发起顺序被应用到Zookeeper中；</p>
+<p><strong>原子性：</strong>所有事务的请求结果在整个集群中所有机器上的应用情况是一致的，也就是说，要么在整个集群中所有机器上都成功应用了某一个事务，要么都没有应用，没有中间状态；</p>
+<p><strong>单一视图：</strong>无论客户端连接的是哪个Zookeeper服务器，其看到的服务端数据模型都是一致的；</p>
+<p><strong>实时性：</strong>通常人们看到实时性的第一反应是，一旦一个事务被成功应用，那么客户端能够立即从服务端上读取到这个事务变更后的最新数据状态。这里需要注意的是，Zookeeper仅仅保证在一定的时间内，客户端最终一定能够从服务端上读到最终的数据状态；</p>
+<p><strong>可靠性：</strong>一旦服务端成功应用了一个事务，并完成对客户端的响应，那么该事务所引起的服务端状态变更会被一直保留下来，除非有另一个事务又对其进行了变更；</p>
+<h3 id="Zookeeper能做什么"><a href="#Zookeeper能做什么" class="headerlink" title="Zookeeper能做什么"></a>Zookeeper能做什么</h3><p>​      基于Zookeeper实现例如，数据发布/订阅、负载均衡、命名服务、协调通知、集群管理、Master选举、分布式锁、分布式队列等功能 。</p>
+<h3 id="Zookeeper的安装使用"><a href="#Zookeeper的安装使用" class="headerlink" title="Zookeeper的安装使用"></a>Zookeeper的安装使用</h3><p>在这里以单点部署为例子,我用的root权限，记得环境已经安装了java。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install java-1.8.0-openjdk  java-1.8.0-openjdk-devel</div></pre></td></tr></table></figure>
+<p>首先你可以购买一台腾讯云虚拟机（Centos7），然后登录官网，<a href="http://archive.apache.org/dist/zookeeper/" target="_blank" rel="external">复制链接</a>, 下载3.4.9版本。</p>
+<p><img src="/2018/03/05/Zookeeper的原理（1）/1.png" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">wget http://archive.apache.org/dist/zookeeper/zookeeper-3.4.9/zookeeper-3.4.9.tar.gz</div></pre></td></tr></table></figure>
+<p>解压zookeeper-3.4.9.tar.gz</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tar -zxvf zookeeper-3.4.9.tar.gz</div></pre></td></tr></table></figure>
+<p>在/home/luckylau/zookeeper-3.4.9 目录下创建以下目录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">cd /home/luckylau/zookeeper-3.4.9/</div><div class="line">mkdir data</div><div class="line">mkdir logs</div></pre></td></tr></table></figure>
+<p>将 zookeeper-3.4.9/conf 目录下的 zoo_sample.cfg 文件拷贝一份，命名为为<br>zoo.cf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cp zoo_sample.cfg zoo.cfg</div></pre></td></tr></table></figure>
+<p>修改 zoo.cfg 配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"> The number of milliseconds of each tick</div><div class="line">tickTime=2000</div><div class="line"># The number of ticks that the initial </div><div class="line"># synchronization phase can take</div><div class="line">initLimit=10</div><div class="line"># The number of ticks that can pass between </div><div class="line"># sending a request and getting an acknowledgement</div><div class="line">syncLimit=5</div><div class="line"># the directory where the snapshot is stored.</div><div class="line"># do not use /tmp for storage, /tmp here is just </div><div class="line"># example sakes.</div><div class="line">dataDir=/home/luckylau/zookeeper-3.4.9/data</div><div class="line">dataLogDir=/home/luckylau/zookeeper-3.4.9/logs</div><div class="line"># the port at which the clients will connect</div><div class="line">clientPort=2181</div><div class="line"># the maximum number of client connections.</div><div class="line"># increase this if you need to handle more clients</div><div class="line">#maxClientCnxns=60</div><div class="line">#</div><div class="line"># Be sure to read the maintenance section of the </div><div class="line"># administrator guide before turning on autopurge.</div><div class="line">#</div><div class="line"># http://zookeeper.apache.org/doc/current/zookeeperAdmin.html#sc_maintenance</div><div class="line">#</div><div class="line"># The number of snapshots to retain in dataDir</div><div class="line">#autopurge.snapRetainCount=3</div><div class="line"># Purge task interval in hours</div><div class="line"># Set to &quot;0&quot; to disable auto purge feature</div><div class="line">#autopurge.purgeInterval=1</div><div class="line">#2888 端口号是 zookeeper 服务之间通信的端口。</div><div class="line">#3888 是 zookeeper 与其他应用程序通信的端口。</div><div class="line">server.1=119.27.162.9:2888:3888</div></pre></td></tr></table></figure>
+<p>在 dataDir=/home/luckylau/zookeeper-3.4.9/data 下创建 myid 文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">vi myid</div><div class="line">1</div></pre></td></tr></table></figure>
+<p>暴露zookeeper配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">vim .bash_profile</div><div class="line"># zookeeper env</div><div class="line">export ZOOKEEPER_HOME=/home/luckylau/zookeeper-3.4.9</div><div class="line">export PATH=$ZOOKEEPER_HOME/bin:$PATH   </div><div class="line">source .bash_profile</div></pre></td></tr></table></figure>
+<p>启动并测试 zookeeper</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">zkServer.sh start</div><div class="line">jps</div><div class="line">zkServer.sh status</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -582,7 +608,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是Zookeeper"><span class="nav-number">1.</span> <span class="nav-text">什么是Zookeeper</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Zookeeper能做什么"><span class="nav-number">2.</span> <span class="nav-text">Zookeeper能做什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Zookeeper的安装使用"><span class="nav-number">3.</span> <span class="nav-text">Zookeeper的安装使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Zookeeper的技术内幕"><span class="nav-number">4.</span> <span class="nav-text">Zookeeper的技术内幕</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ZAB协议"><span class="nav-number">4.1.</span> <span class="nav-text">ZAB协议</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#系统模型"><span class="nav-number">4.2.</span> <span class="nav-text">系统模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#会话详细流程"><span class="nav-number">4.3.</span> <span class="nav-text">会话详细流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Leader选举"><span class="nav-number">4.4.</span> <span class="nav-text">Leader选举</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#服务角色"><span class="nav-number">4.5.</span> <span class="nav-text">服务角色</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Zookeeper客户端"><span class="nav-number">5.</span> <span class="nav-text">Zookeeper客户端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Zookeeper的使用场景"><span class="nav-number">6.</span> <span class="nav-text">Zookeeper的使用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#zookeeper实现负载均衡"><span class="nav-number">6.1.</span> <span class="nav-text">zookeeper实现负载均衡</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常见问题"><span class="nav-number">7.</span> <span class="nav-text">常见问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#脑裂问题"><span class="nav-number">7.1.</span> <span class="nav-text">脑裂问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#集群奇数个节点"><span class="nav-number">7.2.</span> <span class="nav-text">集群奇数个节点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">8.</span> <span class="nav-text">参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是Zookeeper"><span class="nav-number">1.</span> <span class="nav-text">什么是Zookeeper</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Zookeeper能做什么"><span class="nav-number">2.</span> <span class="nav-text">Zookeeper能做什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Zookeeper的安装使用"><span class="nav-number">3.</span> <span class="nav-text">Zookeeper的安装使用</span></a></li></ol></div>
             
 
           </div>
