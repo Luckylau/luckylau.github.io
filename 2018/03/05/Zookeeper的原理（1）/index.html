@@ -91,7 +91,7 @@
 <meta property="og:site_name" content="Luckylau's Blog">
 <meta property="og:description" content="​         Apache Zookeeper是由Apache Hadoop的子项目发展而来，于2010年11月正式成为Apache顶级项目。Zookeeper为分布式应用提供高效且可靠的分布式协调服务，提供了统一命名服务、配置管理、分布式锁等分布式的基础服务。Zookeeper并没有直接采用Paxos算法，而是采用了一种被称为ZAB(Zookeeper Atomic Broadcast)的">
 <meta property="og:image" content="https://luckylau.github.io/2018/03/05/Zookeeper的原理（1）/1.png">
-<meta property="og:updated_time" content="2018-03-14T11:05:27.698Z">
+<meta property="og:updated_time" content="2018-03-14T11:13:16.693Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Zookeeper的原理(1)">
 <meta name="twitter:description" content="​         Apache Zookeeper是由Apache Hadoop的子项目发展而来，于2010年11月正式成为Apache顶级项目。Zookeeper为分布式应用提供高效且可靠的分布式协调服务，提供了统一命名服务、配置管理、分布式锁等分布式的基础服务。Zookeeper并没有直接采用Paxos算法，而是采用了一种被称为ZAB(Zookeeper Atomic Broadcast)的">
@@ -396,7 +396,7 @@
 <p><strong>单一视图：</strong>无论客户端连接的是哪个Zookeeper服务器，其看到的服务端数据模型都是一致的；</p>
 <p><strong>实时性：</strong>通常人们看到实时性的第一反应是，一旦一个事务被成功应用，那么客户端能够立即从服务端上读取到这个事务变更后的最新数据状态。这里需要注意的是，Zookeeper仅仅保证在一定的时间内，客户端最终一定能够从服务端上读到最终的数据状态；</p>
 <p><strong>可靠性：</strong>一旦服务端成功应用了一个事务，并完成对客户端的响应，那么该事务所引起的服务端状态变更会被一直保留下来，除非有另一个事务又对其进行了变更；</p>
-<h3 id="Zookeeper能做什么"><a href="#Zookeeper能做什么" class="headerlink" title="Zookeeper能做什么"></a>Zookeeper能做什么</h3><p>​       基于Zookeeper实现例如，<strong>数据发布/订阅</strong>、<strong>负载均衡</strong>、<strong>命名服务</strong>、<strong>协调通知</strong>、<strong>集群管理</strong>、<strong>Master选举</strong>、<strong>分布式锁</strong>、<strong>分布式队列</strong>等功能 ，可以参考我的[Zookpeer-Learning项目]。(<a href="https://github.com/Luckylau/Zookeeper-Learning" target="_blank" rel="external">https://github.com/Luckylau/Zookeeper-Learning</a>)</p>
+<h3 id="Zookeeper能做什么"><a href="#Zookeeper能做什么" class="headerlink" title="Zookeeper能做什么"></a>Zookeeper能做什么</h3><p>​       基于Zookeeper实现例如，<strong>数据发布/订阅</strong>、<strong>负载均衡</strong>、<strong>命名服务</strong>、<strong>协调通知</strong>、<strong>集群管理</strong>、<strong>Master选举</strong>、<strong>分布式锁</strong>、<strong>分布式队列</strong>等功能 ，可以参考我的<a href="https://github.com/Luckylau/Zookeeper-Learning" target="_blank" rel="external">Zookpeer-Learning项目</a></p>
 <p>​        Zookeeper在大型分布式系统中有重要应用，比如Hadoop， HBase， Kafka；在国内阿里，比如消息中间件Metamorphosis, RPC服务框架Dubbo， 基于MySQL Binlog的增量订阅和消费组件Cannal, 分布式数据库同步系统Otter, 轻量级分布式通用搜索平台终搜，实时计算引擎JStorm。</p>
 <h3 id="Zookeeper的安装使用"><a href="#Zookeeper的安装使用" class="headerlink" title="Zookeeper的安装使用"></a>Zookeeper的安装使用</h3><p>在这里以单点部署为例子,我用的root权限，记得环境已经安装了java。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install java-1.8.0-openjdk  java-1.8.0-openjdk-devel</div></pre></td></tr></table></figure>
