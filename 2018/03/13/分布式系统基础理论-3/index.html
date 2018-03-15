@@ -84,19 +84,19 @@
 
 
 
-<meta name="description" content="本篇主要讲解非常经典的Paxos算法
-Paxos算法Paxos的工程实践">
+<meta name="description" content="本篇主要讲解分布式一致性或者叫共识（Consensus）算法（不考虑可能出现消息篡改即拜占庭问题），包括Paxos算法，Raft算法， Viewstamped Replication，ZAB协议。
+Paxos算法Paxos算法是基于消息传递且具有高度容错特性的一致性算法，是目前公认的解决分布式一致性问题最有效的算法之一。协议本身并没有多难理解，它的难理解性主要体现在：为何如此设计协议以及如何证明其">
 <meta property="og:type" content="article">
 <meta property="og:title" content="分布式系统基础理论(3)">
 <meta property="og:url" content="https://luckylau.github.io/2018/03/13/分布式系统基础理论-3/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
-<meta property="og:description" content="本篇主要讲解非常经典的Paxos算法
-Paxos算法Paxos的工程实践">
-<meta property="og:updated_time" content="2018-03-13T02:09:57.788Z">
+<meta property="og:description" content="本篇主要讲解分布式一致性或者叫共识（Consensus）算法（不考虑可能出现消息篡改即拜占庭问题），包括Paxos算法，Raft算法， Viewstamped Replication，ZAB协议。
+Paxos算法Paxos算法是基于消息传递且具有高度容错特性的一致性算法，是目前公认的解决分布式一致性问题最有效的算法之一。协议本身并没有多难理解，它的难理解性主要体现在：为何如此设计协议以及如何证明其">
+<meta property="og:updated_time" content="2018-03-15T07:47:18.297Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="分布式系统基础理论(3)">
-<meta name="twitter:description" content="本篇主要讲解非常经典的Paxos算法
-Paxos算法Paxos的工程实践">
+<meta name="twitter:description" content="本篇主要讲解分布式一致性或者叫共识（Consensus）算法（不考虑可能出现消息篡改即拜占庭问题），包括Paxos算法，Raft算法， Viewstamped Replication，ZAB协议。
+Paxos算法Paxos算法是基于消息传递且具有高度容错特性的一致性算法，是目前公认的解决分布式一致性问题最有效的算法之一。协议本身并没有多难理解，它的难理解性主要体现在：为何如此设计协议以及如何证明其">
 
 
 
@@ -388,8 +388,15 @@ Paxos算法Paxos的工程实践">
       
 
       
-        <p>本篇主要讲解非常经典的<strong>Paxos算法</strong></p>
-<h3 id="Paxos算法"><a href="#Paxos算法" class="headerlink" title="Paxos算法"></a>Paxos算法</h3><h3 id="Paxos的工程实践"><a href="#Paxos的工程实践" class="headerlink" title="Paxos的工程实践"></a>Paxos的工程实践</h3>
+        <p>本篇主要讲解分布式一致性或者叫共识（Consensus）算法（不考虑可能出现消息篡改即拜占庭问题），包括<strong>Paxos算法</strong>，<strong>Raft算法</strong>， <strong>Viewstamped Replication</strong>，<strong>ZAB协议</strong>。</p>
+<h3 id="Paxos算法"><a href="#Paxos算法" class="headerlink" title="Paxos算法"></a>Paxos算法</h3><p>Paxos算法是基于消息传递且具有高度容错特性的一致性算法，是目前公认的解决分布式一致性问题最有效的算法之一。协议本身并没有多难理解，它的难理解性主要体现在：为何如此设计协议以及如何证明其正确性。</p>
+<a id="more"></a>
+<h4 id="Paxos算法的理解"><a href="#Paxos算法的理解" class="headerlink" title="Paxos算法的理解"></a>Paxos算法的理解</h4><h4 id="Paxos的工程实践"><a href="#Paxos的工程实践" class="headerlink" title="Paxos的工程实践"></a>Paxos的工程实践</h4><h5 id="Google-Chubby"><a href="#Google-Chubby" class="headerlink" title="Google Chubby"></a>Google Chubby</h5><p>​         Google Chubby是一个分布式锁服务，Chubby底层一致性实现就是以Paxos为基础的，应用于BigTable。</p>
+<h5 id="Hypertable"><a href="#Hypertable" class="headerlink" title="Hypertable"></a>Hypertable</h5><p>​        Hypertable以BigTable的论文做指导，采用HBase非常相似的分布式类型，其目的是构建一个分布式海量数据的高并发数据库。包括Hyperspace, RangeServer, Master, DFSBroker。其中Hyperspace是最为重要的组件之一，提供了对分布式服务的支持和对元数据的管理，是保证Hypertable数据一致性的核心。</p>
+<h3 id="Raft算法"><a href="#Raft算法" class="headerlink" title="Raft算法"></a>Raft算法</h3><h3 id="Viewstamped-Replication"><a href="#Viewstamped-Replication" class="headerlink" title="Viewstamped Replication"></a>Viewstamped Replication</h3><h3 id="ZAB协议"><a href="#ZAB协议" class="headerlink" title="ZAB协议"></a>ZAB协议</h3><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://zh.wikipedia.org/wiki/Paxos%E7%AE%97%E6%B3%95#%E6%83%85%E5%86%B5%E4%B8%80" target="_blank" rel="external">https://zh.wikipedia.org/wiki/Paxos%E7%AE%97%E6%B3%95#%E6%83%85%E5%86%B5%E4%B8%80</a></p>
+<p><a href="https://www.cnblogs.com/linbingdong/p/6253479.html" target="_blank" rel="external">https://www.cnblogs.com/linbingdong/p/6253479.html</a></p>
+<p><a href="http://blog.jobbole.com/106327/" target="_blank" rel="external">http://blog.jobbole.com/106327/</a></p>
+
       
     </div>
 
@@ -577,7 +584,7 @@ Paxos算法Paxos的工程实践">
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Paxos算法"><span class="nav-number">1.</span> <span class="nav-text">Paxos算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Paxos的工程实践"><span class="nav-number">2.</span> <span class="nav-text">Paxos的工程实践</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Paxos算法"><span class="nav-number">1.</span> <span class="nav-text">Paxos算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Paxos算法的理解"><span class="nav-number">1.1.</span> <span class="nav-text">Paxos算法的理解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Paxos的工程实践"><span class="nav-number">1.2.</span> <span class="nav-text">Paxos的工程实践</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Google-Chubby"><span class="nav-number">1.2.1.</span> <span class="nav-text">Google Chubby</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Hypertable"><span class="nav-number">1.2.2.</span> <span class="nav-text">Hypertable</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Raft算法"><span class="nav-number">2.</span> <span class="nav-text">Raft算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Viewstamped-Replication"><span class="nav-number">3.</span> <span class="nav-text">Viewstamped Replication</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ZAB协议"><span class="nav-number">4.</span> <span class="nav-text">ZAB协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
             
 
           </div>

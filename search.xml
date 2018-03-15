@@ -5,7 +5,7 @@
     <entry>
       <title><![CDATA[分布式系统基础理论(3)]]></title>
       <url>%2F2018%2F03%2F13%2F%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80%E7%90%86%E8%AE%BA-3%2F</url>
-      <content type="text"><![CDATA[本篇主要讲解非常经典的Paxos算法 Paxos算法Paxos的工程实践]]></content>
+      <content type="text"><![CDATA[本篇主要讲解分布式一致性或者叫共识（Consensus）算法（不考虑可能出现消息篡改即拜占庭问题），包括Paxos算法，Raft算法， Viewstamped Replication，ZAB协议。 Paxos算法Paxos算法是基于消息传递且具有高度容错特性的一致性算法，是目前公认的解决分布式一致性问题最有效的算法之一。协议本身并没有多难理解，它的难理解性主要体现在：为何如此设计协议以及如何证明其正确性。 Paxos算法的理解Paxos的工程实践Google Chubby​ Google Chubby是一个分布式锁服务，Chubby底层一致性实现就是以Paxos为基础的，应用于BigTable。 Hypertable​ Hypertable以BigTable的论文做指导，采用HBase非常相似的分布式类型，其目的是构建一个分布式海量数据的高并发数据库。包括Hyperspace, RangeServer, Master, DFSBroker。其中Hyperspace是最为重要的组件之一，提供了对分布式服务的支持和对元数据的管理，是保证Hypertable数据一致性的核心。 Raft算法Viewstamped ReplicationZAB协议参考https://zh.wikipedia.org/wiki/Paxos%E7%AE%97%E6%B3%95#%E6%83%85%E5%86%B5%E4%B8%80 https://www.cnblogs.com/linbingdong/p/6253479.html http://blog.jobbole.com/106327/]]></content>
     </entry>
 
     
