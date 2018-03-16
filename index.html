@@ -385,10 +385,16 @@
 
       
         
-          
-            <p>​        本章开始讲解Zookeeper重要的技术实现。在<a href="http://luckylau.tech/2018/03/13/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80%E7%90%86%E8%AE%BA-3/" target="_blank" rel="external">分布式系统基础理论(3)</a>中，我们讲到了Zookeeper是采用ZAB协议保持一致性的。</p>
-
-          
+          <p>​        本章开始讲解Zookeeper重要的技术实现。在<a href="http://luckylau.tech/2018/03/13/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80%E7%90%86%E8%AE%BA-3/">分布式系统基础理论(3)</a>中，我们讲到了Zookeeper是采用ZAB协议保持一致性的。</p>
+<h3 id="系统模型"><a href="#系统模型" class="headerlink" title="系统模型"></a>系统模型</h3><h4 id="树形结构"><a href="#树形结构" class="headerlink" title="树形结构"></a>树形结构</h4><p>​         Zookeeper的数据节点称为ZNode，ZNode是Zookeeper中数据的最小单元，每个ZNode都可以保存数据，同时还可以挂载子节点，因此构成了一个层次化的命名空间，称为树。ZNode的节点路径标识方式和Unix文件系统路径非常相似，都是由一系列使用斜杠(/)进行分割的路径表示。</p>
+<p><img src="/2018/03/15/Zookeeper的原理-2/1.png" alt=""></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/03/15/Zookeeper的原理-2/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
