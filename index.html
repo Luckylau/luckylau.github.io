@@ -386,8 +386,8 @@
       
         
           
-            <p> 本章开始讲解Zookeeper重要的技术实现。上一篇我们讲解了Zookeeper客户端的原理与实现，本篇深入解析Zookeeper服务端的相关原理。</p>
-<h3 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h3>
+            <p> 本章开始讲解Zookeeper重要的技术实现。<a href="http://luckylau.tech/2018/03/18/Zookeeper%E7%9A%84%E5%8E%9F%E7%90%86-3/" target="_blank" rel="external">上一篇</a>我们讲解了Zookeeper客户端的原理与实现，本篇深入解析Zookeeper服务端的相关原理。</p>
+<h2 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h2>
           
         
       
@@ -526,10 +526,19 @@
 
       
         
-          
-            <p>​        本章开始讲解Zookeeper重要的技术实现。之前<a href="http://luckylau.tech/2018/03/15/Zookeeper%E7%9A%84%E5%8E%9F%E7%90%86-2/" target="_blank" rel="external">一篇</a>我们讲解了Zookeeper的系统模型，并详细讲解了Watch机制，其中提到了客户端与服务端通信的问题，就此我们深入挖掘Zookeeper的客户端与会话原理。</p>
-<h3 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h3>
-          
+          <p>​        本章开始讲解Zookeeper重要的技术实现。之前<a href="http://luckylau.tech/2018/03/15/Zookeeper%E7%9A%84%E5%8E%9F%E7%90%86-2/">一篇</a>我们讲解了Zookeeper的系统模型，并详细讲解了Watch机制，其中提到了客户端与服务端通信的问题，就此我们深入挖掘Zookeeper的客户端与会话原理。</p>
+<h2 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h2><h3 id="核心组件"><a href="#核心组件" class="headerlink" title="核心组件"></a>核心组件</h3><p>客户端是开发人员使用ZooKeeper最主要的途径。包括以下核心组件：</p>
+<p>ZooKeeper实例：客户端的入口；</p>
+<p>ClientWatchManager：客户端Watcher管理器；</p>
+<p>HostProvider：客户端地址列表管理器；</p>
+<p>ClientCnxn：客户端核心线程，其内部又包含两个线程，即SendThread和EventThread。前者是一个I/O线程，主要负责ZooKeeper客户端和服务端之间的网络I/O通信；后者是一个事件线程，主要负责对服务端事件进行处理。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/03/18/Zookeeper的原理-3/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>

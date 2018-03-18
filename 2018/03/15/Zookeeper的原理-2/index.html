@@ -98,7 +98,7 @@
 <meta property="og:image" content="https://luckylau.github.io/2018/03/15/Zookeeper的原理-2/4.png">
 <meta property="og:image" content="https://luckylau.github.io/2018/03/15/Zookeeper的原理-2/5.png">
 <meta property="og:image" content="https://luckylau.github.io/2018/03/15/Zookeeper的原理-2/6.png">
-<meta property="og:updated_time" content="2018-03-16T11:42:47.849Z">
+<meta property="og:updated_time" content="2018-03-18T07:58:02.520Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Zookeeper的原理(2)">
 <meta name="twitter:description" content="​        本章开始讲解Zookeeper重要的技术实现。在分布式系统基础理论(3)中，我们讲到了Zookeeper是采用ZAB协议保持一致性的。
@@ -417,7 +417,7 @@
 <p>​        Zookeeper的Watcher机制主要包括客户端线程、客户端WatcherManager、Zookeeper服务器三部分。客户端在向Zookeeper服务器注册的同时，会将Watcher对象存储在客户端的WatcherManager当中。当Zookeeper服务器触发Watcher事件后，会向客户端发送通知，客户端线程从WatcherManager中取出对应的Watcher对象来执行回调逻辑。    </p>
 <h5 id="Watcher接口"><a href="#Watcher接口" class="headerlink" title="Watcher接口"></a>Watcher接口</h5><p>​        Watcher接口类用于表示一个标准的事件处理器，定义事件通知的相关逻辑，包含<strong>KeeperState和EventType</strong>两个枚举，分别代表<strong>通知状态和事件类型</strong>，同时定义事件的回调方法：process（WatchedEvent event）方法。其中<strong>WatchedEvent 包含通知状态（keeperState）,事件类型（eventType）和和节点路径（path）</strong>。要注意与WatcherEvent区别，它们本身都是对服务端事件的封装，只是WatcherEvent实现序列化用于网络传输，到达客户端后又会还原成为WatchedEvent 。</p>
 <p><img src="/2018/03/15/Zookeeper的原理-2/4.png" alt=""></p>
-<h5 id="工作机制"><a href="#工作机制" class="headerlink" title="工作机制"></a>工作机制</h5><p>客户端注册watcher、服务端处理watcher和客户端回调watcher事件。</p>
+<h5 id="工作机制"><a href="#工作机制" class="headerlink" title="工作机制"></a>工作机制</h5><p><a href="http://luckylau.tech/2018/03/18/Zookeeper%E7%9A%84%E5%8E%9F%E7%90%86-3/" target="_blank" rel="external">客户端</a>注册watcher、服务端处理watcher和客户端回调watcher事件。</p>
 <h6 id="客户端注册Watcher"><a href="#客户端注册Watcher" class="headerlink" title="客户端注册Watcher"></a>客户端注册Watcher</h6><p>客户端注册watcher的方式有很多，因为Watcher是一次性的，可以通过创建一个 ZooKeeper 客户端对象实例，传入Watcher；可以通过 getData、exists 和 getChildren 三个接口来向 ZooKeeper 服务器注册 Watcher等。</p>
 <p><img src="/2018/03/15/Zookeeper的原理-2/5.png" alt=""></p>
 <p>应用程序客户端调用Zookeeper的API例如getData操作，实际是构建了ClientCnxn 类，在这个类里面新建了2个线程SendThread和EventThread。SendThread 使用的nio操作，负责将ZooKeeper的请求信息封装成一个Packet，发送给 Server ,并维持同Server的心跳；EventThread循环处理watch事件的线程。</p>
