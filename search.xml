@@ -12,7 +12,7 @@
     <entry>
       <title><![CDATA[Zookeeper的原理(4)]]></title>
       <url>%2F2018%2F03%2F18%2FZookeeper%E7%9A%84%E5%8E%9F%E7%90%86-4%2F</url>
-      <content type="text"><![CDATA[本章开始讲解Zookeeper重要的技术实现。上一篇我们讲解了Zookeeper客户端的原理与实现，本篇深入解析Zookeeper服务端的相关原理。 服务端会话客服端的会话我们已经详细梳理了一遍，下面我们看一下服务端是如何处理 会话创建事务请求处理例如SetData请求 非事务请求处理例如GetData请求 会话管理会话清理会话重连启动单机版启动集群版启动Leader选举机制]]></content>
+      <content type="text"><![CDATA[​ 本章开始讲解Zookeeper重要的技术实现。上一篇我们讲解了Zookeeper客户端的原理与实现，本篇深入解析Zookeeper服务端的相关原理。 服务端会话会话创建流程 上面2个图展示了服务端会话创建处理和事务处理流程图。 初始化阶段预处理阶段事务处理阶段响应处理阶段事务请求处理示例例如SetData请求 非事务请求处理示例例如GetData请求 启动单机版启动集群版启动Leader选举机制]]></content>
     </entry>
 
     

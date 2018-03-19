@@ -526,13 +526,15 @@
 
       
         
-          
-            <p> 本章开始讲解Zookeeper重要的技术实现。<a href="http://luckylau.tech/2018/03/18/Zookeeper%E7%9A%84%E5%8E%9F%E7%90%86-3/" target="_blank" rel="external">上一篇</a>我们讲解了Zookeeper客户端的原理与实现，本篇深入解析Zookeeper服务端的相关原理。</p>
-<h2 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h2><h3 id="会话"><a href="#会话" class="headerlink" title="会话"></a>会话</h3><p>客服端的会话我们已经详细梳理了一遍，下面我们看一下服务端是如何处理</p>
-<h4 id="会话创建"><a href="#会话创建" class="headerlink" title="会话创建"></a>会话创建</h4><h5 id="事务请求处理"><a href="#事务请求处理" class="headerlink" title="事务请求处理"></a>事务请求处理</h5><p>例如SetData请求</p>
-<h5 id="非事务请求处理"><a href="#非事务请求处理" class="headerlink" title="非事务请求处理"></a>非事务请求处理</h5><p>例如GetData请求</p>
-<h4 id="会话管理"><a href="#会话管理" class="headerlink" title="会话管理"></a>会话管理</h4><h4 id="会话清理"><a href="#会话清理" class="headerlink" title="会话清理"></a>会话清理</h4><h4 id="会话重连"><a href="#会话重连" class="headerlink" title="会话重连"></a>会话重连</h4><h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><h4 id="单机版启动"><a href="#单机版启动" class="headerlink" title="单机版启动"></a>单机版启动</h4><h4 id="集群版启动"><a href="#集群版启动" class="headerlink" title="集群版启动"></a>集群版启动</h4><h3 id="Leader选举机制"><a href="#Leader选举机制" class="headerlink" title="Leader选举机制"></a>Leader选举机制</h3>
-          
+          <p>​        本章开始讲解Zookeeper重要的技术实现。<a href="http://luckylau.tech/2018/03/18/Zookeeper%E7%9A%84%E5%8E%9F%E7%90%86-3/">上一篇</a>我们讲解了Zookeeper客户端的原理与实现，本篇深入解析Zookeeper服务端的相关原理。</p>
+<h2 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h2><h3 id="会话"><a href="#会话" class="headerlink" title="会话"></a>会话</h3><h4 id="会话创建流程"><a href="#会话创建流程" class="headerlink" title="会话创建流程"></a>会话创建流程</h4><p><img src="/2018/03/18/Zookeeper的原理-4/1.png" alt=""></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/03/18/Zookeeper的原理-4/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>

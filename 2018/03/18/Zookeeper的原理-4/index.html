@@ -84,28 +84,22 @@
 
 
 
-<meta name="description" content="本章开始讲解Zookeeper重要的技术实现。上一篇我们讲解了Zookeeper客户端的原理与实现，本篇深入解析Zookeeper服务端的相关原理。
-服务端会话客服端的会话我们已经详细梳理了一遍，下面我们看一下服务端是如何处理
-会话创建事务请求处理例如SetData请求
-非事务请求处理例如GetData请求
-会话管理会话清理会话重连启动单机版启动集群版启动Leader选举机制">
+<meta name="description" content="​        本章开始讲解Zookeeper重要的技术实现。上一篇我们讲解了Zookeeper客户端的原理与实现，本篇深入解析Zookeeper服务端的相关原理。
+服务端会话会话创建流程">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Zookeeper的原理(4)">
 <meta property="og:url" content="https://luckylau.github.io/2018/03/18/Zookeeper的原理-4/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
-<meta property="og:description" content="本章开始讲解Zookeeper重要的技术实现。上一篇我们讲解了Zookeeper客户端的原理与实现，本篇深入解析Zookeeper服务端的相关原理。
-服务端会话客服端的会话我们已经详细梳理了一遍，下面我们看一下服务端是如何处理
-会话创建事务请求处理例如SetData请求
-非事务请求处理例如GetData请求
-会话管理会话清理会话重连启动单机版启动集群版启动Leader选举机制">
-<meta property="og:updated_time" content="2018-03-19T08:01:42.481Z">
+<meta property="og:description" content="​        本章开始讲解Zookeeper重要的技术实现。上一篇我们讲解了Zookeeper客户端的原理与实现，本篇深入解析Zookeeper服务端的相关原理。
+服务端会话会话创建流程">
+<meta property="og:image" content="https://luckylau.github.io/2018/03/18/Zookeeper的原理-4/1.png">
+<meta property="og:image" content="https://luckylau.github.io/2018/03/18/Zookeeper的原理-4/2.png">
+<meta property="og:updated_time" content="2018-03-19T11:00:19.668Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Zookeeper的原理(4)">
-<meta name="twitter:description" content="本章开始讲解Zookeeper重要的技术实现。上一篇我们讲解了Zookeeper客户端的原理与实现，本篇深入解析Zookeeper服务端的相关原理。
-服务端会话客服端的会话我们已经详细梳理了一遍，下面我们看一下服务端是如何处理
-会话创建事务请求处理例如SetData请求
-非事务请求处理例如GetData请求
-会话管理会话清理会话重连启动单机版启动集群版启动Leader选举机制">
+<meta name="twitter:description" content="​        本章开始讲解Zookeeper重要的技术实现。上一篇我们讲解了Zookeeper客户端的原理与实现，本篇深入解析Zookeeper服务端的相关原理。
+服务端会话会话创建流程">
+<meta name="twitter:image" content="https://luckylau.github.io/2018/03/18/Zookeeper的原理-4/1.png">
 
 
 
@@ -397,11 +391,14 @@
       
 
       
-        <p> 本章开始讲解Zookeeper重要的技术实现。<a href="http://luckylau.tech/2018/03/18/Zookeeper%E7%9A%84%E5%8E%9F%E7%90%86-3/" target="_blank" rel="external">上一篇</a>我们讲解了Zookeeper客户端的原理与实现，本篇深入解析Zookeeper服务端的相关原理。</p>
-<h2 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h2><h3 id="会话"><a href="#会话" class="headerlink" title="会话"></a>会话</h3><p>客服端的会话我们已经详细梳理了一遍，下面我们看一下服务端是如何处理</p>
-<h4 id="会话创建"><a href="#会话创建" class="headerlink" title="会话创建"></a>会话创建</h4><h5 id="事务请求处理"><a href="#事务请求处理" class="headerlink" title="事务请求处理"></a>事务请求处理</h5><p>例如SetData请求</p>
-<h5 id="非事务请求处理"><a href="#非事务请求处理" class="headerlink" title="非事务请求处理"></a>非事务请求处理</h5><p>例如GetData请求</p>
-<h4 id="会话管理"><a href="#会话管理" class="headerlink" title="会话管理"></a>会话管理</h4><h4 id="会话清理"><a href="#会话清理" class="headerlink" title="会话清理"></a>会话清理</h4><h4 id="会话重连"><a href="#会话重连" class="headerlink" title="会话重连"></a>会话重连</h4><h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><h4 id="单机版启动"><a href="#单机版启动" class="headerlink" title="单机版启动"></a>单机版启动</h4><h4 id="集群版启动"><a href="#集群版启动" class="headerlink" title="集群版启动"></a>集群版启动</h4><h3 id="Leader选举机制"><a href="#Leader选举机制" class="headerlink" title="Leader选举机制"></a>Leader选举机制</h3>
+        <p>​        本章开始讲解Zookeeper重要的技术实现。<a href="http://luckylau.tech/2018/03/18/Zookeeper%E7%9A%84%E5%8E%9F%E7%90%86-3/" target="_blank" rel="external">上一篇</a>我们讲解了Zookeeper客户端的原理与实现，本篇深入解析Zookeeper服务端的相关原理。</p>
+<h2 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h2><h3 id="会话"><a href="#会话" class="headerlink" title="会话"></a>会话</h3><h4 id="会话创建流程"><a href="#会话创建流程" class="headerlink" title="会话创建流程"></a>会话创建流程</h4><p><img src="/2018/03/18/Zookeeper的原理-4/1.png" alt=""></p>
+<a id="more"></a>
+<p><img src="/2018/03/18/Zookeeper的原理-4/2.png" alt=""></p>
+<p>上面2个图展示了服务端会话创建处理和事务处理流程图。</p>
+<h5 id="初始化阶段"><a href="#初始化阶段" class="headerlink" title="初始化阶段"></a>初始化阶段</h5><h5 id="预处理阶段"><a href="#预处理阶段" class="headerlink" title="预处理阶段"></a>预处理阶段</h5><h5 id="事务处理阶段"><a href="#事务处理阶段" class="headerlink" title="事务处理阶段"></a>事务处理阶段</h5><h5 id="响应处理阶段"><a href="#响应处理阶段" class="headerlink" title="响应处理阶段"></a>响应处理阶段</h5><h4 id="事务请求处理示例"><a href="#事务请求处理示例" class="headerlink" title="事务请求处理示例"></a>事务请求处理示例</h4><p>例如SetData请求</p>
+<h4 id="非事务请求处理示例"><a href="#非事务请求处理示例" class="headerlink" title="非事务请求处理示例"></a>非事务请求处理示例</h4><p>例如GetData请求</p>
+<h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><h4 id="单机版启动"><a href="#单机版启动" class="headerlink" title="单机版启动"></a>单机版启动</h4><h4 id="集群版启动"><a href="#集群版启动" class="headerlink" title="集群版启动"></a>集群版启动</h4><h3 id="Leader选举机制"><a href="#Leader选举机制" class="headerlink" title="Leader选举机制"></a>Leader选举机制</h3>
       
     </div>
 
@@ -593,7 +590,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#服务端"><span class="nav-number">1.</span> <span class="nav-text">服务端</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#会话"><span class="nav-number">1.1.</span> <span class="nav-text">会话</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#会话创建"><span class="nav-number">1.1.1.</span> <span class="nav-text">会话创建</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#事务请求处理"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">事务请求处理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#非事务请求处理"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">非事务请求处理</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#会话管理"><span class="nav-number">1.1.2.</span> <span class="nav-text">会话管理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#会话清理"><span class="nav-number">1.1.3.</span> <span class="nav-text">会话清理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#会话重连"><span class="nav-number">1.1.4.</span> <span class="nav-text">会话重连</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动"><span class="nav-number">1.2.</span> <span class="nav-text">启动</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#单机版启动"><span class="nav-number">1.2.1.</span> <span class="nav-text">单机版启动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#集群版启动"><span class="nav-number">1.2.2.</span> <span class="nav-text">集群版启动</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Leader选举机制"><span class="nav-number">1.3.</span> <span class="nav-text">Leader选举机制</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#服务端"><span class="nav-number">1.</span> <span class="nav-text">服务端</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#会话"><span class="nav-number">1.1.</span> <span class="nav-text">会话</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#会话创建流程"><span class="nav-number">1.1.1.</span> <span class="nav-text">会话创建流程</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#初始化阶段"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">初始化阶段</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#预处理阶段"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">预处理阶段</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#事务处理阶段"><span class="nav-number">1.1.1.3.</span> <span class="nav-text">事务处理阶段</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#响应处理阶段"><span class="nav-number">1.1.1.4.</span> <span class="nav-text">响应处理阶段</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#事务请求处理示例"><span class="nav-number">1.1.2.</span> <span class="nav-text">事务请求处理示例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#非事务请求处理示例"><span class="nav-number">1.1.3.</span> <span class="nav-text">非事务请求处理示例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动"><span class="nav-number">1.2.</span> <span class="nav-text">启动</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#单机版启动"><span class="nav-number">1.2.1.</span> <span class="nav-text">单机版启动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#集群版启动"><span class="nav-number">1.2.2.</span> <span class="nav-text">集群版启动</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Leader选举机制"><span class="nav-number">1.3.</span> <span class="nav-text">Leader选举机制</span></a></li></ol></li></ol></div>
             
 
           </div>
