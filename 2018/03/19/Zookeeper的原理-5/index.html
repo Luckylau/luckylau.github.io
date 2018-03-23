@@ -85,18 +85,20 @@
 
 
 <meta name="description" content="​        本章开始讲解Zookeeper重要的技术实现，前面两篇Zookeeper的原理(3)和Zookeeper的原理(4)分别讲解了客户端和服务端的设计原理，这一篇我们来聊聊Zookeeper的内存与存储以及运维的问题。
-内存与存储运维">
+内存与存储​        ZKDatabase是ZooKeeper的内存数据库，负责管理ZooKeeper的所有会话、DataTree存储和事务日志。ZKDatab">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Zookeeper的原理(5)">
 <meta property="og:url" content="https://luckylau.github.io/2018/03/19/Zookeeper的原理-5/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
 <meta property="og:description" content="​        本章开始讲解Zookeeper重要的技术实现，前面两篇Zookeeper的原理(3)和Zookeeper的原理(4)分别讲解了客户端和服务端的设计原理，这一篇我们来聊聊Zookeeper的内存与存储以及运维的问题。
-内存与存储运维">
-<meta property="og:updated_time" content="2018-03-19T08:07:29.288Z">
+内存与存储​        ZKDatabase是ZooKeeper的内存数据库，负责管理ZooKeeper的所有会话、DataTree存储和事务日志。ZKDatab">
+<meta property="og:image" content="https://luckylau.github.io/2018/03/19/Zookeeper的原理-5/1.png">
+<meta property="og:updated_time" content="2018-03-23T08:41:30.817Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Zookeeper的原理(5)">
 <meta name="twitter:description" content="​        本章开始讲解Zookeeper重要的技术实现，前面两篇Zookeeper的原理(3)和Zookeeper的原理(4)分别讲解了客户端和服务端的设计原理，这一篇我们来聊聊Zookeeper的内存与存储以及运维的问题。
-内存与存储运维">
+内存与存储​        ZKDatabase是ZooKeeper的内存数据库，负责管理ZooKeeper的所有会话、DataTree存储和事务日志。ZKDatab">
+<meta name="twitter:image" content="https://luckylau.github.io/2018/03/19/Zookeeper的原理-5/1.png">
 
 
 
@@ -389,7 +391,22 @@
 
       
         <p>​        本章开始讲解Zookeeper重要的技术实现，前面两篇<a href="http://luckylau.tech/2018/03/18/Zookeeper%E7%9A%84%E5%8E%9F%E7%90%86-3/" target="_blank" rel="external">Zookeeper的原理(3)</a>和<a href="http://luckylau.tech/2018/03/18/Zookeeper%E7%9A%84%E5%8E%9F%E7%90%86-4/" target="_blank" rel="external">Zookeeper的原理(4)</a>分别讲解了客户端和服务端的设计原理，这一篇我们来聊聊Zookeeper的内存与存储以及运维的问题。</p>
-<h3 id="内存与存储"><a href="#内存与存储" class="headerlink" title="内存与存储"></a>内存与存储</h3><h3 id="运维"><a href="#运维" class="headerlink" title="运维"></a>运维</h3>
+<h3 id="内存与存储"><a href="#内存与存储" class="headerlink" title="内存与存储"></a>内存与存储</h3><p>​        ZKDatabase是ZooKeeper的内存数据库，负责管理ZooKeeper的所有会话、DataTree存储和事务日志。ZKDatabase会定时向磁盘dump快照数据，同时在ZooKeeper服务器启动的时候，会通过磁盘上的事务日志（在dataLogDir配置路径下的version-2的子目录中）和快照数据文件恢复成一个完整的内存数据库。</p>
+<a id="more"></a>
+<p>​        ZooKeeper的数据模型是一棵树，DataTree是ZooKeeper内存数据存储的核心，是一个“树”的数据结构，代表了内存中的一份完整的数据。DataTree不包含任何与网络、客户端连接以及请求处理等相关的业务逻辑，是一个非常独立的ZooKeeper组件。</p>
+<p>​         DataNode是数据存储的最小单元，除了保存了节点的数据内容（data[]）、ACL列表（acl）和节点状态（stat）之外，还记录了父节点（parent）的引用和子节点列表（children）两个属性。同时，DataNode还提供了对子节点列表操作的各个接口。</p>
+<p>下图是数据初始化的流程：</p>
+<p><img src="/2018/03/19/Zookeeper的原理-5/1.png" alt=""></p>
+<h3 id="运维"><a href="#运维" class="headerlink" title="运维"></a>运维</h3><h5 id="四字命令"><a href="#四字命令" class="headerlink" title="四字命令"></a>四字命令</h5><p>四字命令的使用方式非常简单，通常有两种方式：第一种是通过Telnet方式，第二种则是使用nc方式。</p>
+<p>conf：输出 ZooKeeper服务器运行时使用的基本配置信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">[root@VM_0_5_centos ~]# telnet localhost 2181</div><div class="line">Trying 127.0.0.1...</div><div class="line">Connected to localhost.</div><div class="line">Escape character is &apos;^]&apos;.</div><div class="line">conf</div><div class="line">clientPort=2181</div><div class="line">dataDir=/home/luckylau/zookeeper-3.4.9/data/version-2</div><div class="line">dataLogDir=/home/luckylau/zookeeper-3.4.9/logs/version-2</div><div class="line">tickTime=2000</div><div class="line">maxClientCnxns=60</div><div class="line">minSessionTimeout=4000</div><div class="line">maxSessionTimeout=40000</div><div class="line">serverId=0</div><div class="line">Connection closed by foreign host.</div></pre></td></tr></table></figure>
+<p>cons：输出当前这台服务器上所有客户端连接的详细信息。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">[root@VM_0_5_centos ~]# telnet localhost 2181</div><div class="line">Trying 127.0.0.1...</div><div class="line">Connected to localhost.</div><div class="line">Escape character is '^]'.</div><div class="line">cons</div><div class="line"> /124.204.55.194:49205[1](queued=0,recved=1259,sent=1259,sid=0x16223b514550012,lop=PING,est=1521777677833,to=40000,lcxid=0x5,lzxid=0x2b,lresp=1521794385909,llat=0,minlat=0,avglat=0,maxlat=8)</div><div class="line"> /127.0.0.1:53438[0](queued=0,recved=1,sent=0)</div><div class="line"></div><div class="line">Connection closed by foreign host.</div></pre></td></tr></table></figure>
+<p>crst：重置所有的客户端连接统计消息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">[root@VM_0_5_centos ~]# telnet localhost 2181</div><div class="line">Trying 127.0.0.1...</div><div class="line">Connected to localhost.</div><div class="line">Escape character is &apos;^]&apos;.</div><div class="line">crst</div><div class="line">Connection stats reset.</div><div class="line">Connection closed by foreign host.</div></pre></td></tr></table></figure>
+<p>dump：输出当前集群的所有会话信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">[root@VM_0_5_centos ~]# telnet localhost 2181</div><div class="line">Trying 127.0.0.1...</div><div class="line">Connected to localhost.</div><div class="line">Escape character is &apos;^]&apos;.</div><div class="line">dump</div><div class="line">SessionTracker dump:</div><div class="line">Session Sets (3):</div><div class="line">0 expire at Fri Mar 23 16:41:20 CST 2018:</div><div class="line">0 expire at Fri Mar 23 16:41:34 CST 2018:</div><div class="line">1 expire at Fri Mar 23 16:41:46 CST 2018:</div><div class="line">	0x16223b514550012</div><div class="line">ephemeral nodes dump:</div><div class="line">Sessions with Ephemerals (0):</div><div class="line">Connection closed by foreign host.</div></pre></td></tr></table></figure>
+
       
     </div>
 
@@ -577,7 +594,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#内存与存储"><span class="nav-number">1.</span> <span class="nav-text">内存与存储</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运维"><span class="nav-number">2.</span> <span class="nav-text">运维</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#内存与存储"><span class="nav-number">1.</span> <span class="nav-text">内存与存储</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运维"><span class="nav-number">2.</span> <span class="nav-text">运维</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#四字命令"><span class="nav-number">2.0.1.</span> <span class="nav-text">四字命令</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>

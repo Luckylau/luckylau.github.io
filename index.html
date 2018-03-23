@@ -385,10 +385,15 @@
 
       
         
-          
-            <p>​        本章开始讲解Zookeeper重要的技术实现，前面两篇<a href="http://luckylau.tech/2018/03/18/Zookeeper%E7%9A%84%E5%8E%9F%E7%90%86-3/" target="_blank" rel="external">Zookeeper的原理(3)</a>和<a href="http://luckylau.tech/2018/03/18/Zookeeper%E7%9A%84%E5%8E%9F%E7%90%86-4/" target="_blank" rel="external">Zookeeper的原理(4)</a>分别讲解了客户端和服务端的设计原理，这一篇我们来聊聊Zookeeper的内存与存储以及运维的问题。</p>
-<h3 id="内存与存储"><a href="#内存与存储" class="headerlink" title="内存与存储"></a>内存与存储</h3><h3 id="运维"><a href="#运维" class="headerlink" title="运维"></a>运维</h3>
-          
+          <p>​        本章开始讲解Zookeeper重要的技术实现，前面两篇<a href="http://luckylau.tech/2018/03/18/Zookeeper%E7%9A%84%E5%8E%9F%E7%90%86-3/">Zookeeper的原理(3)</a>和<a href="http://luckylau.tech/2018/03/18/Zookeeper%E7%9A%84%E5%8E%9F%E7%90%86-4/">Zookeeper的原理(4)</a>分别讲解了客户端和服务端的设计原理，这一篇我们来聊聊Zookeeper的内存与存储以及运维的问题。</p>
+<h3 id="内存与存储"><a href="#内存与存储" class="headerlink" title="内存与存储"></a>内存与存储</h3><p>​        ZKDatabase是ZooKeeper的内存数据库，负责管理ZooKeeper的所有会话、DataTree存储和事务日志。ZKDatabase会定时向磁盘dump快照数据，同时在ZooKeeper服务器启动的时候，会通过磁盘上的事务日志（在dataLogDir配置路径下的version-2的子目录中）和快照数据文件恢复成一个完整的内存数据库。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/03/19/Zookeeper的原理-5/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
