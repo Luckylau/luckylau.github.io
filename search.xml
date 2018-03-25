@@ -3,6 +3,13 @@
   
     
     <entry>
+      <title><![CDATA[微服务架构之Dubbo线程池模型]]></title>
+      <url>%2F2018%2F03%2F25%2F%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E4%B9%8BDubbo-16%2F</url>
+      <content type="text"><![CDATA[​ 对于Dubbo的服务提供者，主要有两种线程池，一种是IO处理线程池，另一种是服务调用线程池。本篇主要对Dubbo线程池模型做一下分析。]]></content>
+    </entry>
+
+    
+    <entry>
       <title><![CDATA[Zookeeper的原理(5)]]></title>
       <url>%2F2018%2F03%2F19%2FZookeeper%E7%9A%84%E5%8E%9F%E7%90%86-5%2F</url>
       <content type="text"><![CDATA[​ 本章开始讲解Zookeeper重要的技术实现，前面两篇Zookeeper的原理(3)和Zookeeper的原理(4)分别讲解了客户端和服务端的设计原理，这一篇我们来聊聊Zookeeper的内存与存储以及运维的问题。 内存与存储​ ZKDatabase是ZooKeeper的内存数据库，负责管理ZooKeeper的所有会话、DataTree存储和事务日志。ZKDatabase会定时向磁盘dump快照数据，同时在ZooKeeper服务器启动的时候，会通过磁盘上的事务日志（在dataLogDir配置路径下的version-2的子目录中）和快照数据文件恢复成一个完整的内存数据库。 ​ ZooKeeper的数据模型是一棵树，DataTree是ZooKeeper内存数据存储的核心，是一个“树”的数据结构，代表了内存中的一份完整的数据。DataTree不包含任何与网络、客户端连接以及请求处理等相关的业务逻辑，是一个非常独立的ZooKeeper组件。 ​ DataNode是数据存储的最小单元，除了保存了节点的数据内容（data[]）、ACL列表（acl）和节点状态（stat）之外，还记录了父节点（parent）的引用和子节点列表（children）两个属性。同时，DataNode还提供了对子节点列表操作的各个接口。 下图是数据初始化的流程： 运维四字命令四字命令的使用方式非常简单，通常有两种方式：第一种是通过Telnet方式，第二种则是使用nc方式。 conf：输出 ZooKeeper服务器运行时使用的基本配置信息。 1234567891011121314[root@VM_0_5_centos ~]# telnet localhost 2181Trying 127.0.0.1...Connected to localhost.Escape character is &apos;^]&apos;.confclientPort=2181dataDir=/home/luckylau/zookeeper-3.4.9/data/version-2dataLogDir=/home/luckylau/zookeeper-3.4.9/logs/version-2tickTime=2000maxClientCnxns=60minSessionTimeout=4000maxSessionTimeout=40000serverId=0Connection closed by foreign host. cons：输出当前这台服务器上所有客户端连接的详细信息。 123456789[root@VM_0_5_centos ~]# telnet localhost 2181Trying 127.0.0.1...Connected to localhost.Escape character is '^]'.cons /124.204.55.194:49205[1](queued=0,recved=1259,sent=1259,sid=0x16223b514550012,lop=PING,est=1521777677833,to=40000,lcxid=0x5,lzxid=0x2b,lresp=1521794385909,llat=0,minlat=0,avglat=0,maxlat=8) /127.0.0.1:53438[0](queued=0,recved=1,sent=0)Connection closed by foreign host. crst：重置所有的客户端连接统计消息。 1234567[root@VM_0_5_centos ~]# telnet localhost 2181Trying 127.0.0.1...Connected to localhost.Escape character is &apos;^]&apos;.crstConnection stats reset.Connection closed by foreign host. dump：输出当前集群的所有会话信息 1234567891011121314[root@VM_0_5_centos ~]# telnet localhost 2181Trying 127.0.0.1...Connected to localhost.Escape character is &apos;^]&apos;.dumpSessionTracker dump:Session Sets (3):0 expire at Fri Mar 23 16:41:20 CST 2018:0 expire at Fri Mar 23 16:41:34 CST 2018:1 expire at Fri Mar 23 16:41:46 CST 2018: 0x16223b514550012ephemeral nodes dump:Sessions with Ephemerals (0):Connection closed by foreign host.]]></content>
