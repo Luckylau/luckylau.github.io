@@ -3,6 +3,13 @@
   
     
     <entry>
+      <title><![CDATA[分布式服务框架原理(1)]]></title>
+      <url>%2F2018%2F03%2F26%2F%E5%88%86%E5%B8%83%E5%BC%8F%E6%9C%8D%E5%8A%A1%E6%A1%86%E6%9E%B6%E5%8E%9F%E7%90%86-1%2F</url>
+      <content type="text"><![CDATA[​ 分布式服务框架不仅仅是RPC框架的调用，还涉及其他的基础设施来支持分布式管理，服务自动发现和服务治理等。之前研究了Dubbo的原理和机制，再回头看李林峰大神对分布式服务框架原理与实践的分析，顿时豁然开朗，原来如此之感，之后就会根据《分布式服务框架原理与实践》这本书总结其精髓。 分布式服务框架总体设计 业内分布式服务框架阿里Dubbo 新浪motan 淘宝HSF 亚马逊CoralService 业内优秀开源RPC框架Facebook的Thrift Twitter的Finagle Google的gRpc 参考《分布式服务框架原理与实践》]]></content>
+    </entry>
+
+    
+    <entry>
       <title><![CDATA[微服务架构之Dubbo线程池模型]]></title>
       <url>%2F2018%2F03%2F25%2F%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E4%B9%8BDubbo-16%2F</url>
       <content type="text"><![CDATA[​ 对于Dubbo的服务提供者，主要有两种线程池，一种是IO处理线程池，另一种是服务调用线程池。本篇主要对Dubbo线程池模型做一下分析。]]></content>
