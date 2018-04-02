@@ -3,6 +3,20 @@
   
     
     <entry>
+      <title><![CDATA[分布式服务框架原理(3)]]></title>
+      <url>%2F2018%2F04%2F02%2F%E5%88%86%E5%B8%83%E5%BC%8F%E6%9C%8D%E5%8A%A1%E6%A1%86%E6%9E%B6%E5%8E%9F%E7%90%86-3%2F</url>
+      <content type="text"><![CDATA[分布式服务框架高可用与管理服务路由集群容错服务降级流量控制服务多版本服务灰度发布分布式消息跟踪]]></content>
+    </entry>
+
+    
+    <entry>
+      <title><![CDATA[分布式服务框架原理(2)]]></title>
+      <url>%2F2018%2F04%2F02%2F%E5%88%86%E5%B8%83%E5%BC%8F%E6%9C%8D%E5%8A%A1%E6%A1%86%E6%9E%B6%E5%8E%9F%E7%90%86-2%2F</url>
+      <content type="text"><![CDATA[分布式服务框架基础架构序列化与反序列化协议栈服务间参数传递服务注册服务发布和引用服务优先级调度]]></content>
+    </entry>
+
+    
+    <entry>
       <title><![CDATA[阅读书单(5)]]></title>
       <url>%2F2018%2F04%2F02%2F%E9%98%85%E8%AF%BB%E4%B9%A6%E5%8D%95-5%2F</url>
       <content type="text"><![CDATA[2018年-至今149.《富爸爸穷爸爸》-罗伯特清崎 沙伦莱希特 150.《向光生长：阿德勒自我超越心理学》-阿尔弗雷德阿德勒 151.《永恒的边缘》-肯福莱特 152.《智能时代》-吴军 153.《那些我们没谈过的事》-马克李维 154.《怪诞经济学》-利玛窦默特里尼 155.《降临》-特德姜 156.《冷知识》-小巫博士 157.《风口上的猪》-肖璟 158.《十万次相亲》-水水 159.《观念的水位》-刘瑜]]></content>
@@ -19,7 +33,7 @@
     <entry>
       <title><![CDATA[分布式服务框架原理(1)]]></title>
       <url>%2F2018%2F03%2F26%2F%E5%88%86%E5%B8%83%E5%BC%8F%E6%9C%8D%E5%8A%A1%E6%A1%86%E6%9E%B6%E5%8E%9F%E7%90%86-1%2F</url>
-      <content type="text"><![CDATA[​ 分布式服务框架不仅仅是RPC框架的调用，还涉及其他的基础设施来支持分布式管理，服务自动发现和服务治理等。之前研究了Dubbo的原理和机制，再回头看李林峰大神对分布式服务框架原理与实践的分析，顿时豁然开朗，之后我会根据《分布式服务框架原理与实践》这本书以及自己的见解，持续更新分布式服务框架的博客。 分布式服务框架总体设计 业内分布式服务框架阿里Dubbo 新浪motan 淘宝HSF 亚马逊CoralService 业内优秀开源RPC框架Facebook的Thrift Twitter的Finagle Google的gRpc Apache的Avro 参考《分布式服务框架原理与实践》]]></content>
+      <content type="text"><![CDATA[​ 分布式服务框架不仅仅是RPC框架的调用，还涉及其他的基础设施来支持分布式管理，服务自动发现和服务治理等。之前研究了Dubbo的原理和机制，再回头看李林峰大神对分布式服务框架原理与实践的分析，顿时豁然开朗，之后我会根据《分布式服务框架原理与实践》这本书以及自己的见解，持续更新分布式服务框架的博客。 分布式服务框架总体设计 业内分布式服务框架阿里Dubbo 新浪motan 淘宝HSF 亚马逊CoralService 业内优秀开源RPC框架Facebook的Thrift Twitter的Finagle Google的gRpc Apache的Avro CAUCHO的Hessian 问题rmi与rpc的区别是什么？ rpc框架与分布式服务框架区别？ SOA与微服务的区别？ 参考《分布式服务框架原理与实践》 https://www.cnblogs.com/ygj0930/p/6542811.html]]></content>
     </entry>
 
     
