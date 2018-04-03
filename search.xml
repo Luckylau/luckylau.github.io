@@ -12,7 +12,7 @@
     <entry>
       <title><![CDATA[分布式服务框架原理(2)]]></title>
       <url>%2F2018%2F04%2F02%2F%E5%88%86%E5%B8%83%E5%BC%8F%E6%9C%8D%E5%8A%A1%E6%A1%86%E6%9E%B6%E5%8E%9F%E7%90%86-2%2F</url>
-      <content type="text"><![CDATA[分布式服务框架基础架构序列化与反序列化协议栈服务间参数传递服务注册服务发布和引用服务优先级调度]]></content>
+      <content type="text"><![CDATA[分布式服务框架基础服务序列化与反序列化协议栈服务间参数传递服务注册服务发布和引用服务优先级调度]]></content>
     </entry>
 
     
