@@ -3,23 +3,9 @@
   
     
     <entry>
-      <title><![CDATA[深入理解http协议(3)]]></title>
-      <url>%2F2018%2F04%2F08%2F%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3http%E5%8D%8F%E8%AE%AE-3%2F</url>
-      <content type="text"><![CDATA[常见问题一次HTTP操作的流程？GET与POST方法有什么区别？http代理服务器的原理是什么?URI和URL的区别?]]></content>
-    </entry>
-
-    
-    <entry>
-      <title><![CDATA[深入理解http协议(2)]]></title>
-      <url>%2F2018%2F04%2F08%2F%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3http%E5%8D%8F%E8%AE%AE-2%2F</url>
-      <content type="text"><![CDATA[Cookie与Session的机制]]></content>
-    </entry>
-
-    
-    <entry>
-      <title><![CDATA[深入理解http协议(1)]]></title>
-      <url>%2F2018%2F04%2F08%2F%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3http%E5%8D%8F%E8%AE%AE-1%2F</url>
-      <content type="text"><![CDATA[头域​ 每个头域由一个域名，冒号（:）和域值三部分组成。域名是大小写无关的，域值前可以添加任何数量的空格符，头域可以被扩展为多行，在每行开始处，使用至少一个空格或制表符。 Host头域：指定请求资源的Intenet主机和端口号，必须表示请求url的原始服务器或网关的位置。HTTP/1.1请求必须包含主机头域，否则系统会以400状态码返回。 User-Agent头域：包含发出请求的用户信息。 Cache-Control头域：指定请求和响应遵循的缓存机制。在请求消息或响应消息中设置Cache-Control并不会修改另一个消息处理过程中的缓存处理过程。请求时的缓存指令包括no-cache、no-store、max-age、max-stale、min-fresh、only-if-cached，响应消息中的指令包括public、private、no-cache、no-store、no-transform、must-revalidate、proxy-revalidate、max-age。 Date头域：表示消息发送的时间，缓存在评估响应的新鲜度时要用到，时间的描述格式由RFC822定义。 HTTP之请求消息RequestHTTP之响应消息Response]]></content>
+      <title><![CDATA[http协议解读(1)]]></title>
+      <url>%2F2018%2F04%2F08%2Fhttp%E5%8D%8F%E8%AE%AE%E8%A7%A3%E8%AF%BB-1%2F</url>
+      <content type="text"><![CDATA[]]></content>
     </entry>
 
     
