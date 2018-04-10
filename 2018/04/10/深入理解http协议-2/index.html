@@ -84,16 +84,19 @@
 
 
 
-<meta name="description" content="Cookie与Session的机制参考https://www.cnblogs.com/andy-zhou/p/5360107.html">
+<meta name="description" content="本章主要介绍Cookie与Session以及JWT，同时讨论如何安全进行会话跟踪。
+什么是Cookie什么是SessionCookie与Session区别什么是JWT使用场景Cookie的应用安全CookieSession的应用Session+CookieSession+URL地址重写JWT的应用参考https://www.cnblogs.com/andy-zhou/p/5360107.html">
 <meta property="og:type" content="article">
 <meta property="og:title" content="深入理解http协议(2)">
 <meta property="og:url" content="https://luckylau.github.io/2018/04/10/深入理解http协议-2/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
-<meta property="og:description" content="Cookie与Session的机制参考https://www.cnblogs.com/andy-zhou/p/5360107.html">
-<meta property="og:updated_time" content="2018-04-10T06:07:51.112Z">
+<meta property="og:description" content="本章主要介绍Cookie与Session以及JWT，同时讨论如何安全进行会话跟踪。
+什么是Cookie什么是SessionCookie与Session区别什么是JWT使用场景Cookie的应用安全CookieSession的应用Session+CookieSession+URL地址重写JWT的应用参考https://www.cnblogs.com/andy-zhou/p/5360107.html">
+<meta property="og:updated_time" content="2018-04-10T08:47:42.785Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深入理解http协议(2)">
-<meta name="twitter:description" content="Cookie与Session的机制参考https://www.cnblogs.com/andy-zhou/p/5360107.html">
+<meta name="twitter:description" content="本章主要介绍Cookie与Session以及JWT，同时讨论如何安全进行会话跟踪。
+什么是Cookie什么是SessionCookie与Session区别什么是JWT使用场景Cookie的应用安全CookieSession的应用Session+CookieSession+URL地址重写JWT的应用参考https://www.cnblogs.com/andy-zhou/p/5360107.html">
 
 
 
@@ -385,7 +388,8 @@
       
 
       
-        <h3 id="Cookie与Session的机制"><a href="#Cookie与Session的机制" class="headerlink" title="Cookie与Session的机制"></a>Cookie与Session的机制</h3><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.cnblogs.com/andy-zhou/p/5360107.html" target="_blank" rel="external">https://www.cnblogs.com/andy-zhou/p/5360107.html</a></p>
+        <p>本章主要介绍Cookie与Session以及JWT，同时讨论如何安全进行会话跟踪。</p>
+<h3 id="什么是Cookie"><a href="#什么是Cookie" class="headerlink" title="什么是Cookie"></a>什么是Cookie</h3><h3 id="什么是Session"><a href="#什么是Session" class="headerlink" title="什么是Session"></a>什么是Session</h3><h3 id="Cookie与Session区别"><a href="#Cookie与Session区别" class="headerlink" title="Cookie与Session区别"></a>Cookie与Session区别</h3><h3 id="什么是JWT"><a href="#什么是JWT" class="headerlink" title="什么是JWT"></a>什么是JWT</h3><h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><h4 id="Cookie的应用"><a href="#Cookie的应用" class="headerlink" title="Cookie的应用"></a>Cookie的应用</h4><h5 id="安全Cookie"><a href="#安全Cookie" class="headerlink" title="安全Cookie"></a>安全Cookie</h5><h4 id="Session的应用"><a href="#Session的应用" class="headerlink" title="Session的应用"></a>Session的应用</h4><h5 id="Session-Cookie"><a href="#Session-Cookie" class="headerlink" title="Session+Cookie"></a>Session+Cookie</h5><h5 id="Session-URL地址重写"><a href="#Session-URL地址重写" class="headerlink" title="Session+URL地址重写"></a>Session+URL地址重写</h5><h4 id="JWT的应用"><a href="#JWT的应用" class="headerlink" title="JWT的应用"></a>JWT的应用</h4><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.cnblogs.com/andy-zhou/p/5360107.html" target="_blank" rel="external">https://www.cnblogs.com/andy-zhou/p/5360107.html</a></p>
 
       
     </div>
@@ -578,7 +582,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Cookie与Session的机制"><span class="nav-number">1.</span> <span class="nav-text">Cookie与Session的机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">2.</span> <span class="nav-text">参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是Cookie"><span class="nav-number">1.</span> <span class="nav-text">什么是Cookie</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是Session"><span class="nav-number">2.</span> <span class="nav-text">什么是Session</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cookie与Session区别"><span class="nav-number">3.</span> <span class="nav-text">Cookie与Session区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是JWT"><span class="nav-number">4.</span> <span class="nav-text">什么是JWT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用场景"><span class="nav-number">5.</span> <span class="nav-text">使用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Cookie的应用"><span class="nav-number">5.1.</span> <span class="nav-text">Cookie的应用</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#安全Cookie"><span class="nav-number">5.1.1.</span> <span class="nav-text">安全Cookie</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Session的应用"><span class="nav-number">5.2.</span> <span class="nav-text">Session的应用</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Session-Cookie"><span class="nav-number">5.2.1.</span> <span class="nav-text">Session+Cookie</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Session-URL地址重写"><span class="nav-number">5.2.2.</span> <span class="nav-text">Session+URL地址重写</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JWT的应用"><span class="nav-number">5.3.</span> <span class="nav-text">JWT的应用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
             
 
           </div>

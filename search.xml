@@ -12,7 +12,7 @@
     <entry>
       <title><![CDATA[深入理解http协议(2)]]></title>
       <url>%2F2018%2F04%2F10%2F%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3http%E5%8D%8F%E8%AE%AE-2%2F</url>
-      <content type="text"><![CDATA[Cookie与Session的机制参考https://www.cnblogs.com/andy-zhou/p/5360107.html]]></content>
+      <content type="text"><![CDATA[本章主要介绍Cookie与Session以及JWT，同时讨论如何安全进行会话跟踪。 什么是Cookie什么是SessionCookie与Session区别什么是JWT使用场景Cookie的应用安全CookieSession的应用Session+CookieSession+URL地址重写JWT的应用参考https://www.cnblogs.com/andy-zhou/p/5360107.html]]></content>
     </entry>
 
     
