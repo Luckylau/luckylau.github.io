@@ -84,21 +84,16 @@
 
 
 
-<meta name="description" content="头域​       每个头域由一个域名，冒号（:）和域值三部分组成。域名是大小写无关的，域值前可以添加任何数量的空格符，头域可以被扩展为多行，在每行开始处，使用至少一个空格或制表符。
-Host头域：指定请求资源的Intenet主机和端口号，必须表示请求url的原始服务器或网关的位置。HTTP/1.1请求必须包含主机头域，否则系统会以400状态码返回。">
+<meta name="description" content="Cookie与Session的机制">
 <meta property="og:type" content="article">
-<meta property="og:title" content="深入理解http协议(1)">
-<meta property="og:url" content="https://luckylau.github.io/2018/04/08/深入理解http协议-1/index.html">
+<meta property="og:title" content="深入理解http协议(2)">
+<meta property="og:url" content="https://luckylau.github.io/2018/04/10/深入理解http协议-2/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
-<meta property="og:description" content="头域​       每个头域由一个域名，冒号（:）和域值三部分组成。域名是大小写无关的，域值前可以添加任何数量的空格符，头域可以被扩展为多行，在每行开始处，使用至少一个空格或制表符。
-Host头域：指定请求资源的Intenet主机和端口号，必须表示请求url的原始服务器或网关的位置。HTTP/1.1请求必须包含主机头域，否则系统会以400状态码返回。">
-<meta property="og:image" content="https://luckylau.github.io/2018/04/08/深入理解http协议-1/1.jpg">
-<meta property="og:updated_time" content="2018-04-08T12:08:37.975Z">
+<meta property="og:description" content="Cookie与Session的机制">
+<meta property="og:updated_time" content="2018-04-10T01:58:08.236Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="深入理解http协议(1)">
-<meta name="twitter:description" content="头域​       每个头域由一个域名，冒号（:）和域值三部分组成。域名是大小写无关的，域值前可以添加任何数量的空格符，头域可以被扩展为多行，在每行开始处，使用至少一个空格或制表符。
-Host头域：指定请求资源的Intenet主机和端口号，必须表示请求url的原始服务器或网关的位置。HTTP/1.1请求必须包含主机头域，否则系统会以400状态码返回。">
-<meta name="twitter:image" content="https://luckylau.github.io/2018/04/08/深入理解http协议-1/1.jpg">
+<meta name="twitter:title" content="深入理解http协议(2)">
+<meta name="twitter:description" content="Cookie与Session的机制">
 
 
 
@@ -126,13 +121,13 @@ Host头域：指定请求资源的Intenet主机和端口号，必须表示请求
 
 
 
-  <link rel="canonical" href="https://luckylau.github.io/2018/04/08/深入理解http协议-1/"/>
+  <link rel="canonical" href="https://luckylau.github.io/2018/04/10/深入理解http协议-2/"/>
 
 
 
 
 
-  <title> 深入理解http协议(1) | Luckylau's Blog </title>
+  <title> 深入理解http协议(2) | Luckylau's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -288,7 +283,7 @@ Host头域：指定请求资源的Intenet主机和端口号，必须表示请求
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2018/04/08/深入理解http协议-1/">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2018/04/10/深入理解http协议-2/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Luckylau">
@@ -312,7 +307,7 @@ Host头域：指定请求资源的Intenet主机和端口号，必须表示请求
             
             
               
-                深入理解http协议(1)
+                深入理解http协议(2)
               
             
           </h1>
@@ -327,8 +322,8 @@ Host头域：指定请求资源的Intenet主机和端口号，必须表示请求
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-08T10:48:50+08:00">
-                2018-04-08
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-10T09:57:20+08:00">
+                2018-04-10
               </time>
             
 
@@ -390,14 +385,7 @@ Host头域：指定请求资源的Intenet主机和端口号，必须表示请求
       
 
       
-        <h3 id="头域"><a href="#头域" class="headerlink" title="头域"></a>头域</h3><p>​       每个头域由一个<strong>域名，冒号（:）和域值</strong>三部分组成。域名是大小写无关的，域值前可以添加任何数量的空格符，头域可以被扩展为多行，在每行开始处，使用至少一个空格或制表符。</p>
-<p>Host头域：指定请求资源的Intenet主机和端口号，必须表示请求url的原始服务器或网关的位置。HTTP/1.1请求必须包含主机头域，否则系统会以400状态码返回。</p>
-<p><img src="深入理解http协议-1/1.jpg" alt=""></p>
-<a id="more"></a>
-<p>User-Agent头域：包含发出请求的用户信息。</p>
-<p>Cache-Control头域：指定请求和响应遵循的缓存机制。在请求消息或响应消息中设置Cache-Control并不会修改另一个消息处理过程中的缓存处理过程。请求时的缓存指令包括no-cache、no-store、max-age、max-stale、min-fresh、only-if-cached，响应消息中的指令包括public、private、no-cache、no-store、no-transform、must-revalidate、proxy-revalidate、max-age。</p>
-<p>Date头域：表示消息发送的时间，缓存在评估响应的新鲜度时要用到，时间的描述格式由RFC822定义。</p>
-<h3 id="HTTP之请求消息Request"><a href="#HTTP之请求消息Request" class="headerlink" title="HTTP之请求消息Request"></a>HTTP之请求消息Request</h3><h3 id="HTTP之响应消息Response"><a href="#HTTP之响应消息Response" class="headerlink" title="HTTP之响应消息Response"></a>HTTP之响应消息Response</h3>
+        <h3 id="Cookie与Session的机制"><a href="#Cookie与Session的机制" class="headerlink" title="Cookie与Session的机制"></a>Cookie与Session的机制</h3>
       
     </div>
 
@@ -434,8 +422,8 @@ Host头域：指定请求资源的Intenet主机和端口号，必须表示请求
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/04/02/分布式服务框架原理-3/" rel="next" title="分布式服务框架原理(3)">
-                <i class="fa fa-chevron-left"></i> 分布式服务框架原理(3)
+              <a href="/2018/04/09/深入理解http协议-1/" rel="next" title="深入理解http协议(1)">
+                <i class="fa fa-chevron-left"></i> 深入理解http协议(1)
               </a>
             
           </div>
@@ -444,8 +432,8 @@ Host头域：指定请求资源的Intenet主机和端口号，必须表示请求
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/04/08/深入理解http协议-2/" rel="prev" title="深入理解http协议(2)">
-                深入理解http协议(2) <i class="fa fa-chevron-right"></i>
+              <a href="/2018/04/10/深入理解http协议-3/" rel="prev" title="深入理解http协议(3)">
+                深入理解http协议(3) <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -589,7 +577,7 @@ Host头域：指定请求资源的Intenet主机和端口号，必须表示请求
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#头域"><span class="nav-number">1.</span> <span class="nav-text">头域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP之请求消息Request"><span class="nav-number">2.</span> <span class="nav-text">HTTP之请求消息Request</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP之响应消息Response"><span class="nav-number">3.</span> <span class="nav-text">HTTP之响应消息Response</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Cookie与Session的机制"><span class="nav-number">1.</span> <span class="nav-text">Cookie与Session的机制</span></a></li></ol></div>
             
 
           </div>

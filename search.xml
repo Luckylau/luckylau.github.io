@@ -4,22 +4,22 @@
     
     <entry>
       <title><![CDATA[深入理解http协议(3)]]></title>
-      <url>%2F2018%2F04%2F08%2F%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3http%E5%8D%8F%E8%AE%AE-3%2F</url>
+      <url>%2F2018%2F04%2F10%2F%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3http%E5%8D%8F%E8%AE%AE-3%2F</url>
       <content type="text"><![CDATA[常见问题一次HTTP操作的流程？GET与POST方法有什么区别？http代理服务器的原理是什么?URI和URL的区别?]]></content>
     </entry>
 
     
     <entry>
       <title><![CDATA[深入理解http协议(2)]]></title>
-      <url>%2F2018%2F04%2F08%2F%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3http%E5%8D%8F%E8%AE%AE-2%2F</url>
+      <url>%2F2018%2F04%2F10%2F%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3http%E5%8D%8F%E8%AE%AE-2%2F</url>
       <content type="text"><![CDATA[Cookie与Session的机制]]></content>
     </entry>
 
     
     <entry>
       <title><![CDATA[深入理解http协议(1)]]></title>
-      <url>%2F2018%2F04%2F08%2F%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3http%E5%8D%8F%E8%AE%AE-1%2F</url>
-      <content type="text"><![CDATA[头域​ 每个头域由一个域名，冒号（:）和域值三部分组成。域名是大小写无关的，域值前可以添加任何数量的空格符，头域可以被扩展为多行，在每行开始处，使用至少一个空格或制表符。 Host头域：指定请求资源的Intenet主机和端口号，必须表示请求url的原始服务器或网关的位置。HTTP/1.1请求必须包含主机头域，否则系统会以400状态码返回。 User-Agent头域：包含发出请求的用户信息。 Cache-Control头域：指定请求和响应遵循的缓存机制。在请求消息或响应消息中设置Cache-Control并不会修改另一个消息处理过程中的缓存处理过程。请求时的缓存指令包括no-cache、no-store、max-age、max-stale、min-fresh、only-if-cached，响应消息中的指令包括public、private、no-cache、no-store、no-transform、must-revalidate、proxy-revalidate、max-age。 Date头域：表示消息发送的时间，缓存在评估响应的新鲜度时要用到，时间的描述格式由RFC822定义。 HTTP之请求消息RequestHTTP之响应消息Response]]></content>
+      <url>%2F2018%2F04%2F09%2F%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3http%E5%8D%8F%E8%AE%AE-1%2F</url>
+      <content type="text"><![CDATA[头域​ 每个头域由一个域名，冒号（:）和域值三部分组成。域名是大小写无关的，域值前可以添加任何数量的空格符，头域可以被扩展为多行，在每行开始处，使用至少一个空格或制表符。 Host头域：指定请求资源的Intenet主机和端口号，必须表示请求url的原始服务器或网关的位置。HTTP/1.1请求必须包含主机头域，否则系统会以400状态码返回。 User-Agent头域：包含发出请求的用户信息。 Cache-Control头域：指定请求和响应遵循的缓存机制。在请求消息或响应消息中设置Cache-Control并不会修改另一个消息处理过程中的缓存处理过程。请求时的缓存指令包括no-cache、no-store、max-age、max-stale、min-fresh、only-if-cached，响应消息中的指令包括public、private、no-cache、no-store、no-transform、must-revalidate、proxy-revalidate、max-age。 Date头域：表示消息发送的时间，缓存在评估响应的新鲜度时要用到，时间的描述格式由RFC822定义。 HTTP之请求消息Request请求行（request line）、请求头部（header）、空行和请求数据四个部分组成： HTTP之响应消息Response状态行、消息报头、空行和响应正文： HTTP之状态码1xx：指示信息–表示请求已接收，继续处理2xx：成功–表示请求已被成功接收、理解、接受3xx：重定向–要完成请求必须进行更进一步的操作4xx：客户端错误–请求有语法错误或请求无法实现5xx：服务器端错误–服务器未能实现合法的请求 状态码 含义 200 OK 客户端请求成功 400 Bad Request 客户端请求有语法错误，不能被服务器所理解 401 Unauthorized 请求未经授权，这个状态代码必须和WWW-Authenticate报头域一起使用 403 Forbidden 服务器收到请求，但是拒绝提供服务 404 Not Found 请求资源不存在，eg：输入了错误的URL 500 Internal Server Error 服务器发生不可预期的错误 503 Server Unavailable 服务器当前不能处理客户端的请求，一段时间后可能恢复正常]]></content>
     </entry>
 
     
