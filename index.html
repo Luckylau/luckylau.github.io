@@ -525,11 +525,16 @@
 
       
         
-          
-            <p>本章主要介绍Cookie与Session以及JWT，同时讨论如何安全进行会话跟踪。</p>
-<h3 id="什么是Cookie"><a href="#什么是Cookie" class="headerlink" title="什么是Cookie"></a>什么是Cookie</h3><h3 id="什么是Session"><a href="#什么是Session" class="headerlink" title="什么是Session"></a>什么是Session</h3><h3 id="Cookie与Session区别"><a href="#Cookie与Session区别" class="headerlink" title="Cookie与Session区别"></a>Cookie与Session区别</h3><h3 id="什么是JWT"><a href="#什么是JWT" class="headerlink" title="什么是JWT"></a>什么是JWT</h3><h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><h4 id="Cookie的应用"><a href="#Cookie的应用" class="headerlink" title="Cookie的应用"></a>Cookie的应用</h4><h5 id="安全Cookie"><a href="#安全Cookie" class="headerlink" title="安全Cookie"></a>安全Cookie</h5><h4 id="Session的应用"><a href="#Session的应用" class="headerlink" title="Session的应用"></a>Session的应用</h4><h5 id="Session-Cookie"><a href="#Session-Cookie" class="headerlink" title="Session+Cookie"></a>Session+Cookie</h5><h5 id="Session-URL地址重写"><a href="#Session-URL地址重写" class="headerlink" title="Session+URL地址重写"></a>Session+URL地址重写</h5><h4 id="JWT的应用"><a href="#JWT的应用" class="headerlink" title="JWT的应用"></a>JWT的应用</h4><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.cnblogs.com/andy-zhou/p/5360107.html" target="_blank" rel="external">https://www.cnblogs.com/andy-zhou/p/5360107.html</a></p>
-
-          
+          <p>本章主要介绍Cookie与Session以及JWT，同时讨论如何安全进行会话跟踪。</p>
+<h3 id="什么是Cookie"><a href="#什么是Cookie" class="headerlink" title="什么是Cookie"></a>什么是Cookie</h3><p>​       Http协议是无状态的，为了解决Http协议无法维持状态的问题，1994年网景通讯的一名员工 Lou Montulli将 “magic cookies” 的概念应用到 Web 通讯中。他试图解决 Web 的第一个购物车应用，现在购物车成了购物网站的支柱。他的原始说明文档提供了 cookie 工作原理的基本信息，该文档后来被作为规范纳入到 RFC 2109（大多数浏览器的实现参考文档）中，最终被纳入到 RFC 2965 中。Montulli 也被授予 cookie 的美国专利。网景浏览器在它的第一个版本中就开始支持 cookie，现在所有 Web 浏览器都支持 cookie。</p>
+<p>​        Java中把Cookie封装成了javax.servlet.http.Cookie类。每个Cookie都是该Cookie类的对象。服务器通过操作Cookie类对象对客户端Cookie进行操作。通过request.getCookie()获取客户端提交的所有Cookie（以Cookie[]数组形式返回），通过response.addCookie(Cookie cookie)向客户端设置Cookie。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/04/10/深入理解http协议-2/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
