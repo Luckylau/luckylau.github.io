@@ -84,16 +84,51 @@
 
 
 
-<meta name="description" content="常见问题一次HTTP操作的流程？GET与POST方法有什么区别？http代理服务器的原理是什么?URI和URL的区别?Cookie的过期和Session的超时有什么区别？Session cookie和Session对象的生命周期是一样的吗?是否只要关闭浏览器，session就消失了?">
+<meta name="description" content="常见问题一次HTTP操作的流程？域名解析 –&amp;gt; 发起TCP的3次握手 –&amp;gt; 建立TCP连接后发起http请求 –&amp;gt; 服务器响应http请求，浏览器得到html代码 –&amp;gt; 浏览器解析html代码，并请求html代码中的资源（如js、css、图片等） –&amp;gt; 浏览器对页面进行渲染呈现给用户。
+GET与POST方法有什么区别？
+
+
+方法
+GET
+POST
+
+
+
+
+后退按钮/刷">
 <meta property="og:type" content="article">
 <meta property="og:title" content="深入理解http协议(3)">
 <meta property="og:url" content="https://luckylau.github.io/2018/04/10/深入理解http协议-3/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
-<meta property="og:description" content="常见问题一次HTTP操作的流程？GET与POST方法有什么区别？http代理服务器的原理是什么?URI和URL的区别?Cookie的过期和Session的超时有什么区别？Session cookie和Session对象的生命周期是一样的吗?是否只要关闭浏览器，session就消失了?">
-<meta property="og:updated_time" content="2018-04-14T11:27:01.365Z">
+<meta property="og:description" content="常见问题一次HTTP操作的流程？域名解析 –&amp;gt; 发起TCP的3次握手 –&amp;gt; 建立TCP连接后发起http请求 –&amp;gt; 服务器响应http请求，浏览器得到html代码 –&amp;gt; 浏览器解析html代码，并请求html代码中的资源（如js、css、图片等） –&amp;gt; 浏览器对页面进行渲染呈现给用户。
+GET与POST方法有什么区别？
+
+
+方法
+GET
+POST
+
+
+
+
+后退按钮/刷">
+<meta property="og:image" content="https://luckylau.github.io/2018/04/10/深入理解http协议-3/1.jpg">
+<meta property="og:updated_time" content="2018-04-15T01:53:39.960Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深入理解http协议(3)">
-<meta name="twitter:description" content="常见问题一次HTTP操作的流程？GET与POST方法有什么区别？http代理服务器的原理是什么?URI和URL的区别?Cookie的过期和Session的超时有什么区别？Session cookie和Session对象的生命周期是一样的吗?是否只要关闭浏览器，session就消失了?">
+<meta name="twitter:description" content="常见问题一次HTTP操作的流程？域名解析 –&amp;gt; 发起TCP的3次握手 –&amp;gt; 建立TCP连接后发起http请求 –&amp;gt; 服务器响应http请求，浏览器得到html代码 –&amp;gt; 浏览器解析html代码，并请求html代码中的资源（如js、css、图片等） –&amp;gt; 浏览器对页面进行渲染呈现给用户。
+GET与POST方法有什么区别？
+
+
+方法
+GET
+POST
+
+
+
+
+后退按钮/刷">
+<meta name="twitter:image" content="https://luckylau.github.io/2018/04/10/深入理解http协议-3/1.jpg">
 
 
 
@@ -385,7 +420,82 @@
       
 
       
-        <h3 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h3><h4 id="一次HTTP操作的流程？"><a href="#一次HTTP操作的流程？" class="headerlink" title="一次HTTP操作的流程？"></a>一次HTTP操作的流程？</h4><h4 id="GET与POST方法有什么区别？"><a href="#GET与POST方法有什么区别？" class="headerlink" title="GET与POST方法有什么区别？"></a>GET与POST方法有什么区别？</h4><h4 id="http代理服务器的原理是什么"><a href="#http代理服务器的原理是什么" class="headerlink" title="http代理服务器的原理是什么?"></a>http代理服务器的原理是什么?</h4><h4 id="URI和URL的区别"><a href="#URI和URL的区别" class="headerlink" title="URI和URL的区别?"></a>URI和URL的区别?</h4><h4 id="Cookie的过期和Session的超时有什么区别？"><a href="#Cookie的过期和Session的超时有什么区别？" class="headerlink" title="Cookie的过期和Session的超时有什么区别？"></a>Cookie的过期和Session的超时有什么区别？</h4><h4 id="Session-cookie和Session对象的生命周期是一样的吗"><a href="#Session-cookie和Session对象的生命周期是一样的吗" class="headerlink" title="Session cookie和Session对象的生命周期是一样的吗?"></a>Session cookie和Session对象的生命周期是一样的吗?</h4><h4 id="是否只要关闭浏览器，session就消失了"><a href="#是否只要关闭浏览器，session就消失了" class="headerlink" title="是否只要关闭浏览器，session就消失了?"></a>是否只要关闭浏览器，session就消失了?</h4>
+        <h3 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h3><h4 id="一次HTTP操作的流程？"><a href="#一次HTTP操作的流程？" class="headerlink" title="一次HTTP操作的流程？"></a>一次HTTP操作的流程？</h4><p>域名解析 –&gt; 发起TCP的3次握手 –&gt; 建立TCP连接后发起http请求 –&gt; 服务器响应http请求，浏览器得到html代码 –&gt; 浏览器解析html代码，并请求html代码中的资源（如js、css、图片等） –&gt; 浏览器对页面进行渲染呈现给用户。</p>
+<h4 id="GET与POST方法有什么区别？"><a href="#GET与POST方法有什么区别？" class="headerlink" title="GET与POST方法有什么区别？"></a>GET与POST方法有什么区别？</h4><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>GET</th>
+<th>POST</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>后退按钮/刷新</td>
+<td>无害</td>
+<td>数据会被重新提交（浏览器应该告知用户数据会被重新提交）。</td>
+</tr>
+<tr>
+<td>书签</td>
+<td>可收藏为书签</td>
+<td>不可收藏为书签</td>
+</tr>
+<tr>
+<td>缓存</td>
+<td>能被缓存</td>
+<td>不能缓存</td>
+</tr>
+<tr>
+<td>编码类型</td>
+<td>application/x-www-form-urlencoded</td>
+<td>application/x-www-form-urlencoded 或 multipart/form-data。为二进制数据使用多重编码。</td>
+</tr>
+<tr>
+<td>历史</td>
+<td>参数保留在浏览器历史中。</td>
+<td>参数不会保存在浏览器历史中。</td>
+</tr>
+<tr>
+<td>对数据长度的限制</td>
+<td>是的。当发送数据时，GET 方法向 URL 添加数据；URL 的长度是受限制的（URL 的最大长度是 2048 个字符）。</td>
+<td>无限制。</td>
+</tr>
+<tr>
+<td>对数据类型的限制</td>
+<td>只允许 ASCII 字符。</td>
+<td>没有限制。也允许二进制数据。</td>
+</tr>
+<tr>
+<td>安全性</td>
+<td>与 POST 相比，GET 的安全性较差，因为所发送的数据是 URL 的一部分。在发送密码或其他敏感信息时绝不要使用 GET ！</td>
+<td>POST 比 GET 更安全，因为参数不会被保存在浏览器历史或 web 服务器日志中。</td>
+</tr>
+<tr>
+<td>可见性</td>
+<td>数据在 URL 中对所有人都是可见的。</td>
+<td>数据不会显示在 URL 中。</td>
+</tr>
+</tbody>
+</table>
+<a id="more"></a>
+<p>另外从RFC协议的角度分析：</p>
+<p>GET的语义是请求获取指定的资源。GET方法是安全、幂等、可缓存的（除非有 Cache-Control Header的约束）,GET方法的报文主体没有任何语义。</p>
+<p>POST的语义是根据请求负荷（报文主体）对指定的资源做出处理，具体的处理方式视资源类型而不同。POST不安全，不幂等，（大部分实现）不可缓存。</p>
+<p>注意理解这里面的安全，幂等，可缓存：</p>
+<p>Safe - 安全<br>这里的「安全」和通常理解的「安全」意义不同，如果一个方法的语义在本质上是「只读」的，那么这个方法就是安全的。客户端向服务端的资源发起的请求如果使用了是安全的方法，就不应该引起服务端任何的状态变化，因此也是无害的。 此RFC定义，GET, HEAD, OPTIONS 和 TRACE 这几个方法是安全的。<br>但是这个定义只是规范，并不能保证方法的实现也是安全的，服务端的实现可能会不符合方法语义，正如上文说过的使用GET修改用户信息的情况。<br>引入安全这个概念的目的是为了方便网络爬虫和缓存，以免调用或者缓存某些不安全方法时引起某些意外的后果。User Agent（浏览器）应该在执行安全和不安全方法时做出区分对待，并给用户以提示。<br>Idempotent - 幂等<br>幂等的概念是指同一个请求方法执行多次和仅执行一次的效果完全相同。按照RFC规范，PUT，DELETE和安全方法都是幂等的。同样，这也仅仅是规范，服务端实现是否幂等是无法确保的。<br>引入幂等主要是为了处理同一个请求重复发送的情况，比如在请求响应前失去连接，如果方法是幂等的，就可以放心地重发一次请求。这也是浏览器在后退/刷新时遇到POST会给用户提示的原因：POST语义不是幂等的，重复请求可能会带来意想不到的后果。<br>Cacheable - 可缓存性 顾名思义就是一个方法是否可以被缓存，此RFC里GET，HEAD和某些情况下的POST都是可缓存的，但是绝大多数的浏览器的实现里仅仅支持GET和HEAD。关于缓存的更多内容可以去看RFC7234。</p>
+<p>在这三个特性里一直在强调同一个事情，那就是协议不等于实现：协议规定安全在实现里不一定安全，协议规定幂等在实现里不一定幂等，协议规定可缓存在实现里不一定可缓存。</p>
+<h4 id="URI、URL和URN的区别"><a href="#URI、URL和URN的区别" class="headerlink" title="URI、URL和URN的区别?"></a>URI、URL和URN的区别?</h4><p>这三个缩略词是Tim Berners-Lee在一篇名为RFC 3986: Uniform Resource Identifier (URI): Generic Syntax的文档中定义的互联网标准追踪协议。</p>
+<p>URI：Uniform Resource Identifier，即统一资源标志符，用来唯一的标识一个资源。</p>
+<p>URL：Uniform Resource Locator，统一资源定位符。即URL可以用来标识一个资源，而且还指明了如何locate这个资源。</p>
+<p>URN：Uniform Resource Name，统一资源命名。即通过名字来表示资源的。</p>
+<p><strong>URL和URN都是URI的子集。</strong></p>
+<p><img src="/2018/04/10/深入理解http协议-3/1.jpg" alt=""></p>
+<h4 id="Session-cookie和Session对象的生命周期是一样的吗"><a href="#Session-cookie和Session对象的生命周期是一样的吗" class="headerlink" title="Session cookie和Session对象的生命周期是一样的吗?"></a>Session cookie和Session对象的生命周期是一样的吗?</h4><p>当用户关闭了浏览器虽然session cookie已经消失，但session对象仍然保存在服务器端，直到其失效时间。</p>
+<h4 id="是否只要关闭浏览器，session就消失了"><a href="#是否只要关闭浏览器，session就消失了" class="headerlink" title="是否只要关闭浏览器，session就消失了?"></a>是否只要关闭浏览器，session就消失了?</h4><p>​        程序一般都是在用户做log off的时候发个指令去删除session，然而浏览器从来不会主动在关闭之前通知服务器它将要被关闭，因此服务器根本不会有机会知道浏览器已经关闭。服务器会一直保留这个会话对象直到它处于非活动状态超过设定的间隔为止。大部分session机制都使用会话cookie来保存session id，而关闭浏览器后这个session id就消失了，再次连接到服务器时也就无法找到原来的session。如果服务器设置的cookie被保存到硬盘上，或者使用某种手段改写浏览器发出的 HTTP请求报头，把原来的session id发送到服务器，则再次打开浏览器仍然能够找到原来的session。恰恰是由于关闭浏览器不会导致session被删除，迫使服务器为session 设置了一个失效时间，当距离客户上一次使用session的时间超过了这个失效时间时，服务器就可以认为客户端已经停止了活动，才会把session删除以节省存储空间。</p>
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p><a href="https://blog.csdn.net/laven90/article/details/43731301" target="_blank" rel="external">https://blog.csdn.net/laven90/article/details/43731301</a></p>
+<p><a href="https://sunshinevvv.coding.me/blog/2017/02/09/HttpGETv.s.POST/" target="_blank" rel="external">https://sunshinevvv.coding.me/blog/2017/02/09/HttpGETv.s.POST/</a></p>
+<p><a href="https://www.cnblogs.com/tgwang/p/5170480.html" target="_blank" rel="external">https://www.cnblogs.com/tgwang/p/5170480.html</a></p>
+
       
     </div>
 
@@ -573,7 +683,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#常见问题"><span class="nav-number">1.</span> <span class="nav-text">常见问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一次HTTP操作的流程？"><span class="nav-number">1.1.</span> <span class="nav-text">一次HTTP操作的流程？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GET与POST方法有什么区别？"><span class="nav-number">1.2.</span> <span class="nav-text">GET与POST方法有什么区别？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#http代理服务器的原理是什么"><span class="nav-number">1.3.</span> <span class="nav-text">http代理服务器的原理是什么?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#URI和URL的区别"><span class="nav-number">1.4.</span> <span class="nav-text">URI和URL的区别?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Cookie的过期和Session的超时有什么区别？"><span class="nav-number">1.5.</span> <span class="nav-text">Cookie的过期和Session的超时有什么区别？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Session-cookie和Session对象的生命周期是一样的吗"><span class="nav-number">1.6.</span> <span class="nav-text">Session cookie和Session对象的生命周期是一样的吗?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#是否只要关闭浏览器，session就消失了"><span class="nav-number">1.7.</span> <span class="nav-text">是否只要关闭浏览器，session就消失了?</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#常见问题"><span class="nav-number">1.</span> <span class="nav-text">常见问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一次HTTP操作的流程？"><span class="nav-number">1.1.</span> <span class="nav-text">一次HTTP操作的流程？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GET与POST方法有什么区别？"><span class="nav-number">1.2.</span> <span class="nav-text">GET与POST方法有什么区别？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#URI、URL和URN的区别"><span class="nav-number">1.3.</span> <span class="nav-text">URI、URL和URN的区别?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Session-cookie和Session对象的生命周期是一样的吗"><span class="nav-number">1.4.</span> <span class="nav-text">Session cookie和Session对象的生命周期是一样的吗?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#是否只要关闭浏览器，session就消失了"><span class="nav-number">1.5.</span> <span class="nav-text">是否只要关闭浏览器，session就消失了?</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考："><span class="nav-number">2.</span> <span class="nav-text">参考：</span></a></li></ol></div>
             
 
           </div>

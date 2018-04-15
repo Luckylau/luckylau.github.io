@@ -92,7 +92,7 @@
 <meta property="og:site_name" content="Luckylau's Blog">
 <meta property="og:description" content="本章主要介绍Cookie与Session以及JWT，同时讨论如何安全进行会话跟踪。
 什么是Cookie​       Http协议是无状态的，为了解决Http协议无法维持状态的问题，1994年网景通讯的一名员工 Lou Montulli将 “magic cookies” 的概念应用到 Web 通讯中。他试图解决 Web 的第一个购物车应用，现在购物车成了购物网站的支柱。他的原始说明文档提供了 co">
-<meta property="og:updated_time" content="2018-04-14T11:24:52.526Z">
+<meta property="og:updated_time" content="2018-04-15T01:04:55.403Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深入理解http协议(2)">
 <meta name="twitter:description" content="本章主要介绍Cookie与Session以及JWT，同时讨论如何安全进行会话跟踪。
@@ -406,7 +406,12 @@
 <p>​        首先用户发出登录请求，服务端根据用户的登录请求进行匹配，如果匹配成功，将相关的信息放入payload中，利用上述算法，加上服务端的密钥生成token，这里需要注意的是secret_key很重要，如果这个泄露的话，客户端就可以随意篡改发送的额外信息，它是信息完整性的保证。生成token后服务端将其返回给客户端，客户端可以在下次请求时，将token一起交给服务端，一般来说我们可以将其放在Authorization首部中，这样也就可以避免跨域问题。接下来，服务端根据token进行信息解析，再根据用户信息作出相应的操作。</p>
 <h3 id="Cookie、Session和JWT区别与联系"><a href="#Cookie、Session和JWT区别与联系" class="headerlink" title="Cookie、Session和JWT区别与联系"></a>Cookie、Session和JWT区别与联系</h3><p>​        cookie的信息是存在客户端浏览器的，不需要维护状态，但是使用cookies时，在多个域名下，会存在跨域问题，同时一般浏览器对cookie数量和大小都有限制；session的信息存在服务端，需要维护状态，当高并发时候会影响服务器的性能, 当有多台机器时，如何共享session也会是一个问题。一般Session机制实现会借助与Cookie传递SessionId。JWT采用token机制，解决http无状态问题的，目前也并不会完全替代Cookie、Session机制。因为它自身也存在一些问题，比如登录状态信息续签问题，比如设置token的有效期为一个小时，那么一个小时后，如果用户仍然在这个web应用上，这个时候当然不能指望用户再登录一次。目前可用的解决办法是在每次用户发出请求都返回一个新的token，前端再用这个新的token来替代旧的，这样每一次请求都会刷新token的有效期。但是这样，需要频繁的生成token；用户主动注销。JWT并不支持用户主动退出登录，当然，可以在客户端删除这个token，但在别处使用的token仍然可以正常访问。所以JWT天然的适合在一定时间内操作，否则链接失效的场景，比如邮箱注册验证链接等。</p>
 <h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><h4 id="Cookie的应用"><a href="#Cookie的应用" class="headerlink" title="Cookie的应用"></a>Cookie的应用</h4><p>​        判断用户是否登陆过网站，以便下次登录时能够实现自动登录（或者记住密码）。如果我们删除cookie，则每次登录必须从新填写登录的相关信息；保存上次登录的时间等信息；保存上次查看的页面；浏览计数；</p>
-<h4 id="Session的应用"><a href="#Session的应用" class="headerlink" title="Session的应用"></a>Session的应用</h4><h5 id="Session-Cookie"><a href="#Session-Cookie" class="headerlink" title="Session+Cookie"></a>Session+Cookie</h5><h5 id="Session-URL地址重写"><a href="#Session-URL地址重写" class="headerlink" title="Session+URL地址重写"></a>Session+URL地址重写</h5><h5 id="Session-隐藏的表单域"><a href="#Session-隐藏的表单域" class="headerlink" title="Session+隐藏的表单域"></a>Session+隐藏的表单域</h5><h4 id="JWT的应用"><a href="#JWT的应用" class="headerlink" title="JWT的应用"></a>JWT的应用</h4><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.cnblogs.com/andy-zhou/p/5360107.html" target="_blank" rel="external">https://www.cnblogs.com/andy-zhou/p/5360107.html</a></p>
+<h4 id="Session的应用"><a href="#Session的应用" class="headerlink" title="Session的应用"></a>Session的应用</h4><h5 id="Session-Cookie"><a href="#Session-Cookie" class="headerlink" title="Session+Cookie"></a>Session+Cookie</h5><p>​         虽然Session保存在服务器，对客户端是透明的，它的正常运行仍然需要客户端浏览器的支持。这是因为Session需要使用Cookie作为识别标志。HTTP协议是无状态的，Session不能依据HTTP连接来判断是否为同一客户，因此服务器向客户端浏览器发送一个名为JSESSIONID的Cookie，它的值为该Session的id（也就是HttpSession.getId()的返回值）。Session依据该Cookie来识别是否为同一用户。该Cookie为服务器自动生成的，它的maxAge属性一般为–1，表示仅当前浏览器内有效，并且各浏览器窗口间不共享，关闭浏览器就会失效。</p>
+<p>​       同一机器的两个浏览器窗口访问服务器时，会生成两个不同的Session。但是由浏览器窗口内的链接、脚本等打开的新窗口（也就是说不是双击桌面浏览器图标等打开的窗口）除外。这类子窗口会共享父窗口的Cookie，因此会共享一个Session。注意：新开的浏览器窗口会生成新的Session，但子窗口除外。子窗口会共用父窗口的Session。例如，在链接上右击，在弹出的快捷菜单中选择“在新窗口中打开”时，子窗口便可以访问父窗口的Session。</p>
+<h5 id="Session-URL地址重写"><a href="#Session-URL地址重写" class="headerlink" title="Session+URL地址重写"></a>Session+URL地址重写</h5><p>URL地址重写是对客户端不支持Cookie的解决方案。URL地址重写的原理是将该用户Session的id信息重写到URL地址中。服务器能够解析重写后的URL获取Session的id。这样即使客户端不支持Cookie，也可以使用Session来记录用户状态。HttpServletResponse类提供了encodeURL(Stringurl)实现URL地址重写。</p>
+<h5 id="Session-隐藏的表单域"><a href="#Session-隐藏的表单域" class="headerlink" title="Session+隐藏的表单域"></a>Session+隐藏的表单域</h5><p>隐藏的表单域是一种最简单的方式，将字段隐藏在HTML表单中，但不在客户端显示。比如在第一张页面中输入用户名和密码登陆，服务器生成响应返回第二张页面。当第二张页面提交时可能仍然需要知道来自第一张页面中的用户名。那么就可以通过隐藏表单域来实现这一连续的过程。当第一张页面提交后，服务器端作出响应返回第二张页面，此页面中用隐藏域记录了来自登陆时的用户名。通俗说就是当服务器回发给客户端的响应中，就同时把用户名再次回发到客户端，用隐藏域隐藏起来，是不可见的。当第二张页面提交时，此隐藏域中的用户名一并随表单提交。这样服务器就仍然可以判断此用户是否与以前的用户相同。于是，再次处理完结果后继续将响应回发给客户端，且此响应中也仍然包含了用户名，在客户端中仍然用隐藏域将这一信息隐藏。这样就完成了一个连续请求的动作，但是对于用户，这是不可见的。</p>
+<h4 id="JWT的应用"><a href="#JWT的应用" class="headerlink" title="JWT的应用"></a>JWT的应用</h4><p>用于设计用户认证和授权系统，甚至实现Web应用的单点登录，多web服务器下实现无状态分布式身份验证等。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.cnblogs.com/andy-zhou/p/5360107.html" target="_blank" rel="external">https://www.cnblogs.com/andy-zhou/p/5360107.html</a></p>
 <p><a href="https://www.zhihu.com/question/19786827" target="_blank" rel="external">https://www.zhihu.com/question/19786827</a></p>
 <p><a href="https://blog.csdn.net/yunnysunny/article/details/26935637" target="_blank" rel="external">https://blog.csdn.net/yunnysunny/article/details/26935637</a></p>
 <p><a href="https://blog.csdn.net/webwalker/article/details/707927" target="_blank" rel="external">https://blog.csdn.net/webwalker/article/details/707927</a></p>
@@ -415,6 +420,7 @@
 <p><a href="https://www.jianshu.com/p/ecd455e1c7cd" target="_blank" rel="external">https://www.jianshu.com/p/ecd455e1c7cd</a></p>
 <p><a href="https://www.cnblogs.com/cencenyue/p/7604651.html" target="_blank" rel="external">https://www.cnblogs.com/cencenyue/p/7604651.html</a></p>
 <p><a href="https://blog.csdn.net/u011145904/article/details/77745777" target="_blank" rel="external">https://blog.csdn.net/u011145904/article/details/77745777</a></p>
+<p><a href="https://www.jianshu.com/p/fcc1a6482143?from=timeline" target="_blank" rel="external">https://www.jianshu.com/p/fcc1a6482143?from=timeline</a></p>
 
       
     </div>
