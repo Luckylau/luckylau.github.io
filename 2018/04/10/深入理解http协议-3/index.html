@@ -84,50 +84,17 @@
 
 
 
-<meta name="description" content="常见问题一次HTTP操作的流程？域名解析 –&amp;gt; 发起TCP的3次握手 –&amp;gt; 建立TCP连接后发起http请求 –&amp;gt; 服务器响应http请求，浏览器得到html代码 –&amp;gt; 浏览器解析html代码，并请求html代码中的资源（如js、css、图片等） –&amp;gt; 浏览器对页面进行渲染呈现给用户。
-GET与POST方法有什么区别？
-
-
-方法
-GET
-POST
-
-
-
-
-后退按钮/刷">
+<meta name="description" content="常见问题一次HTTP操作的流程？域名解析 –&amp;gt; 发起TCP的3次握手 –&amp;gt; 建立TCP连接后发起http请求 –&amp;gt; 服务器响应http请求，浏览器得到html代码 –&amp;gt; 浏览器解析html代码，并请求html代码中的资源（如js、css、图片等） –&amp;gt; 浏览器对页面进行渲染呈现给用户。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="深入理解http协议(3)">
 <meta property="og:url" content="https://luckylau.github.io/2018/04/10/深入理解http协议-3/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
-<meta property="og:description" content="常见问题一次HTTP操作的流程？域名解析 –&amp;gt; 发起TCP的3次握手 –&amp;gt; 建立TCP连接后发起http请求 –&amp;gt; 服务器响应http请求，浏览器得到html代码 –&amp;gt; 浏览器解析html代码，并请求html代码中的资源（如js、css、图片等） –&amp;gt; 浏览器对页面进行渲染呈现给用户。
-GET与POST方法有什么区别？
-
-
-方法
-GET
-POST
-
-
-
-
-后退按钮/刷">
+<meta property="og:description" content="常见问题一次HTTP操作的流程？域名解析 –&amp;gt; 发起TCP的3次握手 –&amp;gt; 建立TCP连接后发起http请求 –&amp;gt; 服务器响应http请求，浏览器得到html代码 –&amp;gt; 浏览器解析html代码，并请求html代码中的资源（如js、css、图片等） –&amp;gt; 浏览器对页面进行渲染呈现给用户。">
 <meta property="og:image" content="https://luckylau.github.io/2018/04/10/深入理解http协议-3/1.jpg">
-<meta property="og:updated_time" content="2018-04-15T01:53:39.960Z">
+<meta property="og:updated_time" content="2018-04-18T06:02:46.440Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深入理解http协议(3)">
-<meta name="twitter:description" content="常见问题一次HTTP操作的流程？域名解析 –&amp;gt; 发起TCP的3次握手 –&amp;gt; 建立TCP连接后发起http请求 –&amp;gt; 服务器响应http请求，浏览器得到html代码 –&amp;gt; 浏览器解析html代码，并请求html代码中的资源（如js、css、图片等） –&amp;gt; 浏览器对页面进行渲染呈现给用户。
-GET与POST方法有什么区别？
-
-
-方法
-GET
-POST
-
-
-
-
-后退按钮/刷">
+<meta name="twitter:description" content="常见问题一次HTTP操作的流程？域名解析 –&amp;gt; 发起TCP的3次握手 –&amp;gt; 建立TCP连接后发起http请求 –&amp;gt; 服务器响应http请求，浏览器得到html代码 –&amp;gt; 浏览器解析html代码，并请求html代码中的资源（如js、css、图片等） –&amp;gt; 浏览器对页面进行渲染呈现给用户。">
 <meta name="twitter:image" content="https://luckylau.github.io/2018/04/10/深入理解http协议-3/1.jpg">
 
 
@@ -421,6 +388,7 @@ POST
 
       
         <h3 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h3><h4 id="一次HTTP操作的流程？"><a href="#一次HTTP操作的流程？" class="headerlink" title="一次HTTP操作的流程？"></a>一次HTTP操作的流程？</h4><p>域名解析 –&gt; 发起TCP的3次握手 –&gt; 建立TCP连接后发起http请求 –&gt; 服务器响应http请求，浏览器得到html代码 –&gt; 浏览器解析html代码，并请求html代码中的资源（如js、css、图片等） –&gt; 浏览器对页面进行渲染呈现给用户。</p>
+<a id="more"></a>
 <h4 id="GET与POST方法有什么区别？"><a href="#GET与POST方法有什么区别？" class="headerlink" title="GET与POST方法有什么区别？"></a>GET与POST方法有什么区别？</h4><table>
 <thead>
 <tr>
@@ -477,7 +445,6 @@ POST
 </tr>
 </tbody>
 </table>
-<a id="more"></a>
 <p>另外从RFC协议的角度分析：</p>
 <p>GET的语义是请求获取指定的资源。GET方法是安全、幂等、可缓存的（除非有 Cache-Control Header的约束）,GET方法的报文主体没有任何语义。</p>
 <p>POST的语义是根据请求负荷（报文主体）对指定的资源做出处理，具体的处理方式视资源类型而不同。POST不安全，不幂等，（大部分实现）不可缓存。</p>

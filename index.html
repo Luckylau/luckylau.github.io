@@ -526,62 +526,6 @@
       
         
           <h3 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h3><h4 id="一次HTTP操作的流程？"><a href="#一次HTTP操作的流程？" class="headerlink" title="一次HTTP操作的流程？"></a>一次HTTP操作的流程？</h4><p>域名解析 –&gt; 发起TCP的3次握手 –&gt; 建立TCP连接后发起http请求 –&gt; 服务器响应http请求，浏览器得到html代码 –&gt; 浏览器解析html代码，并请求html代码中的资源（如js、css、图片等） –&gt; 浏览器对页面进行渲染呈现给用户。</p>
-<h4 id="GET与POST方法有什么区别？"><a href="#GET与POST方法有什么区别？" class="headerlink" title="GET与POST方法有什么区别？"></a>GET与POST方法有什么区别？</h4><table>
-<thead>
-<tr>
-<th>方法</th>
-<th>GET</th>
-<th>POST</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>后退按钮/刷新</td>
-<td>无害</td>
-<td>数据会被重新提交（浏览器应该告知用户数据会被重新提交）。</td>
-</tr>
-<tr>
-<td>书签</td>
-<td>可收藏为书签</td>
-<td>不可收藏为书签</td>
-</tr>
-<tr>
-<td>缓存</td>
-<td>能被缓存</td>
-<td>不能缓存</td>
-</tr>
-<tr>
-<td>编码类型</td>
-<td>application/x-www-form-urlencoded</td>
-<td>application/x-www-form-urlencoded 或 multipart/form-data。为二进制数据使用多重编码。</td>
-</tr>
-<tr>
-<td>历史</td>
-<td>参数保留在浏览器历史中。</td>
-<td>参数不会保存在浏览器历史中。</td>
-</tr>
-<tr>
-<td>对数据长度的限制</td>
-<td>是的。当发送数据时，GET 方法向 URL 添加数据；URL 的长度是受限制的（URL 的最大长度是 2048 个字符）。</td>
-<td>无限制。</td>
-</tr>
-<tr>
-<td>对数据类型的限制</td>
-<td>只允许 ASCII 字符。</td>
-<td>没有限制。也允许二进制数据。</td>
-</tr>
-<tr>
-<td>安全性</td>
-<td>与 POST 相比，GET 的安全性较差，因为所发送的数据是 URL 的一部分。在发送密码或其他敏感信息时绝不要使用 GET ！</td>
-<td>POST 比 GET 更安全，因为参数不会被保存在浏览器历史或 web 服务器日志中。</td>
-</tr>
-<tr>
-<td>可见性</td>
-<td>数据在 URL 中对所有人都是可见的。</td>
-<td>数据不会显示在 URL 中。</td>
-</tr>
-</tbody>
-</table>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/04/10/深入理解http协议-3/#more" rel="contents">
