@@ -85,19 +85,23 @@
 
 
 <meta name="description" content="​        分布式服务框架不仅仅是RPC框架的调用，还涉及其他的基础设施来支持分布式管理，服务自动发现和服务治理等。之前研究了Dubbo的原理和机制，再回头看李林峰大神对分布式服务框架原理与实践的分析，顿时豁然开朗，之后我会根据《分布式服务框架原理与实践》这本书以及自己的见解，持续更新分布式服务框架的博客。
-分布式服务框架总体设计">
+分布式服务框架总体设计架构特性">
 <meta property="og:type" content="article">
 <meta property="og:title" content="分布式服务框架原理(1)">
 <meta property="og:url" content="https://luckylau.github.io/2018/03/26/分布式服务框架原理-1/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
 <meta property="og:description" content="​        分布式服务框架不仅仅是RPC框架的调用，还涉及其他的基础设施来支持分布式管理，服务自动发现和服务治理等。之前研究了Dubbo的原理和机制，再回头看李林峰大神对分布式服务框架原理与实践的分析，顿时豁然开朗，之后我会根据《分布式服务框架原理与实践》这本书以及自己的见解，持续更新分布式服务框架的博客。
-分布式服务框架总体设计">
+分布式服务框架总体设计架构特性">
 <meta property="og:image" content="https://luckylau.github.io/2018/03/26/分布式服务框架原理-1/1.png">
-<meta property="og:updated_time" content="2018-04-18T02:14:51.668Z">
+<meta property="og:image" content="https://luckylau.github.io/2018/03/26/分布式服务框架原理-1/2.png">
+<meta property="og:image" content="https://luckylau.github.io/2018/03/26/分布式服务框架原理-1/3.png">
+<meta property="og:image" content="https://luckylau.github.io/2018/03/26/分布式服务框架原理-1/4.png">
+<meta property="og:image" content="https://luckylau.github.io/2018/03/26/分布式服务框架原理-1/5.png">
+<meta property="og:updated_time" content="2018-04-18T05:52:31.164Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="分布式服务框架原理(1)">
 <meta name="twitter:description" content="​        分布式服务框架不仅仅是RPC框架的调用，还涉及其他的基础设施来支持分布式管理，服务自动发现和服务治理等。之前研究了Dubbo的原理和机制，再回头看李林峰大神对分布式服务框架原理与实践的分析，顿时豁然开朗，之后我会根据《分布式服务框架原理与实践》这本书以及自己的见解，持续更新分布式服务框架的博客。
-分布式服务框架总体设计">
+分布式服务框架总体设计架构特性">
 <meta name="twitter:image" content="https://luckylau.github.io/2018/03/26/分布式服务框架原理-1/1.png">
 
 
@@ -391,8 +395,15 @@
 
       
         <p>​        分布式服务框架不仅仅是RPC框架的调用，还涉及其他的基础设施来支持分布式管理，服务自动发现和服务治理等。之前研究了<a href="http://luckylau.tech/tags/Dubbo/" target="_blank" rel="external">Dubbo的原理和机制</a>，再回头看李林峰大神对分布式服务框架原理与实践的分析，顿时豁然开朗，之后我会根据《分布式服务框架原理与实践》这本书以及自己的见解，持续更新分布式服务框架的博客。</p>
-<h3 id="分布式服务框架总体设计"><a href="#分布式服务框架总体设计" class="headerlink" title="分布式服务框架总体设计"></a>分布式服务框架总体设计</h3><p><img src="/2018/03/26/分布式服务框架原理-1/1.png" alt=""></p>
+<h3 id="分布式服务框架总体设计"><a href="#分布式服务框架总体设计" class="headerlink" title="分布式服务框架总体设计"></a>分布式服务框架总体设计</h3><h4 id="架构特性"><a href="#架构特性" class="headerlink" title="架构特性"></a>架构特性</h4><p><img src="/2018/03/26/分布式服务框架原理-1/1.png" alt=""></p>
 <a id="more"></a>
+<p><strong>RPC层：</strong>包括底层通信框架(例如NIO框架的封装、公有协议的封装等)、序列化和反序列化框架、用于屏蔽底通信协议细节和序列化方式差异的Remoting框架。</p>
+<p><strong>Filter Chain 层：</strong>服务调用职责链,提供多种服务调用切面框架自身和使用者扩展,如负载均衡、服务调用性能统计、服务调用完成通知机制、失败重发等。</p>
+<p><strong>Service层：</strong>主要包括java动态代理,消费者使用,主要用于将服务提供者的接口封装成远程服务调用;JAVA反射,服务提供者使用,根据消费者请求消息中的接口名、方法名、参数列表反射调用服务提供者的接口本地实现类。再向上就是业务的服务接口定义和实现类,对于使用Spring配置化开发的就是Spring bean, 服务由业务来实现,平台负责将业务接口发布成远程服务。</p>
+<h4 id="功能特性"><a href="#功能特性" class="headerlink" title="功能特性"></a>功能特性</h4><p><img src="/2018/03/26/分布式服务框架原理-1/2.png" alt=""></p>
+<h4 id="性能特性"><a href="#性能特性" class="headerlink" title="性能特性"></a>性能特性</h4><p><img src="/2018/03/26/分布式服务框架原理-1/3.png" alt=""></p>
+<h4 id="可靠性"><a href="#可靠性" class="headerlink" title="可靠性"></a>可靠性</h4><p><img src="/2018/03/26/分布式服务框架原理-1/4.png" alt=""></p>
+<h4 id="服务治理"><a href="#服务治理" class="headerlink" title="服务治理"></a>服务治理</h4><p><img src="/2018/03/26/分布式服务框架原理-1/5.png" alt=""></p>
 <h3 id="SOA与微服务的区别"><a href="#SOA与微服务的区别" class="headerlink" title="SOA与微服务的区别"></a>SOA与微服务的区别</h3><h3 id="业内分布式服务框架"><a href="#业内分布式服务框架" class="headerlink" title="业内分布式服务框架"></a>业内分布式服务框架</h3><p>阿里Dubbo</p>
 <p>新浪motan</p>
 <p>淘宝HSF</p>
@@ -599,7 +610,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#分布式服务框架总体设计"><span class="nav-number">1.</span> <span class="nav-text">分布式服务框架总体设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SOA与微服务的区别"><span class="nav-number">2.</span> <span class="nav-text">SOA与微服务的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#业内分布式服务框架"><span class="nav-number">3.</span> <span class="nav-text">业内分布式服务框架</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#业内优秀开源RPC框架"><span class="nav-number">4.</span> <span class="nav-text">业内优秀开源RPC框架</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题"><span class="nav-number">5.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#分布式服务框架总体设计"><span class="nav-number">1.</span> <span class="nav-text">分布式服务框架总体设计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#架构特性"><span class="nav-number">1.1.</span> <span class="nav-text">架构特性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#功能特性"><span class="nav-number">1.2.</span> <span class="nav-text">功能特性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#性能特性"><span class="nav-number">1.3.</span> <span class="nav-text">性能特性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#可靠性"><span class="nav-number">1.4.</span> <span class="nav-text">可靠性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#服务治理"><span class="nav-number">1.5.</span> <span class="nav-text">服务治理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SOA与微服务的区别"><span class="nav-number">2.</span> <span class="nav-text">SOA与微服务的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#业内分布式服务框架"><span class="nav-number">3.</span> <span class="nav-text">业内分布式服务框架</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#业内优秀开源RPC框架"><span class="nav-number">4.</span> <span class="nav-text">业内优秀开源RPC框架</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题"><span class="nav-number">5.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
             
 
           </div>
