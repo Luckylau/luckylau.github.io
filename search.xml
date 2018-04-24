@@ -3,6 +3,13 @@
   
     
     <entry>
+      <title><![CDATA[Restful Webservice与Soap Webservice区别]]></title>
+      <url>%2F2018%2F04%2F24%2FRestful-Webservice%E4%B8%8ESoap-Webservice%E5%8C%BA%E5%88%AB%2F</url>
+      <content type="text"></content>
+    </entry>
+
+    
+    <entry>
       <title><![CDATA[Netty的原理(1)]]></title>
       <url>%2F2018%2F04%2F24%2FNetty%E7%9A%84%E5%8E%9F%E7%90%86-1%2F</url>
       <content type="text"><![CDATA[​ Netty是Java IO 不可绕过的技术，Netty系列学习在李林峰的《Netty权威指南》以及优秀博客和Netty源码上总结思考而来。]]></content>
