@@ -94,7 +94,9 @@
 <meta property="og:image" content="https://luckylau.github.io/2018/04/02/分布式服务框架原理-2/2.png">
 <meta property="og:image" content="https://luckylau.github.io/2018/04/02/分布式服务框架原理-2/4.png">
 <meta property="og:image" content="https://luckylau.github.io/2018/04/02/分布式服务框架原理-2/3.png">
-<meta property="og:updated_time" content="2018-04-23T11:07:16.776Z">
+<meta property="og:image" content="https://luckylau.github.io/2018/04/02/分布式服务框架原理-2/5.png">
+<meta property="og:image" content="https://luckylau.github.io/2018/04/02/分布式服务框架原理-2/6.png">
+<meta property="og:updated_time" content="2018-04-24T05:48:05.226Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="分布式服务框架原理(2)">
 <meta name="twitter:description" content="分布式服务框架基础服务通信框架长连接还是短连接​       相比于短连接，长连接更节省资源：如果每发送一条消息就要创建链路、发起握手认证、关闭链路释放资源，会损耗大量的系统资源。长连接只在首次创建时或者链路断连重连才创建链路，链路创建成功之后服务提供者和消费者会通过业务消息和心跳维系链路，实现多消息复用同一个链路节省资源。">
@@ -429,7 +431,10 @@
 <p>Dubbo的服务提供方使用RpcContext.getContext() .getAttachments()，获取参数；服务器消费方使用<br>RpcContext.getContext().setAttachment()，传递参数。 </p>
 <h4 id="服务注册"><a href="#服务注册" class="headerlink" title="服务注册"></a>服务注册</h4><p>对于服务提供者，它需要发布服务；对于服务消费者，它最关心如何获取它所需要的服务。如何有效的管理服务订阅和发布是一个分布式服务框架需要解决的一个问题。最常见的是使用Zookeeper作为服务注册中心。</p>
 <h4 id="服务发布和引用"><a href="#服务发布和引用" class="headerlink" title="服务发布和引用"></a>服务发布和引用</h4><p>服务提供者通过配置，注解，API调用等方式，把本地接口发布成远程服务；服务消费者通过对等的方式引用远程服务提供者，实现服务的发布和引用。有4种方式：XML配置，属性配置，API配置， 注解配置。</p>
-<h4 id="服务优先级调度"><a href="#服务优先级调度" class="headerlink" title="服务优先级调度"></a>服务优先级调度</h4>
+<p><img src="/2018/04/02/分布式服务框架原理-2/5.png" alt=""></p>
+<p><img src="/2018/04/02/分布式服务框架原理-2/6.png" alt=""></p>
+<h4 id="服务优先级调度"><a href="#服务优先级调度" class="headerlink" title="服务优先级调度"></a>服务优先级调度</h4><p>为了保证高优先级的服务能够正常运行，保障服务SLA，需要降低一些非核心服务的调度频次，释放部分资源占用，保障系统的整体运行平稳。有4种实现方式：基于线程调度器的优先级调度策略；基于优先级队列的优先级策略；基于加权配置的优先级调度策略；基于服务迁入迁出的优先级调度策略。</p>
+
       
     </div>
 
