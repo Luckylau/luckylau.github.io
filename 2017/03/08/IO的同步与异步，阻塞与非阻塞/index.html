@@ -97,7 +97,7 @@
 <meta property="og:image" content="https://luckylau.github.io/2017/03/08/IO的同步与异步，阻塞与非阻塞/3.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/03/08/IO的同步与异步，阻塞与非阻塞/4.png">
 <meta property="og:image" content="https://luckylau.github.io/2017/03/08/IO的同步与异步，阻塞与非阻塞/5.png">
-<meta property="og:updated_time" content="2017-03-08T08:11:22.805Z">
+<meta property="og:updated_time" content="2018-04-24T07:58:18.049Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IO的同步与异步，阻塞与非阻塞">
 <meta name="twitter:description" content="​      同步（synchronous） IO和异步（asynchronous） IO，阻塞（blocking） IO和非阻塞（non-blocking）IO分别是什么，到底有什么区别？我们以Linux环境下的network IO来讨论。
@@ -397,7 +397,7 @@
         <p>​      同步（synchronous） IO和异步（asynchronous） IO，阻塞（blocking） IO和非阻塞（non-blocking）IO分别是什么，到底有什么区别？我们以Linux环境下的network IO来讨论。</p>
 <p>​       对于一个network IO (以read举例)，它会涉及到两个系统对象，一个是调用这个IO的process (or thread)，另一个就是系统内核(kernel)。当一个read操作发生时，它会经历两个阶段：<br> 1 等待数据准备 (Waiting for the data to be ready)<br> 2 将数据从内核拷贝到进程中 (Copying the data from the kernel to the process)</p>
 <a id="more"></a>
-<p>Richard Stevens的“UNIX® Network Programming Volume 1, Third Edition: The Sockets Networking ”，6.2节“I/O Models ”有以下5种： blocking IO   nonblocking IO    IO multiplexing    signal driven IO  asynchronous IO。其中signal driven IO不常见，以下分析4中模型。然后再区分IO的同步与异步，阻塞与非阻塞。</p>
+<p>Richard Stevens的“UNIX® Network Programming Volume 1, Third Edition: The Sockets Networking ”，6.2节“I/O Models ”有以下5种： blocking IO； nonblocking IO；   IO multiplexing；    signal driven IO；  asynchronous IO。其中signal driven IO不常见，以下分析4中模型。然后再区分IO的同步与异步，阻塞与非阻塞。</p>
 <h3 id="I-O-Models"><a href="#I-O-Models" class="headerlink" title="I/O Models"></a>I/O Models</h3><p><strong>1.阻塞式I/O模型  blocking IO</strong></p>
 <p>在linux中，默认情况下所有的socket都是blocking</p>
 <p><img src="/2017/03/08/IO的同步与异步，阻塞与非阻塞/1.png" alt=""></p>
@@ -547,7 +547,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">143</span>
+                <span class="site-state-item-count">144</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -565,7 +565,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-count">25</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
