@@ -93,7 +93,7 @@
 <meta property="og:description" content="索引对于良好的性能非常关键。尤其是当表中的数据量越来越大时，索引对性能的影响愈发重要。 
 索引的数据结构B-Tree索引？​        维基百科对B树的定义为“在计算机科学中，B树（B-tree）是一种树状数据结构，它能够存储数据、对其进行排序并允许以O(log n)的时间复杂度运行进行查找、顺序读取、插入和删除的数据结构。B树，概括来说是一个节点可以拥有多于2个子节点的二叉查找树。与自平衡二">
 <meta property="og:image" content="https://luckylau.github.io/2018/05/01/MySql数据库之索引优化/1.png">
-<meta property="og:updated_time" content="2018-05-04T06:03:09.802Z">
+<meta property="og:updated_time" content="2018-05-05T07:31:43.952Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySql数据库之索引优化">
 <meta name="twitter:description" content="索引对于良好的性能非常关键。尤其是当表中的数据量越来越大时，索引对性能的影响愈发重要。 
@@ -444,7 +444,7 @@
 </tr>
 <tr>
 <td><strong>select_type</strong></td>
-<td>表示SELECT语句的类型。该参数有几个常用的取值：SIMPLE   ：表示简单查询，其中不包括连接查询和子查询;PRIMARY：表示主查询，或者是最外层的查询语句;UNION    ：表示连接查询的第二个或后面的查询语句;</td>
+<td>表示SELECT语句的类型。该参数有几个常用的取值：SIMPLE：表示简单查询，其中不包括连接查询和子查询；PRIMARY：表示主查询，或者是最外层的查询语句；UNION：表示连接查询的第二个或后面的查询语句；</td>
 </tr>
 <tr>
 <td><strong>table</strong></td>
@@ -452,7 +452,7 @@
 </tr>
 <tr>
 <td><strong>type</strong></td>
-<td>表示表的连接类型。该参数有几个常用的取值：const   ：表示表中有多条记录，但只从表中查询一条记录;eq<em>ref ：表示多表连接时，后面的表使用了UNIQUE或者PRIMARY KEY;ref       ：表示多表查询时，后面的表使用了普通索引;unique</em> subquery：表示子查询中使用了UNIQUE或者PRIMARY KEY;index_ subquery：表示子查询中使用了普通索引; range  ：表示查询语句中给出了查询范围;index   ：表示对表中的索引进行了完整的扫描;all        ：表示此次查询进行了全表扫描; ———– 该条SQL需要优化；</td>
+<td>表示表的连接类型。该参数有几个常用的取值：const：表示表中有多条记录，但只从表中查询一条记录；eq<em>ref ：表示多表连接时，后面的表使用了UNIQUE或者PRIMARY KEY；ref：表示多表查询时，后面的表使用了普通索引；unique</em> subquery：表示子查询中使用了UNIQUE或者PRIMARY KEY；index_ subquery：表示子查询中使用了普通索引； range  ：表示查询语句中给出了查询范围；index ：表示对表中的索引进行了完整的扫描;all        ：表示此次查询进行了全表扫描； ———– 该条SQL需要优化；</td>
 </tr>
 <tr>
 <td><strong>possible_keys</strong></td>
@@ -464,11 +464,11 @@
 </tr>
 <tr>
 <td><strong>key_len</strong></td>
-<td>表示索引字段的一长度;</td>
+<td>表示索引字段的一长度；</td>
 </tr>
 <tr>
 <td><strong>ref</strong></td>
-<td>表示使用哪个列或常数与索引一起来查询记录;</td>
+<td>表示使用哪个列或常数与索引一起来查询记录；</td>
 </tr>
 <tr>
 <td><strong>rows</strong></td>
@@ -476,7 +476,7 @@
 </tr>
 <tr>
 <td><strong>Extra</strong></td>
-<td>表示查询过程的附件信息。</td>
+<td>表示查询过程的附件信息；</td>
 </tr>
 </tbody>
 </table>
@@ -610,7 +610,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">149</span>
+                <span class="site-state-item-count">152</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
