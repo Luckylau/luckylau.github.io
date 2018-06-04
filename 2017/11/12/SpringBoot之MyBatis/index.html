@@ -93,7 +93,7 @@ orm工具的基本思想:">
 <meta property="og:description" content="什么是MyBatis？​        MyBatis是一个支持普通SQL查询，存储过程和高级映射的优秀持久层框架。MyBatis消除了几乎所有的JDBC代码和参数的手工设置以及对结果集的检索封装。MyBatis可以使用简单的XML或注解用于配置和原始映射，将接口和Java的POJO（Plain Old Java Objects，普通的Java对象）映射成数据库中的记录。
 orm工具的基本思想:">
 <meta property="og:image" content="https://luckylau.github.io/2017/11/12/SpringBoot之MyBatis/1.png">
-<meta property="og:updated_time" content="2017-12-13T03:02:39.301Z">
+<meta property="og:updated_time" content="2018-06-04T07:09:25.183Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SpringBoot之MyBatis">
 <meta name="twitter:description" content="什么是MyBatis？​        MyBatis是一个支持普通SQL查询，存储过程和高级映射的优秀持久层框架。MyBatis消除了几乎所有的JDBC代码和参数的手工设置以及对结果集的检索封装。MyBatis可以使用简单的XML或注解用于配置和原始映射，将接口和Java的POJO（Plain Old Java Objects，普通的Java对象）映射成数据库中的记录。
@@ -419,72 +419,72 @@ orm工具的基本思想:">
 <table>
 <thead>
 <tr>
-<th>设置参数</th>
-<th>描述</th>
-<th>有效值</th>
-<th>默认值</th>
+<th style="text-align:center">设置参数</th>
+<th style="text-align:center">描述</th>
+<th style="text-align:center">有效值</th>
+<th style="text-align:center">默认值</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>cacheEnabled</td>
-<td>该配置影响的所有映射器中配置的缓存的全局开关</td>
-<td>true \</td>
-<td>false</td>
+<td style="text-align:center">cacheEnabled</td>
+<td style="text-align:center">该配置影响的所有映射器中配置的缓存的全局开关</td>
+<td style="text-align:center">true \</td>
+<td style="text-align:center">false</td>
 <td>true</td>
 </tr>
 <tr>
-<td>lazyLoadingEnabled</td>
-<td>延迟加载的全局开关。当开启时，所有关联对象都会延迟加载。 特定关联关系中可通过设置fetchType属性来覆盖该项的开关状态</td>
-<td>true \</td>
-<td>false</td>
+<td style="text-align:center">lazyLoadingEnabled</td>
+<td style="text-align:center">延迟加载的全局开关。当开启时，所有关联对象都会延迟加载。 特定关联关系中可通过设置fetchType属性来覆盖该项的开关状态</td>
+<td style="text-align:center">true \</td>
+<td style="text-align:center">false</td>
 <td>false</td>
 </tr>
 <tr>
-<td>aggressiveLazyLoading</td>
-<td>当启用时，对任意延迟属性的调用会使带有延迟加载属性的对象完整加载；反之，每种属性将会按需加载。</td>
-<td>true \</td>
-<td>false</td>
+<td style="text-align:center">aggressiveLazyLoading</td>
+<td style="text-align:center">当启用时，对任意延迟属性的调用会使带有延迟加载属性的对象完整加载；反之，每种属性将会按需加载。</td>
+<td style="text-align:center">true \</td>
+<td style="text-align:center">false</td>
 <td>true</td>
 </tr>
 <tr>
-<td>multipleResultSetsEnabled</td>
-<td>是否允许单一语句返回多结果集（需要兼容驱动）。</td>
-<td>true \</td>
-<td>false</td>
+<td style="text-align:center">multipleResultSetsEnabled</td>
+<td style="text-align:center">是否允许单一语句返回多结果集（需要兼容驱动）。</td>
+<td style="text-align:center">true \</td>
+<td style="text-align:center">false</td>
 <td>true</td>
 </tr>
 <tr>
-<td>useColumnLabel</td>
-<td>使用列标签代替列名。不同的驱动在这方面会有不同的表现， 具体可参考相关驱动文档或通过测试这两种不同的模式来观察所用驱动的结果。</td>
-<td>true \</td>
-<td>false</td>
+<td style="text-align:center">useColumnLabel</td>
+<td style="text-align:center">使用列标签代替列名。不同的驱动在这方面会有不同的表现， 具体可参考相关驱动文档或通过测试这两种不同的模式来观察所用驱动的结果。</td>
+<td style="text-align:center">true \</td>
+<td style="text-align:center">false</td>
 <td>true</td>
 </tr>
 <tr>
-<td>useGeneratedKeys</td>
-<td>允许 JDBC 支持自动生成主键，需要驱动兼容。 如果设置为 true 则这个设置强制使用自动生成主键，尽管一些驱动不能兼容但仍可正常工作（比如 Derby）。</td>
-<td>true \</td>
-<td>false</td>
+<td style="text-align:center">useGeneratedKeys</td>
+<td style="text-align:center">允许 JDBC 支持自动生成主键，需要驱动兼容。 如果设置为 true 则这个设置强制使用自动生成主键，尽管一些驱动不能兼容但仍可正常工作（比如 Derby）。</td>
+<td style="text-align:center">true \</td>
+<td style="text-align:center">false</td>
 <td>False</td>
 </tr>
 <tr>
-<td>autoMappingBehavior</td>
-<td>指定 MyBatis 应如何自动映射列到字段或属性。 NONE 表示取消自动映射；PARTIAL 只会自动映射没有定义嵌套结果集映射的结果集。 FULL 会自动映射任意复杂的结果集（无论是否嵌套）。</td>
-<td>NONE, PARTIAL, FULL</td>
-<td>PARTIAL</td>
+<td style="text-align:center">autoMappingBehavior</td>
+<td style="text-align:center">指定 MyBatis 应如何自动映射列到字段或属性。 NONE 表示取消自动映射；PARTIAL 只会自动映射没有定义嵌套结果集映射的结果集。 FULL 会自动映射任意复杂的结果集（无论是否嵌套）。</td>
+<td style="text-align:center">NONE, PARTIAL, FULL</td>
+<td style="text-align:center">PARTIAL</td>
 </tr>
 <tr>
-<td>defaultExecutorType</td>
-<td>配置默认的执行器。SIMPLE 就是普通的执行器；REUSE 执行器会重用预处理语句（prepared statements）； BATCH 执行器将重用语句并执行批量更新。</td>
-<td>SIMPLE REUSE BATCH</td>
-<td>SIMPLE</td>
+<td style="text-align:center">defaultExecutorType</td>
+<td style="text-align:center">配置默认的执行器。SIMPLE 就是普通的执行器；REUSE 执行器会重用预处理语句（prepared statements）； BATCH 执行器将重用语句并执行批量更新。</td>
+<td style="text-align:center">SIMPLE REUSE BATCH</td>
+<td style="text-align:center">SIMPLE</td>
 </tr>
 <tr>
-<td>defaultStatementTimeout</td>
-<td>设置超时时间，它决定驱动等待数据库响应的秒数。</td>
-<td>Any positive integer</td>
-<td>Not Set (null)</td>
+<td style="text-align:center">defaultStatementTimeout</td>
+<td style="text-align:center">设置超时时间，它决定驱动等待数据库响应的秒数。</td>
+<td style="text-align:center">Any positive integer</td>
+<td style="text-align:center">Not Set (null)</td>
 </tr>
 </tbody>
 </table>
@@ -532,9 +532,7 @@ orm工具的基本思想:">
 <p>这里我们没有加入自己实现的插件，也就是在<context></context>中无法解析<plugin></plugin>。</p>
 <p>最后运行，我使用idea配置的，这里加了“-e ”选项是为了让该插件输出详细信息，这样可以帮助我们定位问题。</p>
 <p><img src="/2017/11/12/SpringBoot之MyBatis/1.png" alt=""></p>
-<h3 id="深入理解mybatis的原理？"><a href="#深入理解mybatis的原理？" class="headerlink" title="深入理解mybatis的原理？"></a>深入理解mybatis的原理？</h3><h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>Java Persistence with MyBatis3</p>
-<p><a href="http://blog.csdn.net/column/details/mybatis3-tutorials.html" target="_blank" rel="external">http://blog.csdn.net/column/details/mybatis3-tutorials.html</a></p>
-<p>深入理解mybatis原理</p>
+<h3 id="深入理解mybatis的原理？"><a href="#深入理解mybatis的原理？" class="headerlink" title="深入理解mybatis的原理？"></a>深入理解mybatis的原理？</h3><h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><p>深入理解mybatis原理</p>
 <p><a href="http://blog.csdn.net/column/details/mybatis-principle.html" target="_blank" rel="external">http://blog.csdn.net/column/details/mybatis-principle.html</a></p>
 <p>generator 下载地址 </p>
 <p><a href="https://github.com/mybatis/generator" target="_blank" rel="external">https://github.com/mybatis/generator</a></p>
@@ -701,7 +699,7 @@ orm工具的基本思想:">
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">152</span>
+                <span class="site-state-item-count">153</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
