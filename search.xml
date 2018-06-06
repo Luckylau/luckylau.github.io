@@ -3,6 +3,13 @@
   
     
     <entry>
+      <title><![CDATA[concurrentHashmap的设计之美]]></title>
+      <url>%2F2018%2F06%2F06%2FconcurrentHashmap%E7%9A%84%E8%AE%BE%E8%AE%A1%E4%B9%8B%E7%BE%8E%2F</url>
+      <content type="text"><![CDATA[concurrentHashmap是Java工程师接触最多的关于并发和线程安全的类，本篇从jdk1.6,jdk1.7,jdk1.8三个版本的实现来详细分析其设计之美。 结构原型首先简单从整体把握concurrentHashmap的结构原理。 JDK1.6和JDK1.7版本 JDK1.8版本 初始化JDK1.6版本JDK1.7版本JDK1.8版本基本类JDK1.6版本JDK1.7版本JDK1.8版本常用方法JDK1.6版本JDK1.7版本JDK1.8版本参考：]]></content>
+    </entry>
+
+    
+    <entry>
       <title><![CDATA[阅读书单(5)]]></title>
       <url>%2F2018%2F06%2F04%2F%E9%98%85%E8%AF%BB%E4%B9%A6%E5%8D%95-5%2F</url>
       <content type="text"><![CDATA[2018年-至今149.《富爸爸穷爸爸》-罗伯特清崎 沙伦莱希特 150.《向光生长：阿德勒自我超越心理学》-阿尔弗雷德阿德勒 151.《永恒的边缘》-肯福莱特 152.《智能时代》-吴军 153.《那些我们没谈过的事》-马克李维 154.《怪诞经济学》-利玛窦默特里尼 155.《降临》-特德姜 156.《冷知识》-小巫博士 157.《风口上的猪》-肖璟 158.《十万次相亲》-水水 159.《观念的水位》-刘瑜 160.《激荡十年，水大鱼大：中国企业2008-2018》-吴晓波 161.《思考致富》-拿破仑希尔 162.《做最擅长的事：沈南鹏传》-张笑恒 163.《六祖坛经》-蔡志忠]]></content>
