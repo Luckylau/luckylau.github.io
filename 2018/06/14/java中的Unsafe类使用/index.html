@@ -84,16 +84,19 @@
 
 
 
-<meta name="description" content="人生识字忧患始">
+<meta name="description" content="Unsafe类存在sun.misc.Unsafe中可以直接读写内存、获得地址偏移值、锁定或释放线程。concurrentHashmap的1.7版本大量使用该类来提高提升Java运行效率。下面我们介绍一下其使用。
+操作成员变量123456789101112131415161718192021222324252627282930313233343536373839public class test &amp;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="java中的Unsafe类使用">
 <meta property="og:url" content="https://luckylau.github.io/2018/06/14/java中的Unsafe类使用/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
-<meta property="og:description" content="人生识字忧患始">
-<meta property="og:updated_time" content="2018-06-14T05:24:42.092Z">
+<meta property="og:description" content="Unsafe类存在sun.misc.Unsafe中可以直接读写内存、获得地址偏移值、锁定或释放线程。concurrentHashmap的1.7版本大量使用该类来提高提升Java运行效率。下面我们介绍一下其使用。
+操作成员变量123456789101112131415161718192021222324252627282930313233343536373839public class test &amp;">
+<meta property="og:updated_time" content="2018-06-14T06:19:29.650Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java中的Unsafe类使用">
-<meta name="twitter:description" content="人生识字忧患始">
+<meta name="twitter:description" content="Unsafe类存在sun.misc.Unsafe中可以直接读写内存、获得地址偏移值、锁定或释放线程。concurrentHashmap的1.7版本大量使用该类来提高提升Java运行效率。下面我们介绍一下其使用。
+操作成员变量123456789101112131415161718192021222324252627282930313233343536373839public class test &amp;">
 
 
 
@@ -385,7 +388,11 @@
       
 
       
-        
+        <p>Unsafe类存在sun.misc.Unsafe中可以直接读写内存、获得地址偏移值、锁定或释放线程。concurrentHashmap的1.7版本大量使用该类来提高提升Java运行效率。下面我们介绍一下其使用。</p>
+<h3 id="操作成员变量"><a href="#操作成员变量" class="headerlink" title="操作成员变量"></a>操作成员变量</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">test</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Unsafe <span class="title">getUnsafe</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="keyword">final</span> Field unsafeField = Unsafe.class.getDeclaredField(<span class="string">"theUnsafe"</span>);</div><div class="line">            unsafeField.setAccessible(<span class="keyword">true</span>);</div><div class="line">            <span class="comment">// the unsafe instance</span></div><div class="line">            <span class="keyword">return</span> (Unsafe) unsafeField.get(<span class="keyword">null</span>);</div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span><span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        Unsafe unsafe = getUnsafe();</div><div class="line">        Dog dog = <span class="keyword">new</span> Dog();</div><div class="line">        <span class="comment">// 获取name属性偏移量</span></div><div class="line">        <span class="keyword">long</span> nameOffset = unsafe.objectFieldOffset(Dog.class.getDeclaredField(<span class="string">"name"</span>));</div><div class="line">        unsafe.putObject(dog, nameOffset, <span class="string">"李富貴"</span>);</div><div class="line">        <span class="comment">//获取age属性偏移量</span></div><div class="line">        <span class="keyword">long</span> ageOffset = unsafe.objectFieldOffset(Dog.class.getDeclaredField(<span class="string">"age"</span>));</div><div class="line">        unsafe.putInt(dog, ageOffset,<span class="number">5</span>);</div><div class="line">        System.out.println(dog.toString());</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> String name;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"&#123;\"Dog\":&#123;"</span></div><div class="line">                + <span class="string">"                        \"name\":\""</span> + name + <span class="string">"\""</span></div><div class="line">                + <span class="string">",                         \"age\":\""</span> + age + <span class="string">"\""</span></div><div class="line">                + <span class="string">"&#125;&#125;"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<h3 id="操作数组"><a href="#操作数组" class="headerlink" title="操作数组"></a>操作数组</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">test</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Unsafe <span class="title">getUnsafe</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="keyword">final</span> Field unsafeField = Unsafe.class.getDeclaredField(<span class="string">"theUnsafe"</span>);</div><div class="line">            unsafeField.setAccessible(<span class="keyword">true</span>);</div><div class="line">            <span class="comment">// the unsafe instance</span></div><div class="line">            <span class="keyword">return</span> (Unsafe) unsafeField.get(<span class="keyword">null</span>);</div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span><span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        Unsafe unsafe = getUnsafe();</div><div class="line">        <span class="comment">//帮助理解concurrentHashmap</span></div><div class="line">        Dog[] dogs = <span class="keyword">new</span> Dog[<span class="number">3</span>];</div><div class="line">        <span class="keyword">long</span> sbase = unsafe.arrayBaseOffset(Dog[].class);</div><div class="line">        <span class="keyword">int</span> ts = unsafe.arrayIndexScale(Dog[].class);</div><div class="line">        <span class="keyword">int</span> sshift = <span class="number">31</span> - Integer.numberOfLeadingZeros(ts);</div><div class="line">        unsafe.putOrderedObject(dogs, (<span class="keyword">long</span>)(<span class="number">0</span> &lt;&lt; sshift) + sbase, <span class="keyword">new</span> Dog(<span class="string">"那傻狗"</span>,<span class="number">5</span>));</div><div class="line">        unsafe.putOrderedObject(dogs, (<span class="keyword">long</span>)(<span class="number">1</span> &lt;&lt; sshift) + sbase, <span class="keyword">new</span> Dog(<span class="string">"李富貴"</span>,<span class="number">5</span>));</div><div class="line">        unsafe.putOrderedObject(dogs, ts*<span class="number">2</span> + sbase, <span class="keyword">new</span> Dog(<span class="string">"哈士奇"</span>, <span class="number">5</span>));</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span> ; i &lt; dogs.length ; i++)&#123;</div><div class="line">            System.out.println(dogs[i].toString());</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> String name;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Dog</span><span class="params">(String name, <span class="keyword">int</span> age)</span></span>&#123;</div><div class="line">        <span class="keyword">this</span>.age = age;</div><div class="line">        <span class="keyword">this</span>.name = name;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"&#123;\"Dog\":&#123;"</span></div><div class="line">                + <span class="string">"                        \"name\":\""</span> + name + <span class="string">"\""</span></div><div class="line">                + <span class="string">",                         \"age\":\""</span> + age + <span class="string">"\""</span></div><div class="line">                + <span class="string">"&#125;&#125;"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
       
     </div>
 
@@ -477,8 +484,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/logo.jpg"
@@ -554,6 +570,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#操作成员变量"><span class="nav-number">1.</span> <span class="nav-text">操作成员变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#操作数组"><span class="nav-number">2.</span> <span class="nav-text">操作数组</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
     </div>
