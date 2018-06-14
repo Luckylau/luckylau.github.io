@@ -84,26 +84,26 @@
 
 
 
-<meta name="description" content="本篇主要讲解2PC和3PC理论。
-最近看了《从Paxos到zookeeper 分布式一致性原理与实践》这本书，结合之前的看到的优秀博客，做一下梳理。
-​        在了解2PC和3PC之前先来了解XA规范。XA是由X/Open组织提出的分布式事务的规范。X/Open DTP模型（1994）包括应用程序（AP）、事务管理器（TM）、资源管理器（RM）、通信资源管理器（CRM）四部分。事务管理器（">
+<meta name="description" content="本篇主要讲解2PC和3PC以及TCC理论。
+最近看了《从Paxos到zookeeper 分布式一致性原理与实践》以及《分布式服务架构：原理，设计与实战》这本书，结合之前的看到的优秀博客，做一下梳理。
+​        在了解2PC和3PC之前先来了解XA规范。XA是由X/Open组织提出的分布式事务的规范。X/Open DTP模型（1994）包括应用程序（AP）、事务管理器（TM）、资源管理器（R">
 <meta property="og:type" content="article">
 <meta property="og:title" content="分布式系统基础理论(2)">
 <meta property="og:url" content="https://luckylau.github.io/2018/03/12/分布式系统基础理论-2/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
-<meta property="og:description" content="本篇主要讲解2PC和3PC理论。
-最近看了《从Paxos到zookeeper 分布式一致性原理与实践》这本书，结合之前的看到的优秀博客，做一下梳理。
-​        在了解2PC和3PC之前先来了解XA规范。XA是由X/Open组织提出的分布式事务的规范。X/Open DTP模型（1994）包括应用程序（AP）、事务管理器（TM）、资源管理器（RM）、通信资源管理器（CRM）四部分。事务管理器（">
+<meta property="og:description" content="本篇主要讲解2PC和3PC以及TCC理论。
+最近看了《从Paxos到zookeeper 分布式一致性原理与实践》以及《分布式服务架构：原理，设计与实战》这本书，结合之前的看到的优秀博客，做一下梳理。
+​        在了解2PC和3PC之前先来了解XA规范。XA是由X/Open组织提出的分布式事务的规范。X/Open DTP模型（1994）包括应用程序（AP）、事务管理器（TM）、资源管理器（R">
 <meta property="og:image" content="https://luckylau.github.io/2018/03/12/分布式系统基础理论-2/1.png">
 <meta property="og:image" content="https://luckylau.github.io/2018/03/12/分布式系统基础理论-2/2.png">
 <meta property="og:image" content="https://luckylau.github.io/2018/03/12/分布式系统基础理论-2/4.png">
 <meta property="og:image" content="https://luckylau.github.io/2018/03/12/分布式系统基础理论-2/5.png">
-<meta property="og:updated_time" content="2018-03-13T10:31:27.726Z">
+<meta property="og:updated_time" content="2018-06-13T04:10:52.198Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="分布式系统基础理论(2)">
-<meta name="twitter:description" content="本篇主要讲解2PC和3PC理论。
-最近看了《从Paxos到zookeeper 分布式一致性原理与实践》这本书，结合之前的看到的优秀博客，做一下梳理。
-​        在了解2PC和3PC之前先来了解XA规范。XA是由X/Open组织提出的分布式事务的规范。X/Open DTP模型（1994）包括应用程序（AP）、事务管理器（TM）、资源管理器（RM）、通信资源管理器（CRM）四部分。事务管理器（">
+<meta name="twitter:description" content="本篇主要讲解2PC和3PC以及TCC理论。
+最近看了《从Paxos到zookeeper 分布式一致性原理与实践》以及《分布式服务架构：原理，设计与实战》这本书，结合之前的看到的优秀博客，做一下梳理。
+​        在了解2PC和3PC之前先来了解XA规范。XA是由X/Open组织提出的分布式事务的规范。X/Open DTP模型（1994）包括应用程序（AP）、事务管理器（TM）、资源管理器（R">
 <meta name="twitter:image" content="https://luckylau.github.io/2018/03/12/分布式系统基础理论-2/1.png">
 
 
@@ -396,8 +396,8 @@
       
 
       
-        <p>本篇主要讲解<strong>2PC</strong>和<strong>3PC</strong>理论。</p>
-<p>最近看了《从Paxos到zookeeper 分布式一致性原理与实践》这本书，结合之前的看到的优秀博客，做一下梳理。</p>
+        <p>本篇主要讲解<strong>2PC</strong>和<strong>3PC</strong>以及<strong>TCC</strong>理论。</p>
+<p>最近看了《从Paxos到zookeeper 分布式一致性原理与实践》以及《分布式服务架构：原理，设计与实战》这本书，结合之前的看到的优秀博客，做一下梳理。</p>
 <p>​        在了解2PC和3PC之前先来了解<strong>XA规范</strong>。XA是由X/Open组织提出的分布式事务的规范。X/Open DTP模型（1994）包括应用程序（AP）、事务管理器（TM）、资源管理器（RM）、通信资源管理器（CRM）四部分。事务管理器（TM）是交易中间件，资源管理器（RM）是数据库，通信资源管理器（CRM）是消息中间件。</p>
 <a id="more"></a>
 <p><img src="/2018/03/12/分布式系统基础理论-2/1.png" alt=""></p>
@@ -439,8 +439,9 @@
 <p>中断事务 协调者接收到参与者反馈的ACK消息之后，执行事务的中断</p>
 <h4 id="存在问题-1"><a href="#存在问题-1" class="headerlink" title="存在问题"></a>存在问题</h4><p>三阶段提交协议在去除阻塞的同时也引入新的问题，在参与者接受到preCommit消息后，如果网络出现分区，此时协调者所在节点和参与者无法正常的网络通信，该参与者依然会在等待超时之后执行了commit操作，这样就和其他接到abort命令并执行回滚的参与者之间存在数据不一致的情况。</p>
 <h3 id="2PC与3PC的区别"><a href="#2PC与3PC的区别" class="headerlink" title="2PC与3PC的区别"></a>2PC与3PC的区别</h3><p>​        无论是2PC提交还是3PC提交都无法彻底解决分布式的一致性问题。相对于2PC，3PC主要解决的单点故障问题，并减少阻塞，因为一旦参与者无法及时收到来自协调者的信息之后，他会默认执行commit。而不会一直持有事务资源并处于阻塞状态。</p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.hollischuang.com/archives/681" target="_blank" rel="external">http://www.hollischuang.com/archives/681</a></p>
+<h3 id="TCC"><a href="#TCC" class="headerlink" title="TCC"></a>TCC</h3><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.hollischuang.com/archives/681" target="_blank" rel="external">http://www.hollischuang.com/archives/681</a></p>
 <p>《从Paxos到zookeeper 分布式一致性原理与实践》</p>
+<p>《分布式架构：原理，设计，实战》</p>
 
       
     </div>
@@ -560,7 +561,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">154</span>
+                <span class="site-state-item-count">155</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -633,7 +634,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#2PC"><span class="nav-number">1.</span> <span class="nav-text">2PC</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#准备阶段-投票阶段"><span class="nav-number">1.1.</span> <span class="nav-text">准备阶段(投票阶段)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#提交阶段-执行阶段"><span class="nav-number">1.2.</span> <span class="nav-text">提交阶段(执行阶段)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#存在问题"><span class="nav-number">1.3.</span> <span class="nav-text">存在问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3PC"><span class="nav-number">2.</span> <span class="nav-text">3PC</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#CanCommit阶段"><span class="nav-number">2.1.</span> <span class="nav-text">CanCommit阶段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PreCommit阶段"><span class="nav-number">2.2.</span> <span class="nav-text">PreCommit阶段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DoCommit阶段"><span class="nav-number">2.3.</span> <span class="nav-text">DoCommit阶段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#存在问题-1"><span class="nav-number">2.4.</span> <span class="nav-text">存在问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2PC与3PC的区别"><span class="nav-number">3.</span> <span class="nav-text">2PC与3PC的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#2PC"><span class="nav-number">1.</span> <span class="nav-text">2PC</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#准备阶段-投票阶段"><span class="nav-number">1.1.</span> <span class="nav-text">准备阶段(投票阶段)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#提交阶段-执行阶段"><span class="nav-number">1.2.</span> <span class="nav-text">提交阶段(执行阶段)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#存在问题"><span class="nav-number">1.3.</span> <span class="nav-text">存在问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3PC"><span class="nav-number">2.</span> <span class="nav-text">3PC</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#CanCommit阶段"><span class="nav-number">2.1.</span> <span class="nav-text">CanCommit阶段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PreCommit阶段"><span class="nav-number">2.2.</span> <span class="nav-text">PreCommit阶段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DoCommit阶段"><span class="nav-number">2.3.</span> <span class="nav-text">DoCommit阶段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#存在问题-1"><span class="nav-number">2.4.</span> <span class="nav-text">存在问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2PC与3PC的区别"><span class="nav-number">3.</span> <span class="nav-text">2PC与3PC的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCC"><span class="nav-number">4.</span> <span class="nav-text">TCC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
             
 
           </div>
