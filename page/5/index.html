@@ -1120,7 +1120,7 @@
 
       
         
-          <p>本篇主要讲解<strong>2PC</strong>和<strong>3PC</strong>以及<strong>TCC</strong>理论。</p>
+          <p>本篇主要讲解<strong>2PC</strong>和<strong>3PC</strong>以及<strong>TCC</strong>理论,同时介绍一个解决分布式事务的开源项目saga。</p>
 <p>最近看了《从Paxos到zookeeper 分布式一致性原理与实践》以及《分布式服务架构：原理，设计与实战》这本书，结合之前的看到的优秀博客，做一下梳理。</p>
 <p>​        在了解2PC和3PC之前先来了解<strong>XA规范</strong>。XA是由X/Open组织提出的分布式事务的规范。X/Open DTP模型（1994）包括应用程序（AP）、事务管理器（TM）、资源管理器（RM）、通信资源管理器（CRM）四部分。事务管理器（TM）是交易中间件，资源管理器（RM）是数据库，通信资源管理器（CRM）是消息中间件。</p>
           <!--noindex-->
