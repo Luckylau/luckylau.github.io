@@ -5,7 +5,7 @@
     <entry>
       <title><![CDATA[Let's go 之goLand搭建环境]]></title>
       <url>%2F2018%2F06%2F19%2FLet-s-go-%E4%B9%8BgoLand%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83%2F</url>
-      <content type="text"></content>
+      <content type="text"><![CDATA[​ 一直听说go语言的良好特性，于是开始我的第一个go语言程序。我是用goLand编译器开始这段旅程，记录一下遇到的坑，Let’s go～。 下载SDK​ 我是mac本开发的，首先第一步是去官网下载go的SDK，可能需要翻墙才能下载。我有个百度网盘可以提供给大家。]]></content>
     </entry>
 
     
