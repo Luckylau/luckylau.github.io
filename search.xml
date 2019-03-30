@@ -3,6 +3,13 @@
   
     
     <entry>
+      <title><![CDATA[Spring之DI]]></title>
+      <url>%2F2019%2F03%2F30%2FSpring%E4%B9%8BDI%2F</url>
+      <content type="text"></content>
+    </entry>
+
+    
+    <entry>
       <title><![CDATA[Java并发之Java8的并发特性]]></title>
       <url>%2F2019%2F01%2F06%2FJava%E5%B9%B6%E5%8F%91%E4%B9%8BJava8%E7%9A%84%E5%B9%B6%E5%8F%91%E7%89%B9%E6%80%A7%2F</url>
       <content type="text"></content>
@@ -17,7 +24,7 @@
 
     
     <entry>
-      <title><![CDATA[Spring的注解]]></title>
+      <title><![CDATA[Spring的常用注解]]></title>
       <url>%2F2019%2F01%2F05%2FSpring%E7%9A%84%E6%B3%A8%E8%A7%A3%2F</url>
       <content type="text"><![CDATA[Request的注解]]></content>
     </entry>
@@ -129,7 +136,7 @@
 
     
     <entry>
-      <title><![CDATA[Spring之切面编程]]></title>
+      <title><![CDATA[Spring之aop]]></title>
       <url>%2F2018%2F07%2F06%2FSpring%E4%B9%8B%E5%88%87%E9%9D%A2%E7%BC%96%E7%A8%8B%2F</url>
       <content type="text"></content>
     </entry>
