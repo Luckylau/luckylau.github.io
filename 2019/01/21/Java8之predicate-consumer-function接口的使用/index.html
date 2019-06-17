@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Reading,Life,Technology" />
+  <meta name="keywords" content="Java8," />
 
 
 
@@ -84,19 +84,16 @@
 
 
 
-<meta name="description" content="title:Java8之本地日期date:2019-03-14 21:57:08tags:Java8categories:java
-comments:true">
+<meta name="description" content="人生识字忧患始">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Luckylau's Blog">
-<meta property="og:url" content="https://luckylau.github.io/2019/06/17/Java8之本地日期/index.html">
+<meta property="og:title" content="Java8之predicate, consumer,function接口的使用">
+<meta property="og:url" content="https://luckylau.github.io/2019/01/21/Java8之predicate-consumer-function接口的使用/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
-<meta property="og:description" content="title:Java8之本地日期date:2019-03-14 21:57:08tags:Java8categories:java
-comments:true">
-<meta property="og:updated_time" content="2019-06-17T14:15:07.158Z">
+<meta property="og:description" content="人生识字忧患始">
+<meta property="og:updated_time" content="2019-06-17T14:25:03.597Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Luckylau's Blog">
-<meta name="twitter:description" content="title:Java8之本地日期date:2019-03-14 21:57:08tags:Java8categories:java
-comments:true">
+<meta name="twitter:title" content="Java8之predicate, consumer,function接口的使用">
+<meta name="twitter:description" content="人生识字忧患始">
 
 
 
@@ -124,13 +121,13 @@ comments:true">
 
 
 
-  <link rel="canonical" href="https://luckylau.github.io/2019/06/17/Java8之本地日期/"/>
+  <link rel="canonical" href="https://luckylau.github.io/2019/01/21/Java8之predicate-consumer-function接口的使用/"/>
 
 
 
 
 
-  <title>  | Luckylau's Blog </title>
+  <title> Java8之predicate, consumer,function接口的使用 | Luckylau's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -286,7 +283,7 @@ comments:true">
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2019/06/17/Java8之本地日期/">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2019/01/21/Java8之predicate-consumer-function接口的使用/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Luckylau">
@@ -310,7 +307,7 @@ comments:true">
             
             
               
-                
+                Java8之predicate, consumer,function接口的使用
               
             
           </h1>
@@ -325,8 +322,8 @@ comments:true">
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-06-17T21:57:08+08:00">
-                2019-06-17
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-21T21:51:52+08:00">
+                2019-01-21
               </time>
             
 
@@ -335,6 +332,28 @@ comments:true">
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -366,9 +385,7 @@ comments:true">
       
 
       
-        <hr>
-<p>title:Java8之本地日期<br>date:2019-03-14 21:57:08<br>tags:Java8<br>categories:java</p>
-<h2 id="comments-true"><a href="#comments-true" class="headerlink" title="comments:true"></a>comments:true</h2>
+        
       
     </div>
 
@@ -394,13 +411,19 @@ comments:true">
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/Java8/" rel="tag"># Java8</a>
+          
+        </div>
+      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/06/17/Java8之option的使用/" rel="next" title="">
-                <i class="fa fa-chevron-left"></i> 
+              <a href="/2019/01/12/设计模式之反应器模式-1/" rel="next" title="设计模式之反应器模式">
+                <i class="fa fa-chevron-left"></i> 设计模式之反应器模式
               </a>
             
           </div>
@@ -409,8 +432,8 @@ comments:true">
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/06/17/SpringBoot之SpringSecurity/" rel="prev" title="SpringBoot之SpringSecurity">
-                SpringBoot之SpringSecurity <i class="fa fa-chevron-right"></i>
+              <a href="/2019/01/30/Java8之Stream/" rel="prev" title="Java8之Stream">
+                Java8之Stream <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -458,17 +481,8 @@ comments:true">
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/logo.jpg"
@@ -499,7 +513,7 @@ comments:true">
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-count">30</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -544,22 +558,6 @@ comments:true">
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#comments-true"><span class="nav-number">1.</span> <span class="nav-text">comments:true</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
     </div>
