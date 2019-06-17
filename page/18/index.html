@@ -284,7 +284,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/06/07/你懂网络吗-4/">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/06/19/你懂java吗-17/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Luckylau">
@@ -309,8 +309,8 @@
             
               
                 
-                <a class="post-title-link" href="/2017/06/07/你懂网络吗-4/" itemprop="url">
-                  你懂网络吗(4)
+                <a class="post-title-link" href="/2017/06/19/你懂java吗-17/" itemprop="url">
+                  Java并发之同步控制
                 </a>
               
             
@@ -326,8 +326,446 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-07T15:24:17+08:00">
-                2017-06-07
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-19T17:25:24+08:00">
+                2017-06-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="synchronized"><a href="#synchronized" class="headerlink" title="synchronized"></a>synchronized</h3><p>在Java中，synchronized是用来表示同步的，我们可以synchronized来修饰一个方法。也可以synchronized来修饰方法里面的一个语句块。但是要注意在static方法和非static方法使用synchronized。大家都知道，static的方法属于类方法，它属于这个类，那么static获取到的锁，是属于类的锁。而非static方法获取到的锁，是属于当前对象的锁。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/06/19/你懂java吗-17/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/06/19/你懂java吗-16/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Luckylau">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/logo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Luckylau's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Luckylau's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/19/你懂java吗-16/" itemprop="url">
+                  Java并发之守护线程
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-19T14:24:21+08:00">
+                2017-06-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p><strong>java的Thread类和Runnable接口</strong></p>
+<h3 id="守护线程"><a href="#守护线程" class="headerlink" title="守护线程"></a>守护线程</h3><p>​    Thread有两种线程，即“守护线程Daemon”与“用户线程User”。<strong>守护线程</strong>的优先级非常低，通常在程序里没有其他线程运行时才会执行它。当守护线程是程序里唯一在运行的线程时，JVM会结束守护线程并终止程序。守护线程通常用于在同一程序里给普通线程（也叫使用者线程）提供服务。它们通常无限循环的等待服务请求或执行线程任务。它们不能做重要的任务，因为我们不知道什么时候会被分配到CPU时间片，并且只要没有其他线程在运行，它们可能随时被终止。JAVA中最典型的这种类型代表就是垃圾回收器。</p>
+<p>​    <strong>setDaemon(boolean on)</strong>方法可以方便的设置线程的Daemon模式，true为Daemon模式，此方法必须在线程启动之前调用，当线程正在运行时调用会产生异常。当一个守护线程中产生了其他线程，那么这些新产生的线程不用设置Daemon属性，都将是守护线程。Java垃圾回收线程就是一个典型的守护线程，当我们的程序中不在有任何运行中的Thread，程序就不会再产生垃圾，垃圾回收器也就无事可做，所以当垃圾回收线程是Java虚拟机上仅剩的线程时，Java虚拟机会自动离开。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/06/19/你懂java吗-16/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/06/18/你懂java吗-15/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Luckylau">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/logo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Luckylau's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Luckylau's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/18/你懂java吗-15/" itemprop="url">
+                  Java基础之抽象类和接口
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-18T12:58:34+08:00">
+                2017-06-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p><strong>java的抽象类和接口</strong></p>
+<h3 id="什么是java的抽象类和接口？"><a href="#什么是java的抽象类和接口？" class="headerlink" title="什么是java的抽象类和接口？"></a>什么是java的抽象类和接口？</h3><p>​    <strong>abstract class</strong>和<strong>interface</strong>是Java语言中对于抽象类定义进行支持的两种机制，正是由于这两种机制的存在，才赋予了Java强大的面向对象能力。 在面向对象的概念中，我们知道所有的对象都是通过类来描绘的，但是反过来却不是 这样。并不是所有的类都是用来描绘对象的，如果一个类中没有包含足够的信息来描绘一个具体的对象，这样的类就是抽象类。抽象类往往用来表征我们在对问题领 域进行分析、设计中得出的抽象概念，是对一系列看上去不同，但是本质上相同的具体概念的抽象。而接口呢，它则是一组规则的集合，它规定了实现本接口的类必须拥有的一组规则。体现了自然界“如果你是……则必须能……”的理念。下面详细分析抽象类和接口以及它们之间的区别。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/06/18/你懂java吗-15/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/06/16/HTTP和HTTPS解读/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Luckylau">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/logo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Luckylau's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Luckylau's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/16/HTTP和HTTPS解读/" itemprop="url">
+                  HTTP和HTTPS解读
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-16T17:20:57+08:00">
+                2017-06-16
               </time>
             
 
@@ -385,19 +823,11 @@
 
       
         
-          <p>本文主要是基于学习《CCNA学习指南》总结网络必备的知识。</p>
-<p>本篇章涉及以下内容：</p>
-<p><strong>网络的工作原理</strong></p>
-<p><strong>实现 IP 编址方案和 IP 服务，以满足中型企业分支机构网络的网络需求</strong></p>
-<h3 id="子网划分基础"><a href="#子网划分基础" class="headerlink" title="子网划分基础"></a>子网划分基础</h3><p>​    如果要使用一个网络地址创建 6 个网络，该如何办呢?必须进行子网划分，它让你能够将大型网络划分成一系列小网络。</p>
-<p>好处在于：</p>
-<p>减少网络流量 </p>
-<p>优化网络性能 </p>
-<p>简化管理 </p>
-<p>有助于覆盖大型地理区域 </p>
+          <h3 id="Http-与-Https的区别"><a href="#Http-与-Https的区别" class="headerlink" title="Http 与 Https的区别"></a>Http 与 Https的区别</h3><p>​    Hyper Text Transfer Protocol，超文本传输协议，是互联网上使用最广泛的一种协议，所有WWW文件必须遵循的标准。HTTP协议传输的数据都是未加密的，也就是明文的，因此使用HTTP协议传输隐私信息非常不安全。<br>​    Hyper Text Transfer Protocol over Secure Socket Layer，安全的超文本传输协议，网景公司设计了SSL(Secure Sockets Layer)协议用于对Http协议传输的数据进行加密，保证会话过程中的安全性。<br>HTTP 和 HTTPS 的不同之处：</p>
+<p>HTTP 的 URL 以 http:// 开头，而 HTTPS 的 URL 以 https:// 开头<br>HTTP 是不安全的，而 HTTPS 是安全的<br>HTTP 标准端口是 80 ，而 HTTPS 的标准端口是 443<br>在 OSI 网络模型中，HTTP 工作于应用层，而 HTTPS 工作在传输层<br>HTTP 无需加密，而 HTTPS 对传输的数据进行加密<br>HTTP 无需证书，而 HTTPS 需要认证证书</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/06/07/你懂网络吗-4/#more" rel="contents">
+            <a class="btn" href="/2017/06/16/HTTP和HTTPS解读/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -438,7 +868,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/06/02/你懂java吗-13/">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/06/14/你懂java吗-14/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Luckylau">
@@ -463,8 +893,8 @@
             
               
                 
-                <a class="post-title-link" href="/2017/06/02/你懂java吗-13/" itemprop="url">
-                  Java虚拟机之类的加载器机制与过程
+                <a class="post-title-link" href="/2017/06/14/你懂java吗-14/" itemprop="url">
+                  Java基础之反射的机制与用途
                 </a>
               
             
@@ -480,8 +910,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-02T11:10:28+08:00">
-                2017-06-02
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-14T15:08:47+08:00">
+                2017-06-14
               </time>
             
 
@@ -539,30 +969,14 @@
 
       
         
-          <p><strong>JVM类加载器机制与类加载过程</strong></p>
-<table>
-<thead>
-<tr>
-<th>修改内容</th>
-<th>时间</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>初始化</td>
-<td>2017-6-02</td>
-</tr>
-<tr>
-<td>丰富</td>
-<td>2017-7-14</td>
-</tr>
-</tbody>
-</table>
-<h3 id="java是一种动态语言"><a href="#java是一种动态语言" class="headerlink" title="java是一种动态语言"></a>java是一种动态语言</h3><p>​    我们都知道JVM（java虚拟机）执行的不是本地机器码指令，而是执行一种称之为字节码的指令（存在于class文件中）。这就要求虚拟机在真正执行字节码之前，先把相关的class文件加载到内存中。<strong>虚拟机不是一次性加载所有需要的class文件，因为它在执行的时候根本不会知道以后会用到哪些class文件。它是每用到一个类，就会在运行时“动态地”加载和这个类相关的class文件。</strong>这就是java被称之为动态性语言的根本原因。除了动态加载类之外，还会动态的初始化类，对类进行动态链接。其中在JVM中负责对类进行加载的正是本文要介绍的类加载器(ClassLoader)，所以，类加载器是JVM不可或缺的重要组件。</p>
-<p><img src="/2017/06/02/你懂java吗-13/1.png" alt=""></p>
+          <p><strong>java的反射机制</strong></p>
+<h3 id="什么是java-lang-Class类？"><a href="#什么是java-lang-Class类？" class="headerlink" title="什么是java.lang.Class类？"></a>什么是java.lang.Class类？</h3><p>​    众所周知Java有个Object类，是所有Java类的继承根源，其内声明了数个应该在所有Java类中被改写的方法：hashCode()、equals()、clone()、toString()、getClass()等。其中getClass()返回一个Class类的对象。</p>
+<p>​    Class类十分特殊。它和一般class一样继承自Object，其实体用以表达Java程序运行时的class和interface，也用来表达enum、array、primitive Java types（boolean, byte, char, short, int, long, float, double）以及关键词void，也就是说运行时的class和interface，基本的 Java 类型（boolean、byte、char、short、int、long、float 和 double）和关键字 void 也都对应一个 Class 对象。 <strong>Class 没有公共构造方法，Class 对象是在加载类时由 Java 虚拟机以及通过调用类加载器中的 defineClass 方法自动构造的一个Class object（对象），因此不能显式地声明一个Class对象。</strong> </p>
+<p>​    每个数组属于被映射为 Class 对象的一个类，所有具有相同元素类型和维数的数组都共享该 Class 对象。</p>
+<p>​    一般某个类的Class对象被载入内存，它就用来创建这个类的所有对象。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/06/02/你懂java吗-13/#more" rel="contents">
+            <a class="btn" href="/2017/06/14/你懂java吗-14/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -603,7 +1017,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/06/01/你懂java吗-12/">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/06/12/SpringBoot之Spring-data-jpa/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Luckylau">
@@ -628,8 +1042,8 @@
             
               
                 
-                <a class="post-title-link" href="/2017/06/01/你懂java吗-12/" itemprop="url">
-                  Java虚拟机之运行时数据区
+                <a class="post-title-link" href="/2017/06/12/SpringBoot之Spring-data-jpa/" itemprop="url">
+                  SpringBoot之Spring-Data-JPA
                 </a>
               
             
@@ -645,8 +1059,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-01T09:33:07+08:00">
-                2017-06-01
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-12T11:30:22+08:00">
+                2017-06-12
               </time>
             
 
@@ -704,484 +1118,13 @@
 
       
         
-          <table>
-<thead>
-<tr>
-<th>修改内容</th>
-<th>时间</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>初版</td>
-<td>2017-06-01</td>
-</tr>
-<tr>
-<td>内存泄漏和访问堆中对象</td>
-<td>2017-07-06</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Java运行时数据区，探秘虚拟机内存管理</strong></p>
-<p>​    JVM就是一个特殊的进程， 我们执行的java程序， 都运行在一个JVM进程中， 这个进程的作用就是加载class文件， 并且执行class文件中的代码。既然虚拟机作为一个虚拟的计算机， 来执行我们的程序， 那么在执行的过程中， 必然要有地方存放我们的代码（class文件）； 在执行的过程中， 总会创建很多对象， 必须有地方存放这些对象； 在执行的过程中， 还需要保存一些执行的状态， 比如， 将要执行哪个方法， 当前方法执行完成之后， 要返回到哪个方法等信息， 所以， 必须有一个地方来保持执行的状态。 上面的描述中， “地方”指的当然就是内存区域， 程序运行起来之后， 就是一个动态的过程， 必须合理的划分内存区域， 来存放各种数据。</p>
-<p>​    JVM运行时数据区(JVM Runtime Area)其实就是指JVM在运行期间，其对计算机内存空间的划分和分配。</p>
-<h3 id="JVM的体系结构"><a href="#JVM的体系结构" class="headerlink" title="JVM的体系结构"></a>JVM的体系结构</h3><p><img src="/2017/06/01/你懂java吗-12/1.png" alt=""></p>
+          <h3 id="什么是Spring-Data-JPA？"><a href="#什么是Spring-Data-JPA？" class="headerlink" title="什么是Spring-Data-JPA？"></a>什么是Spring-Data-JPA？</h3><p>JPA（Java Persistence API，Java持久化API），定义了对象-关系映射（ORM）以及实体对象持久化的标准接口。</p>
+<p>Spring Data是一个用于简化数据库访问，并支持云服务的开源框架。其主要目标是使得对数据的访问变得方便快捷，并支持map-reduce框和云计算数据服务。 Spring Data 包含多个子项目，Spring-data-jpa是其中一个用于简化JPA开发的框架。</p>
+<p>Spring Data JPA的核心概念：</p>
+<p>Repository：最顶层的接口，是一个空的接口，目的是为了统一所有Repository的类型，且能让组件扫描的时候自动识别。<br>CrudRepository ：是Repository的子接口，提供CRUD的功能<br>PagingAndSortingRepository：是CrudRepository的子接口，添加分页和排序的功能<br>JpaRepository：是PagingAndSortingRepository的子接口，增加了一些实用的功能，比如：批量操作等。<br>JpaSpecificationExecutor：用来做负责查询的接口<br>Specification：是Spring Data JPA提供的一个查询规范，要做复杂的查询，只需围绕这个规范来设置查询条件即可。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/06/01/你懂java吗-12/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/05/26/你懂java吗-11/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Luckylau">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/logo.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Luckylau's Blog">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="Luckylau's Blog" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/05/26/你懂java吗-11/" itemprop="url">
-                  Java虚拟机之理解Class文件
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-26T11:45:45+08:00">
-                2017-05-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><strong>深入理解Java Class文件格式</strong></p>
-<h3 id="Class文件的位置和作用"><a href="#Class文件的位置和作用" class="headerlink" title="Class文件的位置和作用"></a>Class文件的位置和作用</h3><p>​    JVM不会理解我们写的Java源文件， 我们必须把Java源文件编译成class文件， 才能被JVM识别， 对于JVM而言， class文件相当于一个接口， 理解了这个接口， 能帮助我们更好的理解JVM的行为；另一方面， class文件以另一种方式重新描述了我们在源文件中要表达的意思， 理解class文件如何重新描述我们编写的源文件， 对于深入理解Java语言和语法都是很有帮助的。</p>
-<p> 在整个Java技术体系结构中， class文件处于中间的位置， 对于理解整个体系有着承上启下的作用。 </p>
-<p><img src="/2017/05/26/你懂java吗-11/1.png" alt=""></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/05/26/你懂java吗-11/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/05/26/你懂java吗-10/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Luckylau">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/logo.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Luckylau's Blog">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="Luckylau's Blog" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/05/26/你懂java吗-10/" itemprop="url">
-                  Java并发之线程的理解
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-26T10:14:57+08:00">
-                2017-05-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="并发的理解"><a href="#并发的理解" class="headerlink" title="并发的理解"></a>并发的理解</h3><p>​    对于一个CPU来说，无论我创建多少个线程，所谓的“并发执行”、“同时”其实都不是真正意义上的“同时”。操作系统将进程线程进行管理，轮流（没有固定的顺序）分配每个进程很短的一段时间（不一定是均分），然后在每个线程内部，程序代码自己处理该进程内部线程的时间分配，多个线程之间相互的切换去执行，这个切换时间也是非常短的。因此多任务、多进程、多线程都是操作系统给人的一种宏观感受，从微观角度看，程序的运行是异步执行的。虽然操作系统是多线程的，但CPU每一时刻只能做一件事。另外上下文开销是多线程面临的主要问题，可以通过无锁并发编程、CAS算法、使用最少线程和使用协程的方式解决。</p>
-<h3 id="线程和进程的区别"><a href="#线程和进程的区别" class="headerlink" title="线程和进程的区别"></a>线程和进程的区别</h3><p>1，每个进程都有独立的代码和数据空间，进程间的切换会有较大的开销；<br>2，线程可以看成是轻量级的进程，同一类线程共享代码和数据空间，每个线程有独立的运行栈和程序计数器，线程切换的开销小；<br>3，多进程：在操作系统中能同时运行多个任务(程序)；<br>4，多线程：在同一应用程序中有多个顺序流同时执行；</p>
-<p>参考可见：<a href="https://luckylau.github.io/2017/06/20/%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB/">线程与进程的区别</a></p>
-<h3 id="线程的实现"><a href="#线程的实现" class="headerlink" title="线程的实现"></a>线程的实现</h3><p>实现线程主要有3种方式：使用内核线程实现、 使用用户线程实现和使用用户线程加轻量级进程混合实现。</p>
-<p><strong>使用内核线程实现</strong></p>
-<p>​    内核线程（Kernel-Level Thread,KLT）就是直接由操作系统内核（Kernel，下称内核）支持的线程，这种线程由内核来完成线程切换，内核通过操纵调度器（Scheduler）对线程进行调度，并负责将线程的任务映射到各个处理器上。 每个内核线程可以视为内核的一个分身，这样操作系统就有能力同时处理多件事情，支持多线程的内核就叫做多线程内核（MultiThreads Kernel）。由于内核线程的支持，每个轻量级进程都成为一个独立的调度单元，即使有一个轻量级进程在系统调用中阻塞了，也不会影响整个进程继续工作，但是轻量级进程具有它的局限性：首先，由于是基于内核线程实现的，所以各种线程操作，如创建、 析构及同步，都需要进行系统调用。 而系统调用的代价相对较高，需要在用户态（User Mode）和内核态（KernelMode）中来回切换。 其次，每个轻量级进程都需要有一个内核线程的支持，因此轻量级进程要消耗一定的内核资源（如内核线程的栈空间），因此一个系统支持轻量级进程的数量是有限的。</p>
-<p><strong>使用用户线程实现</strong></p>
-<p>​    从广义上来讲，一个线程只要不是内核线程，就可以认为是用户线程（User Thread,UT），因此，从这个定义上来讲，轻量级进程也属于用户线程，但轻量级进程的实现始终是建立在内核之上的，许多操作都要进行系统调用，效率会受到限制。而狭义上的用户线程指的是完全建立在用户空间的线程库上，系统内核不能感知线程存在的实现。 用户线程的建立、 同步、 销毁和调度完全在用户态中完成，不需要内核的帮助。如果程序实现得当，这种线程不需要切换到内核态，因此操作可以是非常快速且低消耗的，也可以支持规模更大的线程数量，部分高性能数据库中的多线程就是由用户线程实现的。</p>
-<p>​    使用用户线程的优势在于不需要系统内核支援，劣势也在于没有系统内核的支援，所有的线程操作都需要用户程序自己处理。 线程的创建、 切换和调度都是需要考虑的问题，而且由于操作系统只把处理器资源分配到进程，那诸如“阻塞如何处理”、 “多处理器系统中如何将线程映射到其他处理器上”这类问题解决起来将会异常困难，甚至不可能完成。 因而使用用户线程实现的程序一般都比较复杂，除了以前在不支持多线程的操作系统中（如DOS）的多线程程序与少数有特殊需求的程序外，现在使用用户线程的程序越来越少了，Java、Ruby等语言都曾经使用过用户线程，最终又都放弃使用它。</p>
-<p><strong>使用用户线程加轻量级进程混合实现</strong></p>
-<p>​    用户线程还是完全建立在用户空间中，因此用户线程的创建、 切换、 析构等操作依然廉价，并且可以支持大规模的用户线程并发。 而操作系统提供支持的轻量级进程则作为用户线程和内核线程之间的桥梁，这样可以使用内核提供的线程调度功能及处理器映射，并且用户线程的系统调用要通过轻量级线程来完成，大大降低了整个进程被完全阻塞的风险。</p>
-<h3 id="线程的状态"><a href="#线程的状态" class="headerlink" title="线程的状态"></a>线程的状态</h3><p><img src="/2017/05/26/你懂java吗-10/1.png" alt=""></p>
-<p><img src="/2017/05/26/你懂java吗-10/2.png" alt=""></p>
-<h3 id="线程的创建"><a href="#线程的创建" class="headerlink" title="线程的创建"></a>线程的创建</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Calculator</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> number;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Calculator</span><span class="params">(<span class="keyword">int</span> number)</span></span>&#123;</div><div class="line">    	<span class="keyword">this</span>.number = number;</div><div class="line">    &#125;</div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="comment">// TODO Auto-generated method stub</span></div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=<span class="number">10</span>; i++)&#123;		</div><div class="line">			System.out.printf(<span class="string">"%s: %d * %d = %d\n"</span>,Thread.currentThread().getName(),number,i,i*number);</div><div class="line">			&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=<span class="number">2</span>; i++)&#123;</div><div class="line">			Calculator calculator=<span class="keyword">new</span> Calculator(i);</div><div class="line">			Thread thread=<span class="keyword">new</span> Thread(calculator);</div><div class="line">			thread.start();</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/05/26/你懂java吗-10/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/05/26/你懂java吗-9/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Luckylau">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/logo.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Luckylau's Blog">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="Luckylau's Blog" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/05/26/你懂java吗-9/" itemprop="url">
-                  Java虚拟机之理解Java虚拟机的含义
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-26T10:08:51+08:00">
-                2017-05-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="什么是Java虚拟机"><a href="#什么是Java虚拟机" class="headerlink" title="什么是Java虚拟机"></a><strong>什么是Java虚拟机</strong></h3><h4 id="从外部行为和功能理解Java虚拟机："><a href="#从外部行为和功能理解Java虚拟机：" class="headerlink" title="从外部行为和功能理解Java虚拟机："></a>从外部行为和功能理解Java虚拟机：</h4><p>​    虚拟机是一种抽象化的计算机，通过在实际的计算机上仿真模拟各种计算机功能来实现的。Java虚拟机有自己完善的硬体架构，如处理器、堆栈、寄存器等，还具有相应的指令系统。JVM屏蔽了与具体操作系统平台相关的信息，使得Java程序只需生成在Java虚拟机上运行的目标代码（字节码），就可以在多种平台上不加修改地运行。，简而言之，屏蔽底层操作系统平台的不同并且减少基于原生语言开发的复杂性，使java这门语言能够跨各种平台（只要虚拟机厂商在特定平台上实现了虚拟机），并且简单易用。</p>
-<h4 id="从操作系统进程理解Java虚拟机："><a href="#从操作系统进程理解Java虚拟机：" class="headerlink" title="从操作系统进程理解Java虚拟机："></a>从操作系统进程理解Java虚拟机：</h4><p>​    虚拟机是运行在操作系统之中的，那么什么东西才能在操作系统中运行呢？当然是进程，因为进程是操作系统中的执行单位。可以这样理解，当它在运行的时候，它就是一个操作系统中的进程实例，当它没有在运行时（作为可执行文件存放于文件系统中），可以把它叫做程序。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/05/26/你懂java吗-9/#more" rel="contents">
+            <a class="btn" href="/2017/06/12/SpringBoot之Spring-data-jpa/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1217,7 +1160,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/17/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><span class="page-number current">18</span><a class="page-number" href="/page/19/">19</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/19/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/17/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><span class="page-number current">18</span><a class="page-number" href="/page/19/">19</a><span class="space">&hellip;</span><a class="page-number" href="/page/31/">31</a><a class="extend next" rel="next" href="/page/19/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1260,7 +1203,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">175</span>
+                <span class="site-state-item-count">181</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

@@ -284,7 +284,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2018/02/22/微服务架构之Dubbo-12/">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2018/03/15/Zookeeper的原理-2/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Luckylau">
@@ -309,8 +309,8 @@
             
               
                 
-                <a class="post-title-link" href="/2018/02/22/微服务架构之Dubbo-12/" itemprop="url">
-                  微服务架构之Dubbo服务引用
+                <a class="post-title-link" href="/2018/03/15/Zookeeper的原理-2/" itemprop="url">
+                  Zookeeper的原理(2)
                 </a>
               
             
@@ -326,8 +326,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-22T09:54:15+08:00">
-                2018-02-22
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-15T19:09:59+08:00">
+                2018-03-15
               </time>
             
 
@@ -385,12 +385,12 @@
 
       
         
-          <p>之前讲解了Dubbo服务的发布，下面我们来看看如何进行服务的引用。</p>
-<p><img src="/2018/02/22/微服务架构之Dubbo-12/2.png" alt=""></p>
-<p>在Spring启动的时候，根据dubbo:reference配置会创建一个ReferenceBean。ReferenceBean继承了ReferenceConfig，重点是看init()方法，前面做了很多工作收集配置参数，然后根据参数信息创建代理</p>
+          <p>​        本章开始讲解Zookeeper重要的技术实现。在<a href="http://luckylau.tech/2018/03/13/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80%E7%90%86%E8%AE%BA-3/">分布式系统基础理论(3)</a>中，我们讲到了Zookeeper是采用ZAB协议保持一致性的。</p>
+<h3 id="系统模型"><a href="#系统模型" class="headerlink" title="系统模型"></a>系统模型</h3><h4 id="树形结构"><a href="#树形结构" class="headerlink" title="树形结构"></a>树形结构</h4><p>​         Zookeeper的数据节点称为ZNode，ZNode是Zookeeper中数据的最小单元，每个ZNode都可以保存数据，同时还可以挂载子节点，因此构成了一个层次化的命名空间，称为树。ZNode的节点路径标识方式和Unix文件系统路径非常相似，都是由一系列使用斜杠(/)进行分割的路径表示。</p>
+<p><img src="/2018/03/15/Zookeeper的原理-2/1.png" alt=""></p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/02/22/微服务架构之Dubbo-12/#more" rel="contents">
+            <a class="btn" href="/2018/03/15/Zookeeper的原理-2/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -431,7 +431,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2018/02/09/微服务架构之Dubbo-15/">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2018/03/13/分布式系统基础理论-3/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Luckylau">
@@ -456,8 +456,8 @@
             
               
                 
-                <a class="post-title-link" href="/2018/02/09/微服务架构之Dubbo-15/" itemprop="url">
-                  微服务架构之Dubbo服务降级(2)
+                <a class="post-title-link" href="/2018/03/13/分布式系统基础理论-3/" itemprop="url">
+                  分布式系统基础理论(3)
                 </a>
               
             
@@ -473,8 +473,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-09T11:45:32+08:00">
-                2018-02-09
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-13T10:07:57+08:00">
+                2018-03-13
               </time>
             
 
@@ -532,11 +532,11 @@
 
       
         
-          <p>​      在之前<a href="http://luckylau.tech/2018/01/22/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E4%B9%8BDubbo-6/">微服务架构之Dubbo服务降级(1)</a>讲解了mock的服务降级机制，其实stub可以说范围更广阔，更全面的服务降级。</p>
-<p>​        官方是这样介绍的：Mock是Stub（本地存根）的一个子集，便于服务提供方在客户端执行容错逻辑，因经常需要在出现RpcException(比如网络失败，超时等)时进行容错，而在出现业务异常(比如登录用户名密码错误)时不需要容错，<strong>如果用Stub, 需要捕获并依赖RpcException类，而用Mock就可以不依赖RpcException</strong>，因为它的约定就是只有出现RpcException时才执行。Mock通常用于服务降级，比如某验权服务，当服务提供方全部挂掉后，客户端不抛出异常，而是通过Mock数据返回授权失败。</p>
+          <p>本篇主要讲解分布式一致性或者叫共识（Consensus）算法（不考虑可能出现消息篡改即拜占庭问题），包括<strong>Paxos算法</strong>，<strong>Raft算法</strong>， <strong>Viewstamped Replication</strong>，<strong>ZAB协议</strong>。</p>
+<h3 id="Paxos算法"><a href="#Paxos算法" class="headerlink" title="Paxos算法"></a>Paxos算法</h3><p>Paxos算法是基于消息传递且具有高度容错特性的一致性算法，是目前公认的解决分布式一致性问题最有效的算法之一。协议本身并没有多难理解，它的难理解性主要体现在：为何如此设计协议以及如何证明其正确性。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/02/09/微服务架构之Dubbo-15/#more" rel="contents">
+            <a class="btn" href="/2018/03/13/分布式系统基础理论-3/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -577,7 +577,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2018/02/09/微服务架构之Dubbo-14/">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2018/03/12/分布式系统基础理论-2/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Luckylau">
@@ -602,8 +602,8 @@
             
               
                 
-                <a class="post-title-link" href="/2018/02/09/微服务架构之Dubbo-14/" itemprop="url">
-                  微服务架构之Dubbo服务发布(4)
+                <a class="post-title-link" href="/2018/03/12/分布式系统基础理论-2/" itemprop="url">
+                  分布式系统基础理论(2)
                 </a>
               
             
@@ -619,8 +619,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-09T10:42:13+08:00">
-                2018-02-09
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-12T15:47:07+08:00">
+                2018-03-12
               </time>
             
 
@@ -678,13 +678,12 @@
 
       
         
-          <h3 id="zookeeper连接-注册与监听"><a href="#zookeeper连接-注册与监听" class="headerlink" title="zookeeper连接,注册与监听"></a>zookeeper连接,注册与监听</h3><p>接着<a href="http://luckylau.tech/2018/02/07/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E4%B9%8BDubbo-11/">微服务架构之Dubbo服务发布(2）</a>我们详细讲解</p>
-<h4 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//首先获取注册中心的地址</span></div><div class="line">URL registryUrl = getRegistryUrl(originInvoker);</div><div class="line"><span class="comment">//返回的格式是zookeeper://</span></div><div class="line"><span class="keyword">final</span> Registry registry = getRegistry(originInvoker);</div></pre></td></tr></table></figure>
-<p>首先第一个重点来了，追踪代码流程，我们先看其时序图，最终registry的实例是ZookeeperRegistry。</p>
-<p><img src="/2018/02/09/微服务架构之Dubbo-14/1.png" alt=""></p>
+          <p>本篇主要讲解<strong>2PC</strong>和<strong>3PC</strong>以及<strong>TCC</strong>理论,同时介绍一个解决分布式事务的开源项目saga。</p>
+<p>最近看了《从Paxos到zookeeper 分布式一致性原理与实践》以及《分布式服务架构：原理，设计与实战》这本书，结合之前的看到的优秀博客，做一下梳理。</p>
+<p>​        在了解2PC和3PC之前先来了解<strong>XA规范</strong>。XA是由X/Open组织提出的分布式事务的规范。X/Open DTP模型（1994）包括应用程序（AP）、事务管理器（TM）、资源管理器（RM）、通信资源管理器（CRM）四部分。事务管理器（TM）是交易中间件，资源管理器（RM）是数据库，通信资源管理器（CRM）是消息中间件。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/02/09/微服务架构之Dubbo-14/#more" rel="contents">
+            <a class="btn" href="/2018/03/12/分布式系统基础理论-2/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -725,7 +724,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2018/02/09/微服务架构之Dubbo-13/">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2018/03/09/分布式系统基础理论/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Luckylau">
@@ -750,8 +749,8 @@
             
               
                 
-                <a class="post-title-link" href="/2018/02/09/微服务架构之Dubbo-13/" itemprop="url">
-                  微服务架构之Dubbo服务发布(3)
+                <a class="post-title-link" href="/2018/03/09/分布式系统基础理论/" itemprop="url">
+                  分布式系统基础理论(1)
                 </a>
               
             
@@ -767,8 +766,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-09T10:41:14+08:00">
-                2018-02-09
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-09T11:09:40+08:00">
+                2018-03-09
               </time>
             
 
@@ -826,12 +825,13 @@
 
       
         
-          <h3 id="netty的启动"><a href="#netty的启动" class="headerlink" title="netty的启动"></a>netty的启动</h3><p>接着<a href="http://luckylau.tech/2018/02/07/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E4%B9%8BDubbo-11/">微服务架构之Dubbo服务发布(2）</a>我们详细讲解</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">final</span> ExporterChangeableWrapper&lt;T&gt; exporter = doLocalExport(originInvoker);</div></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> &lt;T&gt; <span class="function">ExporterChangeableWrapper&lt;T&gt; <span class="title">doLocalExport</span><span class="params">(<span class="keyword">final</span> Invoker&lt;T&gt; originInvoker)</span> </span>&#123;</div><div class="line">        String key = getCacheKey(originInvoker);</div><div class="line">        ExporterChangeableWrapper&lt;T&gt; exporter = (ExporterChangeableWrapper&lt;T&gt;) bounds.get(key);</div><div class="line">        <span class="keyword">if</span> (exporter == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">synchronized</span> (bounds) &#123;</div><div class="line">                exporter = (ExporterChangeableWrapper&lt;T&gt;) bounds.get(key);</div><div class="line">                <span class="keyword">if</span> (exporter == <span class="keyword">null</span>) &#123;</div><div class="line">                    <span class="keyword">final</span> Invoker&lt;?&gt; invokerDelegete = <span class="keyword">new</span> InvokerDelegete&lt;T&gt;(originInvoker, getProviderUrl(originInvoker));</div><div class="line"><span class="comment">//这里最重要的是调用DubboProtocol的export方法，导出完之后，返回一个新的ExporterChangeableWrapper实例</span></div><div class="line">                    exporter = <span class="keyword">new</span> ExporterChangeableWrapper&lt;T&gt;((Exporter&lt;T&gt;) protocol.export(invokerDelegete), originInvoker);</div><div class="line">                    bounds.put(key, exporter);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> exporter;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+          <p>本篇主要讲解<strong>ACID, CAP</strong>和 <strong>BASE</strong>。</p>
+<p>​       最近看了《从Paxos到zookeeper 分布式一致性原理与实践》这本书，想提取总结一些分布式相关的内容，做一下梳理，本篇主要讲解<strong>ACID</strong>, <strong>CAP</strong>和 <strong>BASE</strong>。</p>
+<p>在《分布式系统概念与设计》一书中对分布式定义如下：</p>
+<p>​          分布式系统是一个硬件或软件组件分布在不同的网络计算机上，彼此之间仅仅通过消息传递进行通信和协调的系统。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/02/09/微服务架构之Dubbo-13/#more" rel="contents">
+            <a class="btn" href="/2018/03/09/分布式系统基础理论/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -872,7 +872,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2018/02/07/微服务架构之Dubbo-11/">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2018/03/05/Zookeeper的原理（1）/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Luckylau">
@@ -897,8 +897,8 @@
             
               
                 
-                <a class="post-title-link" href="/2018/02/07/微服务架构之Dubbo-11/" itemprop="url">
-                  微服务架构之Dubbo服务发布(2)
+                <a class="post-title-link" href="/2018/03/05/Zookeeper的原理（1）/" itemprop="url">
+                  Zookeeper的原理(1)
                 </a>
               
             
@@ -914,8 +914,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-07T15:22:22+08:00">
-                2018-02-07
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-05T13:31:29+08:00">
+                2018-03-05
               </time>
             
 
@@ -973,12 +973,11 @@
 
       
         
-          <h3 id="本地暴露"><a href="#本地暴露" class="headerlink" title="本地暴露"></a>本地暴露</h3><p>上一篇中<a href="http://luckylau.tech/2018/02/07/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E4%B9%8BDubbo-10/">微服务架构之Dubbo服务发布(1)</a>我们提到本地暴露，是在exportLocal(URL url)中</p>
-<p>传进来的url如图所示</p>
-<p><img src="/2018/02/07/微服务架构之Dubbo-11/2.png" alt=""></p>
+          <p>​         Apache Zookeeper是由Apache Hadoop的子项目发展而来，于2010年11月正式成为Apache顶级项目。<strong>Zookeeper为分布式应用提供高效且可靠的分布式协调服务，提供了统一命名服务、配置管理、分布式锁等分布式的基础服务。</strong>Zookeeper并没有直接采用Paxos算法，而是采用了一种被称为ZAB(Zookeeper Atomic Broadcast)的一致性协议。</p>
+<h3 id="什么是Zookeeper"><a href="#什么是Zookeeper" class="headerlink" title="什么是Zookeeper"></a>什么是Zookeeper</h3><p>​        Zookeeper是一个开源的分布式协调服务，由Yahoo创建，是Google Chubby的开源实现。Zookeeper将那些复杂且容易出错的分布式一致性服务封装起来，构成一个高效可靠的原语集，并以一系列简单易用的接口提供给用户使用。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/02/07/微服务架构之Dubbo-11/#more" rel="contents">
+            <a class="btn" href="/2018/03/05/Zookeeper的原理（1）/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1019,7 +1018,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2018/02/07/微服务架构之Dubbo-10/">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2018/02/28/Spring的设计思想之整体架构/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Luckylau">
@@ -1044,8 +1043,8 @@
             
               
                 
-                <a class="post-title-link" href="/2018/02/07/微服务架构之Dubbo-10/" itemprop="url">
-                  微服务架构之Dubbo服务发布(1)
+                <a class="post-title-link" href="/2018/02/28/Spring的设计思想之整体架构/" itemprop="url">
+                  Spring的设计思想之整体架构
                 </a>
               
             
@@ -1061,8 +1060,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-07T13:34:13+08:00">
-                2018-02-07
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-28T13:42:37+08:00">
+                2018-02-28
               </time>
             
 
@@ -1084,8 +1083,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/分布式架构/" itemprop="url" rel="index">
-                    <span itemprop="name">分布式架构</span>
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
                   </a>
                 </span>
 
@@ -1120,18 +1119,9 @@
 
       
         
-          <p>​       这一部分主要梳理Dubbo的服务发布的原理，会涉及dubbo-config等模块内容，从以下几个方面来一步一步深入学习。</p>
-<p>dubbo-config模块包括dubbo-config-api 和dubbo-config-spring 。</p>
-<p>dubbo-config-api中重要的类包括ReferenceConfig和ServiceConfig，分别处理消费端的配置（服务引用）和提供服务端的配置（服务发布）</p>
-<p>dubbo-config-spring 主要是扩展spring配置标签的扩展；</p>
-<p><img src="/2018/02/07/微服务架构之Dubbo-10/1.jpg" alt=""></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/02/07/微服务架构之Dubbo-10/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
+            
+          
         
       
     </div>
@@ -1163,7 +1153,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/9/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/11/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/9/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/31/">31</a><a class="extend next" rel="next" href="/page/11/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1206,7 +1196,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">175</span>
+                <span class="site-state-item-count">181</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

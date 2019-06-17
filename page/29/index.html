@@ -284,7 +284,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/01/23/什么是overllay网络/">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/02/25/线程同步工具CountDownLatch，CyclicBarrier和Semaphore的用法/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Luckylau">
@@ -309,8 +309,8 @@
             
               
                 
-                <a class="post-title-link" href="/2017/01/23/什么是overllay网络/" itemprop="url">
-                  什么是overlay网络
+                <a class="post-title-link" href="/2017/02/25/线程同步工具CountDownLatch，CyclicBarrier和Semaphore的用法/" itemprop="url">
+                  Java并发之线程同步工具
                 </a>
               
             
@@ -326,7 +326,736 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-23T10:14:14+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-25T23:12:30+08:00">
+                2017-02-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h4 id="CountDownLatch"><a href="#CountDownLatch" class="headerlink" title="CountDownLatch"></a>CountDownLatch</h4><p>​       CountDownLatch是一个同步工具类，它允许一个或多个线程一直等待，直到其他线程的操作执行完后再执行。CountDownLatch的一个非常典型的应用场景是：有一个任务想要往下执行，但必须要等到其他的任务执行完毕后才可以继续往下执行。假如我们这个想要继续往下执行的任务调用一个CountDownLatch对象的await()方法，其他的任务执行完自己的任务后调用同一个CountDownLatch对象上的countDown()方法，这个调用await()方法的任务将一直阻塞等待，直到这个CountDownLatch对象的计数值减到0为止。</p>
+<p>伪代码为：</p>
+<p>​    Main thread start<br>​    Create CountDownLatch for N threads<br>​    Create and start N threads<br>​    Main thread wait on latch<br>​    N threads completes there tasks are returns<br>​    Main thread resume execution</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/02/25/线程同步工具CountDownLatch，CyclicBarrier和Semaphore的用法/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/02/23/Java并发之Executor框架和线程池/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Luckylau">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/logo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Luckylau's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Luckylau's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/02/23/Java并发之Executor框架和线程池/" itemprop="url">
+                  Java并发之Executor框架
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-23T10:44:32+08:00">
+                2017-02-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="基础简介"><a href="#基础简介" class="headerlink" title="基础简介"></a>基础简介</h3><p>​        在Java中，使用线程来异步执行任务 。Java线程的创建与销毁需要一定的开销，如果我们为每一个任务创建一个新线程来执行，这些线程的创建与销毁将消耗大量的计算资源。同时，为每一个任务创建一个新线程来执行，这种策略可能会使处于高负荷状态的应用最终崩溃。Java的线程既是工作单元，也是执行机制。从JDK 5开始，把工作单元与执行机制分离开来。工作单元包括Runnable和Callable，而执行机制由Executor框架提供，通过该框架来控制线程的启动、执行和关闭，可以简化并发编程的操作。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/02/23/Java并发之Executor框架和线程池/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/02/15/HttpClient工具类的封装/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Luckylau">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/logo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Luckylau's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Luckylau's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/02/15/HttpClient工具类的封装/" itemprop="url">
+                  HttpClient工具类
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-15T14:10:43+08:00">
+                2017-02-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h4 id="一-HttpClient-介绍："><a href="#一-HttpClient-介绍：" class="headerlink" title="一.HttpClient 介绍："></a>一.HttpClient 介绍：</h4><p>​       HttpClient相比传统JDK自带的URLConnection，增加了易用性和灵活性，它不仅是客户端发送Http请求变得容易，而且也方便了开发人员测试接口（基于Http协议的），即提高了开发的效率，也方便提高代码的健壮性。它支持在HTTP/1.1规范中定义的所有的HTTP方法：GET, HEAD, POST, PUT, DELETE, TRACE 和 OPTIONS。每有一个方法都有一个对应的类：HttpGet，HttpHead，HttpPost，HttpPut，HttpDelete，HttpTrace和HttpOptions。所有的这些类均实现了HttpUriRequest接口，故可以作为execute的执行参数使用。 HTTP请求的URI包含一个协议计划protocol scheme，主机名host name,，可选的端口optional port，资源的路径resource path，可选的查询optional query和可选的片段optional fragment。</p>
+<h4 id="二-特性："><a href="#二-特性：" class="headerlink" title="二. 特性："></a>二. 特性：</h4><p>​       基于标准、纯净的Java语言。实现了Http1.0和Http1.1</p>
+<p>​       以可扩展的面向对象的结构实现了Http全部的方法（GET, POST, PUT, DELETE, HEAD, OPTIONS, and TRACE）。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/02/15/HttpClient工具类的封装/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/02/06/BeanUtils-copyProperties-与-PropertyUtils-copyProperties/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Luckylau">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/logo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Luckylau's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Luckylau's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/02/06/BeanUtils-copyProperties-与-PropertyUtils-copyProperties/" itemprop="url">
+                  BeanUtils.copyProperties 与 PropertyUtils.copyProperties
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-06T15:15:39+08:00">
+                2017-02-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>首先明确一点是BeanUtils.copyProperties 存在于spring和apache commons-beanutils，PropertyUtils.copyProperties存在于apache commons-PropertyUtils。</p>
+<p>org.springframework.beans.BeanUtils;</p>
+<p>org.apache.commons.beanutils.BeanUtils;</p>
+<p>org.apache.commons.beanutils.PropertyUtils;</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/02/06/BeanUtils-copyProperties-与-PropertyUtils-copyProperties/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/01/27/历史金融危机一览表/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Luckylau">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/logo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Luckylau's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Luckylau's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/01/27/历史金融危机一览表/" itemprop="url">
+                  历史金融危机一览表
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-27T23:03:47+08:00">
+                2017-01-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/经济/" itemprop="url" rel="index">
+                    <span itemprop="name">经济</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="历史金融危机一览表"><a href="#历史金融危机一览表" class="headerlink" title="历史金融危机一览表"></a>历史金融危机一览表</h2><p><img src="/2017/01/27/历史金融危机一览表/1.jpg" alt=""></p>
+<p><img src="/2017/01/27/历史金融危机一览表/2.jpg" alt=""></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/01/23/什么是vxlan网络/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Luckylau">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/logo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Luckylau's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Luckylau's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/01/23/什么是vxlan网络/" itemprop="url">
+                  什么是vxlan网络
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-23T13:11:20+08:00">
                 2017-01-23
               </time>
             
@@ -385,753 +1114,166 @@
 
       
         
-          <p>​        Overlay在网络技术领域，指的是一种网络架构上叠加的虚拟化技术模式，其大体框架是对基础网络不进行大规模修改的条件下，实现应用在网络上的承载，并能与其它网络业务分离，并且以基于IP的基础网络技术为主。</p>
-<p>​        随着云计算虚拟化的驱动，基于主机虚拟化的Overlay技术出现，在服务器的Hypervisor内vSwitch上支持了基于IP的二层Overlay技术，通过更靠近应用的边缘来提供网络虚拟化服务，其目的是使虚拟机的部署与业务活动脱离物理网络及其限制，使得云计算的网络形态不断完善。主机的vSwitch支持基于IP的Overlay之后，虚机的二层访问直接构建在Overlay之上，物理网不再感知虚机的诸多特性。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/01/23/什么是overllay网络/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/01/22/pyinstaller使用技巧/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Luckylau">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/logo.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Luckylau's Blog">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="Luckylau's Blog" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/22/pyinstaller使用技巧/" itemprop="url">
-                  pyinstaller使用技巧
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-22T16:36:56+08:00">
-                2017-01-22
-              </time>
-            
-
-            
-
-            
-          </span>
+          
+            <h3 id="前言："><a href="#前言：" class="headerlink" title="前言："></a>前言：</h3><p>​       处在年末工作的最后一天，其实也没有心情学习了，要不就总结和整理一下之前看的vxlan网络，大部分的内容还是复制拷贝的，只是按照自己的分明别类梳理梳理。vxlan网络是云计算网络的基础，openstack本身也是一种基础性简单使用，但还是有必要从理论上来学习vxlan网络。</p>
+<h3 id="云计算虚拟化对传统网络带来的挑战"><a href="#云计算虚拟化对传统网络带来的挑战" class="headerlink" title="云计算虚拟化对传统网络带来的挑战"></a>云计算虚拟化对传统网络带来的挑战</h3><p>​         云计算、虚拟化相关技术的发展，传统的网络无法满足于规模大、灵活性要求高的云数据中心的要求，于是便有了overlay网络的概念。overlay网络中被广泛应用的就是vxlan技术。首先我们了解一下随着云计算的发展，传统网络面临哪些挑战。</p>
+<p>1.虚拟机迁移范围受到网络架构限制</p>
+<p>​        虚拟机迁移，顾名思义，就是将虚拟机从一个物理机迁移到另一个物理机，但是要求在迁移过程中业务不能中断。要做到这一点，需要保证虚拟机迁移前后，其IP地址、MAC地址等参数维持不变。这就决定了，虚拟机迁移必须发生在一个二层域中。对于传统网络就要求网络本身具备多路径多链路的冗余和可靠性。传统的网络生成树(STPSpaning Tree Protocol)技术不仅部署繁琐荣，且协议复杂，网络规模不宜过大，限制了虚拟化的网络扩展性。基于各厂家私有的的IRF/vPC等设备级的(网络N:1)虚拟化技术，虽然可以简化拓扑简化、具备高可靠性的能力，但是对于网络有强制的拓扑形状限制，在网络的规模和灵活性上有所欠缺，只适合小规模网络构建，且一般适用于数据中心内部网络。而为了大规模网络扩展的TRILL/SPB/FabricPath/VPLS等技术，虽然解决了上述技术的不足，但对网络有特殊要求，即网络中的设备均要软硬件升级而支持此类新技术，带来部署成本的上升。</p>
+<p>2.虚拟机规模受网络设备表项规格的限制 </p>
+<p>​        在大二层网络环境下，数据流均需要通过明确的网络寻址以保证准确到达目的地，因此网络设备的二层地址表项大小(即MAC地址表)，成为决定了云计算环境下虚拟机的规模的上限，并且因为表项并非百分之百的有效性，使得可用的虚机数量进一步降低，特别是对于低成本的接入设备而言，因其表项一般规格较小，限制了整个云计算数据中心的虚拟机数量，但如果其地址表项设计为与核心或网关设备在同一档次，则会提升网络建设成本。虽然核心或网关设备的MAC与ARP规格会随着虚拟机增长也面临挑战，但对于此层次设备能力而言，大规格是不可避免的业务支撑要求。减小接入设备规格压力的做法可以是分离网关能力，如采用多个网关来分担虚机的终结和承载，但如此也会带来成本的上升。</p>
+<p>3.网络隔离/分离能力限制</p>
+<p>​         VLAN作为当前主流的网络隔离技术，在标准定义中只有12比特，也就是说可用的VLAN数量只有4000个左右。对于公有云或其它大型虚拟化云计算服务这种动辄上万甚至更多租户的场景而言，VLAN的隔离能力显然已经力不从心。</p>
+<h3 id="VLAXN网络的初相识"><a href="#VLAXN网络的初相识" class="headerlink" title="VLAXN网络的初相识"></a>VLAXN网络的初相识</h3><p>1.VXLAN网络模型</p>
+<p><img src="/2017/01/23/什么是vxlan网络/2.png" alt=""></p>
+<p>从上图可以看到，VXLAN网络中出现了以下传统数据中心网络中没有的新元素：</p>
+<p>VTEP（VXLAN Tunnel Endpoints，VXLAN隧道端点）<br>VXLAN网络的边缘设备，是VXLAN隧道的起点和终点，VXLAN报文的相关处理均在这上面进行。总之，它是VXLAN网络中绝对的主角。VTEP既可以是独立的网络设备（比如华为的CE系列交换机），也可以是虚拟机所在的服务器。那它究竟是如何发挥作用的呢？答案稍候揭晓。</p>
+<p>VNI（VXLAN Network Identifier，VXLAN 网络标识符）<br>前文提到，以太网数据帧中VLAN只占了12比特的空间，这使得VLAN的隔离能力在数据中心网络中力不从心。而VNI的出现，就是专门解决这个问题的。VNI是一种类似于VLAN ID的用户标示，一个VNI代表了一个租户，属于不同VNI的虚拟机之间不能直接进行二层通信。VXLAN报文封装时，给VNI分配了足够的空间使其可以支持海量租户的隔离。详细的实现，我们将在后文中介绍。</p>
+<p>VXLAN隧道<br>“隧道”是一个逻辑上的概念，它并不新鲜，比如大家熟悉的GRE。说白了就是将原始报文“变身”下，加以“包装”，好让它可以在承载网络（比如IP网络）上传输。从主机的角度看，就好像原始报文的起点和终点之间，有一条直通的链路一样。而这个看起来直通的链路，就是“隧道”。顾名思义，“VXLAN隧道”便是用来传输经过VXLAN封装的报文的，它是建立在两个VTEP之间的一条虚拟通道。</p>
+<p>2.VXLAN是如何解决以上挑战</p>
+<p>2.1解决虚拟机迁移范围受到网络架构限制问题</p>
+<p>​        overlay网络的本质是在三层网络中实现二层网络的扩展。三层网络可以通过路由的方式在网络中分发，而路由网络本身并无特殊网络结构限制，具备良性大规模扩展能力，并且对设备本身无特殊要求，以高性能路由转发为佳，且路由网络本身具备很强的的故障自愈能力、负载均衡能力。前面提到，为了保证业务不中断，VM的迁移就必须发生在同一个二层域内。有了VTEP的封装机制和VXLAN隧道后，所谓的 “二层域”就可以轻而易举的突破物理上的界限？也就是说，在IP网络中， “明”里传输的是跨越三层网络的UDP报文，“暗”里却已经悄悄将源VM的原始报文送达目的VM。就好像在三层的网络之上，构建出了一个虚拟的二层网络，而且只要IP网络路由可达，这个虚拟的二层网络想做多大就做多大。</p>
+<p>2.2解决虚拟机规模受网络设备表项规格的限制问题</p>
+<p>​        既然无法提升设备表项规格，那就只能限制设备上的MAC表项，将大量VM的MAC地址“隐形”。VTEP会将VM发出的原始报文封装成一个新的UDP报文，并使用物理网络的IP和MAC地址作为外层头，对网络中的其他设备只表现为封装后的参数。也就是说，网络中的其他设备看不到VM发送的原始报文。</p>
+<p>​       如果服务器作为VTEP，那从服务器发送到接入设备的报文便是经过封装后的报文，这样，接入设备就不需要学习VM的MAC地址了，它只需要根据外层封装的报文头负责基本的三层转发就可以了。因此，虚拟机规模就不会受网络设备表项规格的限制了。</p>
+<p>​        当然，如果网络设备作为VTEP，它还是需要学习VM的MAC地址。但是，从对报文进行封装的角度来说，网络设备的性能还是要比服务器强很多。</p>
+<p>2.3解决网络隔离/分离能力限制</p>
+<p>​        一个VNI代表了一个租户，属于不同VNI的虚拟机之间不能直接进行二层通信。VTEP在对报文进行VXLAN封装时，给VNI分配了24比特的空间，这就意味着VXLAN网络理论上支持多达16M（即：2^24-1）的租户隔离。相比VLAN，VNI的隔离能力得到了巨大的提升，有效得解决了云计算中海量租户隔离的问题。</p>
+<p>3.VXLAN报文格式</p>
+<p><img src="/2017/01/23/什么是vxlan网络/3.png" alt=""></p>
+<p><img src="/2017/01/23/什么是vxlan网络/4.png" alt=""></p>
+<p>VTEP对VM发送的原始以太帧（Original L2 Frame）进行了以下“包装”：</p>
+<p>VXLAN Header:</p>
+<p>​          增加VXLAN头（8字节），其中包含24比特的VNI字段，用来定义VXLAN网络中不同的租户。此外，还包含VXLAN Flags（8比特，取值为00001000）和两个保留字段（分别为24比特和8比特）。</p>
+<p> UDP Header:</p>
+<p>​          VXLAN头和原始以太帧一起作为UDP的数据。UDP头中，目的端口号（VXLAN Port）固定为4789，源端口号（UDP Src. Port）是原始以太帧通过哈希算法计算后的值。</p>
+<p>Outer IP Header:</p>
+<p>​         封装外层IP头。其中，源IP地址（Outer Src. IP）为源VM所属VTEP的IP地址，目的IP地址（Outer Dst. IP）为目的VM所属VTEP的IP地址。</p>
+<p> Outer MAC Header:</p>
+<p>​        封装外层以太头。其中，源MAC地址（Src. MAC Addr.）为源VM所属VTEP的MAC地址，目的MAC地址（Dst. MAC Addr.）为到达目的VTEP的路径上下一跳设备的MAC地址。</p>
+<h3 id="VXLAN报文转发机制"><a href="#VXLAN报文转发机制" class="headerlink" title="VXLAN报文转发机制"></a>VXLAN报文转发机制</h3><p>以CE系列交换机的实现为例</p>
+<p>1.建立VXLAN隧道</p>
+<p><img src="/2017/01/23/什么是vxlan网络/5.png" alt=""></p>
+<p>前面提到的“同一大二层域”，就类似于传统网络中VLAN（虚拟局域网）的概念，只不过在VXLAN网络中，它有另外一个名字，叫做Bridge-Domain，简称BD。</p>
+<p>​         我们知道，不同的VLAN是通过VLAN ID来进行区分的，那不同的BD是如何进行区分的呢？其实前面已经提到了，就是通过VNI来区分的。对于CE系列交换机而言，BD与VNI是1：1的映射关系，这种映射关系是通过在VTEP上配置命令行建立起来的。配置如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">bridge-domain 10   //表示创建一个“大二层广播域”BD，其编号为10</div><div class="line"> vxlan vni 5000  //表示在BD 10下，指定与之关联的VNI为5000</div></pre></td></tr></table></figure>
+<p>VTEP会根据以上配置生成BD与VNI的映射关系表，该映射表可以通过命令行查看，如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;HUAWEI&gt; display vxlan vni</div><div class="line">Number of vxlan vni : 1</div><div class="line">VNI            BD-ID            State </div><div class="line">----------------------------------</div><div class="line">5000           10               up</div></pre></td></tr></table></figure>
+<p>有了映射表后，进入VTEP的报文就可以根据自己所属的BD来确定报文封装时该添加哪个VNI。那么，报文根据什么来确定自己属于哪个BD呢？</p>
+<p>在回答“如何确定报文属于哪个BD”之前，必须先要回答“哪些报文要进入VXLAN隧道”。</p>
+<p>​       在VXLAN网络中，VTEP上有一个叫做“二层子接口”的逻辑接口，主要做两件事：一是根据配置来检查哪些报文需要进入VXLAN隧道；二是判断对检查通过的报文做怎样的处理。在二层子接口上，可以根据需要定义不同的流封装类型（类似于传统网络中不同的接口类型）。CE系列交换机目前支持三种不同的流封装类型，分别是dot1q、untag和default，它们各自对报文的处理方式如表3-1所示。有了这张表，你就能明白哪些报文要进VXLAN隧道了。</p>
+<table>
+<thead>
+<tr>
+<th>流封装类型</th>
+<th>允许进入VXLAN隧道的报文类型</th>
+<th>报文进行封装前的处理</th>
+<th>收到VXLAN报文并解封装后的处理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>dot1q</td>
+<td>只允许携带指定VLAN Tag的报文进入VXLAN隧道。（这里的“指定VLAN Tag”是通过命令进行配置的）</td>
+<td>进行VXLAN封装前，先剥掉原始报文的外层VLAN Tag</td>
+<td>进行VXLAN解封装后：若内层原始报文带有VLAN Tag，则先将该VLAN Tag替换为指定的VLAN Tag，再转发；若内层原始报文不带VLAN Tag，则先将其添加指定的VLAN Tag，再转发。</td>
+</tr>
+<tr>
+<td>untag</td>
+<td>只允许不携带VLAN Tag的报文进入VXLAN隧道。</td>
+<td>进行VXLAN封装前，不对原始报文做处理，即不添加任何VLAN Tag。</td>
+<td>进行VXLAN解封装后，不对原始报文做处理，即不添加/不替换/不剥掉任何VLAN Tag。</td>
+</tr>
+<tr>
+<td>default</td>
+<td>允许所有报文进入VXLAN隧道，不论报文是否携带VLAN Tag。</td>
+<td>进行VXLAN封装前，不对原始报文做处理，即不添加/不替换/不剥掉任何VLAN Tag。</td>
+<td>进行VXLAN解封装后，不对原始报文做处理，即不添加/不替换/不剥掉任何VLAN Tag。</td>
+</tr>
+</tbody>
+</table>
+<p>说明：VXLAN隧道两端二层子接口的配置并不一定是完全对等的。正因为这样，才可能实现属于同一网段但是不同VLAN的两个VM通过VXLAN隧道进行通信。</p>
+<p>看了上面的描述，再来回答“如何确定报文属于哪个BD”就非常简单了。其实，只要将二层子接口加入指定的BD，然后根据二层子接口上的配置，就可以确定报文属于哪个BD啦！</p>
+<p>比如下图所示的组网，我们可以分别在VTEP的两个物理接口10GE 1/0/1和10GE 1/0/2上配置不同流封装类型的二层子接口并将其分别加入不同的BD。</p>
+<p><img src="/2017/01/23/什么是vxlan网络/6.png" alt=""></p>
+<p>基于二层物理接口10GE 1/0/1，分别创建二层子接口10GE 1/0/1.1和10GE 1/0/1.2，且分别配置其流封装类型为dot1q和untag。配置如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">interface 10GE1/0/1.1 mode l2   //创建二层子接口10GE1/0/1.1</div><div class="line"> encapsulation dot1q vid 10   //只允许携带VLAN Tag 10的报文进入VXLAN隧道</div><div class="line"> bridge-domain 10   //报文进入的是BD 10</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">interface 10GE1/0/1.2 mode l2   //创建二层子接口10GE1/0/1.2</div><div class="line"> encapsulation untag   //只允许不携带VLAN Tag的报文进入VXLAN隧道</div><div class="line"> bridge-domain 20   //报文进入的是BD 20</div></pre></td></tr></table></figure>
+<p>基于二层物理接口10GE 1/0/2，创建二层子接口10GE 1/0/2.1，且流封装类型为default。配置如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">interface 10GE1/0/2.1 mode l2   //创建二层子接口10GE1/0/2.1</div><div class="line"> encapsulation default   //允许所有报文进入VXLAN隧道</div><div class="line"> bridge-domain 30   //报文进入的是BD 30</div></pre></td></tr></table></figure>
+<p>此时你可能会有这样的疑问，为什么要在10GE 1/0/1上创建两个不同类型的子接口？是否还可以继续在10GE 1/0/1上创建一个default类型的二层子接口？换句话说，用户应该如何选择配置哪种类型的二层子接口？三种类型的二层子接口之间，是否存在配置约束关系？</p>
+<p>答案是不可以。其实根据上表的描述，这一点很容易理解。因为default类型的二层子接口允许所有报文进入VXLAN隧道，而dot1q和untag类型的二层子接口只允许某一类报文进入VXLAN隧道。这就决定了，default类型的二层子接口跟其他两种类型的二层子接口是不可以在同一物理接口上共存的。否则，报文到了接口之后如何判断要进入哪个二层子接口呢。所以，default类型的子接口，一般应用在经过此接口的报文均需要走同一条VXLAN隧道的场景，即下挂的VM全部属于同一BD。例如，图3-3中VM3和VM4均属于BD 30，则10GE 1/0/2上就可以创建default类型的二层子接口。</p>
+<p>再来看下为什么可以在10GE 1/0/1上分别创建dot1q和untag类型的二层子接口。如图上所示，VM1和VM2分别属于VLAN 10和VLAN 20，且分别属于不同的大二层域BD 10和BD 20，显然他们发出的报文要进入不同的VXLAN隧道。如果VM1和VM2发出的报文在到达VTEP的10GE 1/0/1接口时，一个是携带VLAN 10的Tag的，一个是不携带VLAN Tag的（比如二层交换机上行连接VTEP的接口上配置的接口类型是Trunk，允许通过的VLAN为10和20，PVID为VLAN 20），则为了区分两种报文，就必须要在10GE 1/0/1上分别创建dot1q和untag类型的二层子接口。所以，当经过同一物理接口的报文既有带VLAN Tag的，又有不带VLAN Tag的，并且他们各自要进入不同的VXLAN隧道，则可以在该物理接口上同时创建dot1q和untag类型的二层子接口。</p>
+<p>现在，我们可以来看下VXLAN隧道是怎么建立起来的了。<br>一般而言，隧道的建立不外乎手工方式和自动方式两种。</p>
+<p>手工方式<br>这种方式需要用户手动指定VXLAN隧道的源和目的IP地址分别为本端和对端VTEP的IP地址，也就是人为的在本端VTEP和对端VTEP之间建立静态VXLAN隧道。<br>对于CE系列交换机，以上配置是在NVE（Network Virtualization Edge）接口下完成的。配置过程如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">interface Nve1   //创建逻辑接口NVE 1</div><div class="line"> source 1.1.1.1   //配置源VTEP的IP地址（推荐使用Loopback接口的IP地址）</div><div class="line"> vni 5000 head-end peer-list 2.2.2.2  </div><div class="line"> vni 5000 head-end peer-list 2.2.2.3</div></pre></td></tr></table></figure>
+<p>其中，vni 5000 head-end peer-list 2.2.2.2和vni 5000 head-end peer-list 2.2.2.3的配置，表示属于VNI 5000的对端VTEP有两个，IP地址分别为2.2.2.2和2.2.2.3。根据这两条配置，VTEP上会生成如下所示的一张表： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;HUAWEI&gt; display vxlan vni 5000 verbose</div><div class="line">    BD ID                  : 10</div><div class="line">    State                  : up</div><div class="line">    NVE                     : 288</div><div class="line">    Source                 : 1.1.1.1</div><div class="line">    UDP Port               : 4789</div><div class="line">    BUM Mode               : head-end</div><div class="line">    Group Address         : - </div><div class="line">    Peer List              : 2.2.2.2 2.2.2.3</div></pre></td></tr></table></figure>
+<p>根据上表中的Peer List，本端VTEP就可以知道属于同一BD（或同一VNI）的对端VTEP都有哪些，这也就决定了同一大二层广播域的范围。当VTEP收到BUM（Broadcast&amp;Unknown-unicast&amp;Multicast，广播&amp;未知单播&amp;组播）报文时，会将报文复制并发送给Peer List中所列的所有对端VTEP（这就好比广播报文在VLAN内广播）。因此，这张表也被称为“头端复制列表”。当VTEP收到已知单播报文时，会根据VTEP上的MAC表来确定报文要从哪条VXLAN隧道走。而此时Peer List中所列的对端，则充当了MAC表中“出接口”的角色。在后面的报文转发流程中，你将会看到头端复制列表是如何在VXLAN网络中指导报文进行转发的。</p>
+<p>自动方式<br>自动方式下VXLAN隧道的建立需要借助于其他的协议，例如BGP。CE系列交换机中，自动方式建立VXLAN隧道主要应用在EVN（Ethernet Virtual Network）和VXLAN的分布式网关场景中。本文不对该方式进行详细讲述，具体实现可参考EVN的相关资料。</p>
+<p>从前面的描述我们知道，属于同一BD的VXLAN隧道可能不止一条，比如前面的头端复制列表中，同一个源端VTEP（1.1.1.1）对应了两个对端VTEP（2.2.2.2和2.2.2.3）。那就带来了另一个问题，报文到底应该走哪一条隧道呢？<br>我们知道，基本的二三层转发中，二层转发依赖的是MAC表，如果没有对应的MAC表，则主机发送ARP广播报文请求对端的MAC地址；三层转发依赖的是FIB表。在VXLAN中，其实也是同样的道理。下面就让我们来看下，VXLAN网络中报文的转发流程。相信看完下面的内容，关于“如何确定报文要进哪条隧道”的疑惑也就迎刃而解了。</p>
+<p>2.VXLAN网络中报文的转发流程</p>
+<p>同子网互通</p>
+<p><img src="/2017/01/23/什么是vxlan网络/7.png" alt=""></p>
+<p>VM_A、VM_B和VM_C同属于10.1.1.0/24网段，且同属于VNI 5000。此时，VM_A想与VM_C进行通信。</p>
+<p>​       由于是首次进行通信，VM_A上没有VM_C的MAC地址，所以会发送ARP广播报文请求VM_C的MAC地址。<br>下面就让我们根据ARP请求报文及ARP应答报文的转发流程，来看下MAC地址是如何进行学习的。</p>
+<p> ARP请求报文转发流程</p>
+<p><img src="/2017/01/23/什么是vxlan网络/8.png" alt=""></p>
+<p>ARP请求报文的转发流程如下：</p>
+<p>VM_A发送源MAC为MAC_A、目的MAC为全F、源IP为IP_A、目的IP为IP_C的ARP广播报文，请求VM_C的MAC地址。</p>
+<p> VTEP_1收到ARP请求后，根据二层子接口上的配置判断报文需要进入VXLAN隧道。确定了报文所属BD后，也就确定了报文所属的VNI。同时，VTEP_1学习MAC_A、VNI和报文入接口（Port_1，即二层子接口对应的物理接口）的对应关系，并记录在本地MAC表中。之后，VTEP_1会根据头端复制列表对报文进行复制，并分别进行封装。</p>
+<p>可以看到，这里封装的外层源IP地址为本地VTEP（VTEP_1）的IP地址，外层目的IP地址为对端VTEP（VTEP_2和VTEP_3）的IP地址；外层源MAC地址为本地VTEP的MAC地址，而外层目的MAC地址为去往目的IP的网络中下一跳设备的MAC地址。<br>封装后的报文，根据外层MAC和IP信息，在IP网络中进行传输，直至到达对端VTEP。</p>
+<p>报文到达VTEP_2和VTEP_3后，VTEP对报文进行解封装，得到VM_A发送的原始报文。同时，VTEP_2和VTEP_3学习VM_A的MAC地址、VNI和远端VTEP的IP地址（IP_1）的对应关系，并记录在本地MAC表中。之后，VTEP_2和VTEP_3根据二层子接口上的配置对报文进行相应的处理并在对应的二层域内广播。<br>VM_B和VM_C接收到ARP请求后，比较报文中的目的IP地址是否为本机的IP地址。VM_B发现目的IP不是本机IP，故将报文丢弃；VM_C发现目的IP是本机IP，则对ARP请求做出应答。下面，让我们看下ARP应答报文是如何进行转发的。</p>
+<p>ARP应答报文转发流程</p>
+<p><img src="/2017/01/23/什么是vxlan网络/9.png" alt=""></p>
+<p>ARP应答报文的转发流程如下：</p>
+<p>由于此时VM_C上已经学习到了VM_A的MAC地址，所以ARP应答报文为单播报文。报文源MAC为MAC_C，目的MAC为MAC_A，源IP为IP_C、目的IP为IP_A。</p>
+<p> VTEP_3接收到VM_C发送的ARP应答报文后，识别报文所属的VNI（识别过程与步骤2类似）。同时，VTEP_3学习MAC_C、VNI和报文入接口（Port_3）的对应关系，并记录在本地MAC表中。之后，VTEP_3对报文进行封装。<br>可以看到，这里封装的外层源IP地址为本地VTEP（VTEP_3）的IP地址，外层目的IP地址为对端VTEP（VTEP_1）的IP地址；外层源MAC地址为本地VTEP的MAC地址，而外层目的MAC地址为去往目的IP的网络中下一跳设备的MAC地址。<br>封装后的报文，根据外层MAC和IP信息，在IP网络中进行传输，直至到达对端VTEP。</p>
+<p>报文到达VTEP_1后，VTEP_1对报文进行解封装，得到VM_C发送的原始报文。同时，VTEP_1学习VM_C的MAC地址、VNI和远端VTEP的IP地址（IP_3）的对应关系，并记录在本地MAC表中。之后，VTEP_1将解封装后的报文发送给VM_A。<br>至此，VM_A和VM_C均已学习到了对方的MAC地址。之后，VM_A和VM_C将采用单播方式进行通信。</p>
+<p>不同子网互通</p>
+<p><img src="/2017/01/23/什么是vxlan网络/10.png" alt=""></p>
+<p>​         VM_A和VM_B分别属于10.1.10.0/24网段和10.1.20.0/24网段，且分别属于VNI 5000和VNI 6000。VM_A和VM_B对应的三层网关分别是VTEP_3上BDIF 10和BDIF 20的IP地址。VTEP_3上存在到10.1.10.0/24网段和10.1.20.0/24网段的路由。此时，VM_A想与VM_B进行通信。</p>
+<p>​       BDIF接口的功能与VLANIF接口类似，是基于BD创建的三层逻辑接口，用以实现不同子网VM之间或VXLAN网络与非VXLAN网络之间的通信。</p>
+<p>由于是首次进行通信，且VM_A和VM_B处于不同网段，VM_A需要先发送ARP广播报文请求网关（BDIF 10）的MAC，获得网关的MAC后，VM_A先将数据报文发送给网关；之后网关也将发送ARP广播报文请求VM_B的MAC，获得VM_B的MAC后，网关再将数据报文发送给VM_B。以上MAC地址学习的过程与同子网互通中MAC地址学习的流程一致，不再赘述。现在假设VM_A和VM_B均已学到网关的MAC、网关也已经学到VM_A和VM_B的MAC，下面就让我们看下数据报文是如何从VM_A发送到VM_B的。</p>
+<p>不同子网VM互通报文转发流程</p>
+<p><img src="/2017/01/23/什么是vxlan网络/10.png" alt=""></p>
+<p>数据报文从VM_A发送到VM_B的流程如下：</p>
+<p> VM_A先将数据报文发送给网关。报文的源MAC为MAC_A，目的MAC为网关BDIF 10的MAC_10，源IP地址为IP_A，目的IP为IP_B。</p>
+<p>VTEP_1收到数据报文后，识别此报文所属的VNI（VNI 5000），并根据MAC表项对报文进行封装。可以看到，这里封装的外层源IP地址为本地VTEP的IP地址（IP_1），外层目的IP地址为对端VTEP的IP地址（IP_3）；外层源MAC地址为本地VTEP的MAC地址（MAC_1），而外层目的MAC地址为去往目的IP的网络中下一跳设备的MAC地址。封装后的报文，根据外层MAC和IP信息，在IP网络中进行传输，直至到达对端VTEP。</p>
+<p>报文进入VTEP_3，VTEP_3对报文进行解封装，得到VM_A发送的原始报文。然后，VTEP_3会对报文做如下处理：</p>
+<p>VTEP_3发现该报文的目的MAC为本机BDIF 10接口的MAC，而目的IP地址为IP_B（10.1.20.1），所以会根据路由表查找到IP_B的下一跳。</p>
+<p> 发现下一跳为10.1.20.10，出接口为BDIF 20。此时VTEP_3查询ARP表项，并将原始报文的源MAC修改为BDIF 20接口的MAC（MAC_20），将目的MAC修改为VM_B的MAC（MAC_B）。</p>
+<p>报文到BDIF 20接口时，识别到需要进入VXLAN隧道（VNI 6000），所以根据MAC表对报文进行封装。这里封装的外层源IP地址为本地VTEP的IP地址（IP_3），外层目的IP地址为对端VTEP的IP地址（IP_2）；外层源MAC地址为本地VTEP的MAC地址（MAC_3），而外层目的MAC地址为去往目的IP的网络中下一跳设备的MAC地址。封装后的报文，根据外层MAC和IP信息，在IP网络中进行传输，直至到达对端VTEP。</p>
+<p>报文到达VTEP_2后，VTEP_2对报文进行解封装，得到内层的数据报文，并将其发送给VM_B。</p>
+<p>说明：VXLAN网络与非VXLAN网络之间的互通，也需要借助于三层网关。</p>
+<h3 id="VXLAN应用部署方式"><a href="#VXLAN应用部署方式" class="headerlink" title="VXLAN应用部署方式"></a>VXLAN应用部署方式</h3><p>我们以下图所示的典型的“Spine-Leaf”数据中心组网为例，给大家介绍一下CE系列交换机VXLAN的应用场景和部署方案。</p>
+<p><img src="/2017/01/23/什么是vxlan网络/12.png" alt=""></p>
+<p>​          在上图所示的数据中心里，企业用户拥有多个部门（部门1和部门2），每个部门中拥有多个VM（VM1和VM3，VM2和VM4）。同部门的VM属于同一个网段，不同部门的VM属于不同的网段。用户希望同一部门VM之间、不同部门VM之间，VM与Internet之间均可相互访问。</p>
+<p> VXLAN网络的子网互通</p>
+<p>相同子网互通</p>
+<p>部署方案<br>如图所示，Leaf1和Leaf2作为VXLAN网络的VTEP，两个Leaf之间搭建VXLAN隧道，并在每个Leaf上部署VXLAN二层网关，即可实现同一部门VM之间的相互通信。此时Spine只作为VXLAN报文的转发节点，不感知VXLAN隧道的存在，可以是任意的三层网络设备。</p>
+<p><img src="/2017/01/23/什么是vxlan网络/13.png" alt=""></p>
+<p>不同子网互通（集中式网关）</p>
+<p>部署方案<br>如图4-2所示，Leaf1、Leaf2和Spine作为VXLAN网络的VTEP，Leaf1和Spine之间、Leaf2和Spine之间分别搭建VXLAN隧道，并在Spine上部署VXLAN三层网关，即可实现不同部门VM之间的相互通信。</p>
+<p><img src="/2017/01/23/什么是vxlan网络/14.png" alt=""></p>
+<p>不同子网互通（分布式网关）</p>
+<p>出现背景<br>细心的读者可能已经发现，在不同子网互通（集中式网关）中，同一Leaf（Leaf1）下挂的不同网段VM（VM1和VM2）之间的通信，都需要在Spine上进行绕行，这样就导致Leaf与Spine之间的链路上，存在冗余的报文，额外占用了大量的带宽。同时，Spine作为VXLAN三层网关时，所有通过三层转发的终端租户的表项都需要在该设备上生成。但是，Spine的表项规格有限，当终端租户的数量越来越多时，容易成为网络瓶颈。<br>分布式网关的出现，很好的解决了这两个问题。</p>
+<p>部署方案</p>
+<p>同Leaf节点下不同部门VM之间的通信<br>如图4-3所示，Leaf1作为VXLAN网络的VTEP，在Leaf1上部署VXLAN三层网关，即可实现同Leaf下不同部门VM之间的相互通信。此时，VM1和VM2互访时，流量只需要在Leaf1节点进行转发，不再需要经过Spine节点，从而节约了大量的带宽资源。</p>
+<p>跨Leaf节点不同部门VM之间的通信<br>如图4-3所示，Leaf1和Leaf2作为VXLAN网络的VTEP，在Leaf1和Leaf2上部署VXLAN三层网关。两个VXLAN三层网关之间通过BGP动态建立VXLAN隧道，并通过BGP的remote-nexthop属性发布本网关下挂的主机路由信息给其他BGP邻居，从而实现跨Leaf节点不同部门VM之间的相互通信。</p>
+<p><img src="/2017/01/23/什么是vxlan网络/15.png" alt=""></p>
+<p>说明：Leaf作为VXLAN三层网关时，只学习其下挂终端租户的表项，而不必像集中式三层网关一样，需要学习网络中所有终端租户的表项，从而解决了集中式三层网关带来表项瓶颈问题。</p>
+<p>VXLAN网络的可靠性</p>
+<p>随着网络的快速普及和应用的日益深入，基础网络的可靠性日益成为用户关注的焦点，如何能够保证网络传输不中断对于终端用户而言非常重要。<br>在VXLAN网络的子网互通中，VM与Leaf之间，Leaf与Spine之间都是通过单归方式接入的。这种组网接入方式，显然已经不能满足用户对VXLAN网络可靠性的需求。<br>这时，可以按照如下图所示方式，提升VXLAN网络的可靠性。</p>
+<p><img src="/2017/01/23/什么是vxlan网络/16.png" alt=""></p>
+<p>接入层的可靠性</p>
+<p>通常采用堆叠（CSS）方式提升接入层的可靠性。这是因为，接入层的设备数量繁多，堆叠方式可以将多台交换机设备组合在一起，虚拟化成一台交换设备，所有配置均在这一台虚拟交换机上进行，从而简化了接入层设备的运维复杂度。此外，堆叠系统内成员交换机之间在进行冗余备份的同时，能够利用跨设备的Eth-Trunk实现设备间链路的负载分担。</p>
+<p><img src="/2017/01/23/什么是vxlan网络/17.png" alt=""></p>
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><ol>
+<li><a href="http://support.huawei.com/huaweiconnect/enterprise/forum.php?mod=viewthread&amp;tid=334207&amp;extra=page%3D&amp;page=1" target="_blank" rel="external">http://support.huawei.com/huaweiconnect/enterprise/forum.php?mod=viewthread&amp;tid=334207&amp;extra=page%3D&amp;page=1</a></li>
+<li><a href="http://blog.csdn.net/sinat_31828101/article/details/50504656" target="_blank" rel="external">http://blog.csdn.net/sinat_31828101/article/details/50504656</a></li>
+</ol>
 
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Tools/" itemprop="url" rel="index">
-                    <span itemprop="name">Tools</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>​       不经意间发现了这个工具pyinstaller2.0。它的功能是把python脚本打包成windows的可执行文件，这样就可以方便使用程序了。为了玩一下，于是写了一个图片分类的脚本，按照jpg, gif, png后缀将图片分别存储在各自文件夹中。脚本放在github上了。<a href="https://github.com/Luckylau/Useful-Python-Sample/blob/master/useful-tools/classify_Pic.py">https://github.com/Luckylau/Useful-Python-Sample/blob/master/useful-tools/classify_Pic.py</a></p>
-<p>pythoninstall2.0运行前需要安装pywin32，假如你使用的是python 2.7(64位)，需要在官网</p>
-<p><a href="https://sourceforge.net/projects/pywin32/files/pywin32找到对应的版本">https://sourceforge.net/projects/pywin32/files/pywin32找到对应的版本</a></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/01/22/pyinstaller使用技巧/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/01/21/hexo备份小技巧/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Luckylau">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/logo.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Luckylau's Blog">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="Luckylau's Blog" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/21/hexo备份小技巧/" itemprop="url">
-                  hexo备份小技巧
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-21T17:03:59+08:00">
-                2017-01-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Tools/" itemprop="url" rel="index">
-                    <span itemprop="name">Tools</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>提交到github上备份:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">cd blog/hexo</div><div class="line"># 初始化仓库</div><div class="line">git init</div><div class="line">git add .</div><div class="line">git commit -m &quot;init&quot;</div><div class="line"># 建一个分支</div><div class="line">git checkout -b hexo</div><div class="line"># 删除本地的master分支</div><div class="line">git branch -d master</div><div class="line"># 添加远程</div><div class="line">git remote add origin https://github.com/用户名/用户名.github.io.git</div><div class="line"># 保存</div><div class="line">git push -u  origin hexo</div></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/01/21/hexo备份小技巧/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/01/19/Python中的struct模块/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Luckylau">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/logo.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Luckylau's Blog">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="Luckylau's Blog" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/19/Python中的struct模块/" itemprop="url">
-                  Python中的struct模块
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-19T14:10:31+08:00">
-                2017-01-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>​     python的struct模块，是在查看RYU控制器Openflow协议的实现源码接触到的。RYU控制器解包和封包就是用struct模块实现的。</p>
-<p>​     在C语言中，struct结构体里面可以包含不同数据类型，比如int ,char,bool等。但是一旦涉及到网络通信时，传递的是二进制数据流（binary data）。对于二进制字符串，不必担心，但是对于如int，char等基本数据类型，需要有一种机制将这些特定的结构体类型打包成二进制流的字符串然后再在网络传输，同时接收端也需要通过某种机制进行解包还原出原始的结构体数据。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/01/19/Python中的struct模块/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/01/19/阅读书单-3/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Luckylau">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/logo.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Luckylau's Blog">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="Luckylau's Blog" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/19/阅读书单-3/" itemprop="url">
-                  阅读书单(3)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-19T12:55:05+08:00">
-                2017-01-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/书籍/" itemprop="url" rel="index">
-                    <span itemprop="name">书籍</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="2015年-2016年（35本书）"><a href="#2015年-2016年（35本书）" class="headerlink" title="2015年-2016年（35本书）"></a>2015年-2016年（35本书）</h2><p>2015年（4本书）  </p>
-<p>63.《黑客与画家》-Paul Graham  </p>
-<p>64.《文明之光》-吴军  </p>
-<p>65.《向死而生》-李开复  </p>
-<p>66.《大学之路（上）》-吴军</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/01/19/阅读书单-3/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/01/19/阅读书单-2/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Luckylau">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/logo.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Luckylau's Blog">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="Luckylau's Blog" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/19/阅读书单-2/" itemprop="url">
-                  阅读书单(2)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-19T12:42:15+08:00">
-                2017-01-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/书籍/" itemprop="url" rel="index">
-                    <span itemprop="name">书籍</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="2012年-2014年（37本书）"><a href="#2012年-2014年（37本书）" class="headerlink" title="2012年-2014年（37本书）"></a>2012年-2014年（37本书）</h2><p>2012年（7本书） </p>
-<p>26.《爱的艺术》-艾弗洛姆  </p>
-<p>27.《平凡的世界》-路遥  </p>
-<p>28.《人生课》-张岱年  </p>
-<p>29.《世间最美丽的情郎：仓央嘉措的情与诗》-王臣</p>
-<p>30.《追风筝的人》-(美国）胡赛尼 </p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/01/19/阅读书单-2/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
         
       
     </div>
@@ -1163,7 +1305,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/28/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><span class="page-number current">29</span><a class="page-number" href="/page/30/">30</a><a class="extend next" rel="next" href="/page/30/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/28/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><span class="page-number current">29</span><a class="page-number" href="/page/30/">30</a><a class="page-number" href="/page/31/">31</a><a class="extend next" rel="next" href="/page/30/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1206,7 +1348,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">175</span>
+                <span class="site-state-item-count">181</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
