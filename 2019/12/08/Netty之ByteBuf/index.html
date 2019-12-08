@@ -1,0 +1,972 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Netty," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/logo.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="什么是ByteBuf​       数据在网络上是以字节流的形式进行传输的。Java官方的NIO提供了一个ByteBuffer类作为字节的容器。但是ByteBuffer的使用比较复杂，尤其是需要通过flip()方法对读写进行切换。因此netty重新设计了一个字节容器，即ByteBuf，没有了ByteBuf，Netty就失去了灵魂，其他所有的都将变得毫无意义。
+ByteBuf与ByteBuffer的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Netty之ByteBuf">
+<meta property="og:url" content="https://luckylau.github.io/2019/12/08/Netty之ByteBuf/index.html">
+<meta property="og:site_name" content="Luckylau's Blog">
+<meta property="og:description" content="什么是ByteBuf​       数据在网络上是以字节流的形式进行传输的。Java官方的NIO提供了一个ByteBuffer类作为字节的容器。但是ByteBuffer的使用比较复杂，尤其是需要通过flip()方法对读写进行切换。因此netty重新设计了一个字节容器，即ByteBuf，没有了ByteBuf，Netty就失去了灵魂，其他所有的都将变得毫无意义。
+ByteBuf与ByteBuffer的">
+<meta property="og:image" content="https://luckylau.github.io/2019/12/08/Netty之ByteBuf/1.png">
+<meta property="og:image" content="https://luckylau.github.io/2019/12/08/Netty之ByteBuf/2.png">
+<meta property="og:image" content="https://luckylau.github.io/2019/12/08/Netty之ByteBuf/3.png">
+<meta property="og:image" content="https://luckylau.github.io/2019/12/08/Netty之ByteBuf/4.png">
+<meta property="og:updated_time" content="2019-12-08T07:26:53.546Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Netty之ByteBuf">
+<meta name="twitter:description" content="什么是ByteBuf​       数据在网络上是以字节流的形式进行传输的。Java官方的NIO提供了一个ByteBuffer类作为字节的容器。但是ByteBuffer的使用比较复杂，尤其是需要通过flip()方法对读写进行切换。因此netty重新设计了一个字节容器，即ByteBuf，没有了ByteBuf，Netty就失去了灵魂，其他所有的都将变得毫无意义。
+ByteBuf与ByteBuffer的">
+<meta name="twitter:image" content="https://luckylau.github.io/2019/12/08/Netty之ByteBuf/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://luckylau.github.io/2019/12/08/Netty之ByteBuf/"/>
+
+
+
+
+
+  <title> Netty之ByteBuf | Luckylau's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Luckylau's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">Keep Moving, Keep Learning</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2019/12/08/Netty之ByteBuf/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Luckylau">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/logo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Luckylau's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Luckylau's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Netty之ByteBuf
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-12-08T15:03:56+08:00">
+                2019-12-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/分布式架构/" itemprop="url" rel="index">
+                    <span itemprop="name">分布式架构</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="什么是ByteBuf"><a href="#什么是ByteBuf" class="headerlink" title="什么是ByteBuf"></a>什么是ByteBuf</h2><p>​       数据在网络上是以字节流的形式进行传输的。Java官方的NIO提供了一个ByteBuffer类作为字节的容器。但是ByteBuffer的使用比较复杂，尤其是需要通过flip()方法对读写进行切换。因此netty重新设计了一个字节容器，即ByteBuf，没有了ByteBuf，Netty就失去了灵魂，其他所有的都将变得毫无意义。</p>
+<h2 id="ByteBuf与ByteBuffer的对比"><a href="#ByteBuf与ByteBuffer的对比" class="headerlink" title="ByteBuf与ByteBuffer的对比"></a>ByteBuf与ByteBuffer的对比</h2><p>​       Netty的ByteBuf采用了读写索引分离的策略（readerIndex与writerIndex），一个初始化（里面尚未有任何数据）的ByteBuf的readerIndex与writerIndex值都为0；</p>
+<p> 当读索引与写索引处于同一个位置时，如果继续读取，那么就会抛出IndexOutOfBoundsException；</p>
+<p> 对于ByteBuf的任何读写操作都会分别单独维护读索引与写索引。maxCapacity最大容量默认的限制时Integer.MAX_VALUE；</p>
+<a id="more"></a>
+<p>存储字节的数组时动态的，其最大值默认是Integer.MAX_VALUE。这里的动态性时体现在write方法中的，write方法在执行时会判断buffer容量，如果不足则自动扩容；</p>
+<p> ByteBuf的读写索引是完全分开的，使用起来更加方便；</p>
+<p>一旦分配好之后不能动态扩容与收缩；而且当待存储的数据字节很大时就很有可能出现IndexOutOfBoundsException。如果要预防这个异常，那就需要在存储之前完全确定好待存储的字节大小。如果ByteBuffer的空间不足，我们只有一种解决方案：创建一个全新的ByteBuffer对象，然后再将之前的ByteBuffer的数据复制过去，这一切操作都需要由开发者自己来手动完成；</p>
+<p>ByteBuffer只使用一个position指针来标识位置信息，在进行读写切换时就需要调用flip方法或是rewind方法，使用起来很不方便；</p>
+<h2 id="ByteBuf的结构"><a href="#ByteBuf的结构" class="headerlink" title="ByteBuf的结构"></a>ByteBuf的结构</h2><p><img src="/2019/12/08/Netty之ByteBuf/1.png" alt=""></p>
+<p>discardable bytes</p>
+<p>表示已经被读过的字节，可以被丢弃了，当前readerIndex已经到达了被丢弃字节的索引位置，0~readerIndex的就被视为discard的，调用discardReadBytes方法，可以释放这部分空间，它的作用类似ByteBuffer的compact方法，将字节往前移动，readerIndex设置为0，writerIndex设置为oldWriterIndex - oldReaderIndex；</p>
+<p>readable bytes</p>
+<p>表示还没有被读过的字节，是当前ByteBuf对象中保存的内容。需要注意的是，如果可读字节数已经耗尽了，这时再次尝试从ByteBuf中读取内容的话，将会抛出IndexOutOfBoundsException的异常，所以在读数据之前最好先通过byteBuf.isReadable()判断一下；</p>
+<p>writable bytes</p>
+<p>表示当前ByteBuf对象中剩余可写的字节空间，当writerIndex移动到capacity-1的位置时，就不可再写了，ByteBuf默认的最大容量是Integer.MAX_VALUE。如果没有更多的可写空间了，但是仍然还在往ByteBuf中写数据的话，会抛出IndexOutOfBoundsException的异常，所以在往ByteBuf中写数据之前最好先通过byteBuf.isWriteable()判断一下；</p>
+<h2 id="ByteBuf的扩容原理"><a href="#ByteBuf的扩容原理" class="headerlink" title="ByteBuf的扩容原理"></a>ByteBuf的扩容原理</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">calculateNewCapacity</span><span class="params">(<span class="keyword">int</span> minNewCapacity)</span> </span>&#123;</div><div class="line">    <span class="keyword">final</span> <span class="keyword">int</span> maxCapacity = <span class="keyword">this</span>.maxCapacity;</div><div class="line">    <span class="keyword">final</span> <span class="keyword">int</span> threshold = <span class="number">1048576</span> * <span class="number">4</span>; <span class="comment">// 4 MiB page</span></div><div class="line"></div><div class="line">    <span class="keyword">if</span> (minNewCapacity == threshold) &#123;</div><div class="line">        <span class="keyword">return</span> threshold;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// If over threshold, do not double but just increase by threshold.</span></div><div class="line">    <span class="keyword">if</span> (minNewCapacity &gt; threshold) &#123;</div><div class="line">        <span class="keyword">int</span> newCapacity = minNewCapacity / threshold * threshold;</div><div class="line">        <span class="keyword">if</span> (newCapacity &gt; maxCapacity - threshold) &#123;</div><div class="line">            newCapacity = maxCapacity;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            newCapacity += threshold;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> newCapacity;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// Not over threshold. Double up to 4 MiB, starting from 64.</span></div><div class="line">    <span class="keyword">int</span> newCapacity = <span class="number">64</span>;</div><div class="line">    <span class="keyword">while</span> (newCapacity &lt; minNewCapacity) &#123;</div><div class="line">        newCapacity &lt;&lt;= <span class="number">1</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> Math.min(newCapacity, maxCapacity);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>首先设置门限阈值为4M，当需要的新容量正好等于门限阈值时，使用阈值作为新的缓冲区容量。如果新申请的内存空间大于阈值，不能采用倍增的方式（防止内存膨胀和浪费）扩张内存，而采用每次倍增4M的方式进行内存扩张。扩张的时候需要对扩张后的内存和最大内存（maxCapacity）进行比较，如果大于缓冲区的最大长度，则使用maxCapacity作为扩容后的缓冲区容量。如果扩容后的新容量小于阈值，则以64为计数进行倍增，直到倍增后的结果大于或等于需要的容量值。</p>
+<p>分析原因：</p>
+<p>采用倍增或者步进算法的原因如下：如果以minNewCapacity作为目标容量，则本次扩容后的可写字节数刚好够本次写入使用。写入完成后，它的可写字节数会变为0，下次做写入操作的时候需要做动态扩张。这样就会形成第一次动态扩张，每次写入操作都会进行动态扩张，由于动态扩张需要进行内存复制，频繁的内存复制会导致性能下降。</p>
+<p>采用先倍增后步进的原因如下：当内存比较小的情况下，倍增操作并不会带来太多的内存浪费，例如64字节–&gt;128字节–&gt;256字节，这样的内存扩张方式对于大多数应用系统是可以接受的。但是，当内存增长到一定阈值后，在进行倍增就会带来额外的内存浪费，例如10MB，采用倍增后变为20MB。但很有可能系统只需要12MB，则扩张到20M会带来8MB的内存浪费。由于每个客户端连接都可能维护自己独立的接收和发送缓冲区，这样随着客户读的线性增长，内存浪费也会成比例地增加，因此，达到某个阈值后就需要以步进的方式对内存进行平滑的扩张。</p>
+<p>这个阈值是个经验值，不同的应用场景，这个值可能不同，此处，ByteBuf取值为4MB。</p>
+<p>重新计算完动态扩张后的目标容量后，需要重新创建个新的缓冲区，将原缓冲区的内容复制到新创建的ByteBuf中，最后设置读写索引和mark标签等。由于不同的子类会对应不同的复制操作，所以该方法依然是个抽象方法，由子类负责实现。</p>
+<h2 id="ByteBuf的相关子类"><a href="#ByteBuf的相关子类" class="headerlink" title="ByteBuf的相关子类"></a>ByteBuf的相关子类</h2><p><img src="/2019/12/08/Netty之ByteBuf/2.png" alt=""></p>
+<p>从内存分配的角度看，ByteBuf 可以分为两类：</p>
+<p>​        堆内存字节缓冲区 HeapByteBuf：优点是内存分配和回收速度快，可以被 JVM 自动回收。缺点是，如果进行 Socket 的 I/O 读写，需要额外做一次内存复制，在堆内存缓冲区和内核 Channel 之间进行复制，性能会有一定程度下降。</p>
+<p>​        直接内存字节缓冲区 DirectByteBuf：非堆内存，直接在堆外进行分配。相比于堆内存，内存分配和回收稍慢，但是可以减少复制，提升性能。</p>
+<p>两种内存，各有利弊。Netty 最佳实践表明：在 I/O 通信线程的读写缓冲区使用 DirectByteBuf，后端业务消息的编解码模块使用 HeapByteBuf，这样组合可以达到性能最优。</p>
+<p>从内存回收的角度看，ByteBuf 也分为两类：基于对象池的 ByteBuf 和普通 ByteBuf。两者区别在于基于对象池的 ByteBuf 可以重用 ByteBuf 对象，它自己维护了一个内存池，可以循环利用创建的 ByteBuf，提升内存的使用效率，降低由于高负载导致的频繁 GC。内存池的缺点是管理和维护比较复杂，使用时需要更加谨慎。</p>
+<p>由上图我们发现：</p>
+<p>ByteBuf有3个主要的子类：EmptyByteBuf，WrappedByteBuf，AbstractByteBuf；其中比较常用的是AbstractByteBuf，而AbstractByteBuf类又有一个子类AbstractReferenceCountedByteBuf，该类主要是实现了引用计数，然后AbstractReferenceCountedByteBuf又有很多的子类。下面我们对一些关键类进行分析和解读。</p>
+<h3 id="CompositeByteBuf"><a href="#CompositeByteBuf" class="headerlink" title="CompositeByteBuf"></a>CompositeByteBuf</h3><p>​       CompositeByteBuf允许将多个ByteBuf的实例组装到一起，形成一个统一的视图，有点类似于数据库将多个表的字段组装到一起统一用视图展示。假设我们有一份协议数据, 它由头部和消息体组成, 而头部和消息体是分别存放在两个 ByteBuf 中的当需要对消息进行编码的时候需要进行整合，如果使用JDK的默认能力，有以下2种方式：1）将某个BygeBuffer复制到另一个ByteBuffer中，或者创建一个新的ByteBuffer，将2者复制到新建的ByteBuffer中； 2）通过List或数组等容器，将消息头和消息体放到容器中进行统一维护和处理；上面的做法非常别扭，实际上遇到的问题跟数据库中视图解决的问题一致——缓冲区有多个，但是需要统一展示和处理，必须有存放它们的统一容器。为了解决这个问题，Netty提供了CompositeByteBuf。CompositeByteBuf 里面有个ComponentList，继承ArrayList，聚合的bytebuf都放在ComponentList里面，最小容量为16，当超过16时候，CompositeByteBuf是创建一个新的bytebuf，把数组里的16个bytebuf 写到这个新创建bytebuf里，然后把ComponentList清空掉，并把新创建的一个大的bytebuf添加到该ComponentList里，这时候就会涉及到多次copy。所以在使用的时候务必要设置好maxNumComponents，避免不必要的聚合。源码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//cIndex是指存放在ComponentList中的索引下标</span></div><div class="line"><span class="function"><span class="keyword">public</span> CompositeByteBuf <span class="title">addComponent</span><span class="params">(<span class="keyword">int</span> cIndex, ByteBuf buffer)</span> </span>&#123;</div><div class="line">    addComponent0(cIndex, buffer);</div><div class="line">    consolidateIfNeeded();</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">addComponent0</span><span class="params">(<span class="keyword">int</span> cIndex, ByteBuf buffer)</span> </span>&#123;</div><div class="line">    checkComponentIndex(cIndex);</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (buffer == <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException(<span class="string">"buffer"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">int</span> readableBytes = buffer.readableBytes();</div><div class="line">    <span class="keyword">if</span> (readableBytes == <span class="number">0</span>) &#123;</div><div class="line">        <span class="keyword">return</span> cIndex;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//构建一个Component</span></div><div class="line">    <span class="comment">//字节序分为两种：BIG-ENDIAN—-大字节序，LITTLE-ENDIAN—-小字节序；</span></div><div class="line">    <span class="comment">//BIG-ENDIAN就是最低地址存放最高有效字节，LITTLE-ENDIAN是最低地址存放最低有效字节；</span></div><div class="line">    <span class="comment">//java字节序：JAVA虚拟机中多字节类型数据的存放顺序，JAVA字节序也是BIG-ENDIAN;</span></div><div class="line">    <span class="comment">//现在大多平台都是小端序，网络字节序是大端序，jvm默认也是大端序;</span></div><div class="line">    Component c = <span class="keyword">new</span> Component(buffer.order(ByteOrder.BIG_ENDIAN).slice());</div><div class="line">    <span class="keyword">if</span> (cIndex == components.size()) &#123;</div><div class="line">        components.add(c);</div><div class="line">        <span class="keyword">if</span> (cIndex == <span class="number">0</span>) &#123;</div><div class="line">            c.endOffset = readableBytes;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            Component prev = components.get(cIndex - <span class="number">1</span>);</div><div class="line">            c.offset = prev.endOffset;</div><div class="line">            c.endOffset = c.offset + readableBytes;</div><div class="line">        &#125;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        components.add(cIndex, c);</div><div class="line">        updateComponentOffsets(cIndex);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> cIndex;</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">consolidateIfNeeded</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="comment">// Consolidate if the number of components will exceed the allowed maximum by the current</span></div><div class="line">    <span class="comment">// operation.</span></div><div class="line">    <span class="keyword">final</span> <span class="keyword">int</span> numComponents = components.size();</div><div class="line">    <span class="keyword">if</span> (numComponents &gt; maxNumComponents) &#123;</div><div class="line">        <span class="keyword">final</span> <span class="keyword">int</span> capacity = components.get(numComponents - <span class="number">1</span>).endOffset;</div><div class="line"></div><div class="line">        ByteBuf consolidated = allocBuffer(capacity);</div><div class="line"></div><div class="line">        <span class="comment">// We're not using foreach to avoid creating an iterator.</span></div><div class="line">        <span class="comment">// noinspection ForLoopReplaceableByForEach</span></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; numComponents; i ++) &#123;</div><div class="line">            Component c = components.get(i);</div><div class="line">            ByteBuf b = c.buf;</div><div class="line">            consolidated.writeBytes(b);</div><div class="line">            c.freeIfNecessary();</div><div class="line">        &#125;</div><div class="line">        Component c = <span class="keyword">new</span> Component(consolidated);</div><div class="line">        c.endOffset = c.length;</div><div class="line">        components.clear();</div><div class="line">        components.add(c);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="UnpooledHeapByteBuf-和UnpooledDirectByteBuf"><a href="#UnpooledHeapByteBuf-和UnpooledDirectByteBuf" class="headerlink" title="UnpooledHeapByteBuf 和UnpooledDirectByteBuf"></a>UnpooledHeapByteBuf 和UnpooledDirectByteBuf</h3><p>​       首先看看它们的继承关系：UnpooledHeapByteBuf 和 UnPooledHeapByteBuf –&gt; AbstractReferenceCountedByteBuf –&gt; AbstractByteBuf；基本上的特性都来自于AbstractReferenceCountedByteBuf和AbstractByteBuf；AbstractByteBuf 都做了哪些事儿呢？我们先看一下其主要的成员变量：读写指针；用于标记回滚的 marked 读写指针；最大容量 maxCapacity，用于进行内存保护；与本 ByteBuf 大小端属性相反的 ByteBuf：SwappedByteBuf，除此之外还提供了操作索引：修改读写指针、mark &amp; reset；重用缓冲区：discardReadBytes；丢弃部分数据：skipBytes等子类的通用功能；AbstractReferenceCountedByteBuf实现了计数相关的功能，我们看一下其成员变量：refCnt：记录对象引用次数；refCntUpdater：用于对 refCnt 进行原子更新。</p>
+<p>​        UnpooledHeapByteBuf 是基于堆内存进行内存分配的字节缓冲区，它没有基于对象池实现，意味着每次 I/O 读写都会创建一个新的 UnpooledHeapByteBuf 对象，频繁进行内存的分配和释放对性能会有一定的影响，但是相对堆外内存的申请和释放，成本稍低。它的成员变量主要有负责内存分配的 ByteBufAllocator；缓冲区实现 byte 数组和从 ByteBuf 到 NIO 的 ByteBuffer 的转换对象 tmpNioBuf。</p>
+<p>UnpooledDirectByteBuf是通过ByteBuffer.allocateDirect()方法来分配直接内存，并指向变量ByteBuffer。</p>
+<h3 id="PooledByteBuf"><a href="#PooledByteBuf" class="headerlink" title="PooledByteBuf"></a>PooledByteBuf</h3><p>池化的好处在于能快速分配内存，同时复用对象，降低gc频率。PooledByteBuf有3个子类，分别是PooledDirectByteBuf，PooledHeapByteBuf，PooledUnsafeDirectByteBuf，主要关注其池化的原理，包括内存的设计和Recycler对象池的设计。</p>
+<p>我们从PoolThreadCache入手，由下面的代码我们分析其内存设计</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">final</span> PoolArena&lt;<span class="keyword">byte</span>[]&gt; heapArena;</div><div class="line"><span class="keyword">final</span> PoolArena&lt;ByteBuffer&gt; directArena;</div><div class="line"><span class="comment">// Hold the caches for the different size classes, which are tiny, small and normal.</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> MemoryRegionCache&lt;<span class="keyword">byte</span>[]&gt;[] tinySubPageHeapCaches;</div><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> MemoryRegionCache&lt;<span class="keyword">byte</span>[]&gt;[] smallSubPageHeapCaches;</div><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> MemoryRegionCache&lt;ByteBuffer&gt;[] tinySubPageDirectCaches;</div><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> MemoryRegionCache&lt;ByteBuffer&gt;[] smallSubPageDirectCaches;</div><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> MemoryRegionCache&lt;<span class="keyword">byte</span>[]&gt;[] normalHeapCaches;</div><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> MemoryRegionCache&lt;ByteBuffer&gt;[] normalDirectCaches;</div></pre></td></tr></table></figure>
+<h4 id="内存池的数据结构（arena、chunk、page、subpage）"><a href="#内存池的数据结构（arena、chunk、page、subpage）" class="headerlink" title="内存池的数据结构（arena、chunk、page、subpage）"></a>内存池的数据结构（arena、chunk、page、subpage）</h4><p>netty里面，内存单元是以Chunk为单位的向操作系统申请的，一个内存单元16M；但是如果我们要分配10k的内存，用一个chunk就太浪费了。所以chunk下面又有page，一个page的大小8k，所以一个chunk一共有16m/8k=2^11个page。如果要找到10k的内存，只要找到两个page就可以；如果我们每次只要分配10b的内存，一个page又显得太浪费了，所以又开始有了subpage；</p>
+<p>首先我们看arena，arena分为heapArena和directArena。</p>
+<p><img src="/2019/12/08/Netty之ByteBuf/3.png" alt=""></p>
+<p>​        一个Arena由多个ChunkList组成，每个ChunkList之间通过双向链表的方式连接。一个ChunkList又由多个Chunk通过双向链表的方式组成。也就是各个Chunlist组成双向链表，ChunkList里面的Chunk又各自组成双向链表。</p>
+<p>​       ChunList之间为什么要通过双向链表的方式连接？先给出答案：每个ChunkList里面的Chunk的使用率是不同的，Chunk使用率相同的归位一个ChunList，这样netty就能通过一定的算法找到合适的Chunk，提高内存分配的效率。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="title">PoolArena</span><span class="params">(PooledByteBufAllocator parent, <span class="keyword">int</span> pageSize,</span></span></div><div class="line">      <span class="keyword">int</span> maxOrder, <span class="keyword">int</span> pageShifts, <span class="keyword">int</span> chunkSize, <span class="keyword">int</span> cacheAlignment) &#123;</div><div class="line">    <span class="keyword">this</span>.parent = parent;</div><div class="line">    <span class="keyword">this</span>.pageSize = pageSize;</div><div class="line">    <span class="keyword">this</span>.maxOrder = maxOrder;</div><div class="line">    <span class="keyword">this</span>.pageShifts = pageShifts;</div><div class="line">    <span class="keyword">this</span>.chunkSize = chunkSize;</div><div class="line">    directMemoryCacheAlignment = cacheAlignment;</div><div class="line">    directMemoryCacheAlignmentMask = cacheAlignment - <span class="number">1</span>;</div><div class="line">    subpageOverflowMask = ~(pageSize - <span class="number">1</span>);</div><div class="line">    tinySubpagePools = newSubpagePoolArray(numTinySubpagePools);</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; tinySubpagePools.length; i ++) &#123;</div><div class="line">        tinySubpagePools[i] = newSubpagePoolHead(pageSize);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    numSmallSubpagePools = pageShifts - <span class="number">9</span>;</div><div class="line">    smallSubpagePools = newSubpagePoolArray(numSmallSubpagePools);</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; smallSubpagePools.length; i ++) &#123;</div><div class="line">        smallSubpagePools[i] = newSubpagePoolHead(pageSize);</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//q100里面的Chunk的内存已经使用100%以上</span></div><div class="line">    <span class="comment">//q075里面的Chunk的内存已经使用75%到100%之间</span></div><div class="line">    <span class="comment">//q050代表它里面的Chunk的内存已经使用50%到100%之间</span></div><div class="line">    <span class="comment">//依此类推</span></div><div class="line">    q100 = <span class="keyword">new</span> PoolChunkList&lt;T&gt;(<span class="keyword">this</span>, <span class="keyword">null</span>, <span class="number">100</span>, Integer.MAX_VALUE, chunkSize);</div><div class="line">    q075 = <span class="keyword">new</span> PoolChunkList&lt;T&gt;(<span class="keyword">this</span>, q100, <span class="number">75</span>, <span class="number">100</span>, chunkSize);</div><div class="line">    q050 = <span class="keyword">new</span> PoolChunkList&lt;T&gt;(<span class="keyword">this</span>, q075, <span class="number">50</span>, <span class="number">100</span>, chunkSize);</div><div class="line">    q025 = <span class="keyword">new</span> PoolChunkList&lt;T&gt;(<span class="keyword">this</span>, q050, <span class="number">25</span>, <span class="number">75</span>, chunkSize);</div><div class="line">    q000 = <span class="keyword">new</span> PoolChunkList&lt;T&gt;(<span class="keyword">this</span>, q025, <span class="number">1</span>, <span class="number">50</span>, chunkSize);</div><div class="line">    qInit = <span class="keyword">new</span> PoolChunkList&lt;T&gt;(<span class="keyword">this</span>, q000, Integer.MIN_VALUE, <span class="number">25</span>, chunkSize);</div><div class="line">    <span class="comment">//qInit&lt;=&gt;q00&lt;=&gt;q025&lt;=&gt;q050&lt;=&gt;q075&lt;=&gt;q100</span></div><div class="line">    q100.prevList(q075);</div><div class="line">    q075.prevList(q050);</div><div class="line">    q050.prevList(q025);</div><div class="line">    q025.prevList(q000);</div><div class="line">    q000.prevList(<span class="keyword">null</span>);</div><div class="line">    qInit.prevList(qInit);</div><div class="line"></div><div class="line">    List&lt;PoolChunkListMetric&gt; metrics = <span class="keyword">new</span> ArrayList&lt;PoolChunkListMetric&gt;(<span class="number">6</span>);</div><div class="line">    metrics.add(qInit);</div><div class="line">    metrics.add(q000);</div><div class="line">    metrics.add(q025);</div><div class="line">    metrics.add(q050);</div><div class="line">    metrics.add(q075);</div><div class="line">    metrics.add(q100);</div><div class="line">    chunkListMetrics = Collections.unmodifiableList(metrics);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如果我们要分配的内存小于Chunk也就是16M，我们用chunk来分配不划算，浪费空间，所以就有了page。一个page的大小是8k，如果我们要分配内存是10k，那么我们用chunk里面的两个page来分配就很划算了。但是如果只要2k呢，一个page也显得不划算，所有又有了subpage。subpage的大小介于0~8k之间。我们看到PoolArena里面有个PoolSubpage，PoolSubpage有个elemSize，就是subpage的大小，可以为0～8k之间的值，有个bitmap，如果是1说明分配了，是0则未分配。</p>
+<p>prev和next指针，说明subpage之间也就通过双向链表链接的，第一个成员变量final PoolChunk<t> chunk，说明了这个subpage属于哪个chunk。</t></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> PoolSubpage&lt;T&gt;[] tinySubpagePools;</div><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> PoolSubpage&lt;T&gt;[] smallSubpagePools;</div><div class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">PoolSubpage</span>&lt;<span class="title">T</span>&gt; <span class="keyword">implements</span> <span class="title">PoolSubpageMetric</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">final</span> PoolChunk&lt;T&gt; chunk;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> memoryMapIdx;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> runOffset;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> pageSize;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">long</span>[] bitmap;</div><div class="line"></div><div class="line">    PoolSubpage&lt;T&gt; prev;</div><div class="line">    PoolSubpage&lt;T&gt; next;</div><div class="line"></div><div class="line">    <span class="keyword">boolean</span> doNotDestroy;</div><div class="line">    <span class="keyword">int</span> elemSize;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> maxNumElems;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> bitmapLength;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> nextAvail;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> numAvail;</div></pre></td></tr></table></figure>
+<h4 id="缓存的数据结构"><a href="#缓存的数据结构" class="headerlink" title="缓存的数据结构"></a>缓存的数据结构</h4><p>MemoryRegionCache就是其缓存的数据结构，它是个抽象类，有2个子类，分别是NormalMemoryRegionCache和SubPageMemoryRegionCache；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Hold the caches for the different size classes, which are tiny, small and normal.</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> MemoryRegionCache&lt;<span class="keyword">byte</span>[]&gt;[] tinySubPageHeapCaches;</div><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> MemoryRegionCache&lt;<span class="keyword">byte</span>[]&gt;[] smallSubPageHeapCaches;</div><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> MemoryRegionCache&lt;ByteBuffer&gt;[] tinySubPageDirectCaches;</div><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> MemoryRegionCache&lt;ByteBuffer&gt;[] smallSubPageDirectCaches;</div><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> MemoryRegionCache&lt;<span class="keyword">byte</span>[]&gt;[] normalHeapCaches;</div><div class="line"><span class="keyword">private</span> <span class="keyword">final</span> MemoryRegionCache&lt;ByteBuffer&gt;[] normalDirectCaches;</div><div class="line"></div><div class="line"><span class="keyword">private</span> <span class="keyword">abstract</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">MemoryRegionCache</span>&lt;<span class="title">T</span>&gt; </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> size;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Queue&lt;Entry&lt;T&gt;&gt; queue;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> SizeClass sizeClass;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> allocations;</div><div class="line"></div><div class="line">    MemoryRegionCache(<span class="keyword">int</span> size, SizeClass sizeClass) &#123;</div><div class="line">        <span class="keyword">this</span>.size = MathUtil.safeFindNextPositivePowerOfTwo(size);</div><div class="line">        queue = PlatformDependent.newFixedMpscQueue(<span class="keyword">this</span>.size);</div><div class="line">        <span class="keyword">this</span>.sizeClass = sizeClass;</div><div class="line">    &#125;</div><div class="line">    ...</div><div class="line">    &#125;</div><div class="line"><span class="comment">//queue里面的Entry</span></div><div class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Entry</span>&lt;<span class="title">T</span>&gt; </span>&#123;</div><div class="line">    <span class="keyword">final</span> Handle&lt;Entry&lt;?&gt;&gt; recyclerHandle;</div><div class="line">    PoolChunk&lt;T&gt; chunk;</div><div class="line">    <span class="keyword">long</span> handle = -<span class="number">1</span>;</div><div class="line">    Entry(Handle&lt;Entry&lt;?&gt;&gt; recyclerHandle) &#123;</div><div class="line">        <span class="keyword">this</span>.recyclerHandle = recyclerHandle;</div><div class="line">    &#125;</div><div class="line">        <span class="function"><span class="keyword">void</span> <span class="title">recycle</span><span class="params">()</span> </span>&#123;</div><div class="line">        chunk = <span class="keyword">null</span>;</div><div class="line">        handle = -<span class="number">1</span>;</div><div class="line">        recyclerHandle.recycle(<span class="keyword">this</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>queue 里面的Entry有recyclerHandle和chunk两个属性，chunk就是内存，handler是指向内存的指针（指向唯一一块连续的内存），通过chunk和handler就可以找到唯一 一块内存；</p>
+<p>sizeClass 大小有tiny(0~512B)、small(512B~8K)、normal(8K~16M)，由于16M以上的数据不加入缓存，所以没有16M以上的大小；</p>
+<p>size 如果是tiny的，有32个，每个的size是16B的倍数，也就是，tiny大小的MemoryRegionCache组合成一个长度为32的数组，分别有：0,16B,32B,48B,72B…496B。不包括512B。个数就是496/16+1=32；如果是small的，有4个，每个的size分别为512B,1K,2K,4K，也就是，small大小的MemoryRegionCache组合成一个长度为4的数组；如果是normal的，有3个，每个的size分别为8K,16K,32K，也就是normal大小的MemoryRegionCache组合成一个长度为3的数组，所以有32+4+3=39种内存规格的MemoryRegionCache。</p>
+<h4 id="缓存的分配"><a href="#缓存的分配" class="headerlink" title="缓存的分配"></a>缓存的分配</h4><p>我们回到PoolArena的allocate来看看缓存分配的流程</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">allocate</span><span class="params">(PoolThreadCache cache, PooledByteBuf&lt;T&gt; buf, <span class="keyword">final</span> <span class="keyword">int</span> reqCapacity)</span> </span>&#123;</div><div class="line">    <span class="comment">//1.如果这个请求的内存reqCapacity是大于chunkSize</span></div><div class="line">    <span class="comment">//2.如果不是tiny，也就是大于512b，就翻倍返回；</span></div><div class="line">    <span class="comment">//3.如果是tiny，那就加16</span></div><div class="line">    <span class="keyword">final</span> <span class="keyword">int</span> normCapacity = normalizeCapacity(reqCapacity);</div><div class="line">    <span class="keyword">if</span> (isTinyOrSmall(normCapacity)) &#123; <span class="comment">// capacity &lt; pageSize</span></div><div class="line">        <span class="keyword">int</span> tableIdx;</div><div class="line">        PoolSubpage&lt;T&gt;[] table;</div><div class="line">        <span class="keyword">boolean</span> tiny = isTiny(normCapacity);</div><div class="line">        <span class="keyword">if</span> (tiny) &#123; <span class="comment">// &lt; 512</span></div><div class="line">        <span class="comment">//我们以这个为例子</span></div><div class="line">            <span class="keyword">if</span> (cache.allocateTiny(<span class="keyword">this</span>, buf, reqCapacity, normCapacity)) &#123;</div><div class="line">                <span class="comment">// was able to allocate out of the cache so move on</span></div><div class="line">                <span class="keyword">return</span>;</div><div class="line">            &#125;</div><div class="line">            tableIdx = tinyIdx(normCapacity);</div><div class="line">            table = tinySubpagePools;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">if</span> (cache.allocateSmall(<span class="keyword">this</span>, buf, reqCapacity, normCapacity)) &#123;</div><div class="line">                <span class="comment">// was able to allocate out of the cache so move on</span></div><div class="line">                <span class="keyword">return</span>;</div><div class="line">            &#125;</div><div class="line">            tableIdx = smallIdx(normCapacity);</div><div class="line">            table = smallSubpagePools;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">final</span> PoolSubpage&lt;T&gt; head = table[tableIdx];</div><div class="line"></div><div class="line">        <span class="comment">/**</span></div><div class="line">         * Synchronize on the head. This is needed as &#123;<span class="doctag">@link</span> PoolChunk#allocateSubpage(int)&#125; and</div><div class="line">         * &#123;<span class="doctag">@link</span> PoolChunk#free(long)&#125; may modify the doubly linked list as well.</div><div class="line">         */</div><div class="line">        <span class="keyword">synchronized</span> (head) &#123;</div><div class="line">            <span class="keyword">final</span> PoolSubpage&lt;T&gt; s = head.next;</div><div class="line">            <span class="keyword">if</span> (s != head) &#123;</div><div class="line">                <span class="keyword">assert</span> s.doNotDestroy &amp;&amp; s.elemSize == normCapacity;</div><div class="line">                <span class="keyword">long</span> handle = s.allocate();</div><div class="line">                <span class="keyword">assert</span> handle &gt;= <span class="number">0</span>;</div><div class="line">                s.chunk.initBufWithSubpage(buf, handle, reqCapacity);</div><div class="line">                incTinySmallAllocation(tiny);</div><div class="line">                <span class="keyword">return</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</div><div class="line">            allocateNormal(buf, reqCapacity, normCapacity);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        incTinySmallAllocation(tiny);</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (normCapacity &lt;= chunkSize) &#123;</div><div class="line">        <span class="keyword">if</span> (cache.allocateNormal(<span class="keyword">this</span>, buf, reqCapacity, normCapacity)) &#123;</div><div class="line">            <span class="comment">// was able to allocate out of the cache so move on</span></div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</div><div class="line">            allocateNormal(buf, reqCapacity, normCapacity);</div><div class="line">            ++allocationsNormal;</div><div class="line">        &#125;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="comment">// Huge allocations are never served via the cache so just call allocateHuge</span></div><div class="line">        allocateHuge(buf, reqCapacity);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>我们以cache.allocateTiny(this, buf, reqCapacity, normCapacity)分配tiny的内存为例子，其他small或者normal的流程大致相同，流程如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">allocateTiny</span><span class="params">(PoolArena&lt;?&gt; area, PooledByteBuf&lt;?&gt; buf, <span class="keyword">int</span> reqCapacity, <span class="keyword">int</span> normCapacity)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> allocate(cacheForTiny(area, normCapacity), buf, reqCapacity);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>找到对应size的MemoryRegionCache</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> MemoryRegionCache&lt;?&gt; cacheForTiny(PoolArena&lt;?&gt; area, <span class="keyword">int</span> normCapacity) &#123;</div><div class="line">    <span class="keyword">int</span> idx = PoolArena.tinyIdx(normCapacity);</div><div class="line">    <span class="keyword">if</span> (area.isDirect()) &#123;</div><div class="line">        <span class="keyword">return</span> cache(tinySubPageDirectCaches, idx);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> cache(tinySubPageHeapCaches, idx);</div><div class="line">&#125;</div><div class="line"><span class="comment">//normCapacity是我需要分配的内存的大小，右移4也就是除以16</span></div><div class="line"><span class="comment">//tiny数组是这样子的：</span></div><div class="line"><span class="comment">//tiny[0]=0,tiny[1]=16,tiny[2]=32,tiny[3]=48,tiny[4]=64...tiny[15]=496。如果是496，除以16等于15，那就是下标为15的；如果是32，除以2，就是下标为2的，这也验证了我们tiny的数组的分布规则。</span></div><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">tinyIdx</span><span class="params">(<span class="keyword">int</span> normCapacity)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> normCapacity &gt;&gt;&gt; <span class="number">4</span>;</div><div class="line">&#125;</div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">MemoryRegionCache&lt;T&gt; <span class="title">cache</span><span class="params">(MemoryRegionCache&lt;T&gt;[] cache, <span class="keyword">int</span> idx)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (cache == <span class="keyword">null</span> || idx &gt; cache.length - <span class="number">1</span>) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> cache[idx];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>从queue中弹出一个entry给ByteBuf初始化</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">allocate</span><span class="params">(MemoryRegionCache&lt;?&gt; cache, PooledByteBuf buf, <span class="keyword">int</span> reqCapacity)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (cache == <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="comment">// no cache found so just return false here</span></div><div class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">boolean</span> allocated = cache.allocate(buf, reqCapacity);</div><div class="line">    <span class="keyword">if</span> (++ allocations &gt;= freeSweepAllocationThreshold) &#123;</div><div class="line">        allocations = <span class="number">0</span>;</div><div class="line">        trim();</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> allocated;</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">allocate</span><span class="params">(PooledByteBuf&lt;T&gt; buf, <span class="keyword">int</span> reqCapacity)</span> </span>&#123;</div><div class="line">    Entry&lt;T&gt; entry = queue.poll();</div><div class="line">    <span class="keyword">if</span> (entry == <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//chunk.initBufWithSubpage(buf, handle, reqCapacity);</span></div><div class="line">    initBuf(entry.chunk, entry.handle, buf, reqCapacity);</div><div class="line">    entry.recycle();</div><div class="line"></div><div class="line">    <span class="comment">// allocations is not thread-safe which is fine as this is only called from the same thread all time.</span></div><div class="line">    ++ allocations;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>将探出的entry扔到对象池里面复用。</p>
+<p>netty为了减少对象的回收消耗的资源，专门做了一个对象池，不需要的对象可以回收，下次使用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">recycle</span><span class="params">()</span> </span>&#123;</div><div class="line">    chunk = <span class="keyword">null</span>;</div><div class="line">    handle = -<span class="number">1</span>;</div><div class="line">    recyclerHandle.recycle(<span class="keyword">this</span>);</div><div class="line">&#125;</div><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">recycle</span><span class="params">(Object object)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (object != value) &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"object does not belong to handle"</span>);</div><div class="line">    &#125;</div><div class="line">    stack.push(<span class="keyword">this</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="内存的分配-page-amp-amp-subpage-amp-amp-huge"><a href="#内存的分配-page-amp-amp-subpage-amp-amp-huge" class="headerlink" title="内存的分配(page &amp;&amp; subpage &amp;&amp; huge)"></a>内存的分配(page &amp;&amp; subpage &amp;&amp; huge)</h4><p>我们继续看这个代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">allocate</span><span class="params">(PoolThreadCache cache, PooledByteBuf&lt;T&gt; buf, <span class="keyword">final</span> <span class="keyword">int</span> reqCapacity)</span> </span>&#123;</div><div class="line">    <span class="keyword">final</span> <span class="keyword">int</span> normCapacity = normalizeCapacity(reqCapacity);</div><div class="line">    <span class="keyword">if</span> ((normCapacity &amp; subpageOverflowMask) == <span class="number">0</span>) &#123; <span class="comment">// capacity &lt; pageSize</span></div><div class="line">        <span class="keyword">int</span> tableIdx;</div><div class="line">        PoolSubpage&lt;T&gt;[] table;</div><div class="line">        <span class="keyword">if</span> ((normCapacity &amp; <span class="number">0xFFFFFE00</span>) == <span class="number">0</span>) &#123; <span class="comment">// &lt; 512</span></div><div class="line">            tableIdx = normCapacity &gt;&gt;&gt; <span class="number">4</span>;</div><div class="line">            table = tinySubpagePools;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            tableIdx = <span class="number">0</span>;</div><div class="line">            <span class="keyword">int</span> i = normCapacity &gt;&gt;&gt; <span class="number">10</span>;</div><div class="line">            <span class="keyword">while</span> (i != <span class="number">0</span>) &#123;</div><div class="line">                i &gt;&gt;&gt;= <span class="number">1</span>;</div><div class="line">                tableIdx ++;</div><div class="line">            &#125;</div><div class="line">            table = smallSubpagePools;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</div><div class="line">            <span class="keyword">final</span> PoolSubpage&lt;T&gt; head = table[tableIdx];</div><div class="line">            <span class="keyword">final</span> PoolSubpage&lt;T&gt; s = head.next;</div><div class="line">            <span class="keyword">if</span> (s != head) &#123;</div><div class="line">                <span class="keyword">assert</span> s.doNotDestroy &amp;&amp; s.elemSize == normCapacity;</div><div class="line">                <span class="keyword">long</span> handle = s.allocate();</div><div class="line">                <span class="keyword">assert</span> handle &gt;= <span class="number">0</span>;</div><div class="line">                s.chunk.initBufWithSubpage(buf, handle, reqCapacity);</div><div class="line">                <span class="keyword">return</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (normCapacity &gt; chunkSize) &#123;</div><div class="line">        allocateHuge(buf, reqCapacity);</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    allocateNormal(buf, reqCapacity, normCapacity);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>page级别内存分配</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//代码入口</span></div><div class="line"><span class="keyword">if</span> (normCapacity &lt;= chunkSize) &#123;</div><div class="line">    <span class="keyword">if</span> (cache.allocateNormal(<span class="keyword">this</span>, buf, reqCapacity, normCapacity)) &#123;</div><div class="line">        <span class="comment">// was able to allocate out of the cache so move on</span></div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</div><div class="line">        allocateNormal(buf, reqCapacity, normCapacity);</div><div class="line">        ++allocationsNormal;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//具体实现</span></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">allocateNormal</span><span class="params">(PooledByteBuf&lt;T&gt; buf, <span class="keyword">int</span> reqCapacity, <span class="keyword">int</span> normCapacity)</span> </span>&#123;</div><div class="line">    <span class="comment">//尝试在现有的chunk上面分配内存</span></div><div class="line">    <span class="keyword">if</span> (q050.allocate(buf, reqCapacity, normCapacity) || q025.allocate(buf, reqCapacity, normCapacity) ||</div><div class="line">        q000.allocate(buf, reqCapacity, normCapacity) || qInit.allocate(buf, reqCapacity, normCapacity) ||</div><div class="line">        q075.allocate(buf, reqCapacity, normCapacity)) &#123;</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 如果现有的chunk分配不成功，那就创建一个chunk进行内存分配</span></div><div class="line">    PoolChunk&lt;T&gt; c = newChunk(pageSize, maxOrder, pageShifts, chunkSize);</div><div class="line">    <span class="keyword">long</span> handle = c.allocate(normCapacity);</div><div class="line">    <span class="keyword">assert</span> handle &gt; <span class="number">0</span>;</div><div class="line">    <span class="comment">// 初始化PooledByteBuf，也就是将PooledByteBuf需要的内存指向chunk的内存</span></div><div class="line">    c.initBuf(buf, handle, reqCapacity);</div><div class="line">    qInit.add(c);</div><div class="line">&#125;</div><div class="line"><span class="comment">//尝试在现有的chunk上面分配内存实现</span></div><div class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">allocate</span><span class="params">(PooledByteBuf&lt;T&gt; buf, <span class="keyword">int</span> reqCapacity, <span class="keyword">int</span> normCapacity)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (head == <span class="keyword">null</span> || normCapacity &gt; maxCapacity) &#123;</div><div class="line">        <span class="comment">// Either this PoolChunkList is empty or the requested capacity is larger then the capacity which can</span></div><div class="line">        <span class="comment">// be handled by the PoolChunks that are contained in this PoolChunkList.</span></div><div class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">for</span> (PoolChunk&lt;T&gt; cur = head;;) &#123;</div><div class="line">        <span class="keyword">long</span> handle = cur.allocate(normCapacity);</div><div class="line">        <span class="comment">//分配失败</span></div><div class="line">        <span class="keyword">if</span> (handle &lt; <span class="number">0</span>) &#123;</div><div class="line">            cur = cur.next;</div><div class="line">            <span class="keyword">if</span> (cur == <span class="keyword">null</span>) &#123;</div><div class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            cur.initBuf(buf, handle, reqCapacity);</div><div class="line">            <span class="comment">//分配完之后，如果使用率超过最大使用率，就放到下一个chunklist里面去</span></div><div class="line">            <span class="keyword">if</span> (cur.usage() &gt;= maxUsage) &#123;</div><div class="line">                remove(cur);</div><div class="line">                nextList.add(cur);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="ByteBuf的创建"><a href="#ByteBuf的创建" class="headerlink" title="ByteBuf的创建"></a>ByteBuf的创建</h2><p>官方的建议是通过ByteBufAllocator来创建，ByteBufAllocator是个接口，我们来看一下类的继承图：</p>
+<p><img src="/2019/12/08/Netty之ByteBuf/4.png" alt=""></p>
+<p>同时又分为堆内和堆外,关于ByteBufAllocator，参考Netty之ByteBufAllocator。</p>
+<h2 id="ByteBuf的释放"><a href="#ByteBuf的释放" class="headerlink" title="ByteBuf的释放"></a>ByteBuf的释放</h2><h3 id="UnpooledHeapByteBuf-和UnpooledDirectByteBuf-1"><a href="#UnpooledHeapByteBuf-和UnpooledDirectByteBuf-1" class="headerlink" title="UnpooledHeapByteBuf 和UnpooledDirectByteBuf"></a>UnpooledHeapByteBuf 和UnpooledDirectByteBuf</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">release</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">for</span> (;;) &#123;</div><div class="line">        <span class="keyword">int</span> refCnt = <span class="keyword">this</span>.refCnt;</div><div class="line">        <span class="keyword">if</span> (refCnt == <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalReferenceCountException(<span class="number">0</span>, -<span class="number">1</span>);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (refCntUpdater.compareAndSet(<span class="keyword">this</span>, refCnt, refCnt - <span class="number">1</span>)) &#123;</div><div class="line">            <span class="keyword">if</span> (refCnt == <span class="number">1</span>) &#123;</div><div class="line">                deallocate();</div><div class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//UnpooledDirectByteBuf</span></div><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">deallocate</span><span class="params">()</span> </span>&#123;</div><div class="line">    ByteBuffer buffer = <span class="keyword">this</span>.buffer;</div><div class="line">    <span class="keyword">if</span> (buffer == <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">this</span>.buffer = <span class="keyword">null</span>;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (!doNotFree) &#123;</div><div class="line">        freeDirect(buffer);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">freeDirect</span><span class="params">(ByteBuffer buffer)</span> </span>&#123;</div><div class="line">    PlatformDependent.freeDirectBuffer(buffer);</div><div class="line">&#125;</div><div class="line"><span class="comment">//UnpooledHeapByteBuf</span></div><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">deallocate</span><span class="params">()</span> </span>&#123;</div><div class="line">    array = <span class="keyword">null</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="PooledHeapByteBuf和PooledDirectByteBuf"><a href="#PooledHeapByteBuf和PooledDirectByteBuf" class="headerlink" title="PooledHeapByteBuf和PooledDirectByteBuf"></a>PooledHeapByteBuf和PooledDirectByteBuf</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">release</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">boolean</span> deallocated =  <span class="keyword">super</span>.release();</div><div class="line">    <span class="keyword">if</span> (deallocated) &#123;</div><div class="line">        leak.close();</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> deallocated;</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">release</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> buf.release();</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">release</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">for</span> (;;) &#123;</div><div class="line">        <span class="keyword">int</span> refCnt = <span class="keyword">this</span>.refCnt;</div><div class="line">        <span class="keyword">if</span> (refCnt == <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalReferenceCountException(<span class="number">0</span>, -<span class="number">1</span>);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (refCntUpdater.compareAndSet(<span class="keyword">this</span>, refCnt, refCnt - <span class="number">1</span>)) &#123;</div><div class="line">            <span class="keyword">if</span> (refCnt == <span class="number">1</span>) &#123;</div><div class="line">                deallocate();</div><div class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">deallocate</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (handle &gt;= <span class="number">0</span>) &#123;</div><div class="line">        <span class="keyword">final</span> <span class="keyword">long</span> handle = <span class="keyword">this</span>.handle;</div><div class="line">        <span class="keyword">this</span>.handle = -<span class="number">1</span>;</div><div class="line">        memory = <span class="keyword">null</span>;</div><div class="line">        <span class="comment">//内存释放</span></div><div class="line">        chunk.arena.free(chunk, handle);</div><div class="line">        <span class="comment">//加入内存池复用</span></div><div class="line">        recycle();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="参考项目"><a href="#参考项目" class="headerlink" title="参考项目"></a>参考项目</h2><p><a href="https://github.com/Luckylau/Netty-Learn" target="_blank" rel="external">https://github.com/Luckylau/Netty-Learn</a></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.jianshu.com/p/5959aa4ab1a9" target="_blank" rel="external">https://www.jianshu.com/p/5959aa4ab1a9</a></p>
+<p><a href="https://www.jianshu.com/p/bdd37e2750da" target="_blank" rel="external">https://www.jianshu.com/p/bdd37e2750da</a></p>
+<p><a href="https://www.jianshu.com/p/854b855bd198" target="_blank" rel="external">https://www.jianshu.com/p/854b855bd198</a></p>
+<p><a href="https://blog.csdn.net/fst438060684/article/details/82532093" target="_blank" rel="external">https://blog.csdn.net/fst438060684/article/details/82532093</a></p>
+<p><a href="https://blog.csdn.net/fst438060684/article/details/82563423" target="_blank" rel="external">https://blog.csdn.net/fst438060684/article/details/82563423</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+<div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/1.jpg" alt="Luckylau wechat" style="width: 200px; max-width: 100%;"/>
+    <div>如果对您有价值,看官可以打赏的！</div>
+</div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Netty/" rel="tag"># Netty</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/15/IntelliJ之IDEA神器使用技巧/" rel="next" title="IntelliJ之IDEA神器使用技巧">
+                <i class="fa fa-chevron-left"></i> IntelliJ之IDEA神器使用技巧
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/logo.jpg"
+               alt="Luckylau" />
+          <p class="site-author-name" itemprop="name">Luckylau</p>
+          <p class="site-description motion-element" itemprop="description">人生识字忧患始</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">193</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Luckylau" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://weibo.com/2606534415/profile?topnav=1&wvr=6&is_all=1" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是ByteBuf"><span class="nav-number">1.</span> <span class="nav-text">什么是ByteBuf</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ByteBuf与ByteBuffer的对比"><span class="nav-number">2.</span> <span class="nav-text">ByteBuf与ByteBuffer的对比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ByteBuf的结构"><span class="nav-number">3.</span> <span class="nav-text">ByteBuf的结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ByteBuf的扩容原理"><span class="nav-number">4.</span> <span class="nav-text">ByteBuf的扩容原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ByteBuf的相关子类"><span class="nav-number">5.</span> <span class="nav-text">ByteBuf的相关子类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CompositeByteBuf"><span class="nav-number">5.1.</span> <span class="nav-text">CompositeByteBuf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UnpooledHeapByteBuf-和UnpooledDirectByteBuf"><span class="nav-number">5.2.</span> <span class="nav-text">UnpooledHeapByteBuf 和UnpooledDirectByteBuf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PooledByteBuf"><span class="nav-number">5.3.</span> <span class="nav-text">PooledByteBuf</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#内存池的数据结构（arena、chunk、page、subpage）"><span class="nav-number">5.3.1.</span> <span class="nav-text">内存池的数据结构（arena、chunk、page、subpage）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#缓存的数据结构"><span class="nav-number">5.3.2.</span> <span class="nav-text">缓存的数据结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#缓存的分配"><span class="nav-number">5.3.3.</span> <span class="nav-text">缓存的分配</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#内存的分配-page-amp-amp-subpage-amp-amp-huge"><span class="nav-number">5.3.4.</span> <span class="nav-text">内存的分配(page && subpage && huge)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ByteBuf的创建"><span class="nav-number">6.</span> <span class="nav-text">ByteBuf的创建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ByteBuf的释放"><span class="nav-number">7.</span> <span class="nav-text">ByteBuf的释放</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#UnpooledHeapByteBuf-和UnpooledDirectByteBuf-1"><span class="nav-number">7.1.</span> <span class="nav-text">UnpooledHeapByteBuf 和UnpooledDirectByteBuf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PooledHeapByteBuf和PooledDirectByteBuf"><span class="nav-number">7.2.</span> <span class="nav-text">PooledHeapByteBuf和PooledDirectByteBuf</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考项目"><span class="nav-number">8.</span> <span class="nav-text">参考项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">9.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2017 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Luckylau</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid="></script>
+      <!-- UY END -->
+  
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
