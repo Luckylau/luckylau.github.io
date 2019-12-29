@@ -1,0 +1,969 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="SpringBoot," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/logo.jpg?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="什么是SpringSecurity​       Spring Security是基于Filter实现的对系统的访问权限进行细粒度的控制，包括用户认证（Authentication）和用户授权（Authorization）；认证是验证某个用户是否为系统中的合法主体，授权是验证某个用户是否有权限执行某个操作。众所周知，想要对对Web资源进行保护，最好的办法莫过于Filter，要想对方法调用进行保护，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringBoot之SpringSecurity">
+<meta property="og:url" content="https://luckylau.github.io/2019/12/29/SpringBoot之SpringSecurity/index.html">
+<meta property="og:site_name" content="Luckylau's Blog">
+<meta property="og:description" content="什么是SpringSecurity​       Spring Security是基于Filter实现的对系统的访问权限进行细粒度的控制，包括用户认证（Authentication）和用户授权（Authorization）；认证是验证某个用户是否为系统中的合法主体，授权是验证某个用户是否有权限执行某个操作。众所周知，想要对对Web资源进行保护，最好的办法莫过于Filter，要想对方法调用进行保护，">
+<meta property="og:image" content="https://luckylau.github.io/2019/12/29/SpringBoot之SpringSecurity/1.png">
+<meta property="og:image" content="https://luckylau.github.io/2019/12/29/SpringBoot之SpringSecurity/2.png">
+<meta property="og:image" content="https://luckylau.github.io/2019/12/29/SpringBoot之SpringSecurity/3.png">
+<meta property="og:image" content="https://luckylau.github.io/2019/12/29/SpringBoot之SpringSecurity/4.png">
+<meta property="og:image" content="https://luckylau.github.io/2019/12/29/SpringBoot之SpringSecurity/5.png">
+<meta property="og:image" content="https://luckylau.github.io/2019/12/29/SpringBoot之SpringSecurity/6.png">
+<meta property="og:image" content="https://luckylau.github.io/2019/12/29/SpringBoot之SpringSecurity/7.png">
+<meta property="og:image" content="https://luckylau.github.io/2019/12/29/SpringBoot之SpringSecurity/8.png">
+<meta property="og:image" content="https://luckylau.github.io/2019/12/29/SpringBoot之SpringSecurity/9.png">
+<meta property="og:image" content="https://luckylau.github.io/2019/12/29/SpringBoot之SpringSecurity/10.png">
+<meta property="og:image" content="https://luckylau.github.io/2019/12/29/SpringBoot之SpringSecurity/11.png">
+<meta property="og:image" content="https://luckylau.github.io/2019/12/29/SpringBoot之SpringSecurity/12.png">
+<meta property="og:image" content="https://luckylau.github.io/2019/12/29/SpringBoot之SpringSecurity/13.png">
+<meta property="og:image" content="https://luckylau.github.io/2019/12/29/SpringBoot之SpringSecurity/14.png">
+<meta property="og:image" content="https://luckylau.github.io/2019/12/29/SpringBoot之SpringSecurity/15.png">
+<meta property="og:image" content="https://luckylau.github.io/2019/12/29/SpringBoot之SpringSecurity/16.png">
+<meta property="og:image" content="https://luckylau.github.io/2019/12/29/SpringBoot之SpringSecurity/17.png">
+<meta property="og:image" content="https://luckylau.github.io/2019/12/29/SpringBoot之SpringSecurity/18.png">
+<meta property="og:image" content="https://luckylau.github.io/2019/12/29/SpringBoot之SpringSecurity/19.png">
+<meta property="og:updated_time" content="2019-12-29T04:40:51.862Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SpringBoot之SpringSecurity">
+<meta name="twitter:description" content="什么是SpringSecurity​       Spring Security是基于Filter实现的对系统的访问权限进行细粒度的控制，包括用户认证（Authentication）和用户授权（Authorization）；认证是验证某个用户是否为系统中的合法主体，授权是验证某个用户是否有权限执行某个操作。众所周知，想要对对Web资源进行保护，最好的办法莫过于Filter，要想对方法调用进行保护，">
+<meta name="twitter:image" content="https://luckylau.github.io/2019/12/29/SpringBoot之SpringSecurity/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://luckylau.github.io/2019/12/29/SpringBoot之SpringSecurity/"/>
+
+
+
+
+
+  <title> SpringBoot之SpringSecurity | Luckylau's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Luckylau's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">Keep Moving, Keep Learning</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2019/12/29/SpringBoot之SpringSecurity/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Luckylau">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/logo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Luckylau's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Luckylau's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                SpringBoot之SpringSecurity
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-12-29T12:26:55+08:00">
+                2019-12-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="什么是SpringSecurity"><a href="#什么是SpringSecurity" class="headerlink" title="什么是SpringSecurity"></a>什么是SpringSecurity</h3><p>​       Spring Security是基于Filter实现的对系统的访问权限进行细粒度的控制，包括用户认证（Authentication）和用户授权（Authorization）；认证是验证某个用户是否为系统中的合法主体，授权是验证某个用户是否有权限执行某个操作。众所周知，想要对对Web资源进行保护，最好的办法莫过于Filter，要想对方法调用进行保护，最好的办法莫过于AOP。所以springSecurity在我们进行用户认证以及授予权限的时候，通过各种各样的拦截器来控制权限的访问，从而实现安全。</p>
+<h3 id="SpringSecurity的启动加载流程"><a href="#SpringSecurity的启动加载流程" class="headerlink" title="SpringSecurity的启动加载流程"></a>SpringSecurity的启动加载流程</h3><p>SpringSecurityConfigurer</p>
+<a id="more"></a>
+<p><img src="/2019/12/29/SpringBoot之SpringSecurity/1.png" alt=""></p>
+<p>@EnableWebSecurity -&gt;WebSecurityConfiguration-&gt;setFilterChainProxySecurityConfigurer-&gt;springSecurityFilterChain-&gt;AbstractConfiguredSecurityBuilder.doBuild()。</p>
+<p><img src="/2019/12/29/SpringBoot之SpringSecurity/2.png" alt=""></p>
+<p>WebSecurityConfiguration首先调用它setFilterChainProxySecurityConfigurer方法进行webSecurity的初始化；</p>
+<p>objectPostProcessor用于构建webSecurity，另外的注解将我们定义的SpringSecurityConfigurer转化到webSecurityConfigurers中。</p>
+<p><img src="/2019/12/29/SpringBoot之SpringSecurity/3.png" alt=""></p>
+<p>然后再调用springSecurityFilterChain进行webSecurity的配置</p>
+<p><img src="/2019/12/29/SpringBoot之SpringSecurity/4.png" alt=""></p>
+<p>下面的关键开始了</p>
+<p>接着调用org.springframework.security.config.annotation.AbstractSecurityBuilder#build方法，进入doBuild()方法</p>
+<p><img src="/2019/12/29/SpringBoot之SpringSecurity/5.png" alt=""></p>
+<p>这时候的configurers是”class com.yrd.bpm.security.SpringSecurityConfigurer$$EnhancerBySpringCGLIB$$463f5179” -&gt; “ size = 1”,</p>
+<p>doBuild()方法有2个非常重要的方法：init()和performBuild()</p>
+<p><img src="/2019/12/29/SpringBoot之SpringSecurity/6.png" alt=""></p>
+<p>首先是init(),只会进入第一个的for循环，调用</p>
+<p><img src="/2019/12/29/SpringBoot之SpringSecurity/7.png" alt=""></p>
+<p>org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter</p>
+<p>的init()方法，我们看一下getHttp()方法</p>
+<p><img src="/2019/12/29/SpringBoot之SpringSecurity/8.png" alt=""></p>
+<p>gethttp()方法重要的事情做了2件，第一件是构建接口AuthenticationManager的实现，实际是实例化ProviderManager，第二件是对http初始化，执行if(!disableDefaults)内的代码</p>
+<p>我们看到http有1个filter和10个configurers</p>
+<p><img src="/2019/12/29/SpringBoot之SpringSecurity/9.png" alt=""></p>
+<p>继续向下执行，会执行configure方法，就是我们自定义SpringSecurityConfigurer类的configure方法</p>
+<p><img src="/2019/12/29/SpringBoot之SpringSecurity/10.png" alt=""></p>
+<p><img src="/2019/12/29/SpringBoot之SpringSecurity/11.png" alt=""></p>
+<p>这时候http变成了</p>
+<p><img src="/2019/12/29/SpringBoot之SpringSecurity/12.png" alt=""></p>
+<p>然后调用web.addSecurityFilterChainBuilder(http)，就是把http放入securityFilterChainBuilders，为下面的performBuild()作准备</p>
+<p><img src="/2019/12/29/SpringBoot之SpringSecurity/13.png" alt=""></p>
+<p>关键的就是for循环里面的securityFilterChains.add(securityFilterChainBuilder.build())，这个时候又进入doBuild()，处理上图中的http的11个configure。</p>
+<p>在doBuild()中init()和configure(), init()对11个configure处理</p>
+<p>其中org.springframework.security.config.annotation.web.configurers.SessionManagementConfigurer主要配置是否有securityContext，一般jwt的方式是配置stateless为true</p>
+<p>configure()将configure转化为filter，</p>
+<p>最后performBuilder()，将filter排序后构建DefaultSecurityFilterChain</p>
+<p><img src="/2019/12/29/SpringBoot之SpringSecurity/14.png" alt=""></p>
+<p>org.springframework.security.config.annotation.web.configurers.AnonymousConfigurer</p>
+<p><img src="/2019/12/29/SpringBoot之SpringSecurity/15.png" alt=""></p>
+<p><img src="/2019/12/29/SpringBoot之SpringSecurity/16.png" alt=""></p>
+<p><img src="/2019/12/29/SpringBoot之SpringSecurity/17.png" alt=""></p>
+<h3 id="一个请求经过SpringSecurity的处理流程"><a href="#一个请求经过SpringSecurity的处理流程" class="headerlink" title="一个请求经过SpringSecurity的处理流程"></a>一个请求经过SpringSecurity的处理流程</h3><p>经过上面的流程之后会生成如下13个过滤链</p>
+<p><img src="/2019/12/29/SpringBoot之SpringSecurity/18.png" alt=""></p>
+<h4 id="WebAsyncManagerIntegrationFilter"><a href="#WebAsyncManagerIntegrationFilter" class="headerlink" title="WebAsyncManagerIntegrationFilter"></a>WebAsyncManagerIntegrationFilter</h4><p>将Security上下文与Spring Web中用于处理异步请求映射的 WebAsyncManager 进行集成。</p>
+<h4 id="SecurityContextPersistenceFilter"><a href="#SecurityContextPersistenceFilter" class="headerlink" title="SecurityContextPersistenceFilter"></a>SecurityContextPersistenceFilter</h4><p>​      在每次请求处理之前将该请求相关的安全上下文信息加载到SecurityContextHolder中，然后在该次请求处理完成之后，将SecurityContextHolder中的信息清除，同时将关于这次请求的信息存储到一个SecurityContextRepository中。这里要注意的是SecurityContextRepository的实现有2个，HttpSessionSecurityContextRepository和NullSecurityContextRepository，当你用token验证时候，不用session管理会话时，即stateless为true，会使用NullSecurityContextRepository，这时候SecurityContextHolder里面存取都是空的。</p>
+<p><img src="/2019/12/29/SpringBoot之SpringSecurity/19.png" alt=""></p>
+<h4 id="HeaderWriterFilter"><a href="#HeaderWriterFilter" class="headerlink" title="HeaderWriterFilter"></a>HeaderWriterFilter</h4><p>用于将头信息加入响应中</p>
+<h4 id="LogoutFilter"><a href="#LogoutFilter" class="headerlink" title="LogoutFilter"></a>LogoutFilter</h4><p>用于处理退出登录</p>
+<h4 id="执行我定义的过滤链"><a href="#执行我定义的过滤链" class="headerlink" title="执行我定义的过滤链"></a>执行我定义的过滤链</h4><h4 id="UsernamePasswordAuthenticationFilter"><a href="#UsernamePasswordAuthenticationFilter" class="headerlink" title="UsernamePasswordAuthenticationFilter"></a>UsernamePasswordAuthenticationFilter</h4><p>​       用于处理基于表单的登录请求，从表单中获取用户名和密码。默认情况下处理来自“/login”的请求。</p>
+<p>​      从表单中获取用户名和密码时，默认使用的表单name值为“username”和“password”，这两个值可以通过设置这个过滤器的usernameParameter 和 passwordParameter 两个参数的值进行修改。</p>
+<h4 id="ConcurrentSessionFilter"><a href="#ConcurrentSessionFilter" class="headerlink" title="ConcurrentSessionFilter"></a>ConcurrentSessionFilter</h4><p>如果session没过期, 就会更新session里的”last update” date/time；</p>
+<p>如果session过期, 就会调用logout handlers(一般是LogoutFilter)去销毁session, 然后跳转到expiredUrl；</p>
+<h4 id="RequestCacheAwareFilter"><a href="#RequestCacheAwareFilter" class="headerlink" title="RequestCacheAwareFilter"></a>RequestCacheAwareFilter</h4><p>用于用户登录成功后，重新恢复因为登录被打断的请求；</p>
+<h4 id="SecurityContextHolderAwareRequestFilter"><a href="#SecurityContextHolderAwareRequestFilter" class="headerlink" title="SecurityContextHolderAwareRequestFilter"></a>SecurityContextHolderAwareRequestFilter</h4><p>对request包装的目的主要是实现servlet api的一些接口方法isUserInRole、getRemoteUser </p>
+<h4 id="AnonymousAuthenticationFilter"><a href="#AnonymousAuthenticationFilter" class="headerlink" title="AnonymousAuthenticationFilter"></a>AnonymousAuthenticationFilter</h4><p>如果没有任何认证程序机制更新SecurityContextHolder，一个匿名的对象将存放到这里</p>
+<h4 id="SessionManagementFilter"><a href="#SessionManagementFilter" class="headerlink" title="SessionManagementFilter"></a>SessionManagementFilter</h4><p>当用户重启浏览器, 然后使用remember-me授权成功后, 再直接访问授权后的url. 这时, session里没有了”SPRING_SECURITY_CONTEXT”属性. 那么这个请求会被此过滤器拦截. 这时得到的authentication是RemembermeAuthentication的实例。</p>
+<p>当session因过期而被容器自动销毁时, 若用户继续发出请求, 这个请求会放在一个新的session里, 新session里没有设置”SPRING_SECURITY_CONTEXT”属性, 那么这个请求也会被这个过滤器拦截. 这时得到的authentication是AnonymousAuthentication的实例。</p>
+<h4 id="ExceptionTranslationFilter"><a href="#ExceptionTranslationFilter" class="headerlink" title="ExceptionTranslationFilter"></a>ExceptionTranslationFilter</h4><p>此过滤器的作用是处理中FilterSecurityInterceptor抛出的异常，然后将请求重定向到对应页面，或返回对应的响应错误代码。</p>
+<h4 id="FilterSecurityInterceptor"><a href="#FilterSecurityInterceptor" class="headerlink" title="FilterSecurityInterceptor"></a>FilterSecurityInterceptor</h4><p>功能一：如果用户尚未登陆，则抛出AuthenticationCredentialsNotFoundException“尚未认证异常”。</p>
+<p>功能二：如果用户已登录，但是没有访问当前资源的权限，则抛出AccessDeniedException“拒绝访问异常”。</p>
+<p>功能三：如果用户已登录，也具有访问当前资源的权限，则放行。</p>
+<h3 id="SpringSecurity的使用"><a href="#SpringSecurity的使用" class="headerlink" title="SpringSecurity的使用"></a>SpringSecurity的使用</h3><p>参考github：<a href="https://github.com/Luckylau/Spring-Learning.git" target="_blank" rel="external">https://github.com/Luckylau/Spring-Learning.git</a></p>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p><a href="https://blog.csdn.net/liushangzaibeijing/article/details/81220610" target="_blank" rel="external">https://blog.csdn.net/liushangzaibeijing/article/details/81220610</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+<div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/1.jpg" alt="Luckylau wechat" style="width: 200px; max-width: 100%;"/>
+    <div>如果对您有价值,看官可以打赏的！</div>
+</div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/SpringBoot/" rel="tag"># SpringBoot</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/22/Netty之ByteBufAllocator/" rel="next" title="Netty之ByteBufAllocator">
+                <i class="fa fa-chevron-left"></i> Netty之ByteBufAllocator
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/logo.jpg"
+               alt="Luckylau" />
+          <p class="site-author-name" itemprop="name">Luckylau</p>
+          <p class="site-description motion-element" itemprop="description">人生识字忧患始</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">195</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/Luckylau" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://weibo.com/2606534415/profile?topnav=1&wvr=6&is_all=1" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是SpringSecurity"><span class="nav-number">1.</span> <span class="nav-text">什么是SpringSecurity</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SpringSecurity的启动加载流程"><span class="nav-number">2.</span> <span class="nav-text">SpringSecurity的启动加载流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一个请求经过SpringSecurity的处理流程"><span class="nav-number">3.</span> <span class="nav-text">一个请求经过SpringSecurity的处理流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#WebAsyncManagerIntegrationFilter"><span class="nav-number">3.1.</span> <span class="nav-text">WebAsyncManagerIntegrationFilter</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SecurityContextPersistenceFilter"><span class="nav-number">3.2.</span> <span class="nav-text">SecurityContextPersistenceFilter</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HeaderWriterFilter"><span class="nav-number">3.3.</span> <span class="nav-text">HeaderWriterFilter</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LogoutFilter"><span class="nav-number">3.4.</span> <span class="nav-text">LogoutFilter</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#执行我定义的过滤链"><span class="nav-number">3.5.</span> <span class="nav-text">执行我定义的过滤链</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#UsernamePasswordAuthenticationFilter"><span class="nav-number">3.6.</span> <span class="nav-text">UsernamePasswordAuthenticationFilter</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ConcurrentSessionFilter"><span class="nav-number">3.7.</span> <span class="nav-text">ConcurrentSessionFilter</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RequestCacheAwareFilter"><span class="nav-number">3.8.</span> <span class="nav-text">RequestCacheAwareFilter</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SecurityContextHolderAwareRequestFilter"><span class="nav-number">3.9.</span> <span class="nav-text">SecurityContextHolderAwareRequestFilter</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AnonymousAuthenticationFilter"><span class="nav-number">3.10.</span> <span class="nav-text">AnonymousAuthenticationFilter</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SessionManagementFilter"><span class="nav-number">3.11.</span> <span class="nav-text">SessionManagementFilter</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ExceptionTranslationFilter"><span class="nav-number">3.12.</span> <span class="nav-text">ExceptionTranslationFilter</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FilterSecurityInterceptor"><span class="nav-number">3.13.</span> <span class="nav-text">FilterSecurityInterceptor</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SpringSecurity的使用"><span class="nav-number">4.</span> <span class="nav-text">SpringSecurity的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文章"><span class="nav-number">5.</span> <span class="nav-text">参考文章</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2017 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Luckylau</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid="></script>
+      <!-- UY END -->
+  
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
