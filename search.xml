@@ -3,6 +3,76 @@
   
     
     <entry>
+      <title><![CDATA[ElasticSearch之并发冲突问题]]></title>
+      <url>%2F2020%2F04%2F10%2FElasticSearch%E4%B9%8B%E5%B9%B6%E5%8F%91%E5%86%B2%E7%AA%81%E9%97%AE%E9%A2%98%2F</url>
+      <content type="text"><![CDATA[并发冲突的解决方式—悲观锁和乐观锁ElasticSearch进行乐观锁并发机制ElasticSearch乐观锁并发练习]]></content>
+    </entry>
+
+    
+    <entry>
+      <title><![CDATA[ElasticSearch之document]]></title>
+      <url>%2F2020%2F03%2F20%2FElasticSearch%E4%B9%8Bdocument%2F</url>
+      <content type="text"><![CDATA[_index元数据_type元数据_id元数据_source元数据document的全量替换document的强制创建document的删除]]></content>
+    </entry>
+
+    
+    <entry>
+      <title><![CDATA[ElasticSearch之基础分布式架构]]></title>
+      <url>%2F2020%2F03%2F12%2FElasticSearch%E4%B9%8B%E5%9F%BA%E7%A1%80%E5%88%86%E5%B8%83%E5%BC%8F%E6%9E%B6%E6%9E%84%2F</url>
+      <content type="text"><![CDATA[ElasticSearch的节点类型ElasticSearch分布式特性shard和replica机制shard负载均衡集群扩容容错机制]]></content>
+    </entry>
+
+    
+    <entry>
+      <title><![CDATA[ElasticSearch之基本概念]]></title>
+      <url>%2F2020%2F03%2F01%2FElasticSearch%E4%B9%8B%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5%2F</url>
+      <content type="text"><![CDATA[什么是搜索什么是ElasticSearchElasticSearch的核心概念ElasticSearch简单查询操作]]></content>
+    </entry>
+
+    
+    <entry>
+      <title><![CDATA[spring-cloud-zuul-ratelimit实现原理]]></title>
+      <url>%2F2020%2F02%2F10%2Fspring-cloud-zuul-ratelimit%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%2F</url>
+      <content type="text"></content>
+    </entry>
+
+    
+    <entry>
+      <title><![CDATA[ScheduledThreadPoolExecutor源码解析]]></title>
+      <url>%2F2020%2F02%2F05%2FScheduledThreadPoolExecutor%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%2F</url>
+      <content type="text"></content>
+    </entry>
+
+    
+    <entry>
+      <title><![CDATA[Netty之HashedWheelTimer]]></title>
+      <url>%2F2020%2F01%2F30%2FNetty%E4%B9%8BHashedWheelTimer%2F</url>
+      <content type="text"></content>
+    </entry>
+
+    
+    <entry>
+      <title><![CDATA[Springboot之Actuator]]></title>
+      <url>%2F2020%2F01%2F20%2FSpringboot%E4%B9%8BActuator%2F</url>
+      <content type="text"></content>
+    </entry>
+
+    
+    <entry>
+      <title><![CDATA[正则表达式]]></title>
+      <url>%2F2020%2F01%2F06%2F%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%2F</url>
+      <content type="text"></content>
+    </entry>
+
+    
+    <entry>
+      <title><![CDATA[powermock,mock测试框架的使用]]></title>
+      <url>%2F2020%2F01%2F03%2Fpowermock-mock%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9A%84%E4%BD%BF%E7%94%A8%2F</url>
+      <content type="text"></content>
+    </entry>
+
+    
+    <entry>
       <title><![CDATA[SpringBoot之SpringSecurity]]></title>
       <url>%2F2019%2F12%2F29%2FSpringBoot%E4%B9%8BSpringSecurity%2F</url>
       <content type="text"><![CDATA[什么是SpringSecurity​ Spring Security是基于Filter实现的对系统的访问权限进行细粒度的控制，包括用户认证（Authentication）和用户授权（Authorization）；认证是验证某个用户是否为系统中的合法主体，授权是验证某个用户是否有权限执行某个操作。众所周知，想要对对Web资源进行保护，最好的办法莫过于Filter，要想对方法调用进行保护，最好的办法莫过于AOP。所以springSecurity在我们进行用户认证以及授予权限的时候，通过各种各样的拦截器来控制权限的访问，从而实现安全。 SpringSecurity的启动加载流程SpringSecurityConfigurer @EnableWebSecurity -&gt;WebSecurityConfiguration-&gt;setFilterChainProxySecurityConfigurer-&gt;springSecurityFilterChain-&gt;AbstractConfiguredSecurityBuilder.doBuild()。 WebSecurityConfiguration首先调用它setFilterChainProxySecurityConfigurer方法进行webSecurity的初始化； objectPostProcessor用于构建webSecurity，另外的注解将我们定义的SpringSecurityConfigurer转化到webSecurityConfigurers中。 然后再调用springSecurityFilterChain进行webSecurity的配置 下面的关键开始了 接着调用org.springframework.security.config.annotation.AbstractSecurityBuilder#build方法，进入doBuild()方法 这时候的configurers是”class com.yrd.bpm.security.SpringSecurityConfigurer$$EnhancerBySpringCGLIB$$463f5179” -&gt; “ size = 1”, doBuild()方法有2个非常重要的方法：init()和performBuild() 首先是init(),只会进入第一个的for循环，调用 org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter 的init()方法，我们看一下getHttp()方法 gethttp()方法重要的事情做了2件，第一件是构建接口AuthenticationManager的实现，实际是实例化ProviderManager，第二件是对http初始化，执行if(!disableDefaults)内的代码 我们看到http有1个filter和10个configurers 继续向下执行，会执行configure方法，就是我们自定义SpringSecurityConfigurer类的configure方法 这时候http变成了 然后调用web.addSecurityFilterChainBuilder(http)，就是把http放入securityFilterChainBuilders，为下面的performBuild()作准备 关键的就是for循环里面的securityFilterChains.add(securityFilterChainBuilder.build())，这个时候又进入doBuild()，处理上图中的http的11个configure。 在doBuild()中init()和configure(), init()对11个configure处理 其中org.springframework.security.config.annotation.web.configurers.SessionManagementConfigurer主要配置是否有securityContext，一般jwt的方式是配置stateless为true configure()将configure转化为filter， 最后performBuilder()，将filter排序后构建DefaultSecurityFilterChain org.springframework.security.config.annotation.web.configurers.AnonymousConfigurer 一个请求经过SpringSecurity的处理流程经过上面的流程之后会生成如下13个过滤链 WebAsyncManagerIntegrationFilter将Security上下文与Spring Web中用于处理异步请求映射的 WebAsyncManager 进行集成。 SecurityContextPersistenceFilter​ 在每次请求处理之前将该请求相关的安全上下文信息加载到SecurityContextHolder中，然后在该次请求处理完成之后，将SecurityContextHolder中的信息清除，同时将关于这次请求的信息存储到一个SecurityContextRepository中。这里要注意的是SecurityContextRepository的实现有2个，HttpSessionSecurityContextRepository和NullSecurityContextRepository，当你用token验证时候，不用session管理会话时，即stateless为true，会使用NullSecurityContextRepository，这时候SecurityContextHolder里面存取都是空的。 HeaderWriterFilter用于将头信息加入响应中 LogoutFilter用于处理退出登录 执行我定义的过滤链UsernamePasswordAuthenticationFilter​ 用于处理基于表单的登录请求，从表单中获取用户名和密码。默认情况下处理来自“/login”的请求。 ​ 从表单中获取用户名和密码时，默认使用的表单name值为“username”和“password”，这两个值可以通过设置这个过滤器的usernameParameter 和 passwordParameter 两个参数的值进行修改。 ConcurrentSessionFilter如果session没过期, 就会更新session里的”last update” date/time； 如果session过期, 就会调用logout handlers(一般是LogoutFilter)去销毁session, 然后跳转到expiredUrl； RequestCacheAwareFilter用于用户登录成功后，重新恢复因为登录被打断的请求； SecurityContextHolderAwareRequestFilter对request包装的目的主要是实现servlet api的一些接口方法isUserInRole、getRemoteUser AnonymousAuthenticationFilter如果没有任何认证程序机制更新SecurityContextHolder，一个匿名的对象将存放到这里 SessionManagementFilter当用户重启浏览器, 然后使用remember-me授权成功后, 再直接访问授权后的url. 这时, session里没有了”SPRING_SECURITY_CONTEXT”属性. 那么这个请求会被此过滤器拦截. 这时得到的authentication是RemembermeAuthentication的实例。 当session因过期而被容器自动销毁时, 若用户继续发出请求, 这个请求会放在一个新的session里, 新session里没有设置”SPRING_SECURITY_CONTEXT”属性, 那么这个请求也会被这个过滤器拦截. 这时得到的authentication是AnonymousAuthentication的实例。 ExceptionTranslationFilter此过滤器的作用是处理中FilterSecurityInterceptor抛出的异常，然后将请求重定向到对应页面，或返回对应的响应错误代码。 FilterSecurityInterceptor功能一：如果用户尚未登陆，则抛出AuthenticationCredentialsNotFoundException“尚未认证异常”。 功能二：如果用户已登录，但是没有访问当前资源的权限，则抛出AccessDeniedException“拒绝访问异常”。 功能三：如果用户已登录，也具有访问当前资源的权限，则放行。 SpringSecurity的使用参考github：https://github.com/Luckylau/Spring-Learning.git 参考文章https://blog.csdn.net/liushangzaibeijing/article/details/81220610]]></content>
@@ -390,7 +460,7 @@
     <entry>
       <title><![CDATA[阅读大话数据结构（9）]]></title>
       <url>%2F2018%2F04%2F16%2F%E9%98%85%E8%AF%BB%E5%A4%A7%E8%AF%9D%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%889%EF%BC%89%2F</url>
-      <content type="text"><![CDATA[本篇主要详细介绍动态查找树的演进，包括平衡二叉树，2-3查找树，红黑树，B树以及B+树。 平衡二叉树2-3查找树红黑树B树B+树]]></content>
+      <content type="text"><![CDATA[本篇主要详细介绍动态查找树的演进，包括平衡二叉树，2-3查找树，红黑树，B树以及B+树。 平衡二叉树平衡二叉树，又称AVL树，指的是左子树上的所有节点的值都比根节点的值小，而右子树上的所有节点的值都比根节点的值大，且左子树与右子树的高度差最大为1。 可以在这个地址里模拟平衡二叉树：https://www.cs.usfca.edu/~galles/visualization/BST.html 2-3查找树如果一个内部节点拥有一个数据元素、两个子节点，则此节点为2节点。 如果一个内部节点拥有两个数据元素、三个子节点，则此节点为3节点。 当且仅当以下叙述中有一条成立时，T为2–3树： ​ T为空，即T不包含任何节点。 ​ T为拥有数据元素a的2节点，若T的左孩子为L、右孩子为R，则L和R是等高的非空2–3树；a大于L中的所有数据元素；a小于等于R中的所有数据元素。 ​ T为拥有数据元素a和b的3节点，其中a &lt; b，若T的左孩子为L、中孩子为M、右孩子为R，则L、M、和R是等高的非空2–3树；a大于L中的所有数据元素，并且小于等于M中的所有数据元素；b大于M中的所有数据元素，并且小于等于R中的所有数据元素。 红黑树B树B+树]]></content>
     </entry>
 
     

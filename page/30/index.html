@@ -284,7 +284,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/03/07/Openstack负载均衡LoadBalancerv2/">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/03/17/你懂网络吗-1/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Luckylau">
@@ -309,8 +309,8 @@
             
               
                 
-                <a class="post-title-link" href="/2017/03/07/Openstack负载均衡LoadBalancerv2/" itemprop="url">
-                  Openstack 负载均衡 LoadBalancerv2
+                <a class="post-title-link" href="/2017/03/17/你懂网络吗-1/" itemprop="url">
+                  你懂网络吗(1)
                 </a>
               
             
@@ -326,8 +326,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-07T15:50:16+08:00">
-                2017-03-07
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-17T16:45:24+08:00">
+                2017-03-17
               </time>
             
 
@@ -349,8 +349,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/neutron/" itemprop="url" rel="index">
-                    <span itemprop="name">neutron</span>
+                  <a href="/categories/网络/" itemprop="url" rel="index">
+                    <span itemprop="name">网络</span>
                   </a>
                 </span>
 
@@ -385,11 +385,12 @@
 
       
         
-          <p>​       最近研究了一下Openstack负载均衡，yum源和<a href="https://github.com/openstack/neutron-lbaas/tree/stable/mitaka">源码</a>级别的安装都尝试成功了。网上有很多文章都是LoadBalancerv1，这个已经被放弃了。所以写一下自己是如何使用LoadBalancerv2。当然在介绍之前还是从负载均衡基础知识开始吧。（Mitaka版本的LoadBalancerv2）</p>
-<h3 id="负载均衡的概念和分类？"><a href="#负载均衡的概念和分类？" class="headerlink" title="负载均衡的概念和分类？"></a>负载均衡的概念和分类？</h3><p>​        负载均衡（Load Balancing）是将来访的网络流量在运行相同应用的多个服务器之间进行分发的一种核心网络服务。它的功能由负载均衡器（load balancer）提供。负载均衡器可以是一个硬件设备，也可以由软件实现。它充当反向代理，在多个服务器之间分发网络或者应用流量。它常用来增加应用的访问容量（并发用户数）和可靠性，它也会通过降低服务器的负载来提高应用的总体性能。</p>
+          <p>本文主要是基于学习《CCNA学习指南》总结网络必备的知识。</p>
+<p>本篇章涉及以下内容：</p>
+<p><strong>OSI模型</strong></p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/03/07/Openstack负载均衡LoadBalancerv2/#more" rel="contents">
+            <a class="btn" href="/2017/03/17/你懂网络吗-1/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -430,7 +431,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/03/06/Python-yield-使用浅析/">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/03/17/你懂python吗-5/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Luckylau">
@@ -455,8 +456,8 @@
             
               
                 
-                <a class="post-title-link" href="/2017/03/06/Python-yield-使用浅析/" itemprop="url">
-                  Python yield 使用浅析
+                <a class="post-title-link" href="/2017/03/17/你懂python吗-5/" itemprop="url">
+                  你懂python吗(5)
                 </a>
               
             
@@ -472,155 +473,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-06T16:51:17+08:00">
-                2017-03-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="yield的概念？"><a href="#yield的概念？" class="headerlink" title="yield的概念？"></a>yield的概念？</h3><p>1.简单的斐波那契數列第一版：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">fab</span><span class="params">(max)</span>:</span></div><div class="line">    n, a, b = <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span></div><div class="line">    <span class="keyword">while</span> n &lt; max:</div><div class="line">        <span class="keyword">print</span> b</div><div class="line">        a, b = b, a + b</div><div class="line">        n = n + <span class="number">1</span></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    fab(<span class="number">5</span>)</div></pre></td></tr></table></figure>
-<p>缺点：直接在 fab 函数中用 print 打印数字会导致该函数可复用性较差，因为 fab 函数返回 None，其他函数无法获得该函数生成的数列。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/03/06/Python-yield-使用浅析/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/03/06/Python的eventlet使用与理解/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Luckylau">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/logo.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Luckylau's Blog">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="Luckylau's Blog" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/06/Python的eventlet使用与理解/" itemprop="url">
-                  Python的eventlet使用与理解
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-06T15:50:55+08:00">
-                2017-03-06
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-17T10:57:05+08:00">
+                2017-03-17
               </time>
             
 
@@ -678,12 +532,15 @@
 
       
         
-          <p><strong>neutron源码学习基础知识储备之Eventlet</strong></p>
-<p>eventlet在openstack，还有ryu控制器中使用频率很高，有必要总结一下用法。</p>
-<h3 id="什么是协程？"><a href="#什么是协程？" class="headerlink" title="什么是协程？"></a>什么是协程？</h3><p>​        说到Coroutine，我们必须提到两个更远的东西。在操作系统（os）级别，有进程（process）和线程（thread）两个（仅从我们常见的讲）实际的“东西”（不说概念是因为这两个家伙的确不仅仅是概念，而是实际存在的，os的代码管理的资源）。这两个东西都是用来模拟“并行”的，写操作系统的程序员通过用一定的策略给不同的进程和线程分配CPU计算资源，来让用户“以为”几个不同的事情在“同时”进行“。在单CPU上，是os代码强制把一个进程或者线程挂起，换成另外一个来计算，所以，实际上是串行的，只是“概念上的并行”。在现在的多核的cpu上，线程可能是“真正并行的”。</p>
+          <h2 id="python的format函数使用"><a href="#python的format函数使用" class="headerlink" title="python的format函数使用"></a>python的format函数使用</h2><p><strong>语法</strong></p>
+<p>它通过{}和:来代替%。</p>
+<p><strong>用法</strong></p>
+<p>^、&lt;、&gt;分别是居中、左对齐、右对齐，后面带宽度<br>:号后面带填充的字符，只能是一个字符，不指定的话默认是用空格填充</p>
+<p>精度常跟类型f一起使用</p>
+<p>b、d、o、x分别是二进制、十进制、八进制、十六进制</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/03/06/Python的eventlet使用与理解/#more" rel="contents">
+            <a class="btn" href="/2017/03/17/你懂python吗-5/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -724,7 +581,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/03/03/java框架之SpringBoot/">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/03/16/你懂python吗-4/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Luckylau">
@@ -749,8 +606,8 @@
             
               
                 
-                <a class="post-title-link" href="/2017/03/03/java框架之SpringBoot/" itemprop="url">
-                  java框架之SpringBoot
+                <a class="post-title-link" href="/2017/03/16/你懂python吗-4/" itemprop="url">
+                  你懂python吗(4)
                 </a>
               
             
@@ -766,8 +623,448 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-03T17:12:28+08:00">
-                2017-03-03
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-16T19:53:10+08:00">
+                2017-03-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="Python-的类的下划线命名"><a href="#Python-的类的下划线命名" class="headerlink" title="Python 的类的下划线命名"></a>Python 的类的下划线命名</h2><p><code>_xxx</code>  </p>
+<p>单下划线开头的变量，标明是一个受保护(protected)的变量，<strong>原则上不允许直接访问，但外部类还是可以访问到这个变量，这只是程序员之间的一个约定</strong>，用于警告说明这是一个私有变量，外部类不要去访问它。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name)</span>:</span></div><div class="line">        self._name = name</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">(Person)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, age)</span>:</span></div><div class="line">        super(Student,self).__init__(<span class="string">"luckylau"</span>)</div><div class="line">        self._age = age</div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    stu = Student(<span class="number">20</span>)</div><div class="line">    <span class="keyword">print</span> stu._age</div><div class="line">    <span class="keyword">print</span> stu._name    <span class="comment"># 约定不能出现这样的代码来访问name属性,但实际是可以访问的。</span></div><div class="line"><span class="comment">#output</span></div><div class="line"><span class="number">20</span></div><div class="line">luckylau</div></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/03/16/你懂python吗-4/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/03/16/你懂python吗-3/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Luckylau">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/logo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Luckylau's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Luckylau's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/03/16/你懂python吗-3/" itemprop="url">
+                  你懂python吗(3)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-16T15:06:46+08:00">
+                2017-03-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="staticmethod和-classmethod的区别"><a href="#staticmethod和-classmethod的区别" class="headerlink" title="@staticmethod和@classmethod的区别"></a>@staticmethod和@classmethod的区别</h2><h4 id="什么是python的修饰符Decorators？"><a href="#什么是python的修饰符Decorators？" class="headerlink" title="什么是python的修饰符Decorators？"></a>什么是python的修饰符Decorators？</h4><p>​    装饰器模式可以在不影响其他对象的情况下，以动态、透明的方式给单个对象添加职责，也能够处理那些可以撤销的职责。经常用于日志记录、性能测试等场合。</p>
+<p>​    想象一下这个很常见的场景，你写了一个方法：     </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">A</span><span class="params">(n)</span>:</span></div><div class="line">    <span class="keyword">if</span> n &gt; <span class="number">2</span>:</div><div class="line">        <span class="keyword">print</span> n</div><div class="line">        <span class="keyword">print</span> <span class="string">"aaaaaa"</span></div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        <span class="keyword">print</span> A.__name__</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">B</span><span class="params">(n)</span>:</span></div><div class="line">    <span class="keyword">if</span> n &gt;<span class="number">2</span>:</div><div class="line">        <span class="keyword">print</span> n </div><div class="line">        <span class="keyword">print</span> <span class="string">"bbbbbb"</span></div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        <span class="keyword">print</span> B.__name__</div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    A(<span class="number">3</span>)</div><div class="line">    B(<span class="number">3</span>)</div><div class="line"><span class="comment">#ouptput</span></div><div class="line"><span class="number">3</span></div><div class="line">aaaaaa</div><div class="line"><span class="number">3</span></div><div class="line">bbbbbb</div></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/03/16/你懂python吗-3/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/03/16/云计算中的IAAS，SAAS-PASS的区别/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Luckylau">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/logo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Luckylau's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Luckylau's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/03/16/云计算中的IAAS，SAAS-PASS的区别/" itemprop="url">
+                  云计算中的IAAS，PASS，SAAS的区别
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-16T10:39:35+08:00">
+                2017-03-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/about-cloud/" itemprop="url" rel="index">
+                    <span itemprop="name">about cloud</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h4 id="什么是云计算？"><a href="#什么是云计算？" class="headerlink" title="什么是云计算？"></a>什么是云计算？</h4><p>​    “云”其实是互联网的一个隐喻，“云计算”其实就是使用互联网来接入存储或者运行在远程服务器端的应用，数据，或者服务。任何一个使用基于互联网的方法来计算，存储和开发的公司，都可以从技术上叫做从事云的公司。</p>
+<h4 id="IAAS-SAAS-PASS的通俗解释？"><a href="#IAAS-SAAS-PASS的通俗解释？" class="headerlink" title="IAAS,SAAS,PASS的通俗解释？"></a>IAAS,SAAS,PASS的通俗解释？</h4><p><img src="/2017/03/16/云计算中的IAAS，SAAS-PASS的区别/1.png" alt=""></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/03/16/云计算中的IAAS，SAAS-PASS的区别/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/03/14/你懂java吗-1/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Luckylau">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/logo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Luckylau's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Luckylau's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/03/14/你懂java吗-1/" itemprop="url">
+                  Java基础之Enum的用法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-14T11:50:25+08:00">
+                2017-03-14
               </time>
             
 
@@ -825,308 +1122,13 @@
 
       
         
-          <p>SpringBoot非常受欢迎，在github我也用SpringBoot封装neutron-api，地址为：</p>
-<p><a href="https://github.com/Luckylau/SpringBoot-NeutronApi">https://github.com/Luckylau/SpringBoot-NeutronApi</a></p>
-<p>总觉得应该普及一下基本知识。</p>
-<h3 id="什么是SpringBoot？"><a href="#什么是SpringBoot？" class="headerlink" title="什么是SpringBoot？"></a>什么是SpringBoot？</h3><p>​       Spring Boot是由Pivotal团队提供的全新框架，其设计目的是用来简化新Spring应用的初始搭建以及开发过程。该框架使用了特定的方式来进行配置，从而使开发人员不再需要定义样板化的配置。通过这种方式，Boot致力于在蓬勃发展的快速应用开发领域（rapid application development）成为领导者。</p>
+          <p><strong>Enum的用法</strong></p>
+<p>首先从整体来看，我们可以把enum 看成是一个普通的 class，并定义一些属性和方法，不同之处是：enum 不能使用 extends 关键字继承其他类，因为 enum 已经继承了 java.lang.Enum（java是单一继承）。</p>
+<p>常用方法包括：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">int compareTo(E o) </div><div class="line">          比较此枚举与指定对象的顺序。</div><div class="line">Class&lt;E&gt; getDeclaringClass() </div><div class="line">          返回与此枚举常量的枚举类型相对应的 Class 对象。</div><div class="line">String name() </div><div class="line">          返回此枚举常量的名称，在其枚举声明中对其进行声明。</div><div class="line">int ordinal() </div><div class="line">          返回枚举常量的序数（它在枚举声明中的位置，其中初始常量序数为零）。</div><div class="line">String toString()</div><div class="line">           返回枚举常量的名称，它包含在声明中。</div><div class="line">static &lt;T extends Enum&lt;T&gt;&gt; T valueOf(Class&lt;T&gt; enumType, String name) </div><div class="line">          返回带指定名称的指定枚举类型的枚举常量。</div></pre></td></tr></table></figure>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/03/03/java框架之SpringBoot/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/03/02/Python的sqlalchemy库理解/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Luckylau">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/logo.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Luckylau's Blog">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="Luckylau's Blog" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/02/Python的sqlalchemy库理解/" itemprop="url">
-                  Python的sqlalchemy库使用
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-02T17:50:57+08:00">
-                2017-03-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><strong>neutron源码学习基础知识储备之Sqlalchemy库</strong></p>
-<p>本文主要参考官方文档和一些网上资料，并结合之前<strong><a href="https://github.com/Luckylau/python-web-frame">python-web-frame</a></strong>项目使用来详细说明Sqlalchemy的使用，版本号为SQLAlchemy 1.1。 </p>
-<h3 id="Sqlalchemy的架构？"><a href="#Sqlalchemy的架构？" class="headerlink" title="Sqlalchemy的架构？"></a>Sqlalchemy的架构？</h3><p><img src="/2017/03/02/Python的sqlalchemy库理解/1.png" alt=""></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/03/02/Python的sqlalchemy库理解/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/03/01/python的pecan框架使用/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Luckylau">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/logo.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Luckylau's Blog">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="Luckylau's Blog" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/01/python的pecan框架使用/" itemprop="url">
-                  python的pecan框架使用
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-01T10:27:57+08:00">
-                2017-03-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Python/" itemprop="url" rel="index">
-                    <span itemprop="name">Python</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><strong>neutron源码学习基础知识储备之Pecan web框架</strong></p>
-<h4 id="什么是Pecan"><a href="#什么是Pecan" class="headerlink" title="什么是Pecan?"></a>什么是Pecan?</h4><p>​       创造Pecan是为了填补Python web框架世界的一个空缺——一个提供object-dispatch（对象分发）方式路由的超轻量级的框架。Pecan的目标并不是要成为一个“全栈”框架，因此没有支持一些额外的功能，比如session或是数据库 。相反，Pecan专注于HTTP本身。</p>
-<p>功能包括：</p>
-<p>Object-dispatch for easy routing<br>Full support for REST-style controllers<br>Extensible security framework<br>Extensible template language support<br>Extensible JSON support<br>Easy Python-based configuration</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/03/01/python的pecan框架使用/#more" rel="contents">
+            <a class="btn" href="/2017/03/14/你懂java吗-1/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1162,7 +1164,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/29/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><span class="page-number current">30</span><a class="page-number" href="/page/31/">31</a><span class="space">&hellip;</span><a class="page-number" href="/page/33/">33</a><a class="extend next" rel="next" href="/page/31/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/29/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><span class="page-number current">30</span><a class="page-number" href="/page/31/">31</a><span class="space">&hellip;</span><a class="page-number" href="/page/35/">35</a><a class="extend next" rel="next" href="/page/31/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1205,7 +1207,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">195</span>
+                <span class="site-state-item-count">205</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1223,7 +1225,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-count">33</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1283,7 +1285,7 @@
         <div class="copyright" >
   
   &copy;  2017 - 
-  <span itemprop="copyrightYear">2019</span>
+  <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

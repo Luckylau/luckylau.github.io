@@ -284,7 +284,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/02/28/python的wsgi理解/">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/03/14/你懂python吗-2/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Luckylau">
@@ -309,8 +309,8 @@
             
               
                 
-                <a class="post-title-link" href="/2017/02/28/python的wsgi理解/" itemprop="url">
-                  Python的wsgi理解
+                <a class="post-title-link" href="/2017/03/14/你懂python吗-2/" itemprop="url">
+                  你懂python吗(2)
                 </a>
               
             
@@ -326,8 +326,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-28T11:51:16+08:00">
-                2017-02-28
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-14T11:47:15+08:00">
+                2017-03-14
               </time>
             
 
@@ -385,13 +385,12 @@
 
       
         
-          <p><strong>neutron源码学习基础知识储备之WSGI</strong></p>
-<p>​        WSGI的全称是Web Server Gateway Interface，翻译过来就是Web服务器网关接口。具体的来说，WSGI是一个规范，定义了Web服务器如何与Python应用程序进行交互，使得使用Python写的Web应用程序可以和Web服务器对接起来。WSGI一开始是在PEP-0333中定义的，最新版本是在Python的PEP-3333定义的。</p>
-<h4 id="为什么需要WSGI规范？"><a href="#为什么需要WSGI规范？" class="headerlink" title="为什么需要WSGI规范？"></a>为什么需要WSGI规范？</h4><p>在Web部署的方案上，有一个方案是目前应用最广泛的：</p>
-<p>​       首先，部署一个Web服务器专门用来处理HTTP协议层面相关的事情，比如如何在一个物理机上提供多个不同的Web服务（单IP多域名，单IP多端口等）这种事情。</p>
+          <h2 id="深刻理解Python中的元类-metaclass"><a href="#深刻理解Python中的元类-metaclass" class="headerlink" title="深刻理解Python中的元类(metaclass)"></a>深刻理解Python中的元类(metaclass)</h2><p>问题 ：什么是metaclass？在哪些情况会使用？</p>
+<p><img src="/2017/03/14/你懂python吗-2/1.png" alt=""></p>
+<h4 id="类也是对象"><a href="#类也是对象" class="headerlink" title="类也是对象"></a>类也是对象</h4><p>​    在理解元类之前，你需要先掌握Python中的类。Python中类的概念借鉴于Smalltalk，这显得有些奇特。在大多数编程语言中，类就是一组用来描述如何生成一个对象的代码段。在Python中这一点仍然成立：</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/02/28/python的wsgi理解/#more" rel="contents">
+            <a class="btn" href="/2017/03/14/你懂python吗-2/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -432,7 +431,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/02/27/neutron架构/">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/03/14/你懂python吗-1/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Luckylau">
@@ -457,8 +456,8 @@
             
               
                 
-                <a class="post-title-link" href="/2017/02/27/neutron架构/" itemprop="url">
-                  Neutron架构
+                <a class="post-title-link" href="/2017/03/14/你懂python吗-1/" itemprop="url">
+                  你懂python吗(1)
                 </a>
               
             
@@ -474,8 +473,154 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-27T19:03:11+08:00">
-                2017-02-27
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-14T11:44:01+08:00">
+                2017-03-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="Python的函数参数传递"><a href="#Python的函数参数传递" class="headerlink" title="Python的函数参数传递"></a>Python的函数参数传递</h2><p>示例一：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">(c)</span>:</span></div><div class="line">    <span class="keyword">print</span> <span class="string">"test before"</span></div><div class="line">    <span class="keyword">print</span> id(c)</div><div class="line">    c=<span class="number">2</span></div><div class="line">    <span class="keyword">print</span> <span class="string">"test after"</span></div><div class="line">    <span class="keyword">print</span> id(c)</div><div class="line">    <span class="keyword">return</span> c</div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    a=<span class="number">1</span></div><div class="line">    <span class="keyword">print</span> <span class="string">"main before"</span></div><div class="line">    <span class="keyword">print</span> id(a)</div><div class="line">    test(a)</div><div class="line">    <span class="keyword">print</span> <span class="string">"main after"</span></div><div class="line">    <span class="keyword">print</span> id(a)</div><div class="line">    <span class="keyword">print</span> a</div><div class="line"><span class="comment"># output</span></div><div class="line">main before</div><div class="line"><span class="number">12460376</span></div><div class="line">test before</div><div class="line"><span class="number">12460376</span></div><div class="line">test after</div><div class="line"><span class="number">12460352</span></div><div class="line">main after</div><div class="line"><span class="number">12460376</span></div><div class="line"><span class="number">1</span></div></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/03/14/你懂python吗-1/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/03/10/LoadBalancerv2的原理分析/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Luckylau">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/logo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Luckylau's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Luckylau's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/03/10/LoadBalancerv2的原理分析/" itemprop="url">
+                  LoadBalancerv2的原理分析
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-10T11:15:48+08:00">
+                2017-03-10
               </time>
             
 
@@ -533,10 +678,29 @@
 
       
         
-          <p><img src="/2017/02/27/neutron架构/1.png" alt=""></p>
+          <p>​    OpenStack 是直接采用各种开源可用的负载均衡项目来完成负载均衡的任务，默认使用 HAProxy。LBaaSv2 本质来说，其实也是根据用户提出的负载均衡要求，生成符合的HAProxy配置文件并启动 HAProxy，然后由 HAProxy 进行负载均衡。</p>
+<table>
+<thead>
+<tr>
+<th>更新时间</th>
+<th>更新内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2017-03-10</td>
+<td>初始版本</td>
+</tr>
+<tr>
+<td>2017-04-24</td>
+<td>添加HAProxy详细说明链接</td>
+</tr>
+</tbody>
+</table>
+<h3 id="High-Availability-Proxy（HAProxy）？"><a href="#High-Availability-Proxy（HAProxy）？" class="headerlink" title="High Availability Proxy（HAProxy）？"></a>High Availability Proxy（HAProxy）？</h3><p>​    HAProxy 是个著名的开源的软件 TCP（四层）/HTTP（七层） 负载均衡器和代理（proxy）软件，可以运行在 Linux，Solaris 和 FreeBSD 等系统上。目前，它已经被许多大公司采用，包括GitHub, Imgur, Instagram, and Twitter 等。它类似 Nginx 的，采用了单进程和事件驱动模型；它使用的内存量低而且稳定，能够处理大量并发请求。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/02/27/neutron架构/#more" rel="contents">
+            <a class="btn" href="/2017/03/10/LoadBalancerv2的原理分析/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -577,7 +741,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/02/25/线程同步工具CountDownLatch，CyclicBarrier和Semaphore的用法/">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/03/08/IO的同步与异步，阻塞与非阻塞/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Luckylau">
@@ -602,8 +766,8 @@
             
               
                 
-                <a class="post-title-link" href="/2017/02/25/线程同步工具CountDownLatch，CyclicBarrier和Semaphore的用法/" itemprop="url">
-                  Java并发之线程同步工具
+                <a class="post-title-link" href="/2017/03/08/IO的同步与异步，阻塞与非阻塞/" itemprop="url">
+                  IO的同步与异步，阻塞与非阻塞
                 </a>
               
             
@@ -619,8 +783,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-25T23:12:30+08:00">
-                2017-02-25
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-08T14:13:09+08:00">
+                2017-03-08
               </time>
             
 
@@ -642,8 +806,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
+                  <a href="/categories/网络/" itemprop="url" rel="index">
+                    <span itemprop="name">网络</span>
                   </a>
                 </span>
 
@@ -678,12 +842,11 @@
 
       
         
-          <h4 id="CountDownLatch"><a href="#CountDownLatch" class="headerlink" title="CountDownLatch"></a>CountDownLatch</h4><p>​       CountDownLatch是一个同步工具类，它允许一个或多个线程一直等待，直到其他线程的操作执行完后再执行。CountDownLatch的一个非常典型的应用场景是：有一个任务想要往下执行，但必须要等到其他的任务执行完毕后才可以继续往下执行。假如我们这个想要继续往下执行的任务调用一个CountDownLatch对象的await()方法，其他的任务执行完自己的任务后调用同一个CountDownLatch对象上的countDown()方法，这个调用await()方法的任务将一直阻塞等待，直到这个CountDownLatch对象的计数值减到0为止。</p>
-<p>伪代码为：</p>
-<p>​    Main thread start<br>​    Create CountDownLatch for N threads<br>​    Create and start N threads<br>​    Main thread wait on latch<br>​    N threads completes there tasks are returns<br>​    Main thread resume execution</p>
+          <p>​      同步（synchronous） IO和异步（asynchronous） IO，阻塞（blocking） IO和非阻塞（non-blocking）IO分别是什么，到底有什么区别？我们以Linux环境下的network IO来讨论。</p>
+<p>​       对于一个network IO (以read举例)，它会涉及到两个系统对象，一个是调用这个IO的process (or thread)，另一个就是系统内核(kernel)。当一个read操作发生时，它会经历两个阶段：<br> 1 等待数据准备 (Waiting for the data to be ready)<br> 2 将数据从内核拷贝到进程中 (Copying the data from the kernel to the process)</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/02/25/线程同步工具CountDownLatch，CyclicBarrier和Semaphore的用法/#more" rel="contents">
+            <a class="btn" href="/2017/03/08/IO的同步与异步，阻塞与非阻塞/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -724,7 +887,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/02/23/Java并发之Executor框架和线程池/">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/03/07/Openstack负载均衡LoadBalancerv2/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Luckylau">
@@ -749,8 +912,8 @@
             
               
                 
-                <a class="post-title-link" href="/2017/02/23/Java并发之Executor框架和线程池/" itemprop="url">
-                  Java并发之Executor框架
+                <a class="post-title-link" href="/2017/03/07/Openstack负载均衡LoadBalancerv2/" itemprop="url">
+                  Openstack 负载均衡 LoadBalancerv2
                 </a>
               
             
@@ -766,8 +929,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-23T10:44:32+08:00">
-                2017-02-23
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-07T15:50:16+08:00">
+                2017-03-07
               </time>
             
 
@@ -789,8 +952,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
+                  <a href="/categories/neutron/" itemprop="url" rel="index">
+                    <span itemprop="name">neutron</span>
                   </a>
                 </span>
 
@@ -825,10 +988,11 @@
 
       
         
-          <h3 id="基础简介"><a href="#基础简介" class="headerlink" title="基础简介"></a>基础简介</h3><p>​        在Java中，使用线程来异步执行任务 。Java线程的创建与销毁需要一定的开销，如果我们为每一个任务创建一个新线程来执行，这些线程的创建与销毁将消耗大量的计算资源。同时，为每一个任务创建一个新线程来执行，这种策略可能会使处于高负荷状态的应用最终崩溃。Java的线程既是工作单元，也是执行机制。从JDK 5开始，把工作单元与执行机制分离开来。工作单元包括Runnable和Callable，而执行机制由Executor框架提供，通过该框架来控制线程的启动、执行和关闭，可以简化并发编程的操作。</p>
+          <p>​       最近研究了一下Openstack负载均衡，yum源和<a href="https://github.com/openstack/neutron-lbaas/tree/stable/mitaka">源码</a>级别的安装都尝试成功了。网上有很多文章都是LoadBalancerv1，这个已经被放弃了。所以写一下自己是如何使用LoadBalancerv2。当然在介绍之前还是从负载均衡基础知识开始吧。（Mitaka版本的LoadBalancerv2）</p>
+<h3 id="负载均衡的概念和分类？"><a href="#负载均衡的概念和分类？" class="headerlink" title="负载均衡的概念和分类？"></a>负载均衡的概念和分类？</h3><p>​        负载均衡（Load Balancing）是将来访的网络流量在运行相同应用的多个服务器之间进行分发的一种核心网络服务。它的功能由负载均衡器（load balancer）提供。负载均衡器可以是一个硬件设备，也可以由软件实现。它充当反向代理，在多个服务器之间分发网络或者应用流量。它常用来增加应用的访问容量（并发用户数）和可靠性，它也会通过降低服务器的负载来提高应用的总体性能。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/02/23/Java并发之Executor框架和线程池/#more" rel="contents">
+            <a class="btn" href="/2017/03/07/Openstack负载均衡LoadBalancerv2/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -869,7 +1033,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/02/15/HttpClient工具类的封装/">
+  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/03/06/Python-yield-使用浅析/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Luckylau">
@@ -894,8 +1058,8 @@
             
               
                 
-                <a class="post-title-link" href="/2017/02/15/HttpClient工具类的封装/" itemprop="url">
-                  HttpClient工具类
+                <a class="post-title-link" href="/2017/03/06/Python-yield-使用浅析/" itemprop="url">
+                  Python yield 使用浅析
                 </a>
               
             
@@ -911,8 +1075,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-15T14:10:43+08:00">
-                2017-02-15
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-06T16:51:17+08:00">
+                2017-03-06
               </time>
             
 
@@ -934,8 +1098,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
                   </a>
                 </span>
 
@@ -970,160 +1134,12 @@
 
       
         
-          <h4 id="一-HttpClient-介绍："><a href="#一-HttpClient-介绍：" class="headerlink" title="一.HttpClient 介绍："></a>一.HttpClient 介绍：</h4><p>​       HttpClient相比传统JDK自带的URLConnection，增加了易用性和灵活性，它不仅是客户端发送Http请求变得容易，而且也方便了开发人员测试接口（基于Http协议的），即提高了开发的效率，也方便提高代码的健壮性。它支持在HTTP/1.1规范中定义的所有的HTTP方法：GET, HEAD, POST, PUT, DELETE, TRACE 和 OPTIONS。每有一个方法都有一个对应的类：HttpGet，HttpHead，HttpPost，HttpPut，HttpDelete，HttpTrace和HttpOptions。所有的这些类均实现了HttpUriRequest接口，故可以作为execute的执行参数使用。 HTTP请求的URI包含一个协议计划protocol scheme，主机名host name,，可选的端口optional port，资源的路径resource path，可选的查询optional query和可选的片段optional fragment。</p>
-<h4 id="二-特性："><a href="#二-特性：" class="headerlink" title="二. 特性："></a>二. 特性：</h4><p>​       基于标准、纯净的Java语言。实现了Http1.0和Http1.1</p>
-<p>​       以可扩展的面向对象的结构实现了Http全部的方法（GET, POST, PUT, DELETE, HEAD, OPTIONS, and TRACE）。</p>
+          <h3 id="yield的概念？"><a href="#yield的概念？" class="headerlink" title="yield的概念？"></a>yield的概念？</h3><p>1.简单的斐波那契數列第一版：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">fab</span><span class="params">(max)</span>:</span></div><div class="line">    n, a, b = <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span></div><div class="line">    <span class="keyword">while</span> n &lt; max:</div><div class="line">        <span class="keyword">print</span> b</div><div class="line">        a, b = b, a + b</div><div class="line">        n = n + <span class="number">1</span></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    fab(<span class="number">5</span>)</div></pre></td></tr></table></figure>
+<p>缺点：直接在 fab 函数中用 print 打印数字会导致该函数可复用性较差，因为 fab 函数返回 None，其他函数无法获得该函数生成的数列。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/02/15/HttpClient工具类的封装/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://luckylau.github.io/2017/02/06/BeanUtils-copyProperties-与-PropertyUtils-copyProperties/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Luckylau">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/logo.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Luckylau's Blog">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="Luckylau's Blog" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/02/06/BeanUtils-copyProperties-与-PropertyUtils-copyProperties/" itemprop="url">
-                  BeanUtils.copyProperties 与 PropertyUtils.copyProperties
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-06T15:15:39+08:00">
-                2017-02-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>首先明确一点是BeanUtils.copyProperties 存在于spring和apache commons-beanutils，PropertyUtils.copyProperties存在于apache commons-PropertyUtils。</p>
-<p>org.springframework.beans.BeanUtils;</p>
-<p>org.apache.commons.beanutils.BeanUtils;</p>
-<p>org.apache.commons.beanutils.PropertyUtils;</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/02/06/BeanUtils-copyProperties-与-PropertyUtils-copyProperties/#more" rel="contents">
+            <a class="btn" href="/2017/03/06/Python-yield-使用浅析/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1159,7 +1175,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/30/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><span class="page-number current">31</span><a class="page-number" href="/page/32/">32</a><a class="page-number" href="/page/33/">33</a><a class="extend next" rel="next" href="/page/32/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/30/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><span class="page-number current">31</span><a class="page-number" href="/page/32/">32</a><span class="space">&hellip;</span><a class="page-number" href="/page/35/">35</a><a class="extend next" rel="next" href="/page/32/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1202,7 +1218,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">195</span>
+                <span class="site-state-item-count">205</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1220,7 +1236,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-count">33</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1280,7 +1296,7 @@
         <div class="copyright" >
   
   &copy;  2017 - 
-  <span itemprop="copyrightYear">2019</span>
+  <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
