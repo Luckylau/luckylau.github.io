@@ -84,19 +84,22 @@
 
 
 
-<meta name="description" content="懒汉式(支持多线程)
-123456789101112131415161718public class Singleton &amp;#123;	private volatile static Singleton singleton;	private Singleton() &amp;#123;	&amp;#125;	public static Singleton getSingleton() &amp;#123;		if (si">
+<meta name="description" content="单例模式是一个创建型的模式；
+懒汉式(支持多线程)
+123456789101112131415161718public class Singleton &amp;#123;	private volatile static Singleton singleton;	private Singleton() &amp;#123;	&amp;#125;	public static Singleton getSingleton()">
 <meta property="og:type" content="article">
 <meta property="og:title" content="设计模式之单例模式">
 <meta property="og:url" content="https://luckylau.github.io/2017/10/24/设计模式之单例模式/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
-<meta property="og:description" content="懒汉式(支持多线程)
-123456789101112131415161718public class Singleton &amp;#123;	private volatile static Singleton singleton;	private Singleton() &amp;#123;	&amp;#125;	public static Singleton getSingleton() &amp;#123;		if (si">
-<meta property="og:updated_time" content="2017-10-24T02:04:49.000Z">
+<meta property="og:description" content="单例模式是一个创建型的模式；
+懒汉式(支持多线程)
+123456789101112131415161718public class Singleton &amp;#123;	private volatile static Singleton singleton;	private Singleton() &amp;#123;	&amp;#125;	public static Singleton getSingleton()">
+<meta property="og:updated_time" content="2022-04-05T12:51:43.204Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="设计模式之单例模式">
-<meta name="twitter:description" content="懒汉式(支持多线程)
-123456789101112131415161718public class Singleton &amp;#123;	private volatile static Singleton singleton;	private Singleton() &amp;#123;	&amp;#125;	public static Singleton getSingleton() &amp;#123;		if (si">
+<meta name="twitter:description" content="单例模式是一个创建型的模式；
+懒汉式(支持多线程)
+123456789101112131415161718public class Singleton &amp;#123;	private volatile static Singleton singleton;	private Singleton() &amp;#123;	&amp;#125;	public static Singleton getSingleton()">
 
 
 
@@ -388,7 +391,8 @@
       
 
       
-        <p>懒汉式(支持多线程)</p>
+        <p>单例模式是一个创建型的模式；</p>
+<p>懒汉式(支持多线程)</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">static</span> Singleton singleton;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getSingleton</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">if</span> (singleton == <span class="keyword">null</span>) &#123;</div><div class="line">			<span class="keyword">synchronized</span> (Singleton.class) &#123;</div><div class="line">				<span class="keyword">if</span> (singleton == <span class="keyword">null</span>) &#123;</div><div class="line">					singleton = <span class="keyword">new</span> Singleton();</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> singleton;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>饿汉式（支持多线程）</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> Singleton instance = <span class="keyword">new</span> Singleton();</div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> instance;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -503,7 +507,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">199</span>
+                <span class="site-state-item-count">200</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
