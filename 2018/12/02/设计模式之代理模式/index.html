@@ -84,16 +84,25 @@
 
 
 
-<meta name="description" content="人生识字忧患始">
+<meta name="description" content="​       代理模式（Proxy Pattern）为指定的类的对象提供代理对象，并通过代理对象对原对象的引用，代理后者执行操作。主要分为静态代理和动态代理；我们以代理服务器为例；
+静态代理我们定义一个海外服务器
+123public interface HttpServer &amp;#123;    void handleRequest();&amp;#125;
+12345public class Overs">
 <meta property="og:type" content="article">
 <meta property="og:title" content="设计模式之代理模式">
 <meta property="og:url" content="https://luckylau.github.io/2018/12/02/设计模式之代理模式/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
-<meta property="og:description" content="人生识字忧患始">
-<meta property="og:updated_time" content="2019-06-17T13:48:45.164Z">
+<meta property="og:description" content="​       代理模式（Proxy Pattern）为指定的类的对象提供代理对象，并通过代理对象对原对象的引用，代理后者执行操作。主要分为静态代理和动态代理；我们以代理服务器为例；
+静态代理我们定义一个海外服务器
+123public interface HttpServer &amp;#123;    void handleRequest();&amp;#125;
+12345public class Overs">
+<meta property="og:updated_time" content="2022-04-17T03:40:18.050Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="设计模式之代理模式">
-<meta name="twitter:description" content="人生识字忧患始">
+<meta name="twitter:description" content="​       代理模式（Proxy Pattern）为指定的类的对象提供代理对象，并通过代理对象对原对象的引用，代理后者执行操作。主要分为静态代理和动态代理；我们以代理服务器为例；
+静态代理我们定义一个海外服务器
+123public interface HttpServer &amp;#123;    void handleRequest();&amp;#125;
+12345public class Overs">
 
 
 
@@ -385,7 +394,20 @@
       
 
       
-        
+        <p>​       代理模式（Proxy Pattern）为指定的类的对象提供代理对象，并通过代理对象对原对象的引用，代理后者执行操作。主要分为静态代理和动态代理；我们以代理服务器为例；</p>
+<h3 id="静态代理"><a href="#静态代理" class="headerlink" title="静态代理"></a>静态代理</h3><p>我们定义一个海外服务器</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">HttpServer</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">handleRequest</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OverseasHttpServer</span> <span class="keyword">implements</span> <span class="title">HttpServer</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleRequest</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"海外的HTTP服务器处理请求并返回结果..."</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>然后定义一个代理服务器</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HttpProxy</span> <span class="keyword">implements</span> <span class="title">HttpServer</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> HttpServer overseasHttpServer;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">HttpProxy</span><span class="params">(HttpServer overseasHttpServer)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.overseasHttpServer = overseasHttpServer;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleRequest</span><span class="params">()</span> </span>&#123;</div><div class="line">        preRequest();</div><div class="line">        <span class="keyword">this</span>.overseasHttpServer.handleRequest();</div><div class="line">        postRequest();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">preRequest</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"拦截客户端的HTTP请求，发送至海外的代理服务器，由其向海外HTTP服务器发送请求..."</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">postRequest</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"海外代理服务其接收海外HTTP服务器反馈的结果，发送回客户端浏览器进行显示..."</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">HttpServer overseasHttpServer = <span class="keyword">new</span> OverseasHttpServer();</div><div class="line">HttpServer httpServer = <span class="keyword">new</span> HttpProxy(overseasHttpServer);</div><div class="line">httpServer.handleRequest();</div><div class="line"></div><div class="line"><span class="comment">//拦截客户端的HTTP请求，发送至海外的代理服务器，由其向海外HTTP服务器发送请求...</span></div><div class="line"><span class="comment">//海外的HTTP服务器处理请求并返回结果...</span></div><div class="line"><span class="comment">//海外代理服务其接收海外HTTP服务器反馈的结果，发送回客户端浏览器进行显示...</span></div></pre></td></tr></table></figure>
+<h3 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h3><p>​        对于动态代理来说，需要首先有一个实现<code>InvocationHandler</code>接口的handler，可以简单认为是对被代理的方法的包装。<code>InvocationHandler</code>的<code>invoke(Object proxy, Method method, Object[] args)</code>方法，<code>proxy</code>指的是动态生成的代理对象，<code>method</code>指的是被代理的操作方法，<code>args</code>指的是被代理方法的参数。</p>
+<p>​         Handler有了，那么动态代理的对象怎么生成的呢？Java提供了<code>Proxy</code>工具类<code>newProxyInstance(ClassLoader loader, Class&lt;?&gt;[] interfaces, InvocationHandler h)</code>来生成代理对象。其中第一个参数<code>loader</code>是类加载器，通常使用被代理类的类加载器即可；第二个参数<code>interfaces</code>是被代理类所实现的接口类数组，可见这种代理方式仍然是基于接口代理的，第三个参数就是我们刚刚准备好的handler。</p>
+<p>​       这个方法会返回一个代理对象，这个对象实现了<code>interfaces</code>指定的接口，因此可以转换类型，然后就可以同静态代理一样的方式来使用了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HttpProxyHandler</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> HttpServer overseasHttpServer;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">HttpProxyHandler</span><span class="params">(HttpServer overseasHttpServer)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.overseasHttpServer = overseasHttpServer;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable </span>&#123;</div><div class="line">        preRequest();</div><div class="line">        Object o = method.invoke(overseasHttpServer, args);</div><div class="line">        postRequest();</div><div class="line">        <span class="keyword">return</span> o;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">preRequest</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"拦截客户端的HTTP请求，发送至海外的代理服务器，由其向海外HTTP服务器发送请求..."</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">postRequest</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"海外代理服务其接收海外HTTP服务器反馈的结果，发送回客户端浏览器进行显示..."</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">HttpProxyHandler proxy = <span class="keyword">new</span> HttpProxyHandler(overseasHttpServer);</div><div class="line">HttpServer httpProxy = (HttpServer) Proxy.newProxyInstance(proxy.getClass().getClassLoader(), </div><div class="line">    overseasHttpServer.getClass().getInterfaces(), proxy);</div><div class="line">httpProxy.handleRequest();</div></pre></td></tr></table></figure>
+
       
     </div>
 
@@ -481,8 +503,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/logo.jpg"
@@ -558,6 +589,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#静态代理"><span class="nav-number">1.</span> <span class="nav-text">静态代理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动态代理"><span class="nav-number">2.</span> <span class="nav-text">动态代理</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
     </div>

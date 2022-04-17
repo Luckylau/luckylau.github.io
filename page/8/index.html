@@ -665,9 +665,17 @@
 
       
         
-          
-            
-          
+          <p>​       代理模式（Proxy Pattern）为指定的类的对象提供代理对象，并通过代理对象对原对象的引用，代理后者执行操作。主要分为静态代理和动态代理；我们以代理服务器为例；</p>
+<h3 id="静态代理"><a href="#静态代理" class="headerlink" title="静态代理"></a>静态代理</h3><p>我们定义一个海外服务器</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">HttpServer</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">handleRequest</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OverseasHttpServer</span> <span class="keyword">implements</span> <span class="title">HttpServer</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleRequest</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"海外的HTTP服务器处理请求并返回结果..."</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/12/02/设计模式之代理模式/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
