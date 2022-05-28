@@ -84,16 +84,16 @@
 
 
 
-<meta name="description" content="人生识字忧患始">
+<meta name="description" content="​       在状态模式（State Pattern）中，类的行为是基于它的状态改变的。这种类型的设计模式属于行为型模式。也就是说将一个对象在不同状态下的不同行为封装在一个个状态类中，通过设置不同的状态对象可以让环境对象拥有不同的行为，而状态转换的细节对于客户端而言是透明的，方便了客户端的使用。在实际开发中，状态模式具有较高的使用频率，在工作流和游戏开发中状态模式都得到了广泛的应用。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="设计模式之状态模式">
 <meta property="og:url" content="https://luckylau.github.io/2018/07/24/设计模式之状态模式/index.html">
 <meta property="og:site_name" content="Luckylau's Blog">
-<meta property="og:description" content="人生识字忧患始">
-<meta property="og:updated_time" content="2018-07-24T15:07:06.918Z">
+<meta property="og:description" content="​       在状态模式（State Pattern）中，类的行为是基于它的状态改变的。这种类型的设计模式属于行为型模式。也就是说将一个对象在不同状态下的不同行为封装在一个个状态类中，通过设置不同的状态对象可以让环境对象拥有不同的行为，而状态转换的细节对于客户端而言是透明的，方便了客户端的使用。在实际开发中，状态模式具有较高的使用频率，在工作流和游戏开发中状态模式都得到了广泛的应用。">
+<meta property="og:updated_time" content="2022-05-28T14:31:37.646Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="设计模式之状态模式">
-<meta name="twitter:description" content="人生识字忧患始">
+<meta name="twitter:description" content="​       在状态模式（State Pattern）中，类的行为是基于它的状态改变的。这种类型的设计模式属于行为型模式。也就是说将一个对象在不同状态下的不同行为封装在一个个状态类中，通过设置不同的状态对象可以让环境对象拥有不同的行为，而状态转换的细节对于客户端而言是透明的，方便了客户端的使用。在实际开发中，状态模式具有较高的使用频率，在工作流和游戏开发中状态模式都得到了广泛的应用。">
 
 
 
@@ -385,7 +385,13 @@
       
 
       
-        
+        <p>​       在状态模式（State Pattern）中，类的行为是基于它的状态改变的。这种类型的设计模式属于行为型模式。也就是说将一个对象在不同状态下的不同行为封装在一个个状态类中，通过设置不同的状态对象可以让环境对象拥有不同的行为，而状态转换的细节对于客户端而言是透明的，方便了客户端的使用。在实际开发中，状态模式具有较高的使用频率，在工作流和游戏开发中状态模式都得到了广泛的应用。</p>
+<a id="more"></a>
+<p>​        程序猿还是同一个人，但是同一个任务在不同的状态下，可能会达到不同的效果。早上上班的时候，休息了一夜，精力旺盛，程序猿能够高效码代码，bug也不多；当熬夜加班的时候，运转了一天的大脑无比疲惫，写出的代码常有bug出没；人和任务是相同的，是不变的部分；状态和效果是不同的，是变的部分。按照设计模式的套路，不变的和变化的是要分开来的，从而满足”开闭“原则，有利于扩展。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Developer</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> State state;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Developer</span><span class="params">(State state)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.state = state;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setState</span><span class="params">(State state)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.state = state;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">develop</span><span class="params">()</span> </span>&#123;</div><div class="line">        state.coding();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">State</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">coding</span><span class="params">()</span></span>;</div><div class="line">&#125;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EffectiveState</span> <span class="keyword">implements</span> <span class="title">State</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">coding</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"高效码代码，偶有bug，人非圣贤嘛～"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExhaustedState</span> <span class="keyword">implements</span> <span class="title">State</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">coding</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"加班熬夜码代码，专业写bug"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TianRenHeYiState</span> <span class="keyword">implements</span> <span class="title">State</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">coding</span><span class="params">()</span> </span>&#123;</div><div class="line">        System.out.println(<span class="string">"写代码进入天人合一境界，仿佛三头六臂，码神附体"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Client</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        Developer developer = <span class="keyword">new</span> Developer(<span class="keyword">new</span> EffectiveState());</div><div class="line">        developer.develop();</div><div class="line">        developer.setState(<span class="keyword">new</span> ExhaustedState());</div><div class="line">        developer.develop();</div><div class="line">        developer.setState(<span class="keyword">new</span> TianRenHeYiState());</div><div class="line">        developer.develop();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
       
     </div>
 
@@ -495,7 +501,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">210</span>
+                <span class="site-state-item-count">215</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
